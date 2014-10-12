@@ -70,7 +70,7 @@ public class CentralUtils {
 	}
 	
 	public double calculateSpeed(double distance,double timeInterval){
-		double result = distance/timeInterval;
+		double result = (distance/timeInterval)*1000;
 		return result*1000d/3600d;
 	}
 	

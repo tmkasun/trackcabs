@@ -69,9 +69,9 @@ class Cab_dao extends CI_Model
         $collection = $dbName->selectCollection('cabs');
 
         $cursor = $collection->find()->limit($limit)->skip($skip);
-        $data= array();
+        $data= array('data' => array());
         foreach ($cursor as $doc ) {
-            $data[]= $doc;
+            $data['data'][]= $doc;
         }
         return $data;
     }

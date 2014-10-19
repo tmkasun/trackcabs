@@ -8,15 +8,47 @@ class Cab_retriever extends CI_Controller
 
     }
 
-    function getCabView(){
+    function getNewCabView(){
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('all_cabs', $table_data, TRUE);
+        $data['table_content'] = $this->load->view('new_cab_view', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
-    function getCabEditView(){
+    function getCabSearchView(){
+
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $data = $this->cab_dao->getCab($input_data['cabId']);
+
+        $data['table_content'] = $this->load->view('cab_search', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+    }
+
+    function getCabNavBar(){
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('edit_cabs', $table_data, TRUE);
+        $data['table_content'] = $this->load->view('cab_navbar', $table_data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+    }
+
+    function getSidePanelView(){
+        $table_data['x'] = 1;
+        $data['table_content'] = $this->load->view('cab_sidepanel', $table_data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+    }
+
+    function getAllCabsView(){
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $data = $this->cab_dao->getCabsByPage($input_data['limit'],$input_data['skip']);
+        $data['table_content'] = $this->load->view('all_cabs_view', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+    }
+
+
+
+    function getCabEditView(){
+
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $data = $this->cab_dao->getCab($input_data['cabId']);
+        $data['table_content'] = $this->load->view('edit_cabs', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
@@ -56,13 +88,7 @@ class Cab_retriever extends CI_Controller
 
     function updateCab(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $result = $this->cab_dao->updateCab($input_data['cabId'],$input_data['data']);
-        $this->output->set_output(json_encode(array("statusMsg" => "success","data" => $result )));
-    }
-
-    function getCanByPlate(){
-        $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $this->cab_dao->getCabByPlate($input_data['noPlate']);
+        $this->cab_dao->updateCab($input_data['cabId'],$input_data['details']);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
     }
 }

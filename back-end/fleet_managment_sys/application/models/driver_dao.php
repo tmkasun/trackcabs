@@ -49,12 +49,26 @@ class Driver_dao extends CI_Model
 
     }
 
+    function getDriversByPage($limit,$skip){
+
+        $connection = new MongoClient();
+        $dbName = $connection->selectDB('track');
+        $collection = $dbName->selectCollection('drivers');
+
+        $cursor = $collection->find()->limit($limit)->skip($skip);
+        $data= array('data' => array());
+        foreach ($cursor as $doc ) {
+            $data['data'][]= $doc;
+        }
+        return $data;
+    }
+
     function authenticate($userName , $pass ){
         $connection = new MongoClient();
         $dbName = $connection->selectDB('track');
         $collection = $dbName->selectCollection('drivers');
 
-        return $collection->findOne(array("userName" => $userName , 'pass' => $pass ));
+        return $collection->findOne(array("uName" => $userName , 'pass' => $pass ));
 
     }
 

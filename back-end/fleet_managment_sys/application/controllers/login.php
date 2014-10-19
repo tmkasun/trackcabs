@@ -10,7 +10,7 @@ class Login extends CI_Controller {
 
 	public function index() {
         if (!is_user_logged_in()) { // TODO: remove the ! tempory until user db setup
-            redirect('maps', 'refresh');
+            redirect('dispatcher', 'refresh');
 		} else {
             $this -> load -> helper(array('form'));
 			$this -> load -> view('login/index');

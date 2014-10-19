@@ -20,7 +20,7 @@ class Authenticate extends CI_Controller {
 			$this -> load -> view('login/index');
 		} else {
 			//Go to private area
-			redirect('maps', 'refresh');
+			redirect('dispatcher', 'refresh');
 		}
 
 	}

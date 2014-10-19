@@ -10,7 +10,7 @@ class Dispatcher extends CI_Controller {
 //			$content_data = array('computer_number' => $session_data['computer_number'], 'full_name' => $session_data['full_name']);
 //			$layout_data = array('title' => "Welcome to maps", 'content' => "maps/home", 'content_data' => $content_data);
 //			$this -> load -> view('layouts/inner_layout', $layout_data);
-            $this -> load -> view('maps/map');
+            $this -> load -> view('dispatcher/index');
 		} else {
 			//If no session, redirect to login page
 			$this -> load -> library('form_validation');

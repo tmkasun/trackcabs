@@ -35,4 +35,3 @@ class Maps extends CI_Controller {
 	}
 
 }
-?>

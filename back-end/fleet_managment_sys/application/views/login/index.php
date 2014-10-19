@@ -20,15 +20,14 @@
     <script src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="<?= base_url() ?>assets/js/login.js"></script>
     <script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
-<!-- Nirojan testing push --!>
 </head>
 <body id="body_first">
 <div class="row fixer">
     <div class="col-md-6 col-md-offset-3 text-center">
-        <h3> WSO2 Geo-Dashboard </h3>
+        <h3> <i>H&aacute;o</i> City Cabs System </h3>
     </div>
     <div class="row fixer">
-        <div class="col-md-8 col-md-offset-2 effect8" style="background-color: #D9D9D9;">
+        <div class="col-md-8 col-md-offset-2 effect8" style="background-color: #F5EFD8;">
             <!-- TODO: Implement jagger equelent -->
             <?php if (!is_user_logged_in()) { ?>
                 <div class="alert alert-warning alert-dismissable">
@@ -76,8 +75,8 @@
                 <!-- <img style="display: none" id="loading_image" src="<?= base_url() ?>assets/images/images/logins/login_loading.gif" /> -->
             </div>
 
-            <div class="col-md-2">
-                <img style="width: 100%" src="<?= base_url() ?>assets/img/wso2-logo.png" id="fit11"/>
+            <div class="col-md-2" style="padding: 0px;">
+                <img style="width: 100%" src="<?= base_url() ?>assets/img/hao-logo-small.png" id="fit11"/>
             </div>
 
         </div>

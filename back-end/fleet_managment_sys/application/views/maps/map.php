@@ -147,7 +147,7 @@
                                                                                    style="color: #FF9900"></i></a>
         </div>
         <a class="navbar-brand" href="#"><img style="max-width:100px; margin-top: -7px;"
-                                              src="<?= base_url() ?>assets/img/wso2-logo.png"/></a>
+                                              src="<?= base_url() ?>assets/img/hao-logo-small.png"/></a>
     </div>
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
@@ -220,16 +220,11 @@
         <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon" data-uk-nav>
             <li class="uk-parent" style="box-shadow: 0 2px 12px 1px #2D1600;min-height: 50px;line-height: 25px;">
                 <a href="#" style="min-height: 50px;">
-                    <span style="color: #d58512">WSO<sub style="font-size: medium;">2</sub></span> Geo Dashboard
+                    Hao city cabs Dashboard
                 </a>
                 <ul class="uk-nav-sub">
                     <li style="color: #969490">
-                        Founded in August 2005, WSO2 is a global enterprise middleware corporation with offices in
-                        USA, UK and Sri Lanka.Providing the only complete<a style="color: #007171"
-                                                                            href="http://www.wso2.com">open
-                        source</a> middleware platform, WSO2 is revolutionizing the industry by putting traditional
-                        middleware on a diet and introducing lean, powerful and flexible solutions to address the
-                        21st century enterprise challenges.
+                        Hao city cabs
                     </li>
 
                 </ul>
@@ -431,7 +426,7 @@
             <div class="modal-header">
                 <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">
-                    WSO2 Geo Dashboard
+                    Hao City Cabs System
                 </h4>
             </div>
             <div class="modal-body">

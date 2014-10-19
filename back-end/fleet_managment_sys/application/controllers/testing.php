@@ -1,4 +1,11 @@
 <?php
+/*
+ * This controller is for testing purpose only ,
+ * You may use this for check the log files,
+ * do testing with Code Igniter or anything you wish but,
+ * please make sure that no other controller or file make dependence on this controller
+ * again this controller is ONLY FOR TESTING PURPOSE!!!!
+ * */
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 session_start();

@@ -9,27 +9,37 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 session_start();
-
 class Testing extends CI_Controller
 {
     private $logPath; //path to the php log
     /**
      *   Class constructor
      */
-//    function __construct(){
-////        parent::Controller();
-//        $this->logPath = ini_get('error_log');
-//    }
+    function __construct(){
+        parent::__construct();
+        $this->logPath = ini_get('error_log');
+    }
 
     /**
      * index: Shows the php error log
      * @access public
      */
-    public function testing(){
+    public function debug(){
 //        show_error('message' , 500  );
 //        log_message("info","hmmm");
 //        print_r();
-        echo nl2br(@file_get_contents("application/logs/"));
+        echo nl2br(@file_get_contents("application/logs/log-2014-10-19.php"));
         exit;
+    }
+
+
+    function geo_names(){
+        $this->load->model('geo_name');
+        $geo_names = $this->geo_name->find(12321);
+
+    }
+
+    function php_info(){
+        phpinfo();
     }
 }

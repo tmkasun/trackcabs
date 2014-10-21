@@ -18,6 +18,7 @@ class Testing extends CI_Controller
     function __construct(){
         parent::__construct();
         $this->logPath = ini_get('error_log');
+        $this->load->model('geo_name');
     }
 
     /**
@@ -34,9 +35,11 @@ class Testing extends CI_Controller
 
 
     function geo_names(){
-        $this->load->model('geo_name');
-        $geo_names = $this->geo_name->find(12321);
-
+        $POST = $this->input->get();
+        $query = $POST['location'];
+        $geo_names = $this->geo_name->find($query);
+        header('Content-Type: application/json');
+        echo $geo_names;
     }
 
     function php_info(){

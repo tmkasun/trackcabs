@@ -82,8 +82,7 @@
         TODO: Move this styles to separate CSS for clarity.
         */
         .navbar {
-            background-color: rgba(54, 51, 45, 0.7);
-            background: rgba(54, 51, 45, 0.7);
+            background: rgba(1, 32, 0, 0.80) none repeat scroll 0% 0%;
             color: rgba(0, 0, 0, 0.8);
             border-radius: 0px 0px 0px 0px;
             -webkit-box-shadow: 0px 16px 29px -17px rgba(33, 20, 4, 1);
@@ -92,6 +91,13 @@
             border: none;
             margin: auto;
             z-index: 1000;
+        }
+
+        .boxElement{
+            border-radius: 0px 0px 0px 0px;
+            -webkit-box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);
+            -moz-box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);
+            box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);
         }
 
         #mapSearch {
@@ -156,10 +162,22 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>
+                <form id="locationSearch" class="navbar-form" role="search"
+                      onsubmit="return false;">
+                    <div class="form-group has-feedback">
+                        <input autofocus="true" id="locationSearchbox" type="text" placeholder="Search For location"
+                               class="form-control typeahead">
+                        <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+                    </div>
+                    <input style="visibility: hidden; position: fixed;" type="submit"/>
+                </form>
+            </li>
+
+            <li>
                 <form id="mapSearch" class="navbar-form" role="search"
                       onsubmit="focusOnSpatialObject($(this).find('#searchbox').val());return false;">
                     <div class="form-group has-feedback">
-                        <input autofocus="true" id="searchbox" type="text" placeholder="Search"
+                        <input autofocus="true" id="searchbox" type="text" placeholder="Search for cab"
                                class="form-control typeahead">
                         <span id="searchicon" class="fa fa-search form-control-feedback"></span>
                     </div>
@@ -283,6 +301,60 @@
 
     </div>
 </div>
+
+
+
+
+
+
+<div style="position: relative;width: 40%;max-height: 90%;top: 5%;" class="panel panel-default boxElement" >
+    <!-- Default panel contents -->
+    <div class="panel-heading text-center"><span style="font-size: medium;" class="text-info" >New Orders</span></div>
+    <!-- Table -->
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div id="loading">
     <div class="loading-indicator">

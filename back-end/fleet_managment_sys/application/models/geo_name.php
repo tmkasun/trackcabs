@@ -6,6 +6,7 @@ class Geo_name extends CI_Model
     {
         // Call the Model constructor
         parent::__construct();
+        $this->mongodb = new MongoClient();
     }
 
     /**
@@ -13,12 +14,19 @@ class Geo_name extends CI_Model
      * Return the
      * @return array|null
      */
-    function find(){
-        $connection = new MongoClient();
-        $collection = $connection->geo_names->lk_test; // TODO: put this as a collection inside commonly agreed database
-        $result =  $collection->findOne();
-        var_dump($result);
-        return $result;
+    function find($query){
+        $result =  $this->mongodb->geo_names->lk_test->find( array("name" => new MongoRegex('/'.$query.'/i')) );  //, "feature_code" => array('$in' => array("PPL","PPLL","PPLX"))
+        $result->limit(10);
+
+        $return = array();
+        $i=0;
+        while( $result->hasNext() )
+        {
+
+            $return[$i] = $result->getNext();
+            $return[$i++]['_id'] = $result->key();
+        }
+        return json_encode($return);
     }
 
 }

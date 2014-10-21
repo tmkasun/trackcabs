@@ -180,6 +180,45 @@ $('#searchbox').typeahead({
         focusOnSpatialObject(objectId)
     });
 
+var locations = new Bloodhound({
+    datumTokenizer : function(d) {
+        return Bloodhound.tokenizers.whitespace(d.value);
+    },
+    queryTokenizer : Bloodhound.tokenizers.whitespace,
+    remote : {
+        url : 'testing/geo_names?location=%QUERY',
+        filter : function(locations) {
+            return ($.map(locations, function(location) {
+                return {
+                    value : location.name,
+                    location: location.location
+                };
+            }));
+
+        }
+    }
+});
+
+init_typeahead();
+
+function init_typeahead() {
+    locations.initialize();
+    $('#locationSearchbox').typeahead({
+        hint : true,
+        highlight : true,
+        minLength : 1
+    }, {
+        name : 'name',
+        displayKey : 'value',
+        source : locations.ttAdapter()
+    }).on('typeahead:selected', function($e, datum) {
+        var coordinates = datum.location.coordinates;
+        map.setView([coordinates[1],coordinates[0]],15);
+    }).on('typeahead:selected', function($e, datum) {
+        var coordinates = datum.location.coordinates;
+        map.setView([coordinates[1],coordinates[0]],15);
+    });
+}
 
 // TODO: when click on a notification alert ? "Uncaught ReferenceError: KM is not defined "
 var toggled = false;

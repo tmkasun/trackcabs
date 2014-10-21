@@ -306,42 +306,12 @@
 
 
 
+<div style="position: relative;width: 40%;max-height: 90%;top: 5%;"  id="newOrdersPane">
 
-<div style="position: relative;width: 40%;max-height: 90%;top: 5%;" class="panel panel-default boxElement" >
-    <!-- Default panel contents -->
-    <div class="panel-heading text-center"><span style="font-size: medium;" class="text-info" >New Orders</span></div>
-    <!-- Table -->
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-        </tr>
-        </tbody>
-    </table>
 </div>
+<script>
+    $("#newOrdersPane").load('testing/new_orders'); //TODO: move this script to necessary location
+</script>
 
 
 

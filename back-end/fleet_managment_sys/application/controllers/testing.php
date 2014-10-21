@@ -19,6 +19,7 @@ class Testing extends CI_Controller
         parent::__construct();
         $this->logPath = ini_get('error_log');
         $this->load->model('geo_name');
+        $this->load->model('test');
     }
 
     /**
@@ -40,6 +41,12 @@ class Testing extends CI_Controller
         $geo_names = $this->geo_name->find($query);
         header('Content-Type: application/json');
         echo $geo_names;
+    }
+
+    function new_orders(){
+        $new_orders = $this->test->live();
+
+        $this->load->view("panels/new_orders",array('orders'=>$new_orders));
     }
 
     function php_info(){

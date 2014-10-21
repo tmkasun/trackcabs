@@ -16,10 +16,10 @@
         <h5><?php echo $history[sizeof($history)-1]['refId']?></h5>
 
         <h6>Call Time</h6>
-        <h5><?php echo date('Y-m-d H:i:s', $history[sizeof($history)-1]['callTime']->sec);?></h5>
+        <h5><?php echo date('Y-m-d H:i:s', (($history[sizeof($history)-1]['callTime']->sec)-(60*60*5.5)));?></h5>
 
         <h6>Book Time</h6>
-        <h5><?php echo date('Y-m-d H:i:s', $history[sizeof($history)-1]['bookTime']->sec);?></h5>
+        <h5><?php echo date('Y-m-d H:i:s', $history[sizeof($history)-1]['bookTime']->sec-(60*60*5.5));?></h5>
     </div>
 
     <div class="col-lg-3">

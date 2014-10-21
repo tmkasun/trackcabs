@@ -8,7 +8,9 @@ function createBooking(url , tp){
     var town        = document.getElementById("town").value;
     var landMark    = document.getElementById("landMark").value;
     var remark      = document.getElementById("remark").value;
-
+    var bDate      = document.getElementById("bDate").value;
+    var bTIme      = document.getElementById("bTime").value;
+    alert('btime is '+ bTIme);
     var vType="";
 
     if(document.getElementById('carRadio').checked) {
@@ -32,7 +34,7 @@ function createBooking(url , tp){
 
     var address = {'no':no , 'road' : road ,'city' : city , 'town' : town , 'landmark' : landMark}
     var data = {'tp' : tp , 'data' : {'address' : address , 'vType' : vType , 'payType' : payType ,
-                'bDate' : "2010-01-15", 'bTime' : "00:00:00" , 'status' : 'start' , 'cabID' : '', 'driverId' : '',
+                'bDate' : bDate, 'bTime' : bTIme , 'status' : 'start' , 'cabID' : '', 'driverId' : '',
                 'remark' : remark , 'inqCall' : 0}};
     var result = ajaxPost(data,url);
 

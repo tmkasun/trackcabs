@@ -64,7 +64,7 @@
         <div class="col-lg-12" style="margin-top: 10px">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Cab Info</h3>
+                    <h3 class="panel-title">Info</h3>
                 </div>
                 <div class="panel-body" id="customerInformation">
 

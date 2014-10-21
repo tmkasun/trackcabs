@@ -24,7 +24,13 @@
 
     <div class="col-lg-3">
         <h6>Status</h6>
-        <h5>Start</h5>
+        <h5><?php echo $history[sizeof($history)-1]['status']?></h5>
+
+        <h6>Cab Id</h6>
+        <h5><?php echo $history[sizeof($history)-1]['cabId']?></h5>
+
+        <h6>Driver Id</h6>
+        <h5><?php echo $history[sizeof($history)-1]['driverId']?></h5>
 
         <h6></h6>
         <div class="btn-group btn-group-justified">

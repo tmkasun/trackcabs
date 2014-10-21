@@ -12,7 +12,25 @@ class Geo_name extends CI_Model
     /**
      * @param $geoNameId Geoname ID of a location , This is the default primary key for the geo_names collection
      * Return the
-     * @return array|null
+     * sample:
+     * {
+     * "_id" : 1222722,
+     * "feature_code" : "PPL",
+     * "elevation" : "",
+     * "name" : "Karunkandalvannakulam",
+     * "dem" : "10",
+     * "alternatenames" : "Karunkandalvannakulam,Vannakulam",
+     * "asciiname" : "Karunkandalvannakulam",
+     * "feature_class" : "P",
+     * "location" : {
+     * "type" : "Point",
+     * "coordinates" : [
+     * 80.0145,
+     * 8.90928
+     * ]
+     * }
+     * }
+     * @return JSON encoded string
      */
     function find($query){
         $result =  $this->mongodb->geo_names->lk_test->find( array("name" => new MongoRegex('/'.$query.'/i')) );  //, "feature_code" => array('$in' => array("PPL","PPLL","PPLX"))

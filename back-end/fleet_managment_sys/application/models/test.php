@@ -25,7 +25,7 @@ class Test extends CI_Model
             $return[$i] = $result->getNext();
             $return[$i++]['_id'] = $result->key();
         }
-        return json_encode($return);
+        return $return;
     }
 
 }

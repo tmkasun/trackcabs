@@ -7,6 +7,28 @@ class Live_dao extends CI_Model
 
     }
 
+    /**
+     * @param $bookingArray << this is the default structure of the live dao
+     @sample
+     * {
+     *   "refId": "123",
+     *   "status" : "start",
+     *   "address":{"number": "8/2","road": "vihara road","city": "Mount Lavania","town": "Colombo","landmark": "near Cargills"},
+     *   "cabId": "uv-123",
+     *   "driverId":"123",
+     *   "callTime": "2014-10-05T00:38:55.070Z",
+     *   "bookTime": "2014-10-05T02:38:55.070Z",
+     *   "endTime": "10.05pm",
+     *   "payType": "cash | credit",
+     *   "vType": "nano | cab | van",
+     *   "remark": "tinted window",
+     *   "call_up": "true | false",
+     *   "inqCall": "1",
+     *   "bType":"airportDrop"
+     * }
+     * @return php array
+     */
+
     function createBooking($bookingArray){
         $connection = new MongoClient();
         $dbName = $connection->selectDB('track');

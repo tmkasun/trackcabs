@@ -103,7 +103,7 @@ function initializeWebSocket(){
     websocket.onopen = webSocketOnOpen;
 }
 
-initializeWebSocket();
+//initializeWebSocket(); //TODO: uncomment this to start websocket
 
 var normalIcon = L.icon({
     iconUrl: ApplicationOptions.leaflet.iconUrls.normalIcon,

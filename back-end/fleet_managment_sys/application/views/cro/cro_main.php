@@ -5,6 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
+    <style>
+        #the-basics .tt-dropdown-menu {
+            max-height: 150px;
+            overflow-y: auto;
+        };
+
+    </style>
+
     <!-------------------------------- CSS Files------------------------------------>
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap-datetimepicker.css">
@@ -13,15 +22,15 @@
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/cro_operations.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="<?= base_url();?>assets/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+    <script src="<?= base_url() ?>assets/js/typeahead.bundle.min.js"><script>
 
-    <script>
 
+        <script>
         var docs_per_page= 100 ;
         var page = 1 ;
         var obj = null;
         var tp;
-    </script>
+        </script>
 </head>
 <body>
 <div id="navBarField">
@@ -71,13 +80,15 @@
 
                     <div class="col-lg-5" >
                         <div class="col-lg-12" id="mainSearch">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button" onclick="operations('getCustomer')">
-                                            <span class="glyphicon glyphicon-search"></span> Search
-                                        </button>
-                                    </span>
+                            <div class="input-group" id="the-basics">
+
+                                    <input type="text" class="form-control  typeahead" placeholder="Mobile / LandLine" id="tpSearch">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" onclick="operations('getCustomer')">
+                                                <span class="glyphicon glyphicon-search"></span> Search
+                                            </button>
+                                        </span>
+
                             </div>
                             <hr>
 
@@ -118,6 +129,62 @@
             </div>
         </div>
 </div>
+
+    <script>
+        $("#tpSearch").keyup(function(event){
+            var url = '<?= site_url(); ?>';
+            var tp = $("#tpSearch").val();
+            getSimilarTpNumbers(url,tp)
+        });
+    </script>
+
+    <script>
+        var substringMatcher = function(strs) {
+            return function findMatches(q, cb) {
+                var matches, substrRegex;
+
+// an array that will be populated with substring matches
+                matches = [];
+
+// regex used to determine if a string contains the substring `q`
+                substrRegex = new RegExp(q, 'i');
+
+// iterate through the pool of strings and for any string that
+// contains the substring `q`, add it to the `matches` array
+                $.each(strs, function(i, str) {
+                    if (substrRegex.test(str)) {
+// the typeahead jQuery plugin expects suggestions to a
+// JavaScript object, refer to typeahead docs for more info
+                        matches.push({ value: str });
+                    }
+                });
+
+                cb(matches);
+            };
+        };
+
+        var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+            'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
+            'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+            'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
+            'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+            'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+            'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
+            'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+            'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+        ];
+
+        $('#the-basics .typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                name: 'states',
+                displayKey: 'value',
+                source: substringMatcher(states)
+            });
+    </script>
 
 
     <script>

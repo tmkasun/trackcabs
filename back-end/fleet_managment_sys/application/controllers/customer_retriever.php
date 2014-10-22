@@ -18,7 +18,7 @@ class Customer_retriever extends CI_Controller
             $this->output->set_output(json_encode(array("statusMsg" => "fail","data" => "customer already exists")));
     }
 
-    public function getSimilar(){
+    public function getSimilarTpNumbers(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $result = $this->customer_dao->getSimilar($input_data["tp"]);

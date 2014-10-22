@@ -2,14 +2,14 @@ function createBooking(url , tp){
     var baseUrl = url;
     url = baseUrl + "/customer_retriever/addBooking";
 
-    var no          = document.getElementById("no").value;
-    var road        = document.getElementById("road").value;
-    var city        = document.getElementById("city").value;
-    var town        = document.getElementById("town").value;
-    var landMark    = document.getElementById("landMark").value;
-    var remark      = document.getElementById("remark").value;
-    var bDate      = document.getElementById("bDate").value;
-    var bTIme      = document.getElementById("bTime").value;
+    var no          = $('#no').val();
+    var road        = $('#road').val();
+    var city        = $('#city').val();
+    var town        = $('#town').val();
+    var landMark    = $('#landMark').val();
+    var remark      = $('#remark').val();
+    var bDate      = $('bDate').val();
+    var bTIme      = $('bTime').val();
     var vType="";
 
     if(document.getElementById('carRadio').checked) {
@@ -54,19 +54,14 @@ function editCustomerInfoEditView( url , tp ){
 function createCusInfo(url){
     var siteUrl = url;
     url = siteUrl + "/customer_retriever/createCustomer";
-    var tp      = document.getElementById("tp").value;
-    var tp2     = document.getElementById("tp2").value;
-    var cusName = document.getElementById("cusName").value;
-    var pRemark = document.getElementById("pRemark").value;
-    var org     = document.getElementById("organization").value;
-    var des     = document.getElementById("destination").value;
-    /* Get the title from the select drop down*/
-    var dropTitle = document.getElementById("title");
-    var title = dropTitle.options[dropTitle.selectedIndex].value;
-
-    /* Get the position from the select drop down*/
-    var dropPos = document.getElementById("position");
-    var position = dropPos.options[dropPos.selectedIndex].value;
+    var tp      = $('#tp').val();
+    var tp2     = $('#tp2').val();
+    var cusName = $('#cusName').val();
+    var pRemark = $('#pRemark').val();
+    var org     = $('#organization').val();
+    var des     = $('#destination').val();
+    var title = $('#title').val();
+    var position = $('#position').val();
 
     var type1 = 'mobile';
     var type2 = 'mobile';
@@ -90,19 +85,14 @@ function updateCustomerInfoView(url){
 
     var siteUrl = url;
     url = siteUrl + "/customer_retriever/updateCustomer";
-    var tp      = document.getElementById("tp").value;
-    var tp2     = document.getElementById("tp2").value;
-    var cusName = document.getElementById("cusName").value;
-    var pRemark = document.getElementById("pRemark").value;
-    var org     = document.getElementById("organization").value;
-    var des     = document.getElementById("destination").value;
-    /* Get the title from the select drop down*/
-    var dropTitle = document.getElementById("title");
-    var title = dropTitle.options[dropTitle.selectedIndex].value;
-
-    /* Get the position from the select drop down*/
-    var dropPos = document.getElementById("position");
-    var position = dropPos.options[dropPos.selectedIndex].value;
+    var tp      = $('#tp').val();
+    var tp2     = $('#tp2').val();
+    var cusName = $('#cusName').val();
+    var pRemark = $('#pRemark').val();
+    var org     = $('#organization').val();
+    var des     = $('#destination').val();
+    var title = $('#title').val();
+    var position = $('#position').val();
 
     var type1 = 'mobile';
     var type2 = 'mobile';
@@ -139,6 +129,13 @@ function getCustomerInfoView( url , tp ){
     var newBookingDiv = document.getElementById('newBooking');
     newBookingDiv.innerHTML = "";
     newBookingDiv.innerHTML = view.view.new_booking_view;
+}
+
+function getSimilarTpNumbers(url , tp){
+    url = url + "/customer_retriever/getSimilarTpNumbers";
+    var data = {"tp" : tp};
+    var result = ajaxPost(data,url);
+    return result['data'];
 }
 
 function ajaxPost(data,urlLoc)    {

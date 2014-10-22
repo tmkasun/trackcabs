@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>WSO2 Geo Dashboard</title>
+    <title>H&aacute;o City Cabs System</title>
 
     <link rel="apple-touch-icon" sizes="76x76" href="<?= base_url() ?>assets/img/favicon-76.png">
     <link rel="apple-touch-icon" sizes="120x120" href="<?= base_url() ?>assets/img/favicon-120.png">
@@ -145,6 +145,10 @@
 
 <nav class="navbar navbar-inverse" role="navigation">
     <div class="navbar-header">
+        <a class="navbar-brand" href="#"><img style="max-width:50px; margin-top: -7px;"
+                                              src="<?= base_url() ?>assets/img/hao-logo-small.png"/></a>
+
+        <!-- TODO: for reference, remove if not use
         <div class="navbar-icon-container">
             <a href="#left_side_pannel" data-uk-offcanvas class="navbar-icon pull-right visible-xs"
                     ><i class="fa fa-bars fa-lg" style="color: #FF9900"></i></a>
@@ -152,41 +156,84 @@
                onclick="$('.navbar-collapse').collapse('toggle');return false;"><i class="fa fa-search fa-lg"
                                                                                    style="color: #FF9900"></i></a>
         </div>
-        <a class="navbar-brand" href="#"><img style="max-width:100px; margin-top: -7px;"
-                                              src="<?= base_url() ?>assets/img/hao-logo-small.png"/></a>
+        -->
     </div>
     <div class="navbar-collapse collapse">
+        <!-- TODO: for reference, remove if not use
         <ul class="nav navbar-nav">
             <li class="hidden-xs"><a href="#left_side_pannel" data-uk-offcanvas>
                 <i class="fa fa-list" style="color: #FF9900"></i></a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
+        -->
+        <ul class="nav navbar-nav" >
+
             <li>
-                <form id="locationSearch" class="navbar-form" role="search"
-                      onsubmit="return false;">
-                    <div class="form-group has-feedback">
-                        <input autofocus="true" id="locationSearchbox" type="text" placeholder="Search For location"
-                               class="form-control typeahead">
-                        <span id="searchicon" class="fa fa-search form-control-feedback"></span>
-                    </div>
-                    <input style="visibility: hidden; position: fixed;" type="submit"/>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-success navbar-btn">Calling No.</button>
+                </form>
+            </li>
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-success navbar-btn">Cab</button>
+                </form>
+            </li>
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-success navbar-btn">Cab Location</button>
+                </form>
+            </li>
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-success navbar-btn">Advance Booking</button>
+                </form>
+            </li>
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-success navbar-btn">Standing orders</button>
+                </form>
+            </li>
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-success navbar-btn">Dispatch History</button>
+                </form>
+            </li>
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-success navbar-btn">Search cab</button>
+                </form>
+            </li>
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-success navbar-btn">Cab lock</button>
                 </form>
             </li>
 
             <li>
-                <form id="mapSearch" class="navbar-form" role="search"
-                      onsubmit="focusOnSpatialObject($(this).find('#searchbox').val());return false;">
-                    <div class="form-group has-feedback">
-                        <input autofocus="true" id="searchbox" type="text" placeholder="Search for cab"
-                               class="form-control typeahead">
-                        <span id="searchicon" class="fa fa-search form-control-feedback"></span>
-                    </div>
-                    <input style="visibility: hidden; position: fixed;" type="submit"/>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-success navbar-btn">Payment</button>
                 </form>
             </li>
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-success navbar-btn">Cab Attendance</button>
+                </form>
+            </li>
+            <li class="dropdown" >
+                <form action="#" style="margin: 0px;padding-right: 5px;" class="dropdown-toggle" data-toggle="dropdown">
+                    <a class="btn btn-sm btn btn-warning navbar-btn" >Reports</a>
+                </form>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Calling sheet</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Income <report></report></a></li>
+                </ul>
+            </li>
+        </ul>
 
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span style="color: #f9fdff;">Signed-in as: <?= print("TODO: Username should appear in here"); ?></span></a>
+        <ul class="nav navbar-nav navbar-right" >
+
+        <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span style="color: #f9fdff;cursor: pointer;">Dispatcher </span><i class="fa fa-angle-double-down fa-lg"></i></a>
                 <ul class="dropdown-menu" role="menu">
                     <li>
                         <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
@@ -200,6 +247,34 @@
         </ul>
     </div>
 </nav>
+
+
+
+<div>
+    <form id="locationSearch" class="navbar-form" role="search"
+          onsubmit="return false;">
+        <div class="form-group has-feedback">
+            <input autofocus="true" id="locationSearchbox" type="text" placeholder="Search For location"
+                   class="form-control typeahead">
+            <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+        </div>
+        <input style="visibility: hidden; position: fixed;" type="submit"/>
+    </form>
+
+    <form id="mapSearch" class="navbar-form" role="search"
+          onsubmit="focusOnSpatialObject($(this).find('#searchbox').val());return false;">
+        <div class="form-group has-feedback">
+            <input autofocus="true" id="searchbox" type="text" placeholder="Search for cab"
+                   class="form-control typeahead">
+            <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+        </div>
+        <input style="visibility: hidden; position: fixed;" type="submit"/>
+    </form>
+</div>
+
+
+
+
 
 <div id="objectInfo" style="background: darkgray;display: none;border-radius: 13px;height: 94%;padding: 0"
      class="col-md-2 pull-right">

@@ -4,7 +4,7 @@ if (!defined('BASEPATH'))
 
 if (!function_exists('is_user_logged_in')) {
 	function is_user_logged_in() {
-        return true; // TODO: remove this line, until get the database authentication support
+        //return true; // TODO: remove this line, until get the database authentication support
 		$ci=& get_instance();
 		if ($ci -> session -> userdata('logged_in')) {
 			$session_data = $ci -> session -> userdata('logged_in');

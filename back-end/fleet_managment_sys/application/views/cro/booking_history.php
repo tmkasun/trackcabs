@@ -1,7 +1,7 @@
 <div class="col-lg-12">
     <table class="table table-striped" >
         <tr>
-            <th>Title</th>
+            <th>Ref ID</th>
             <th>Name</th>
             <th>Permanent Remarks</th>
             <th>Organization</th>
@@ -22,4 +22,4 @@
         <div class="btn-group">
             <button type="button" class="btn btn-success" onclick="operations('editCus', '<?= $tp;?>' )">Edit Information</button>
         </div>
-</div>
+    </div>

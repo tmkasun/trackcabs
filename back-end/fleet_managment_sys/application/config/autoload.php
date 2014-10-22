@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array();
+$autoload['libraries'] = array('session');
 
 
 /*
@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('customer_dao' , 'live_dao' , 'history_dao' , 'ref_dao' , 'driver_dao' , 'cab_dao');
+$autoload['model'] = array('customer_dao' , 'live_dao' , 'history_dao' , 'ref_dao' , 'driver_dao' , 'cab_dao' , 'users_dao');
 
 
 /* End of file autoload.php */

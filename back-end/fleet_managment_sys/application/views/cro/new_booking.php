@@ -1,4 +1,4 @@
-<div class="col-lg-6">
+<div class="col-lg-5">
     <form role="form">
         <div class="form-group">
             <input type="text" class="form-control" id="no" placeholder="Number" >
@@ -22,6 +22,10 @@
         </div>
 
         <div class="form-group">
+            <input type="text" class="form-control" id="dispatchB4" placeholder="Dispatch Before">
+        </div>
+
+        <div class="form-group">
             <div class="checkbox">
                 <label>
                     <input type="checkbox" id="callUp" > Call Up
@@ -30,41 +34,17 @@
             <input type="text" class="form-control" id="callUpPrice" placeholder="Call Up Price" >
         </div>
 
-        <div class="form-group">
-        <h5>Choose Vehicle Type</h5>
-        <label class="radio-inline">
-            <input type="radio" id="carRadio" name="vehicleRadio" value="car"> Car
-        </label>
-        <label class="radio-inline">
-            <input type="radio" id="vanRadio" name="vehicleRadio" value="van"> Van
-        </label>
-        <label class="radio-inline">
-            <input type="radio" id="nanoRadio" name="vehicleRadio" value="nano"> Nano
-        </label>
-        </div>
-
-        <div class="form-group">
-        <h5>Payment Type</h5>
-        <label class="radio-inline">
-            <input type="radio" id="cashRadio" name="paymentRadio" value="cash"> Cash
-        </label>
-        <label class="radio-inline">
-            <input type="radio" id="creditRadio" name="paymentRadio" value="credit"> Credit
-        </label>
-        </div>
 
 
-
-        <button type="submit" class="btn btn-default" onclick="operations('createBooking')">Add Order</button>
     </form>
 </div>
 
 
-<div class="col-lg-6">
+<div class="col-lg-3" style="border-left: 2px solid #a6a6a6" >
 
     <div class="form-group">
-        <label for="dtp_input3" class="col-md-2 control-label">Booking Time</label>
-        <div id="form_time" class="input-group date col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+        <label for="dtp_input3" class="control-label">Booking Time</label>
+        <div id="form_time" class="input-group date" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
             <input id="bTime" class="form-control" size="16" type="text" value="" readonly>
             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
             <span class="input-group-addon"><span class="glyphicon glyphicon-time" onclick="work()"></span></span>
@@ -73,8 +53,8 @@
     </div>
 
     <div class="form-group">
-        <label for="dtp_input2" class="col-md-2 control-label">Booking Date</label>
-        <div id="form_date" class="input-group date  col-md-5" data-date="2014-09-16T05:25:07Z" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+        <label for="dtp_input2" class="control-label">Booking Date</label>
+        <div id="form_date" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
             <input id="bDate" class="form-control" size="16" type="text" value="" readonly>
             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="work()"></span></span>
@@ -105,12 +85,45 @@
 
 
 
+</div>
 
+<div class="col-lg-2" style="border-left: 2px solid #a6a6a6">
+    <div class="form-group">
+        <h5>Choose Vehicle Type</h5>
+        <label class="radio-inline">
+            <input type="radio" id="carRadio" name="vehicleRadio" value="car"> Car
+        </label>
+        <label class="radio-inline">
+            <input type="radio" id="vanRadio" name="vehicleRadio" value="van"> Van
+        </label>
+        <label class="radio-inline">
+            <input type="radio" id="nanoRadio" name="vehicleRadio" value="nano"> Nano
+        </label>
+    </div>
 
-
-
-
-
+    <div class="form-group">
+        <h5>Payment Type</h5>
+        <label class="radio-inline">
+            <input type="radio" id="cashRadio" name="paymentRadio" value="cash"> Cash
+        </label>
+        <label class="radio-inline">
+            <input type="radio" id="creditRadio" name="paymentRadio" value="credit"> Credit
+        </label>
+    </div>
 
 </div>
+
+<div class="col-lg-2">
+
+    <div class="btn-group btn-group-justified">
+        <div class="btn-group">
+            <button type="button" class="btn btn-success" onclick="operations('createBooking')">Save Booking</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 

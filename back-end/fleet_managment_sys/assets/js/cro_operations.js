@@ -8,8 +8,8 @@ function createBooking(url , tp){
     var town        = $('#town').val();
     var landMark    = $('#landMark').val();
     var remark      = $('#remark').val();
-    var bDate      = $('bDate').val();
-    var bTIme      = $('bTime').val();
+    var bDate      = $('#bDate').val();
+    var bTIme      = $('#bTime').val();
     var vType="";
 
     if(document.getElementById('carRadio').checked) {
@@ -35,6 +35,8 @@ function createBooking(url , tp){
     var data = {'tp' : tp , 'data' : {'address' : address , 'vType' : vType , 'payType' : payType ,
                 'bDate' : bDate, 'bTime' : bTIme , 'status' : 'start' , 'cabId' : '-', 'driverId' : '-',
                 'remark' : remark , 'inqCall' : 0}};
+    alert(JSON.stringify(data));
+
     var result = ajaxPost(data,url);
 
     getCustomerInfoView(baseUrl , tp);

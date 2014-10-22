@@ -45,7 +45,7 @@
                 <div class="col-md-10">
                     <?php
                     $attributes = array('class' => "form-horizontal", 'name' => "login", 'id' => "login_form");
-                    echo form_open('authenticate', $attributes);
+                    echo form_open('login/authenticate', $attributes);
                     ?>
                     <div class="form-group">
                     <label for="login" class="col-sm-2 control-label">Username</label>

@@ -5,15 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-    <style>
-        #the-basics .tt-dropdown-menu {
-            max-height: 150px;
-            overflow-y: auto;
-        };
-
-    </style>
-
     <!-------------------------------- CSS Files------------------------------------>
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap-datetimepicker.css">
@@ -22,8 +13,6 @@
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/cro_operations.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-    <script src="<?= base_url() ?>assets/js/typeahead.bundle.min.js"><script>
-
 
         <script>
         var docs_per_page= 100 ;
@@ -47,12 +36,6 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <form class="navbar-form navbar-left" role="search" id="getCab">
-                <div class="form-group">
-                    <input class="form-control" placeholder="Customer TP" type="text" id="cusTp">
-                </div>
-                <button type="submit" class="btn btn-default" onclick="getCustomer()">Submit</button>
-            </form>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Link</a></li>
                 <li class="dropdown">
@@ -80,15 +63,14 @@
 
                     <div class="col-lg-5" >
                         <div class="col-lg-12" id="mainSearch">
-                            <div class="input-group" id="the-basics">
+                            <div class="input-group">
 
-                                    <input type="text" class="form-control  typeahead" placeholder="Mobile / LandLine" id="tpSearch">
+                                    <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="button" onclick="operations('getCustomer')">
                                                 <span class="glyphicon glyphicon-search"></span> Search
                                             </button>
                                         </span>
-
                             </div>
                             <hr>
 
@@ -123,7 +105,16 @@
                 </div>
                 <div class="panel-body" id="newBooking">
 
+                </div>
+            </div>
+        </div>
 
+        <div class="col-lg-12" style="margin-top: 10px">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Booking History</h3>
+                </div>
+                <div class="panel-body" id="newBooking">
 
                 </div>
             </div>
@@ -136,54 +127,6 @@
             var tp = $("#tpSearch").val();
             getSimilarTpNumbers(url,tp)
         });
-    </script>
-
-    <script>
-        var substringMatcher = function(strs) {
-            return function findMatches(q, cb) {
-                var matches, substrRegex;
-
-// an array that will be populated with substring matches
-                matches = [];
-
-// regex used to determine if a string contains the substring `q`
-                substrRegex = new RegExp(q, 'i');
-
-// iterate through the pool of strings and for any string that
-// contains the substring `q`, add it to the `matches` array
-                $.each(strs, function(i, str) {
-                    if (substrRegex.test(str)) {
-// the typeahead jQuery plugin expects suggestions to a
-// JavaScript object, refer to typeahead docs for more info
-                        matches.push({ value: str });
-                    }
-                });
-
-                cb(matches);
-            };
-        };
-
-        var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-            'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-            'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-            'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-            'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-            'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-            'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-            'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-            'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-        ];
-
-        $('#the-basics .typeahead').typeahead({
-                hint: true,
-                highlight: true,
-                minLength: 1
-            },
-            {
-                name: 'states',
-                displayKey: 'value',
-                source: substringMatcher(states)
-            });
     </script>
 
 

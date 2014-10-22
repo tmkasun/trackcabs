@@ -10,13 +10,13 @@ class Users_dao extends CI_Model
     /*
     * @returns null if record doesn't exist , if exist sends the first record
     */
-    function getCustomer($tp){
+    function authenticate($uName , $pass){
         $connection = new MongoClient();
         $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-        $searchQuery = array('tp' => $tp);
+        $collection = $dbName->selectCollection('users');
+        $searchQuery = array('uName' => $uName , 'pass' => $pass );
 
-        return $collection->findOne(array('tp' => $searchQuery));
+        return $collection->findOne($searchQuery);
     }
 
 

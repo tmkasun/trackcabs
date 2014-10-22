@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-    <title>WSO2 Geo Dashboard</title>
+    <title>H&aacute;o City Cabs System</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author"
-          content="WSO2,Inc"/>
+          content="H&aacute;o City Cabs System"/>
     <meta name="description"
           content="Geo-Dashboard"/>
     <meta charset="UTF-8"/>
     <meta name="keywords"
-          content="Wso2,CEP,complex event processor,dashboard,vehicle tracking system"/>
+          content="H&aacute;o City Cabs System,vehicle tracking system"/>
 
     <link rel="icon" type="image/x-icon" href="<?= base_url() ?>assets/img/favicon.ico">
     <link href="<?= base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet">

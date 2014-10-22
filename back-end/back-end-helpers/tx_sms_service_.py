@@ -47,10 +47,12 @@ class Simple(resource.Resource):
     isLeaf = True
 
     def render_GET(self, request):
-        reactor.callLater(2, reactor.stop)
+        #reactor.callLater(2, reactor.stop)
+	print "Got a GET request from {}".format(request.getClientIP())
         return "<html><body><p>REST SMS service</p>Params are <b>mobile_number</b> and <b>message</b></body></html>"
 
     def render_POST(self, request):
+	print "Got POST a request from {}".format(request.getClientIP())
         global debugObject
         # reactor.callLater(2,reactor.stop)
         debugObject = request
@@ -61,7 +63,9 @@ class Simple(resource.Resource):
         msg_gateway.setContent(message)
         msg_gateway.setRecipient(mobile_number)
         msg_gateway.sendMessage()
-        return """<html>
+	# TODO: Return JSON with status and ACK of sending message
+	# TODO: Use inline call back ratherthan blocking call
+	return """<html>
             <body>
             You are connected from(IP): {}
             Arguments are: {}

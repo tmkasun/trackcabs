@@ -1,4 +1,5 @@
 <?php
+
 class Geo_name extends CI_Model
 {
 
@@ -32,14 +33,14 @@ class Geo_name extends CI_Model
      * }
      * @return JSON encoded string
      */
-    function find($query){
-        $result =  $this->mongodb->geo_names->lk_test->find( array("name" => new MongoRegex('/'.$query.'/i')) );  //, "feature_code" => array('$in' => array("PPL","PPLL","PPLX"))
+    function find($query)
+    {
+        $result = $this->mongodb->geo_names->lk_test->find(array("name" => new MongoRegex('/' . $query . '/i')));  //, "feature_code" => array('$in' => array("PPL","PPLL","PPLX"))
         $result->limit(10);
 
         $return = array();
-        $i=0;
-        while( $result->hasNext() )
-        {
+        $i = 0;
+        while ($result->hasNext()) {
 
             $return[$i] = $result->getNext();
             $return[$i++]['_id'] = $result->key();

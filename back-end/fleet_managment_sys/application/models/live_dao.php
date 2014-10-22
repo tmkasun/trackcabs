@@ -4,7 +4,7 @@ class Live_dao extends CI_Model
 
     function __construct()
     {
-
+        $this->db  = new MongoClient();
     }
 
     /**
@@ -30,8 +30,8 @@ class Live_dao extends CI_Model
      */
 
     function createBooking($bookingArray){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
+
+        $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
         $collection->insert($bookingArray);
@@ -39,8 +39,7 @@ class Live_dao extends CI_Model
     }
 
     function getBooking($refId){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
+        $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
         $searchQuery= array('refId' => $refId);
@@ -49,8 +48,7 @@ class Live_dao extends CI_Model
     }
 
     function updateBooking($refId , $data){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
+        $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
         $searchQuery= array('refId' => $refId);
@@ -64,8 +62,7 @@ class Live_dao extends CI_Model
     }
 
     function updateStatus($refId , $status){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
+        $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
         $searchQuery= array('refId' => $refId);
@@ -74,8 +71,7 @@ class Live_dao extends CI_Model
     }
 
     function deleteBooking($refId){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
+        $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
         $searchQuery= array('refId' => $refId);
@@ -83,8 +79,7 @@ class Live_dao extends CI_Model
     }
 
     function addInquireCall($refId){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
+        $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
         $searchQuery= array('refId' => $refId);
@@ -95,9 +90,7 @@ class Live_dao extends CI_Model
     }
 
     function getAllBookings(){
-
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
+        $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
         $cursor = $collection->find();

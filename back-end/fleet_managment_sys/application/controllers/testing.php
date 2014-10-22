@@ -19,7 +19,7 @@ class Testing extends CI_Controller
         parent::__construct();
         $this->logPath = ini_get('error_log');
         $this->load->model('geo_name');
-        $this->load->model('test');
+        $this->load->model('live_dao');
     }
 
     /**
@@ -44,12 +44,20 @@ class Testing extends CI_Controller
     }
 
     function new_orders(){
-        $new_orders = $this->test->live();
+        $new_orders = $this->live_dao->getAllBookings();
 
         $this->load->view("panels/new_orders",array('orders'=>$new_orders));
     }
 
     function php_info(){
         phpinfo();
+    }
+
+
+    function send(){
+        $this->load->library('sms');
+        $sms = new Sms("Testing message");
+        $sent = $sms->send("0711661919","Testing message");
+        var_dump($sent);
     }
 }

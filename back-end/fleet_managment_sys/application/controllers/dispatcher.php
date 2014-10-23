@@ -45,4 +45,26 @@ class Dispatcher extends CI_Controller {
 
     }
 
+    function dispatchVehicle(){
+        $postData = $this->input->post();
+        $dispatchingOrder = $this->live_dao->getBooking($postData['refId']);
+        $this->live_dao->deleteBooking($postData['refId']);
+//        $customer = $this->customer_dao->getCustomer($dispatchingOrder['tp']); // TODO: need this when updating customer order history
+        $this->load->library('sms');
+        $sms = new Sms("Testing message");
+        $sentCusto = $sms->send($dispatchingOrder['tp'],"Your reference number is ".$postData['refId'] . "we have dispatch a cab, you will recede a cab on".$dispatchingOrder['address']);
+        $sentDriver = $sms->send("0711661919","Your reference number is ".$postData['refId'] . "Please go to this address".$dispatchingOrder['address']);
+
+        /*
+         * get cust no from refid
+         * get driver no from cab
+         * send 2 sms to both
+         *
+         * */
+
+
+        header('Content-Type: application/json');
+        echo json_encode(array('status'=> 'success', 'message' => 'Reference Id '.$postData['refId'].'Dispatched to '.$dispatchingOrder['address']));
+    }
+
 }

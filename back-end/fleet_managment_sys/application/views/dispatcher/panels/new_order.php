@@ -1,3 +1,16 @@
+<script>
+    //TODO: move this scripts to separate file like dispatcher.js in assets file
+    function allowDispatchCab(refId){
+        closeAll();
+        $("#newOrdersPane").fadeOut('slow');
+        $.UIkit.notify({
+            message: "Select a vehicle to dispatch....",
+            status: 'success',
+            timeout: 0,
+            pos: 'top-center'
+        });
+    }
+</script>
 <div class="modal-header"
      style="cursor: move;background: #f9f9f9;-webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);-moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);">
     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -45,7 +58,7 @@
         <div style="margin-bottom: -15px" class="btn-group btn-group-justified">
             <div class="btn-group">
                 <button style="background-color: #f4f4f4;" type="button" class="btn btn-default"
-                        onclick="openWithinTools()">Dispatch cab
+                        onclick="allowDispatchCab(<?= $newOrder['refId'] ?>)">Dispatch cab
                 </button>
             </div>
             <div class="btn-group">

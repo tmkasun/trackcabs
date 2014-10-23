@@ -74,7 +74,7 @@ class Live_dao extends CI_Model
         $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
-        $searchQuery= array('refId' => $refId);
+        $searchQuery= array('refId' => (int)$refId);
         $collection->remove( $searchQuery);
     }
 

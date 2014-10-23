@@ -2,8 +2,10 @@
 //var_dump($orders);
 ?>
 <script>
+    //TODO: move this scripts to separate file like dispatcher.js in assets file currentDispatchOrderRefId
     function dispatchOrder(orderId){
         $("#commonModal").modal('toggle').find(".modal-content").load('dispatcher/newOrder/'+orderId);
+        currentDispatchOrderRefId = orderId;
     }
 </script>
 <div class="panel panel-default boxElement" style="height: 90%;">

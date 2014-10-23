@@ -95,9 +95,9 @@
 
         .boxElement{
             border-radius: 0px 0px 0px 0px;
-            -webkit-box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);
-            -moz-box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);
-            box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);
+            /*-webkit-box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);*/
+            /*-moz-box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);*/
+            box-shadow: -5px 0 5px -5px #333, 5px 0 5px -5px #333;
         }
 
         #mapSearch {
@@ -250,27 +250,7 @@
 
 
 
-<div>
-    <form id="locationSearch" class="navbar-form" role="search"
-          onsubmit="return false;">
-        <div class="form-group has-feedback">
-            <input autofocus="true" id="locationSearchbox" type="text" placeholder="Search For location"
-                   class="form-control typeahead">
-            <span id="searchicon" class="fa fa-search form-control-feedback"></span>
-        </div>
-        <input style="visibility: hidden; position: fixed;" type="submit"/>
-    </form>
 
-    <form id="mapSearch" class="navbar-form" role="search"
-          onsubmit="focusOnSpatialObject($(this).find('#searchbox').val());return false;">
-        <div class="form-group has-feedback">
-            <input autofocus="true" id="searchbox" type="text" placeholder="Search for cab"
-                   class="form-control typeahead">
-            <span id="searchicon" class="fa fa-search form-control-feedback"></span>
-        </div>
-        <input style="visibility: hidden; position: fixed;" type="submit"/>
-    </form>
-</div>
 
 
 
@@ -381,12 +361,42 @@
 
 
 
-<div style="position: relative;width: 40%;max-height: 90%;top: 5%;"  id="newOrdersPane">
+
+
+<div id="leftSidePane">
+    <div class="panel panel-info boxElement" style="position: relative;width: 40%;margin-bottom: 0px
+">
+        <div class="panel-heading">
+            <h3 class="panel-title">Search</h3>
+        </div>
+        <div class="panel-body">
+            <form id="locationSearch" class="navbar-form" role="search"
+                  onsubmit="return false;">
+                <div class="form-group has-feedback">
+                    <input autofocus="true" id="locationSearchbox" type="text" placeholder="Search For location"
+                           class="form-control typeahead">
+                    <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+                </div>
+                <input style="visibility: hidden; position: fixed;" type="submit"/>
+            </form>
+
+            <form id="mapSearch" class="navbar-form" role="search"
+                  onsubmit="focusOnSpatialObject($(this).find('#searchbox').val());return false;">
+                <div class="form-group has-feedback">
+                    <input autofocus="true" id="searchbox" type="text" placeholder="Search for cab"
+                           class="form-control typeahead">
+                    <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+                </div>
+                <input style="visibility: hidden; position: fixed;" type="submit"/>
+            </form>
+        </div>
+    </div>
+
+    <div style="position: relative;width: 40%;max-height: 90%;"  id="newOrdersPane">
+        <?= $new_orders_pane  ?>
+    </div>
 
 </div>
-<script>
-    $("#newOrdersPane").load('testing/new_orders'); //TODO: move this script to necessary location
-</script>
 
 
 

@@ -42,7 +42,7 @@ class Live_dao extends CI_Model
         $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
-        $searchQuery= array('refId' => $refId);
+        $searchQuery= array('refId' => (int)$refId);
 
         return $collection->findOne($searchQuery);
     }
@@ -93,7 +93,7 @@ class Live_dao extends CI_Model
         $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
-        $cursor = $collection->find();
+        $cursor = $collection->find()->sort(array('bookTime' => 1,'address.town' => 1));
         $data= array();
         foreach ($cursor as $doc) {
             $data[]= $doc;

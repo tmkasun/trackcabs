@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
+
 class Customer_retriever extends CI_Controller
 {
 
@@ -46,7 +48,10 @@ class Customer_retriever extends CI_Controller
         $statusMsg = 'success';
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
+        $user = $this->session->userdata('user');
+
         $input_data["data"]["refId"]=$this->ref_dao->getRefId();
+        $input_data['data']['croId']=$user['uName'];
         /* set the timezone for the call time */
         $callDT = new DateTime(date('Y-m-d'). ''.date('H:i:s'), new DateTimeZone('UTC'));
         $callTS = $callDT->getTimestamp();
@@ -68,6 +73,11 @@ class Customer_retriever extends CI_Controller
         if($result) {
             $input_data["data"]["tp"] = $input_data["tp"];
             $this->live_dao->createBooking($input_data["data"]);
+
+            $this->load->library('sms');
+            $sms = new Sms("Testing message");
+            $msg= 'Your order has been confirmed.'.' order id is'.$input_data["data"]["refId"].' Thank you for using Hao Cabs';
+            $sms->send( $input_data['tp'] , $msg );
         }
         else $statusMsg = 'fail';
 

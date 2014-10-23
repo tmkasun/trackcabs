@@ -101,5 +101,23 @@ class Live_dao extends CI_Model
         return $data;
     }
 
+    function getDayBookings($date){
+        $dbName = $this->db->selectDB('track');
+        $collection = $dbName->selectCollection('live');
+
+        $searchQuery = array('callTime' => array('$gte'=>$date) );
+
+        $cursor = $collection->find($searchQuery);
+        $data= array();
+        foreach ($cursor as $doc) {
+            $data[]= $doc;
+        }
+        return $data;
+    }
+
+    function getPeriodBookings($startDate,$endDate){
+
+    }
+
 
 }

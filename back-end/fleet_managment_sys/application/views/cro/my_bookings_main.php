@@ -14,12 +14,12 @@
     <script type="text/javascript" src="<?= base_url();?>assets/js/cro_operations.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 
-        <script>
+    <script>
         var docs_per_page= 100 ;
         var page = 1 ;
         var obj = null;
         var tp;
-        </script>
+    </script>
 </head>
 <body>
 <div id="navBarField">
@@ -30,8 +30,8 @@
         </div>
 
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#" onclick="getAllCabs()">CRO</a></li>
-            <li><a href="<?= site_url('cro_controller/test')?>" >My Bookings</a></li>
+            <li><a href="#" onclick="getCroView()">CRO</a></li>
+            <li class="active"><a href="#" onclick="getDriversView()">My Bookings</a></li>
         </ul>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -61,25 +61,27 @@
                 </div>
                 <div class="panel-body" id="">
 
-                    <div class="col-lg-5" >
-                        <div class="col-lg-12" id="mainSearch">
-                            <div class="input-group">
-
-                                    <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" onclick="operations('getCustomer')">
-                                                <span class="glyphicon glyphicon-search"></span> Search
-                                            </button>
-                                        </span>
-                            </div>
-                            <hr>
-
+                    <div class="form-group">
+                        <label for="dtp_input2" class="control-label">Booking Date</label>
+                        <div id="form_date" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                            <input id="startDate" class="form-control" size="16" type="text" value="" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="work()"></span></span>
                         </div>
+                        <input type="hidden" id="dtp_input2" value="" /><br/>
                     </div>
 
-                    <div class="col-lg-7" id="jobInfo" style="border-left: 2px solid #a6a6a6" >
-
+                    <div class="form-group">
+                        <label for="dtp_input2" class="control-label">Booking Date</label>
+                        <div id="form_date_end" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                            <input id="endDate" class="form-control" size="16" type="text" value="" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="work()"></span></span>
+                        </div>
+                        <input type="hidden" id="dtp_input2" value="" /><br/>
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -87,9 +89,10 @@
         <div class="col-lg-12" style="margin-top: 10px">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Customer Information</h3>
+                    <h3 class="panel-title">Bookings</h3>
                 </div>
                 <div class="panel-body" id="customerInformation">
+
 
 
 
@@ -119,7 +122,7 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
 
     <script>
         $("#tpSearch").keyup(function(event){
@@ -156,17 +159,6 @@
 
     <script>
         function work(){
-            $('#form_datetime').datetimepicker({
-                //language:  'fr',
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                forceParse: 0,
-                showMeridian: 1
-            });
-
             $('#form_date').datetimepicker({
                 //language:  'fr',
                 weekStart: 1,
@@ -177,15 +169,14 @@
                 minView: 2,
                 forceParse: 0
             });
-            $('#form_time').datetimepicker({
+            $('#form_date_end').datetimepicker({
                 //language:  'fr',
                 weekStart: 1,
                 todayBtn:  1,
                 autoclose: 1,
                 todayHighlight: 1,
-                startView: 1,
-                minView: 0,
-                maxView: 1,
+                startView: 2,
+                minView: 2,
                 forceParse: 0
             });
         }
@@ -193,15 +184,15 @@
 
 
 
-<script>
-    $(document).ready(function(){
+    <script>
+        $(document).ready(function(){
             //$("#test").hide();
 
-        $("#show").click(function(){
-            $("#test").collapse();
+            $("#show").click(function(){
+                $("#test").collapse();
+            });
         });
-    });
-</script>
+    </script>
 
 
 </body>

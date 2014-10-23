@@ -8,6 +8,30 @@ class Cro_controller extends CI_Controller
 
     }
 
+    function test()
+    {
+        //$prev_date = date('Y-m-d', strtotime(date('Y-m-d') .' -1 day'));
+        $prev_date = date('Y-m-d');
+        var_dump($prev_date);
+
+        /* set the timezone for the call time */
+        $bookDT = new DateTime(date($prev_date). ''.date('00:00:00'), new DateTimeZone('UTC'));
+        $bookTS = $bookDT->getTimestamp();
+        $data = array('time' => new MongoDate($bookTS));
+
+        $db  = new MongoClient();
+        $dbName = $db->selectDB('track');
+        $collection = $dbName->selectCollection('live');
+
+        $collection->insert($data);
+
+        $this->load->view('cro/my_bookings_main');
+    }
+
+    function getMyBookingsCroToday(){
+        $prev_date = date('Y-m-d', strtotime(date('Y-m-d') .' -1 day'));
+    }
+
     function loadCustomerInfoEditView(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $result = $this->customer_dao->getCustomer($input_data['tp']);

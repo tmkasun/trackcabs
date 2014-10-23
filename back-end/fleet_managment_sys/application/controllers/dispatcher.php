@@ -10,7 +10,9 @@ class Dispatcher extends CI_Controller {
 //			$content_data = array('computer_number' => $session_data['computer_number'], 'full_name' => $session_data['full_name']);
 //			$layout_data = array('title' => "Welcome to maps", 'content' => "maps/home", 'content_data' => $content_data);
 //			$this -> load -> view('layouts/inner_layout', $layout_data);
-            $this -> load -> view('dispatcher/index');
+            $new_orders = $this->live_dao->getAllBookings();
+            $new_orders_pane = $this->load->view("dispatcher/panels/new_orders",array('orders'=>$new_orders),TRUE);
+            $this -> load -> view('dispatcher/index',array('new_orders_pane' => $new_orders_pane));
 		} else {
 			//If no session, redirect to login page
 			$this -> load -> library('form_validation');
@@ -33,5 +35,36 @@ class Dispatcher extends CI_Controller {
 			echo "This method is not allowed";
 		}
 	}
+
+    function newOrder($orderRefId){
+        if(!is_user_logged_in()){
+            show_404();
+        };
+        $newOrder = $this->live_dao->getBooking($orderRefId);
+        $this -> load -> view('dispatcher/panels/new_order',array('newOrder' => $newOrder));
+
+    }
+
+    function dispatchVehicle(){
+        $postData = $this->input->post();
+        $dispatchingOrder = $this->live_dao->getBooking($postData['refId']);
+        $this->live_dao->deleteBooking($postData['refId']);
+//        $customer = $this->customer_dao->getCustomer($dispatchingOrder['tp']); // TODO: need this when updating customer order history
+        $this->load->library('sms');
+        $sms = new Sms("Testing message");
+        $sentCusto = $sms->send($dispatchingOrder['tp'],"Your reference number is ".$postData['refId'] . "we have dispatch a cab, you will recede a cab on".$dispatchingOrder['address']);
+        $sentDriver = $sms->send("0711661919","Your reference number is ".$postData['refId'] . "Please go to this address".$dispatchingOrder['address']);
+
+        /*
+         * get cust no from refid
+         * get driver no from cab
+         * send 2 sms to both
+         *
+         * */
+
+
+        header('Content-Type: application/json');
+        echo json_encode(array('status'=> 'success', 'message' => 'Reference Id '.$postData['refId'].'Dispatched to '.$dispatchingOrder['address']));
+    }
 
 }

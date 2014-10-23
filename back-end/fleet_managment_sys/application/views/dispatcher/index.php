@@ -93,11 +93,11 @@
             z-index: 1000;
         }
 
-        .boxElement{
+        .boxElement {
             border-radius: 0px 0px 0px 0px;
-            -webkit-box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);
-            -moz-box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);
-            box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);
+            /*-webkit-box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);*/
+            /*-moz-box-shadow: 3px 0px 23px -5px rgba(33, 20, 4, 1);*/
+            box-shadow: -5px 0 5px -5px #333, 5px 0 5px -5px #333;
         }
 
         #mapSearch {
@@ -129,11 +129,37 @@
             color: firebrick;
         }
 
-        .sectionJointStyle{
+        .sectionJointStyle {
             stroke-dasharray: 3, 20;
         }
 
     </style>
+
+    <script>
+        //TODO: move this scripts to separate file like dispatcher.js in assets file
+        var currentDispatchOrderRefId;
+        function dispatchCab(){
+            if(!currentDispatchOrderRefId){
+                $.UIkit.notify({
+                    message: '<span style="color: dodgerblue">Please select an order first!</span><br>',
+                    status: 'danger',
+                    timeout: 3000,
+                    pos: 'top-center'
+                });
+                return false;
+            }
+            $.post('dispatcher/dispatchVehicle', {refId: currentDispatchOrderRefId}, function (response) {
+                $.UIkit.notify({
+                    message: '<span style="color: dodgerblue">' + response.status + '</span><br>' + response.message,
+                    status: (response.status == 'success' ? 'success' : 'danger'),
+                    timeout: 3000,
+                    pos: 'top-center'
+                });
+            });
+            currentDispatchOrderRefId = null;
+//            location.reload(true);
+        }
+    </script>
 </head>
 
 <body style="margin: 0;padding: 0;">
@@ -165,7 +191,7 @@
                 <i class="fa fa-list" style="color: #FF9900"></i></a></li>
         </ul>
         -->
-        <ul class="nav navbar-nav" >
+        <ul class="nav navbar-nav">
 
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
@@ -218,22 +244,26 @@
                     <button class="btn btn-sm btn-success navbar-btn">Cab Attendance</button>
                 </form>
             </li>
-            <li class="dropdown" >
+            <li class="dropdown">
                 <form action="#" style="margin: 0px;padding-right: 5px;" class="dropdown-toggle" data-toggle="dropdown">
-                    <a class="btn btn-sm btn btn-warning navbar-btn" >Reports</a>
+                    <a class="btn btn-sm btn btn-warning navbar-btn">Reports</a>
                 </form>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="#">Calling sheet</a></li>
                     <li class="divider"></li>
-                    <li><a href="#">Income <report></report></a></li>
+                    <li><a href="#">Income
+                            <report></report>
+                        </a></li>
                 </ul>
             </li>
         </ul>
 
-        <ul class="nav navbar-nav navbar-right" >
+        <ul class="nav navbar-nav navbar-right">
 
-        <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span style="color: #f9fdff;cursor: pointer;">Dispatcher </span><i class="fa fa-angle-double-down fa-lg"></i></a>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                        style="color: #f9fdff;cursor: pointer;">Dispatcher </span><i
+                        class="fa fa-angle-double-down fa-lg"></i></a>
                 <ul class="dropdown-menu" role="menu">
                     <li>
                         <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
@@ -247,33 +277,6 @@
         </ul>
     </div>
 </nav>
-
-
-
-<div>
-    <form id="locationSearch" class="navbar-form" role="search"
-          onsubmit="return false;">
-        <div class="form-group has-feedback">
-            <input autofocus="true" id="locationSearchbox" type="text" placeholder="Search For location"
-                   class="form-control typeahead">
-            <span id="searchicon" class="fa fa-search form-control-feedback"></span>
-        </div>
-        <input style="visibility: hidden; position: fixed;" type="submit"/>
-    </form>
-
-    <form id="mapSearch" class="navbar-form" role="search"
-          onsubmit="focusOnSpatialObject($(this).find('#searchbox').val());return false;">
-        <div class="form-group has-feedback">
-            <input autofocus="true" id="searchbox" type="text" placeholder="Search for cab"
-                   class="form-control typeahead">
-            <span id="searchicon" class="fa fa-search form-control-feedback"></span>
-        </div>
-        <input style="visibility: hidden; position: fixed;" type="submit"/>
-    </form>
-</div>
-
-
-
 
 
 <div id="objectInfo" style="background: darkgray;display: none;border-radius: 13px;height: 94%;padding: 0"
@@ -328,12 +331,14 @@
                 <ul class="uk-nav-sub">
                     <!-- Set speed limit -->
                     <li>
-                        <a style="margin-left: 20%;" data-toggle="modal" href="controllers/modals/speed_alert.jag" data-target="#commonModal"><i
+                        <a style="margin-left: 20%;" data-toggle="modal" href="controllers/modals/speed_alert.jag"
+                           data-target="#commonModal"><i
                                 class="fa fa-tachometer"></i> Speed alert</a>
                     </li>
                     <li><a style="margin-left: 20%;" data-toggle="modal" href="controllers/modals/proximity_alert.jag"
                            data-target="#commonModal"><i class="fa fa-link"></i> Proximity alert</a></li>
-                    <li><a style="margin-left: 20%;color: grey;cursor: not-allowed;"><i class="fa fa-chain-broken"></i> Stationary alert</a></li>
+                    <li><a style="margin-left: 20%;color: grey;cursor: not-allowed;"><i class="fa fa-chain-broken"></i>
+                            Stationary alert</a></li>
                 </ul>
             </li>
 
@@ -344,8 +349,10 @@
                 <ul class="uk-nav-sub">
                     <li><a style="margin-left: 20%;" data-toggle="modal" href="controllers/modals/within_alert.jag"
                            data-target="#commonModal"><i class="fa fa-square-o"></i> Within</a></li>
-                    <li><a style="margin-left: 20%;color: grey;cursor: not-allowed;"><i class="fa fa-external-link-square"></i> Approaching</a></li>
-                    <li><a style="margin-left: 20%;color: grey;cursor: not-allowed;"><i class="fa fa-minus"></i> Cross</a></li>
+                    <li><a style="margin-left: 20%;color: grey;cursor: not-allowed;"><i
+                                class="fa fa-external-link-square"></i> Approaching</a></li>
+                    <li><a style="margin-left: 20%;color: grey;cursor: not-allowed;"><i class="fa fa-minus"></i>
+                            Cross</a></li>
                 </ul>
             </li>
 
@@ -378,27 +385,51 @@
 </div>
 
 
+<div id="leftSidePane">
+    <div class="panel panel-info boxElement" style="position: relative;width: 40%;margin-bottom: 0px
+">
+        <div class="panel-heading">
+            <h3 class="panel-title">Search</h3>
+        </div>
+        <div class="panel-body">
+            <form id="locationSearch" class="navbar-form" role="search"
+                  onsubmit="return false;">
+                <div class="form-group has-feedback">
+                    <div class="input-group">
+                        <span class="input-group-btn"><button class="btn btn-default" type="button">Search by
+                                Location
+                            </button></span>
+                        <input autofocus="true" id="locationSearchbox" type="text"
+                               placeholder="Search For location"
+                               class="form-control typeahead">
+                        <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+                    </div>
+                </div>
+                <input style="visibility: hidden; position: fixed;" type="submit"/>
+            </form>
 
+            <form id="mapSearch" class="navbar-form" role="search"
+                  onsubmit="focusOnSpatialObject($(this).find('#searchbox').val());return false;">
+                <div class="form-group has-feedback">
+                    <div class="input-group">
+                        <span class="input-group-btn"><button class="btn btn-default" type="button">Search by CabId
+                            </button></span><input autofocus="true" id="searchbox"
+                                                   type="text"
+                                                   placeholder="Search for cab"
+                                                   class="form-control typeahead">
+                        <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+                    </div>
+                </div>
+                <input style="visibility: hidden; position: fixed;" type="submit"/>
+            </form>
+        </div>
+    </div>
 
-
-<div style="position: relative;width: 40%;max-height: 90%;top: 5%;"  id="newOrdersPane">
+    <div style="position: relative;width: 40%;max-height: 90%;" id="newOrdersPane">
+        <?= $new_orders_pane ?>
+    </div>
 
 </div>
-<script>
-    $("#newOrdersPane").load('testing/new_orders'); //TODO: move this script to necessary location
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <div id="loading">
@@ -420,7 +451,7 @@
             <div class="modal-body">
                 <ul class="nav nav-tabs" id="aboutTabs">
                     <li class="active"><a href="#about" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About
-                        the project</a></li>
+                            the project</a></li>
                     <li><a href="#contact" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Contact us</a></li>
                     <li><a href="#disclaimer" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a>
                     </li>
@@ -453,7 +484,7 @@
                                 <li class="list-group-item">jQuery loading of external GeoJSON files</li>
                                 <li class="list-group-item">Logical multiple layer marker clustering via the <a
                                         href="https://github.com/Leaflet/Leaflet.markercluster" target="_blank">leaflet
-                                    marker cluster plugin</a></li>
+                                        marker cluster plugin</a></li>
                                 <li class="list-group-item">Elegant client-side multi-layer feature search with
                                     autocomplete using <a href="http://twitter.github.io/typeahead.js/" target="_blank">typeahead.js</a>
                                 </li>
@@ -461,7 +492,7 @@
                                     via <a href="http://listjs.com/" target="_blank">list.js</a></li>
                                 <li class="list-group-item">Marker icons included in grouped layer control via the <a
                                         href="https://github.com/ismyrnow/Leaflet.groupedlayercontrol" target="_blank">grouped
-                                    layer control plugin</a></li>
+                                        layer control plugin</a></li>
                             </ul>
                         </div>
                     </div>
@@ -519,7 +550,7 @@
                     <div class="tab-pane fade" id="theaters-tab">
                         <p>Theater data courtesy of <a
                                 href="https://data.cityofnewyork.us/Recreation/Theaters/kdu2-865w" target="_blank">NYC
-                            Department of Information & Telecommunications (DoITT)</a></p>
+                                Department of Information & Telecommunications (DoITT)</a></p>
                     </div>
                     <div class="tab-pane fade" id="museums-tab">
                         <p>Museum data courtesy of <a
@@ -578,14 +609,14 @@
                             <p><code class="javascript">{s}</code> means one of the available subdomains (used
                                 sequentially to help with browser parallel requests per domain limitation; subdomain
                                 values are specified in options; <code class="javascript">a</code>, <code
-                                        class="javascript">b</code> or <code class="javascript">c</code> by default, can
+                                    class="javascript">b</code> or <code class="javascript">c</code> by default, can
                                 be omitted), <code class="javascript">{z}</code> — zoom level, <code class="javascript">{x}</code>
                                 and <code class="javascript">{y}</code> — tile coordinates.</p>
 
                             <p>You can use custom keys in the template, which will be <a
                                     href="#util-template">evaluated</a> from TileLayer options, like this:</p>
                             <pre><code class="javascript">L.tileLayer(<span class="string">'http://{s}.somedomain.com/{foo}/{z}/{x}/{y}.png'</span>,
-                                {foo: <span class="string">'bar'</span>});</code></pre>
+                                    {foo: <span class="string">'bar'</span>});</code></pre>
 
                         </div>
                     </div>
@@ -832,7 +863,7 @@
             <p id="information" class="bg-primary" style="margin: 0px;padding: 0px;"></p>
             <h6>Speed<span class="label label-primary pull-right"><span id="speed"></span> km/h</span></h6>
             <h6>Heading<span id="heading" class="label label-primary pull-right"></span></h6>
-            <button type="button" class="btn btn-info btn-xs">History</button>
+            <button type="button" onclick="dispatchCab()" class="btn btn-info btn-xs">Dispatch</button>
         </div>
     </div>
 

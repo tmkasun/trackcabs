@@ -47,7 +47,7 @@
         <div id="form_time" class="input-group date" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
             <input id="bTime" class="form-control" size="16" type="text" value="" readonly>
             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-            <span class="input-group-addon"><span class="glyphicon glyphicon-time" onclick="work()"></span></span>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-time" onclick="showCalender()"></span></span>
         </div>
         <input type="hidden" id="dtp_input3" value="" /><br/>
     </div>
@@ -57,7 +57,7 @@
         <div id="form_date" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
             <input id="bDate" class="form-control" size="16" type="text" value="" readonly>
             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="work()"></span></span>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="showCalender()"></span></span>
         </div>
         <input type="hidden" id="dtp_input2" value="" /><br/>
     </div>

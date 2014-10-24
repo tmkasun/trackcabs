@@ -45,6 +45,7 @@ class Customer_retriever extends CI_Controller
     }
 
     public function addBooking(){
+
         $statusMsg = 'success';
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
@@ -55,12 +56,12 @@ class Customer_retriever extends CI_Controller
         /* set the timezone for the call time */
         $callDT = new DateTime(date('Y-m-d'). ''.date('H:i:s'), new DateTimeZone('UTC'));
         $callTS = $callDT->getTimestamp();
-        $input_data["data"]["callTime"]=new MongoDate($callTS);
+        $input_data["data"]["callTime"]=new MongoDate();
 
         /* set the timezone for the call time */
         $bookDT = new DateTime(date($input_data["data"]["bDate"]). ''.date($input_data["data"]['bTime']), new DateTimeZone('UTC'));
         $bookTS = $bookDT->getTimestamp();
-        $input_data["data"]["bookTime"]=new MongoDate($bookTS);
+        $input_data["data"]["bookTime"]=new MongoDate(strtotime($input_data['data']['bDate']." ".$input_data["data"]['bTime']));
 
         /* Unset the values of bDate and bTime */
         unset($input_data['data']['bTime']);

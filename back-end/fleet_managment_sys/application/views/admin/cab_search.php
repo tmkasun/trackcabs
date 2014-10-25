@@ -8,7 +8,7 @@
 
     <div class="btn-group btn-group-justified">
         <div class="btn-group">
-            <button type="button" class="btn btn-success" onclick="makeCabFormEditable(<?php echo $cabId;?>)">Edit</button>
+            <button type="button" class="btn btn-success" onclick="makeCabFormEditable(<?php echo $cabId;?>,url)">Edit</button>
         </div>
     </div>
 

@@ -9,9 +9,20 @@ class Cab_retriever extends CI_Controller
     }
 
     function getNewCabView(){
-        $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('admin/new_cab_view', $table_data, TRUE);
+
+        $data['new_cab_view'] = $this->load->view('admin/new_cab_view', 'data', TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+
+    }
+
+    function getAllCabsView(){
+
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+
+        $data = $this->cab_dao->getCabsByPage($input_data['limit'],$input_data['skip']);
+        $data['table_content'] = $this->load->view('admin/all_cabs_view', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+
     }
 
     function getCabSearchView(){
@@ -24,6 +35,7 @@ class Cab_retriever extends CI_Controller
     }
 
     function getCabNavBar(){
+
         $table_data['x'] = 1;
         $data['table_content'] = $this->load->view('admin/cab_navbar', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
@@ -35,18 +47,13 @@ class Cab_retriever extends CI_Controller
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
-    function getAllCabsView(){
-        $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $data = $this->cab_dao->getCabsByPage($input_data['limit'],$input_data['skip']);
-        $data['table_content'] = $this->load->view('admin/all_cabs_view', $data, TRUE);
-        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
-    }
+
 
     function getCabEditView(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $data = $this->cab_dao->getCab($input_data['cabId']);
-        $data['table_content'] = $this->load->view('admin/edit_cabs', $data, TRUE);
+        $data['cab_edit_view'] = $this->load->view('admin/edit_cabs', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 

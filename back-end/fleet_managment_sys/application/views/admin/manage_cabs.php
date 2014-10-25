@@ -10,12 +10,14 @@
     <!-------------------------------- JS Files------------------------------------>
     <script type="text/javascript" src="<?= base_url();?>assets/js/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap.js"></script>
+    <script type="text/javascript" src="<?= base_url();?>assets/js/admin_cab_operations.js"></script>
 
     <script>
 
         var docs_per_page= 100 ;
         var page = 1 ;
         var obj = null;
+        var url = '<?php echo site_url(); ?>';
 
     </script>
 </head>
@@ -29,7 +31,7 @@
         </div>
 
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#" onclick="getAllCabs()">Cabs</a></li>
+            <li class="active"><a href="#" onclick="getAllCabs(docs_per_page , page , url)">Cabs</a></li>
             <li><a href="#" onclick="getDriversView()">Drivers</a></li>
         </ul>
 
@@ -39,7 +41,7 @@
                 <div class="form-group">
                     <input class="form-control" placeholder="Cab ID" type="text" id="cabIdSearch">
                 </div>
-                <button type="submit" class="btn btn-default" onclick="getCabView()">Submit</button>
+                <button type="submit" class="btn btn-default" onclick="getCabView(url)">Submit</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Link</a></li>
@@ -68,13 +70,12 @@
                 </div>
                 <div class="panel-body" id="customerInformation">
 
-
                 <div class="col-lg-2" id="operation" style="margin-top: 10px">
                     <h5><a href="#" onclick="getNewCabView()">New Cab</a></h5></br>
-                    <h5><a href="#" onclick="getAllCabs()">View All Cabs</a></h5>
+                    <h5><a href="#" onclick="getAllCabs(docs_per_page , page,url)">View All Cabs</a></h5>
                 </div>
 
-                <div class="col-lg-10" id="dataFiled" style="margin-top: 10px">
+                <div class="col-lg-10" id="dataFiled" style="margin-top: 10px; border-left: 1px solid #a6a6a6;">
                 </div>
 
 
@@ -116,41 +117,7 @@
 
     }
 
-    function makeCabFormEditable(){
-        var data = {};
-        var url = '<?php echo site_url("cab_retriever/getCabEditView") ?>';
-        var result = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.table_content;
 
-        var cabIdTextField = $('#cabId');
-        var plateTextField = $('#plateNo');
-        var modelTextField = $('#model');
-        var vTypeTextField = $('#vType');
-        var colorTextField = $('#color');
-        var infoTextField = $('#info');
-
-        cabIdTextField.val(cabIdTextField.val() +obj.cabId );
-        plateTextField.val(plateTextField.val() +obj.plateNo );
-        modelTextField.val(modelTextField.val() +obj.model );
-        vTypeTextField.val(vTypeTextField.val() +obj.vType );
-        colorTextField.val(colorTextField.val() +obj.color );
-        infoTextField.val(infoTextField.val() +obj.info );
-    }
-
-    function updateCab(){
-        var cabId = document.getElementById("cabId").value;
-        var model = document.getElementById("model").value;
-        var color = document.getElementById("color").value;
-        var plateNo = document.getElementById("plateNo").value;
-        var vType = document.getElementById("vType").value;
-        var info = document.getElementById("info").value;
-        /* Create a JSON object from the form values */
-        var cab = {'cabId': parseInt(cabId) , 'details' : {'model' : model , 'color' : color , 'plateNo' : plateNo , 'vType' : vType ,'info' : info }};
-        var url = '<?php echo site_url("cab_retriever/updateCab") ?>';
-        ajaxPost(cab,url);
-        getAllCabs();
-    }
 
 </script>
 
@@ -215,47 +182,7 @@
 
 
 <script>
-    function getCabView(){
 
-        var cabId = document.getElementById("cabIdSearch").value;
-        /* Create a JSON object from the form values */
-        var cab = { 'cabId' : parseInt(cabId) };
-        var url = '<?php echo site_url("cab_retriever/getCabSearchView") ?>';
-        var result = ajaxPost(cab,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.table_content;
-
-    }
-
-    function makeCabFormEditable(cabId){
-        var data = {'cabId' : parseInt(cabId) };
-        var url = '<?php echo site_url("cab_retriever/getCabEditView") ?>';
-        var result = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.table_content;
-    }
-
-    function updateCab(){
-        var cabId = document.getElementById("cabId").value;
-        var model = document.getElementById("model").value;
-        var color = document.getElementById("color").value;
-        var plateNo = document.getElementById("plateNo").value;
-        var vType = document.getElementById("vType").value;
-        var info = document.getElementById("info").value;
-
-        var status = validate(plateNo , model , vType , color , info);
-        /* Returns the function if validation fails */
-        if(status == false){return false;}
-
-        if(color == "")color = "null";
-        if(info == "")color = "null";
-
-        /* Create a JSON object from the form values */
-        var cab = {'cabId': parseInt(cabId) , 'details' : {'model' : model , 'color' : color , 'plateNo' : plateNo , 'vType' : vType ,'info' : info }};
-        var url = '<?php echo site_url("cab_retriever/updateCab") ?>';
-        ajaxPost(cab,url);
-        getAllCabs();
-    }
 
 </script>
 
@@ -278,55 +205,6 @@
     }
 </script>
 
-
-<script>
-
-    function getNewCabView(){
-        var data = {};
-        var url = '<?php echo site_url("cab_retriever/getNewCabView") ?>';
-        var result = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.table_content;
-    }
-
-    function createNewCab(){
-        var model = document.getElementById("model").value;
-        var color = document.getElementById("color").value;
-        var plateNo = document.getElementById("plateNo").value;
-        var vType = document.getElementById("vType").value;
-        var info = document.getElementById("info").value;
-
-        var status = validate(plateNo , model , vType , color , info);
-        /* Returns the function if validation fails */
-        if(status == false){return false;}
-        /* */
-        if(color == "")color = "null";
-        if(info == "")color = "null";
-
-        /* Create a JSON object from the form values */
-        var cab = {'model' : model , 'color' : color , 'plateNo' : plateNo , 'vType' : vType ,'info' : info };
-
-        var url = '<?php echo site_url("cab_retriever/createCab") ?>';
-        ajaxPost(cab,url);
-        getAllCabs();
-    }
-</script>
-
-<script>
-    /* Gets all available cabs and show in the 'dataFiled' div tag */
-    function getAllCabs(){
-        var skip = docs_per_page * (page-1);
-        var data = {"skip" : skip , "limit" : docs_per_page};
-        var url = '<?php echo site_url("cab_retriever/getAllCabsView") ?>';
-        var view = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = "";
-        div.innerHTML = view.view.table_content;
-
-    }
-
-
-</script>
 
 <script>
     function ajaxPost(data,urlLoc)    {

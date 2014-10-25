@@ -1,6 +1,6 @@
 *.idea
 testing/
-
+wso2cep-4.0.0/
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 
 /*.iml

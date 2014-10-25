@@ -25,6 +25,21 @@ class Authenticate extends CI_Controller {
 
 	}
 
+    function driver(){
+        $this -> load -> library('form_validation');
+        // TODO: get last loging of the driver and allow login
+        $this -> form_validation -> set_rules('username', 'Username', 'trim|required|xss_clean');
+        $this -> form_validation -> set_rules('password', 'Password', 'trim|required|xss_clean|callback_check_database');
+
+        if ($this -> form_validation -> run() == FALSE) {
+            //Field validation failed.  User redirected to login page
+            $this -> load -> view('login/index');
+        } else {
+            //Go to private area
+            redirect('dispatcher', 'refresh');
+        }
+    }
+
 	function check_database($password) {
         return TRUE; // TODO: remove this line when user db is ready
 		//Field validation succeeded.  Validate against database

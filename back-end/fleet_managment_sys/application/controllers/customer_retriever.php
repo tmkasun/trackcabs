@@ -108,6 +108,11 @@ class Customer_retriever extends CI_Controller
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
+        $input_data["data"]["bookTime"]=new MongoDate(strtotime($input_data['data']['bDate']." ".$input_data["data"]['bTime']));
+        /* Unset the values of bDate and bTime */
+        unset($input_data['data']['bTime']);
+        unset($input_data['data']['bDate']);
+
         $this->live_dao->updateBooking($input_data["objId"] , $input_data["data"]);
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
 

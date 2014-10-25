@@ -108,8 +108,8 @@ function updateBooking(url , objId){
     var town        = $('#town').val();
     var landMark    = $('#landMark').val();
     var remark      = $('#remark').val();
-    //var bDate      = $('#bDate').val();
-    //var bTIme      = $('#bTime').val();
+    var bDate      = $('#bDate').val();
+    var bTIme      = $('#bTime').val();
     var vType="";
 
     if(document.getElementById('carRadio').checked) {
@@ -133,7 +133,9 @@ function updateBooking(url , objId){
 
     var address = {'no':no , 'road' : road ,'city' : city , 'town' : town , 'landmark' : landMark}
     var data = { 'objId' : objId , 'data' : {'address' : address , 'vType' : vType , 'payType' : payType ,
-        'bDate' : 1, 'bTime' : 2 ,'remark' : remark }};
+        'bDate' : bDate, 'bTime' : bTIme ,'remark' : remark }};
+
+    alert('sent data : ' + JSON.stringify(data));
 
     var result = ajaxPost(data,url);
 

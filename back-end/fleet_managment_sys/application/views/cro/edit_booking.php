@@ -1,7 +1,7 @@
 <div class="col-lg-5">
     <form role="form" id="editBooking">
         <div class="form-group">
-            <input type="text" class="form-control" id="no" value="<?= $refId?>" readonly >
+            <input type="text" class="form-control" id="refId" value="<?= $refId?>" readonly >
         </div>
         <div class="form-group">
             <input type="text" class="form-control" id="no" value="<?= $address['no']?>" >

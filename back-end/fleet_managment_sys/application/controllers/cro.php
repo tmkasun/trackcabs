@@ -11,7 +11,16 @@ class Cro extends CI_Controller
 
         $bookingData = $this->live_dao->getBookingByMongoId("544b115cd905802a1d8b4567");
         $result = $bookingData['status'];
-        var_dump($result);
+        //var_dump($result);
+        if ($result == ("MSG_COPIED") || $result == ("MSG_NOT_COPIED") || $result == ("AT_THE_PLACE") || $result == ("POB") || $result == ("POB")) {
+
+            //$this->customer_dao->addCanceledDispatch($input_data["tp"]);
+            //$this->customer_dao->addCanceledTotal($input_data["tp"]);
+            $this->live_dao->updateStatus("544b115cd905802a1d8b4567",  "cancelDis");
+
+        } else if ($result == ("start")) {
+            $this->live_dao->updateStatus("544b115cd905802a1d8b4567",  "CANCEL");
+        }
 
         $searchQuery= array('_id' => new MongoId('544b0552d90580271b8b4567'));
         $result=$collection->findOne($searchQuery);
@@ -24,11 +33,7 @@ class Cro extends CI_Controller
         foreach($result as $key => $value){
             if($key == 'history'){
                 foreach($value as $newKey){
-                    //var_dump($newKey);
-                    echo 'printing the live data';
-                    echo $newKey['_id'];
                     $data = $this->live_dao->getBookingByMongoId($newKey['_id']);
-                    //var_dump($data);
                     $bookingData['booking'][] = $data;
                 }
             }

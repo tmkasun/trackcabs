@@ -1,4 +1,16 @@
-function editBooking(url , tp , refId){
+function getEditBookingView(url , objId){
+
+    var data = {'objId' : objId};
+    alert(JSON.stringify(data));
+    url = url +"/cro_controller/getEditBookingView";
+    var view = ajaxPost(data,url);
+
+    alert(JSON.stringify(view));
+
+    /*  Populate the New Booking field with the editing form */
+    var editBookingDiv = document.getElementById('newBooking');
+    editBookingDiv.innerHTML = "";
+    editBookingDiv.innerHTML = view.view.edit_booking_view;
 
 }
 
@@ -14,10 +26,10 @@ function getCancelConfirmationView( url , tp , id ){
 
 }
 
-function confirmCancel(url , id){
-
+function confirmCancel(url , tp , id ){
+    var siteUrl = url;
     var cancelReason="";
-    url = url +"/customer_retriever/canceled";
+    url = siteUrl +"/customer_retriever/canceled";
 
     if(document.getElementById('cancel1Radio').checked) {
         cancelReason = 1;
@@ -32,10 +44,12 @@ function confirmCancel(url , id){
         cancelReason = 4;
     }
 
-    var data = {'_id' : id , 'cancelReason' : cancelReason };
+    var data = {'_id' : id , 'cancelReason' : cancelReason, 'tp' : tp};
 
     alert(JSON.stringify(data));
-    var result = ajaxPost(data,url);
+
+    ajaxPost(data,url);
+    getCustomerInfoView(siteUrl , tp);
 }
 
 
@@ -74,7 +88,7 @@ function createBooking(url , tp){
 
     var address = {'no':no , 'road' : road ,'city' : city , 'town' : town , 'landmark' : landMark}
     var data = {'tp' : tp , 'data' : {'address' : address , 'vType' : vType , 'payType' : payType ,
-                'bDate' : bDate, 'bTime' : bTIme , 'status' : 'start' , 'cabId' : '-', 'driverId' : '-',
+                'bDate' : bDate, 'bTime' : bTIme , 'status' : 'START' , 'cabId' : '-', 'driverId' : '-',
                 'remark' : remark , 'inqCall' : 0}};
 
     var result = ajaxPost(data,url);
@@ -82,6 +96,51 @@ function createBooking(url , tp){
     getCustomerInfoView(baseUrl , tp);
 }
 
+
+function updateBooking(url , objId){
+
+    var baseUrl = url;
+    url = baseUrl + "/customer_retriever/updateBooking";
+
+    var no          = $('#no').val();
+    var road        = $('#road').val();
+    var city        = $('#city').val();
+    var town        = $('#town').val();
+    var landMark    = $('#landMark').val();
+    var remark      = $('#remark').val();
+    var bDate      = $('#bDate').val();
+    var bTIme      = $('#bTime').val();
+    var vType="";
+
+    if(document.getElementById('carRadio').checked) {
+        vType = 'car';
+    }
+    if(document.getElementById('vanRadio').checked) {
+        vType = 'van';
+    }
+    if(document.getElementById('vanRadio').checked) {
+        vType = 'nano';
+    }
+
+    var payType="";
+
+    if(document.getElementById('cashRadio').checked) {
+        payType = 'cash';
+    }
+    if(document.getElementById('creditRadio').checked) {
+        payType = 'credit';
+    }
+
+    var address = {'no':no , 'road' : road ,'city' : city , 'town' : town , 'landmark' : landMark}
+    var data = { 'objId' : objId , 'data' : {'address' : address , 'vType' : vType , 'payType' : payType ,
+        'bDate' : bDate, 'bTime' : bTIme ,'remark' : remark }};
+
+    alert('sent data : ' + JSON.stringify(data));
+
+    var result = ajaxPost(data,url);
+
+    getCustomerInfoView(baseUrl , tp);
+}
 
 function editCustomerInfoEditView( url , tp ){
     url = url + "/cro_controller/loadCustomerInfoEditView";

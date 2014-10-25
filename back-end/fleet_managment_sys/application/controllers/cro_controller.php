@@ -41,6 +41,16 @@ class Cro_controller extends CI_Controller
 
     }
 
+    function getEditBookingView(){
+
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $result = $this->live_dao->getBookingByMongoId($input_data['objId']);
+
+
+        $data['edit_booking_view'] = $this->load->view('cro/edit_booking', $result , TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+    }
+
     function getCancelConfirmationView(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
@@ -64,13 +74,18 @@ class Cro_controller extends CI_Controller
             $this->output->set_output(json_encode(array("statusMsg" => "fail","view" => $data)));
         }else{
 
-//          TODO HAVE TO GET THE BOOKINGS FROM LIVE COLLECTION AND HISTORY COLLECTION
             $bookingData=array('booking' => array());
             foreach($result as $key => $value){
                 if($key == 'history'){
                     foreach($value as $newKey){
                         $data = $this->live_dao->getBookingByMongoId($newKey['_id']);
-                        $bookingData['booking'][] = $data;
+                        if($data != null){
+                            $bookingData['booking'][] = $data;
+                        }
+                        $data = $this->history_dao->getBookingByMongoId($newKey['_id']);
+                        if($data != null){
+                            $bookingData['booking'][] = $data;
+                        }
                     }
                 }
             }
@@ -79,6 +94,7 @@ class Cro_controller extends CI_Controller
             $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);
             $data['new_booking_view'] = $this->load->view('cro/new_booking', $result , TRUE);
             $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+            //Test
         }
     }
 

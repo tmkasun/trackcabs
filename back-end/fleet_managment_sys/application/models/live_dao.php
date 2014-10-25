@@ -49,23 +49,23 @@ class Live_dao extends CI_Model
 
 
     /**
-     * @param $id = mongo object id
+     * @param $objId = mongoId String
      * @return php array of booking
      */
-    function getBookingByMongoId($id){
+    function getBookingByMongoId($objId){
         $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
-        $searchQuery= array('_id' => new MongoId($id));
+        $searchQuery= array('_id' => new MongoId($objId));
 
         return $collection->findOne($searchQuery);
     }
 
-    function updateBooking($refId , $data){
+    function updateBooking($objId , $data){
         $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
-        $searchQuery= array('refId' => $refId);
+        $searchQuery= array('_id' => new MongoId($objId));
         $record = $collection->findOne($searchQuery);
 
         foreach ($data as $key => $value){
@@ -84,11 +84,11 @@ class Live_dao extends CI_Model
         $collection->update($searchQuery ,array('$set' => array('status' => $status)));
     }
 
-    function deleteBooking($refId){
+    function deleteBookingByMongoId($objId){
         $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
-        $searchQuery= array('refId' => (int)$refId);
+        $searchQuery= array('_id' => new MongoId($objId));
         $collection->remove( $searchQuery);
     }
 

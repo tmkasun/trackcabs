@@ -47,6 +47,15 @@ class Live_dao extends CI_Model
         return $collection->findOne($searchQuery);
     }
 
+    function getBookingByMongoId(){
+        $dbName = $this->db->selectDB('track');
+        $collection = $dbName->selectCollection('live');
+
+        $searchQuery= array('refId' => (int)$refId);
+
+        return $collection->findOne($searchQuery);
+    }
+
     function updateBooking($refId , $data){
         $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');

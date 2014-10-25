@@ -131,7 +131,7 @@
 
 
     <script>
-        function operations(request,param1){
+        function operations(request, param1){
             var url = '<?= site_url(); ?>';
             if(request=="editCus"){
                 editCustomerInfoEditView( url , param1 );
@@ -151,8 +151,17 @@
                 createBooking(url , tp)
             }
             if(request == 'cancel'){
-                alert('cancel booking ' + tp);
-                createBooking(url , tp)
+                getCancelConfirmationView(url , tp , param1)
+            }
+            if(request == 'confirmCancel'){
+                getCustomerInfoView(url , tp , param1)
+            }
+            if(request == 'denyCancel'){
+                //param2 = refId
+                confirmCancel(url , tp , param1)
+            }
+            if(request == 'editBooking'){
+                editBooking(url,tp,param1)
             }
         }
     </script>

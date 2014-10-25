@@ -23,7 +23,7 @@
 
         <div class="btn-group btn-group-justified">
             <div class="btn-group">
-                <button type="button" class="btn btn-success" onclick="operations()">Edit Booking</button>
+                <button type="button" class="btn btn-success" onclick="operations('editBooking', '<?= $history[sizeof($history)-1]['refId'];?>')">Edit Booking</button>
             </div>
         </div>
 
@@ -41,7 +41,7 @@
 
         <div class="btn-group btn-group-justified">
             <div class="btn-group">
-                <button type="button" class="btn btn-danger" onclick="operations('cancel',<?php echo $history[sizeof($history)-1]['refId']?>)">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="operations('cancel' , '<?php echo $history[sizeof($history)-1]['refId']?>' )">Cancel</button>
             </div>
         </div>
     </div>

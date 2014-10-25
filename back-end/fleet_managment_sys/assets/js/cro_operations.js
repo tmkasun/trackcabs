@@ -1,3 +1,44 @@
+function editBooking(url , tp , refId){
+
+}
+
+function getCancelConfirmationView( url , tp , id ){
+
+    var data = {'_id' : id };
+    url = url +"/cro_controller/getCancelConfirmationView";
+    var view = ajaxPost(data,url);
+    /*  Populate the job information view */
+    var jobInfoDiv = document.getElementById('jobInfo');
+    jobInfoDiv.innerHTML = "";
+    jobInfoDiv.innerHTML = view.view.cancel_confirmation_view;
+
+}
+
+function confirmCancel(url , id){
+
+    var cancelReason="";
+    url = url +"/customer_retriever/canceled";
+
+    if(document.getElementById('cancel1Radio').checked) {
+        cancelReason = 1;
+    }
+    if(document.getElementById('cancel2Radio').checked) {
+        cancelReason = 2;
+    }
+    if(document.getElementById('cancel3Radio').checked) {
+        cancelReason = 3;
+    }
+    if(document.getElementById('cancel4Radio').checked) {
+        cancelReason = 4;
+    }
+
+    var data = {'_id' : id , 'cancelReason' : cancelReason };
+
+    alert(JSON.stringify(data));
+    var result = ajaxPost(data,url);
+}
+
+
 function createBooking(url , tp){
     var baseUrl = url;
     url = baseUrl + "/customer_retriever/addBooking";
@@ -35,7 +76,6 @@ function createBooking(url , tp){
     var data = {'tp' : tp , 'data' : {'address' : address , 'vType' : vType , 'payType' : payType ,
                 'bDate' : bDate, 'bTime' : bTIme , 'status' : 'start' , 'cabId' : '-', 'driverId' : '-',
                 'remark' : remark , 'inqCall' : 0}};
-    alert(JSON.stringify(data));
 
     var result = ajaxPost(data,url);
 
@@ -166,3 +206,40 @@ function ajaxPost(data,urlLoc)    {
     });
     return result;
 }
+
+
+function showCalender(){
+    $('#form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+
+    $('#form_date').datetimepicker({
+    //language:  'fr',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0
+    });
+    $('#form_time').datetimepicker({
+    //language:  'fr',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 0,
+    maxView: 1,
+    forceParse: 0
+    });
+    }
+

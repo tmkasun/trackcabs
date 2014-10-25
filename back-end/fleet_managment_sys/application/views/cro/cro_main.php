@@ -131,7 +131,7 @@
 
 
     <script>
-        function operations(request,param1){
+        function operations(request, param1){
             var url = '<?= site_url(); ?>';
             if(request=="editCus"){
                 editCustomerInfoEditView( url , param1 );
@@ -148,48 +148,27 @@
                 createCusInfo( url );
             }
             if(request == 'createBooking'){
-                alert('create Booking ' + tp);
                 createBooking(url , tp)
+            }
+            if(request == 'cancel'){
+                getCancelConfirmationView(url , tp , param1)
+            }
+            if(request == 'confirmCancel'){
+                alert('came to confirm cancel');
+                alert('param '+ param1);
+                confirmCancel(url , param1)
+            }
+            if(request == 'denyCancel'){
+                //param2 = refId
+                getCustomerInfoView(url, tp)
+            }
+            if(request == 'editBooking'){
+                editBooking(url,tp,param1)
             }
         }
     </script>
 
-    <script>
-        function work(){
-            $('#form_datetime').datetimepicker({
-                //language:  'fr',
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                forceParse: 0,
-                showMeridian: 1
-            });
 
-            $('#form_date').datetimepicker({
-                //language:  'fr',
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0
-            });
-            $('#form_time').datetimepicker({
-                //language:  'fr',
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 1,
-                minView: 0,
-                maxView: 1,
-                forceParse: 0
-            });
-        }
-    </script>
 
 
 

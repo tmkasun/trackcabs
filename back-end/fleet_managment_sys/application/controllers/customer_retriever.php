@@ -27,7 +27,7 @@ class Customer_retriever extends CI_Controller
         $this->output->set_output(json_encode(array("statusMsg" => "success", "data" => $result)));
 
     }
-
+//  TODO CHANGE GET THE ORDER FROM BOOKING OBJECT AND APPEND TO THE CUSTOMER OBJECT
     public function getCustomer(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
@@ -45,6 +45,7 @@ class Customer_retriever extends CI_Controller
     }
 
     public function addBooking(){
+        // TODO CHECK FOR REDUNDANCY AND CHANGE STATUS MESSAGE
         $statusMsg = 'success';
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
@@ -52,34 +53,23 @@ class Customer_retriever extends CI_Controller
 
         $input_data["data"]["refId"]=$this->ref_dao->getRefId();
         $input_data['data']['croId']=$user['uName'];
-        /* set the timezone for the call time */
-        $callDT = new DateTime(date('Y-m-d'). ''.date('H:i:s'), new DateTimeZone('UTC'));
-        $callTS = $callDT->getTimestamp();
-        $input_data["data"]["callTime"]=new MongoDate($callTS);
 
-        /* set the timezone for the call time */
-        $bookDT = new DateTime(date($input_data["data"]["bDate"]). ''.date($input_data["data"]['bTime']), new DateTimeZone('UTC'));
-        $bookTS = $bookDT->getTimestamp();
-        $input_data["data"]["bookTime"]=new MongoDate($bookTS);
+        /* Set the date and time to UTC */
+        $input_data["data"]["callTime"]=new MongoDate();
+        $input_data["data"]["bookTime"]=new MongoDate(strtotime($input_data['data']['bDate']." ".$input_data["data"]['bTime']));
 
         /* Unset the values of bDate and bTime */
         unset($input_data['data']['bTime']);
         unset($input_data['data']['bDate']);
 
+
+        $input_data["data"]["tp"] = $input_data["tp"];
+        $this->live_dao->createBooking($input_data["data"]);
+
+        $bookingCreated = $this->live_dao->getBooking($input_data['data']['refId']);
+        $bookingObjId = array('_id' => $bookingCreated['_id'] );
         /* Add the booking array to the customer collection */
-        $result = $this->customer_dao->addBooking($input_data["tp"],$input_data["data"]);
-
-        /* If customer collection insertion successful insert to live collection */
-        if($result) {
-            $input_data["data"]["tp"] = $input_data["tp"];
-            $this->live_dao->createBooking($input_data["data"]);
-
-            $this->load->library('sms');
-            $sms = new Sms("Testing message");
-            $msg= 'Your order has been confirmed.'.' order id is'.$input_data["data"]["refId"].' Thank you for using Hao Cabs';
-            $sms->send( $input_data['tp'] , $msg );
-        }
-        else $statusMsg = 'fail';
+        $this->customer_dao->addBooking($input_data["tp"], $bookingObjId);
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
 
@@ -88,28 +78,33 @@ class Customer_retriever extends CI_Controller
     public function canceled(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $result = $this->customer_dao->getStatus($input_data["tp"] , $input_data["refId"]);
+        //$result = $this->customer_dao->getStatus($input_data["tp"] , $input_data["refId"]);
 
-        if($result == ("onDaWay") || $result ==("msgCopied") || $result ==("atDaPlace") || $result ==("pob")) {
+        $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
+        $result = $bookingData['status'];
 
-            $this->customer_dao->addCanceledDispatch($input_data["tp"]);
+        if($result != null) {
+            if ($result == ("MSG_COPIED") || $result == ("MSG_NOT_COPIED") || $result == ("AT_THE_PLACE") || $result == ("POB") || $result == ("POB")) {
+
+                $this->customer_dao->addCanceledDispatch($input_data["tp"]);
+                $this->customer_dao->addCanceledTotal($input_data["tp"]);
+                $this->live_dao->updateStatus($input_data['_id'],  "cancelDis");
+
+            } else if ($result == ("START")) {
+                $this->live_dao->updateStatus($input_data['_id'],  "CANCEL");
+            }
+
+            /* Adds +1 to the tot_cancel in customers collection */
             $this->customer_dao->addCanceledTotal($input_data["tp"]);
-            $this->customer_dao->updateStatus($input_data["tp"], $input_data["refId"], "cancelDis");
+            /* Remove the record from live collection and add it to the history */
+            $this->live_dao->deleteBooking($input_data["refId"]);
+            /* Get the recent booking record from customers collection and add it to history collection */
+            $data = $this->customer_dao->getBooking($input_data["tp"], $input_data["refId"]);
 
-        }else{
-            $this->customer_dao->updateStatus($input_data["tp"], $input_data["refId"], "cancel");
+            /* add tp number for booking for easy access and add it to history collection */
+            $data["tp"] = $input_data["tp"];
+            $this->history_dao->createBooking($data);
         }
-
-        /* Adds +1 to the tot_cancel in customers collection */
-        $this->customer_dao->addCanceledTotal($input_data["tp"]);
-        /* Remove the record from live collection and add it to the history */
-        $this->live_dao->deleteBooking($input_data["refId"]);
-        /* Get the recent booking record from customers collection and add it to history collection */
-        $data = $this->customer_dao->getBooking($input_data["tp"], $input_data["refId"]);
-
-        /* add tp number for booking for easy access and add it to history collection */
-        $data["tp"]=$input_data["tp"];
-        $this->history_dao->createBooking($data);
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
     }
 

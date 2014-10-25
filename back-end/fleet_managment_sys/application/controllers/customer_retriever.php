@@ -51,7 +51,7 @@ class Customer_retriever extends CI_Controller
 
         $user = $this->session->userdata('user');
 
-        $input_data["data"]["refId"]=$this->ref_dao->getRefId();
+        $input_data["data"]["refId"]=$this->counters_dao->getNextId('reference');
         $input_data['data']['croId']=$user['uName'];
 
         /* Set the date and time to UTC */

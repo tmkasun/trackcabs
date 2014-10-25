@@ -63,10 +63,10 @@ class Driver_retriever extends CI_Controller
     function createDriver(){
 
         $statusMsg = 'success';
-        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $input_data = json_decode(trim(file_get_contents('php://input')), true); //TODO: change to this structure $this->input->post(NULL,true); //
 
-        $input_data["driverId"] = $this->ref_dao->getDriverId();
-
+        $input_data["driverId"] = $this->counters_dao->getNextId('driver');
+        var_dump($input_data);
         $result = $this->driver_dao->createDriver($input_data);
 
         if(!$result){

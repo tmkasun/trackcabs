@@ -29,15 +29,17 @@ class Authenticate extends CI_Controller {
         $this -> load -> library('form_validation');
         // TODO: get last loging of the driver and allow login
         $this -> form_validation -> set_rules('username', 'Username', 'trim|required|xss_clean');
-        $this -> form_validation -> set_rules('password', 'Password', 'trim|required|xss_clean|callback_check_database');
+        $this -> form_validation -> set_rules('password', 'Password', 'trim|required|xss_clean|callback_driver_auth');
 
         if ($this -> form_validation -> run() == FALSE) {
-            //Field validation failed.  User redirected to login page
-            $this -> load -> view('login/index');
+            $authentication = array('isAuthorized' => false);
         } else {
             //Go to private area
-            redirect('dispatcher', 'refresh');
+            $authentication = array('isAuthorized' => true);
+
         }
+
+        $this -> output -> set_content_type('application/json') -> set_output(json_encode($return));
     }
 
 	function check_database($password) {
@@ -55,7 +57,7 @@ class Authenticate extends CI_Controller {
 				$this->user->update_login($row -> computer_number);
 				return TRUE;
 			} else {
-
+                $driver = $this->users_dao->find();
 				$this -> form_validation -> set_message('check_database', 'Sorry you do not have privileges to login to the system');
 				return false;
 			}
@@ -66,5 +68,15 @@ class Authenticate extends CI_Controller {
 		}
 	}
 
+    function driver_auth($password){
+        $username = $this -> input -> post('username');
+        $result = $this->driver_dao->authenticate($username,$password);
+        $return = false;
+        if($result){
+            $return = true;
+        }
+
+        return $return;
+    }
+
 }
-?>

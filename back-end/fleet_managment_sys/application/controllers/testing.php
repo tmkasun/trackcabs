@@ -60,4 +60,12 @@ class Testing extends CI_Controller
         $sent = $sms->send("0711661919","Testing message");
         var_dump($sent);
     }
+
+    function nextId($name){
+        print_r($this->counters_dao->getNextId($name));
+    }
+
+    function createUser($uName,$pass){
+        var_dump($this->users_dao->create($uName,$pass));
+    }
 }

@@ -78,28 +78,33 @@ class Customer_retriever extends CI_Controller
     public function canceled(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $result = $this->customer_dao->getStatus($input_data["tp"] , $input_data["refId"]);
+        //$result = $this->customer_dao->getStatus($input_data["tp"] , $input_data["refId"]);
 
-        if($result == ("onDaWay") || $result ==("msgCopied") || $result ==("atDaPlace") || $result ==("pob")) {
+        $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
+        $result = $bookingData['status'];
 
-            $this->customer_dao->addCanceledDispatch($input_data["tp"]);
+        if($result != null) {
+            if ($result == ("MSG_COPIED") || $result == ("MSG_NOT_COPIED") || $result == ("AT_THE_PLACE") || $result == ("POB") || $result == ("POB")) {
+
+                $this->customer_dao->addCanceledDispatch($input_data["tp"]);
+                $this->customer_dao->addCanceledTotal($input_data["tp"]);
+                $this->live_dao->updateStatus($input_data['_id'],  "cancelDis");
+
+            } else if ($result == ("START")) {
+                $this->live_dao->updateStatus($input_data['_id'],  "CANCEL");
+            }
+
+            /* Adds +1 to the tot_cancel in customers collection */
             $this->customer_dao->addCanceledTotal($input_data["tp"]);
-            $this->customer_dao->updateStatus($input_data["tp"], $input_data["refId"], "cancelDis");
+            /* Remove the record from live collection and add it to the history */
+            $this->live_dao->deleteBooking($input_data["refId"]);
+            /* Get the recent booking record from customers collection and add it to history collection */
+            $data = $this->customer_dao->getBooking($input_data["tp"], $input_data["refId"]);
 
-        }else{
-            $this->customer_dao->updateStatus($input_data["tp"], $input_data["refId"], "cancel");
+            /* add tp number for booking for easy access and add it to history collection */
+            $data["tp"] = $input_data["tp"];
+            $this->history_dao->createBooking($data);
         }
-
-        /* Adds +1 to the tot_cancel in customers collection */
-        $this->customer_dao->addCanceledTotal($input_data["tp"]);
-        /* Remove the record from live collection and add it to the history */
-        $this->live_dao->deleteBooking($input_data["refId"]);
-        /* Get the recent booking record from customers collection and add it to history collection */
-        $data = $this->customer_dao->getBooking($input_data["tp"], $input_data["refId"]);
-
-        /* add tp number for booking for easy access and add it to history collection */
-        $data["tp"]=$input_data["tp"];
-        $this->history_dao->createBooking($data);
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
     }
 

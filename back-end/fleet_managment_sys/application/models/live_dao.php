@@ -47,11 +47,16 @@ class Live_dao extends CI_Model
         return $collection->findOne($searchQuery);
     }
 
-    function getBookingByMongoId(){
+
+    /**
+     * @param $id = mongo object id
+     * @return php array of booking
+     */
+    function getBookingByMongoId($id){
         $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
-        $searchQuery= array('refId' => (int)$refId);
+        $searchQuery= array('_id' => new MongoId($id));
 
         return $collection->findOne($searchQuery);
     }
@@ -70,11 +75,11 @@ class Live_dao extends CI_Model
         $collection->save($record);
     }
 
-    function updateStatus($refId , $status){
+    function updateStatus($id , $status){
         $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');
 
-        $searchQuery= array('refId' => $refId);
+        $searchQuery= array('_id' => new MongoId($id));
 
         $collection->update($searchQuery ,array('$set' => array('status' => $status)));
     }

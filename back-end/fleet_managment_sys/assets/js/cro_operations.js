@@ -2,12 +2,11 @@ function editBooking(url , tp , refId){
 
 }
 
-function getCancelConfirmationView( url , tp , refId ){
+function getCancelConfirmationView( url , tp , id ){
 
-    var data = {'tp' : tp , 'refId' : refId};
+    var data = {'_id' : id };
     url = url +"/cro_controller/getCancelConfirmationView";
     var view = ajaxPost(data,url);
-
     /*  Populate the job information view */
     var jobInfoDiv = document.getElementById('jobInfo');
     jobInfoDiv.innerHTML = "";
@@ -15,7 +14,7 @@ function getCancelConfirmationView( url , tp , refId ){
 
 }
 
-function confirmCancel(url , tp , refId){
+function confirmCancel(url , id){
 
     var cancelReason="";
     url = url +"/customer_retriever/canceled";
@@ -33,10 +32,10 @@ function confirmCancel(url , tp , refId){
         cancelReason = 4;
     }
 
-    var data = {'tp' : tp , 'refId' : refId , 'cancelReason' : cancelReason };
+    var data = {'_id' : id , 'cancelReason' : cancelReason };
 
-    alert(data);
-    //var result = ajaxPost(data,url);
+    alert(JSON.stringify(data));
+    var result = ajaxPost(data,url);
 }
 
 

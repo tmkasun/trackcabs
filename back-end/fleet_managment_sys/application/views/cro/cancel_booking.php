@@ -1,5 +1,5 @@
 <div class="col-lg-offset-1 col-lg-5" >
-    <h4>Cancel Booking Reason <?php echo $refId; ?></h4>
+    <h4>Cancel Booking Reason <?php echo $_id; ?></h4>
 
 
     <form role="form">
@@ -25,7 +25,7 @@
 <div class="col-lg-3">
     <div class="btn-group btn-group-justified">
         <div class="btn-group">
-            <button type="button" class="btn btn-danger" onclick="operations('confirmCancel', '<?php echo $refId; ?>')">Confirm Cancel</button>
+            <button type="button" class="btn btn-danger" onclick="operations('confirmCancel', '<?php echo $_id; ?>')">Confirm Cancel</button>
         </div>
     </div>
     <div class="btn-group btn-group-justified" style="margin-top: 10%">

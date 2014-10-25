@@ -44,12 +44,10 @@ class Cro_controller extends CI_Controller
     function getCancelConfirmationView(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $result = $this->customer_dao->getCustomer($input_data['tp']);
 
-        $stat=array("index" => -1 , "found" => false);
-        $stat= $this->customer_dao->getIndex($result , $input_data['refId'], $stat);
+        $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
 
-        $data['cancel_confirmation_view'] = $this->load->view('cro/cancel_booking', $result['history'][$stat["index"]] , TRUE);
+        $data['cancel_confirmation_view'] = $this->load->view('cro/cancel_booking', $bookingData , TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
@@ -67,23 +65,18 @@ class Cro_controller extends CI_Controller
         }else{
 
 //          TODO HAVE TO GET THE BOOKINGS FROM LIVE COLLECTION AND HISTORY COLLECTION
-            $bookingData=array();
+            $bookingData=array('booking' => array());
             foreach($result as $key => $value){
                 if($key == 'history'){
                     foreach($value as $newKey){
-                        var_dump($newKey);
-                        echo 'printing the live data';
-                        echo $newKey['_id'];
-                        //$collection = $dbName->selectCollection('live');
-//                        $searchQuery= array('_id' =>$newKey['_id']);
-//                        $liveData=$collection->findOne($searchQuery);
-//                        var_dump($liveData);
+                        $data = $this->live_dao->getBookingByMongoId($newKey['_id']);
+                        $bookingData['booking'][] = $data;
                     }
                 }
             }
 
             $data['table_content'] = $this->load->view('cro/customer_info', $result , TRUE);
-            $data['job_info_view'] = $this->load->view('cro/job_info', $result , TRUE);
+            $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);
             $data['new_booking_view'] = $this->load->view('cro/new_booking', $result , TRUE);
             $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
         }

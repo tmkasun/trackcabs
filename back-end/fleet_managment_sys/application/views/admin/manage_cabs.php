@@ -10,7 +10,8 @@
     <!-------------------------------- JS Files------------------------------------>
     <script type="text/javascript" src="<?= base_url();?>assets/js/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap.js"></script>
-    <script type="text/javascript" src="<?= base_url();?>assets/js/admin_cab_operations.js"></script>
+    <script type="text/javascript" src="<?= base_url();?>assets/js/admin_panel/admin_cab_operations.js"></script>
+    <script type="text/javascript" src="<?= base_url();?>assets/js/admin_panel/admin_driver_operations.js"></script>
 
     <script>
 
@@ -68,7 +69,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Info</h3>
                 </div>
-                <div class="panel-body" id="customerInformation">
+                <div class="panel-body" id="information">
 
                 <div class="col-lg-2" id="operation" style="margin-top: 10px">
                     <h5><a href="#" onclick="getNewCabView(url)">New Cab</a></h5></br>
@@ -82,13 +83,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
     </div>
 </div>
 
@@ -100,9 +94,6 @@
         var driver = { 'driverId' : parseInt(driverId) };
         var url = '<?php echo site_url("driver_retriever/getCab") ?>';
         var result = ajaxPost(driver,url);
-
-        getCabSearchView();
-
 
     }
     function getDriverView(){
@@ -117,12 +108,6 @@
 
     }
 
-
-
-</script>
-
-
-<script>
     function getDriversView(){
         var data = {};
         /* Get the nav bar for driver management view */
@@ -164,9 +149,7 @@
         ajaxPost(driver,url);
         getAllDriversView();
     }
-</script>
 
-<script>
     /* Gets all available cabs and show in the 'dataFiled' div tag */
     function getAllDriversView(){
         var skip = docs_per_page * (page-1);
@@ -180,11 +163,6 @@
     }
 </script>
 
-
-<script>
-
-
-</script>
 
 <script>
     function validate(plateNo , model , vType , color , info ){

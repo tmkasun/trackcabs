@@ -78,7 +78,6 @@ class Customer_retriever extends CI_Controller
     public function canceled(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        //$result = $this->customer_dao->getStatus($input_data["tp"] , $input_data["refId"]);
 
         $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
         $result = $bookingData['status'];
@@ -97,13 +96,10 @@ class Customer_retriever extends CI_Controller
             /* Adds +1 to the tot_cancel in customers collection */
             $this->customer_dao->addCanceledTotal($input_data["tp"]);
             /* Remove the record from live collection and add it to the history */
-            $this->live_dao->deleteBooking($input_data["refId"]);
-            /* Get the recent booking record from customers collection and add it to history collection */
-            $data = $this->customer_dao->getBooking($input_data["tp"], $input_data["refId"]);
+            $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
+            $this->live_dao->deleteBookingByMongoId($input_data['_id']);
 
-            /* add tp number for booking for easy access and add it to history collection */
-            $data["tp"] = $input_data["tp"];
-            $this->history_dao->createBooking($data);
+            $this->history_dao->createBooking($bookingData);
         }
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
     }
@@ -111,9 +107,8 @@ class Customer_retriever extends CI_Controller
     public function updateBooking(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $this->customer_dao->updateBooking($input_data["tp"],$input_data["refId"],$input_data["data"]);
 
-        $this->live_dao->updateBooking($input_data["refId"] , $input_data["data"]);
+        $this->live_dao->updateBooking($input_data["objId"] , $input_data["data"]);
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
 
     }

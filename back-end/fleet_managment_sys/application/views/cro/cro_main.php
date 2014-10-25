@@ -154,16 +154,18 @@
                 getCancelConfirmationView(url , tp , param1)
             }
             if(request == 'confirmCancel'){
-                alert('came to confirm cancel');
-                alert('param '+ param1);
-                confirmCancel(url , param1)
+                confirmCancel(url , tp ,param1);
             }
             if(request == 'denyCancel'){
                 //param2 = refId
                 getCustomerInfoView(url, tp)
             }
             if(request == 'editBooking'){
-                editBooking(url,tp,param1)
+                getEditBookingView(url,param1)
+            }
+            if(request == 'updateBooking'){
+                alert('obj id is '+param1);
+                updateBooking(url,param1)
             }
         }
     </script>

@@ -5,7 +5,7 @@ class Admin extends CI_Controller
 
     public function index()
     {
-        $this->load->view('manage_cabs');
+        $this->load->view('admin/manage_cabs');
     }
 
 }

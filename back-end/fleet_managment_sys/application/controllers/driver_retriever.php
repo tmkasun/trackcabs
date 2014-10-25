@@ -9,19 +9,19 @@ class Driver_retriever extends CI_Controller
 
     function getDriverNavBarView(){
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('cab_driver_navbar', $table_data, TRUE);
+        $data['table_content'] = $this->load->view('admin/cab_driver_navbar', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
     function getNewFormDriverView(){
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('new_driver_view', $table_data, TRUE);
+        $data['table_content'] = $this->load->view('admin/new_driver_view', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
     function getSidePanelView(){
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('driver_sidepanel', $table_data, TRUE);
+        $data['table_content'] = $this->load->view('admin/driver_sidepanel', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
@@ -29,7 +29,7 @@ class Driver_retriever extends CI_Controller
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $data = $this->driver_dao->getDriversByPage($input_data['limit'],$input_data['skip']);
-        $data['table_content'] = $this->load->view('all_drivers_view', $data, TRUE);
+        $data['table_content'] = $this->load->view('admin/all_drivers_view', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
 
     }
@@ -39,14 +39,13 @@ class Driver_retriever extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $data = $this->driver_dao->getDriver($input_data['cabId']);
 
-        $data['table_content'] = $this->load->view('driver_search', $data, TRUE);
+        $data['table_content'] = $this->load->view('admin/driver_search', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
 
 
     function authenticate(){
-        //echo 'came bitch';
         $statusMsg = 'fail';
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $result = $this->driver_dao->authenticate($input_data['uName'],$input_data['pass']);

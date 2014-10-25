@@ -49,6 +49,29 @@
             </div>
         </div>
     <?php endif; ?>
+
+    </div>
+
+<div class="col-lg-3">
+    <div class="col-lg-12">
+        <table class="table table-striped" >
+            <tr>
+                <th>Order ID</th>
+                <th>Status</th>
+            </tr>
+
+            <tr>
+                <td>12</td>
+                <td>START</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-lg-offset-10 col-lg-2" >
+        <div class="btn-group btn-group-justified">
+            <div class="btn-group">
+                <button type="button" class="btn btn-success" onclick="operations('editCus' )">Edit Information</button>
+            </div>
+        </div>
 <?php endif; ?>
 
 

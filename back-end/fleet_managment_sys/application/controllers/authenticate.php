@@ -31,11 +31,12 @@ class Authenticate extends CI_Controller {
         $this -> form_validation -> set_rules('username', 'Username', 'trim|required|xss_clean');
         $this -> form_validation -> set_rules('password', 'Password', 'trim|required|xss_clean|callback_driver_auth');
 
-        if ($this -> form_validation -> run() == FALSE) {
+        $validationResult = $this -> form_validation -> run();
+        if ( $validationResult == FALSE) {
             $authentication = array('isAuthorized' => false);
         } else {
             //Go to private area
-            $authentication = array('isAuthorized' => true);
+            $authentication = array('isAuthorized' => true,$validationResult->role->driverId );
 
         }
 

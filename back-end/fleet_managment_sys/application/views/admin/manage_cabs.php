@@ -71,8 +71,8 @@
                 <div class="panel-body" id="customerInformation">
 
                 <div class="col-lg-2" id="operation" style="margin-top: 10px">
-                    <h5><a href="#" onclick="getNewCabView()">New Cab</a></h5></br>
-                    <h5><a href="#" onclick="getAllCabs(docs_per_page , page,url)">View All Cabs</a></h5>
+                    <h5><a href="#" onclick="getNewCabView(url)">New Cab</a></h5></br>
+                    <h5><a href="#" onclick="getAllCabs(docs_per_page , page, url)">View All Cabs</a></h5>
                 </div>
 
                 <div class="col-lg-10" id="dataFiled" style="margin-top: 10px; border-left: 1px solid #a6a6a6;">

@@ -58,10 +58,15 @@ class Testing extends CI_Controller
 
 
     function send(){
-        $this->load->library('sms');
         $sms = new Sms("Testing message");
         $sent = $sms->send("0711661919","Testing message");
         var_dump($sent);
+    }
+
+    function webSocket($destination){
+        $webSocket = new Websocket('localhost' ,'5555' ,'testingId');
+        $response = $webSocket->send("Testing websocket message", $destination);
+        var_dump($response);
     }
 
     function nextId($name){

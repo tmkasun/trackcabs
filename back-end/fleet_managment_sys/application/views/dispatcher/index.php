@@ -78,7 +78,7 @@
                 function() {
                     conn.subscribe(userid, function(topic, data) {
                         // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
-                        alert('New Message published to user "' + topic + '" : ' + data.message);
+                        console.log('New Message published to user "' + topic + '" : ' + data.message.vType);
                     });
                 },
                 function() {

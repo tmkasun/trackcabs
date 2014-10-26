@@ -75,10 +75,11 @@ class Customer_retriever extends CI_Controller
 
         $context = new ZMQContext();
         $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
+
         $socket->connect("tcp://127.0.0.1:5555");
         $socket->send(json_encode($bookingCreated));
 
-        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg,'dest' => 'dispatcher1')));
 
     }
 

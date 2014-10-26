@@ -20,6 +20,7 @@ class Testing extends CI_Controller
         $this->logPath = ini_get('error_log');
         $this->load->model('geo_name');
         $this->load->model('live_dao');
+        $this->mongodb = new MongoClient();
     }
 
     /**
@@ -30,7 +31,9 @@ class Testing extends CI_Controller
 //        show_error('message' , 500  );
 //        log_message("info","hmmm");
 //        print_r();
-        echo nl2br(@file_get_contents("application/logs/log-2014-10-19.php"));
+        $today = getdate();
+        $logFile = "application/logs/log-".$today['year']."-".$today['mon']."-".$today['mday'].".php";
+        echo nl2br(@file_get_contents($logFile,false,null,(filesize ($logFile) - 500*10)));
         exit;
     }
 
@@ -67,5 +70,10 @@ class Testing extends CI_Controller
 
     function createUser($uName,$pass){
         var_dump($this->users_dao->create($uName,$pass));
+    }
+
+    function userAuth($username = 'kasun', $pass = 'pasd'){
+        $searchQuery = array('uName' => 'kasun', 'pass' => 'pasd');
+        var_dump($this->mongodb->track->users->findOne($searchQuery));
     }
 }

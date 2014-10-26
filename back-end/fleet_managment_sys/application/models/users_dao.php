@@ -28,7 +28,6 @@ class Users_dao extends CI_Model
 
     function authenticate($uName, $pass)
     {
-
         $searchQuery = array('uName' => $uName, 'pass' => $pass);
         return $this->mongodb->track->users->findOne($searchQuery);
     }
@@ -71,7 +70,7 @@ class Users_dao extends CI_Model
     }
 
     function find($username){
-        return $this->mongodb->track->users->findOne($username);
+        return $this->mongodb->track->users->findOne(array('uName' => $username));
     }
 
 }

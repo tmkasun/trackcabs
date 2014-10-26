@@ -5,9 +5,9 @@
     </div>
 
     <ul class="nav navbar-nav">
-        <li><a href="#" onclick="getCabsDefaultView(url, docs_per_page , page)">Cabs</a></li>
-        <li class="active"><a href="#" onclick="getAllDriversView()">Drivers</a></li>
-        <li><a href="#" onclick="getDispatchersView()">Dispatcher</a></li>
+        <li><a href="#" onclick="getAllCabs(docs_per_page , page , url)">Cabs</a></li>
+        <li><a href="#" onclick="getDriversView()">Drivers</a></li>
+        <li class="active"><a href="#" onclick="getDispatchersView()">Dispatcher</a></li>
         <li><a href="#" onclick="getDriversView()">CRO</a></li>
     </ul>
 

@@ -172,6 +172,13 @@
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
         var cabIdAssigned = document.getElementById("cabIdAssigned").value;
+        if(name == "" ){return false;}
+        if(uName == "" ){return false;}
+        if(pass == "" ){return false;}
+        if(nic == "" ){return false;}
+        if(tp == "" ){return false;}
+
+        if(cabIdAssigned == "" ){cabIdAssigned="null"}
         /* Create a JSON object from the form values */
         var driver = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp ,'cabId' : cabIdAssigned };
         var url = '<?php echo site_url("driver_retriever/createDriver") ?>';
@@ -220,7 +227,7 @@
         url =url + "/dispatcher_retriever/getDispatcherEditView";
         var result = ajaxPost(data,url);
         var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.driver_edit_view;
+        div.innerHTML = result.view.dispatcher_edit_view;
     }
 
     function getDispatchersView(){
@@ -245,6 +252,12 @@
         var pass = document.getElementById("pass").value;
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
+
+        if(name == "" ){return false;}
+        if(uName == "" ){return false;}
+        if(pass == "" ){return false;}
+        if(nic == "" ){return false;}
+        if(tp == "" ){return false;}
         /* Create a JSON object from the form values */
         var dispatcher = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp};
         var url = '<?php echo site_url("dispatcher_retriever/createDispatcher") ?>';
@@ -274,7 +287,6 @@
     }
 
     function updateDispatcher(url , docs_per_page , page ){
-
         var dispatcherId = document.getElementById("dispatcherId").value;
         var name = document.getElementById("name").value;
         var uName = document.getElementById("uName").value;
@@ -285,7 +297,7 @@
         var baseUrl=url;
         var url = '<?php echo site_url("dispatcher_retriever/updateDispatcher") ?>';
         ajaxPost(dispatcher,url);
-        getAllDriversView(docs_per_page , page ,baseUrl);
+        getAllDispatchersView(docs_per_page , page ,baseUrl);
     }
 
 </script>

@@ -1,4 +1,4 @@
-<form role="form" id="editDrivers">
+<form role="form" id="editDispatchers">
     <div class="form-group">
         <label for="dispatcherId">Dispatcher ID</label>
         <input type="text" class="form-control" id="dispatcherId"  readonly="readonly" value="<?= $dispatcherId;?>">
@@ -24,5 +24,5 @@
         <input type="text" class="form-control" id="tp" placeholder="Enter Telephone Number" value="<?= $tp;?>">
     </div>
 
-    <button type="submit" class="btn btn-default" onclick="updateDispatcher(url, docs_per_page , page )">Save</button>
+    <button type="submit" class="btn btn-default" onclick="updateDispatcher(url, docs_per_page , page );">Save</button>
 </form>

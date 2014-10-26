@@ -14,7 +14,7 @@
                 <h4>Telephone Number : <?= $tp;?></h4></br>
                 </br>
 
-                <button type="button" class="btn btn-danger btn-lg" onclick="makeDispatcherFormEditable(<?php echo $dispatcherId;?>,url)"
+                <button type="button" class="btn btn-danger btn-lg" onclick="makeDispatcherFormEditable(<?= $dispatcherId;?>,url)"
                         style="float: right">Edit</button>
             </div>
         </div>

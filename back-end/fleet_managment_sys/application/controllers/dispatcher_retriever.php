@@ -1,77 +1,77 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Driver_retriever extends CI_Controller
+class Dispatcher_retriever extends CI_Controller
 {
+
 
     public function index()
     {
     }
 
-    function getDriverNavBarView(){
+    function getDispatcherNavBarView(){
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('admin/driver/driver_navbar', $table_data, TRUE);
+        $data['table_content'] = $this->load->view('admin/dispatcher/dispatcher_navbar', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
-    function getNewFormDriverView(){
+    function getNewFormDispatcherView(){
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('admin/driver/new_driver_view', $table_data, TRUE);
+        $data['table_content'] = $this->load->view('admin/dispatcher/new_dispatcher_view', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
     function getSidePanelView(){
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('admin/driver/driver_sidepanel', $table_data, TRUE);
+        $data['table_content'] = $this->load->view('admin/dispatcher/dispatcher_sidepanel', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
-    function getAllDriversView(){
+    function getAllDispatchersView(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $data = $this->driver_dao->getDriversByPage($input_data['limit'],$input_data['skip']);
-        $data['table_content'] = $this->load->view('admin/driver/all_drivers_view', $data, TRUE);
+        $data = $this->dispatcher_dao->getDispatchersByPage($input_data['limit'],$input_data['skip']);
+        $data['table_content'] = $this->load->view('admin/dispatcher/all_dispatchers_view', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
 
     }
 
-    function getDriverSearchView(){
+    function getDispatcherSearchView(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $data = $this->driver_dao->getDriver($input_data['driverId']);
+        $data = $this->dispatcher_dao->getDispatcher($input_data['dispatcherId']);
 
-        $data['table_content'] = $this->load->view('admin/driver/driver_search', $data, TRUE);
+        $data['table_content'] = $this->load->view('admin/dispatcher/dispatcher_search', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
-    function getDriverEditView(){
+    function getDispatcherEditView(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $data = $this->driver_dao->getDriver($input_data['driverId']);
-        $data['driver_edit_view'] = $this->load->view('admin/driver/edit_drivers', $data, TRUE);
+        $data = $this->dispatcher_dao->getDispatcher($input_data['dispatcherId']);
+        $data['dispatcher_edit_view'] = $this->load->view('admin/dispatcher/edit_dispatchers', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
     function authenticate(){
         $statusMsg = 'fail';
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $result = $this->driver_dao->authenticate($input_data['uName'],$input_data['pass']);
+        $result = $this->dispatcher_dao->authenticate($input_data['uName'],$input_data['pass']);
 
         $data=array();
         if( $result != null ){
             $statusMsg = 'success';
-            $data['driverId']=$result['driverId'];
-            $data['cabId']=$result['cabId'];
+            $data['dispatcherId']=$result['dispatcherId'];
         }
         $this->output->set_output( json_encode ( array ( "statusMsg" => $statusMsg , 'data' => $data )));
     }
 
-    function createDriver(){
+    function createDispatcher(){
 
         $statusMsg = 'success';
         $input_data = json_decode(trim(file_get_contents('php://input')), true); //TODO: change to this structure $this->input->post(NULL,true); //
 
-        $input_data["driverId"] = $this->counters_dao->getNextId("driver");
-        $result = $this->driver_dao->createDriver($input_data);
+        $input_data["dispatcherId"] = $this->counters_dao->getNextId("dispatcher");
+        $result = $this->dispatcher_dao->createDispatcher($input_data);
 
         if(!$result){
             $statusMsg = 'fail';
@@ -81,28 +81,28 @@ class Driver_retriever extends CI_Controller
 
     }
 
-    function updateDriver(){
+    function updateDispatcher(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $this->driver_dao->updateDriver($input_data['driverId'],$input_data['details']);
+        $this->dispatcher_dao->updateDispatcher($input_data['dispatcherId'],$input_data['details']);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
     }
 
-    function getDriver(){
+    function getDispatcher(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $result = $this->driver_dao->getDriver($input_data['driverId']);
+        $result = $this->dispatcher_dao->getDispatcher($input_data['dispatcherId']);
         $this->output->set_output(json_encode(array("statusMsg" => "success","data" => $result )));
 
     }
 
-    function getDriversByPage(){
+    function getDispatchersByPage(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $result = $this->driver_dao->getDriversByPage($input_data['limit'],$input_data['skip']);
+        $result = $this->dispatcher_dao->getDispatchersByPage($input_data['limit'],$input_data['skip']);
         $this->output->set_output(json_encode(array("statusMsg" => "success","data" => $result )));
     }
 
-    function getAllDrivers(){
-        $result = $this->driver_dao->getAllDrivers();
+    function getAllDispatchers(){
+        $result = $this->dispatcher_dao->getAllDispatchers();
         $this->output->set_output(json_encode(array("statusMsg" => "success","data" => $result )));
     }
 

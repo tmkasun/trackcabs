@@ -7,6 +7,8 @@
     <ul class="nav navbar-nav">
         <li><a href="#" onclick="getCabsDefaultView(url, docs_per_page , page)">Cabs</a></li>
         <li class="active"><a href="#" onclick="getAllDriversView()">Drivers</a></li>
+        <li><a href="#" onclick="getDriversView()">Dispatcher</a></li>
+        <li><a href="#" onclick="getDriversView()">CRO</a></li>
     </ul>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -15,7 +17,7 @@
             <div class="form-group">
                 <input class="form-control" placeholder="Driver ID" type="text" id="driverIdSearch">
             </div>
-            <button type="submit" class="btn btn-default" onclick="getDriver()">Submit</button>
+            <button type="submit" class="btn btn-default" onclick="getDriverView()">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#">Link</a></li>

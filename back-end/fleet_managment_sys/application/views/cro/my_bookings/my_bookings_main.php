@@ -96,7 +96,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Bookings</h3>
                 </div>
-                <div class="panel-body" id="customerInformation">
+                <div class="panel-body" id="bookings">
 
 
 
@@ -110,17 +110,12 @@
 <script>
     function getTodayMyBookings(){
 
-            var data = {'uName' : uName };
-            alert(JSON.stringify(data));
-            url = url +"/cro_controller/getTodayMyBookings";
-            var view = ajaxPost(data,url);
-
-            alert(JSON.stringify(view));
-
-            /*  Populate the New Booking field with the editing form */
-            var editBookingDiv = document.getElementById('newBooking');
-            editBookingDiv.innerHTML = "";
-            editBookingDiv.innerHTML = view.view.edit_booking_view;
+        var data = {};
+        url = url +"/cro_controller/getTodayMyBookings";
+        var view = ajaxPost(data,url);
+        /*  Populate the New Booking field with the editing form */
+        var bookingsDiv = document.getElementById('bookings');
+        bookingsDiv.innerHTML = view.view.booking_summary;
     }
 </script>
 

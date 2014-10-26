@@ -73,13 +73,12 @@ class Customer_retriever extends CI_Controller
         /* Add the booking array to the customer collection */
         $this->customer_dao->addBooking($input_data["tp"], $bookingObjId);
 
-        $context = new ZMQContext();
-        $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
-
-        $socket->connect("tcp://127.0.0.1:5555");
-        $socket->send(json_encode($bookingCreated));
+        // send $_SESSION['user']->id
+        $webSocket = new Websocket('cro');
+        $response = $webSocket->send($bookingCreated, 'dispatcher');
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg,'dest' => 'dispatcher1')));
+
 
     }
 

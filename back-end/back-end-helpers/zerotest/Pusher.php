@@ -22,18 +22,18 @@ class Pusher implements WampServerInterface {
         // If the lookup topic object isn't set there is no one to publish to
 
 	$star='*';
-	if ($entryData['dest']==$star) {
+	if ($entryData['destination']==$star) {
 	 foreach ($this->subscribedClients as $client) {
 		 $client->broadcast($entryData);
 		}
         }
 
 
-        if (!array_key_exists($entryData['dest'], $this->subscribedClients)) {
+        if (!array_key_exists($entryData['destination'], $this->subscribedClients)) {
             return;
         }
 
-        $topic = $this->subscribedClients[$entryData['dest']];
+        $topic = $this->subscribedClients[$entryData['destination']];
 	
         // re-send the data to all the clients subscribed to that category
         $topic->broadcast($entryData);

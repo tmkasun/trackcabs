@@ -50,6 +50,9 @@ class Customer_retriever extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
         $user = $this->session->userdata('user');
+        // TODO REMOVE THIS LINE AFTER SETTING THE SESSION
+        $user=array();
+        $user['uName']="niro";
 
         $input_data["data"]["refId"]=$this->counters_dao->getNextId('reference');
         $input_data['data']['croId']=$user['uName'];
@@ -126,16 +129,6 @@ class Customer_retriever extends CI_Controller
 
     }
 
-    public function updateFee(){
-
-        $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $this->customer_dao->updateBooking($input_data["tp"],$input_data["refId"],$input_data["data"]);
-
-        $this->live_dao->updateBooking($input_data["refId"] , $input_data["data"]);
-        $this->output->set_output(json_encode(array("statusMsg" => "success" )));
-
-    }
-
     public function addCanceledDispatch(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
@@ -144,21 +137,6 @@ class Customer_retriever extends CI_Controller
 
     }
 
-    public function addCanceledTotal(){
-
-        $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $this->customer_dao->addCanceledTotal($input_data["tp"]);
-        $this->output->set_output(json_encode(array("statusMsg" => "success" )));
-
-    }
-
-    public function getStatus(){
-
-        $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $result = $this->customer_dao->getStatus($input_data["tp"] , $input_data["refId"]);
-        $this->output->set_output(json_encode(array("statusMsg" => "success", "data" => $result  )));
-
-    }
 
     public function getBooking(){
 
@@ -176,5 +154,7 @@ class Customer_retriever extends CI_Controller
         /* TODO INFORM THROUGH WEB SOCKETS CHANGE HAS HAPPENED */
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
     }
+
+
 
 }

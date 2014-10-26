@@ -133,13 +133,25 @@ class Live_dao extends CI_Model
 
     }
 
-    function getCroBookingsToday(){
+    function getCroBookingsToday($croId){
 
         $dbName = $this->db->selectDB('track');
+        $collection = $dbName->selectCollection('time');
+
+        $today = date("Y-m-d 00:00:00");
+        $todayUTC = new MongoDate(strtotime($today));
+
+        $bookingArray = array('time' => $today);
+        $collection->insert($bookingArray);
+
         $collection = $dbName->selectCollection('live');
+        $cursor =$collection->find(array('bookTime'=> array('$gte' => $todayUTC), 'croId' => $croId));
 
-
-
+        $data= array('data' => array());
+        foreach($cursor as $doc){
+            $data['data'][]= $doc;
+        }
+        return $data;
 
     }
 

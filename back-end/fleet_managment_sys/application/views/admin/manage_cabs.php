@@ -66,7 +66,7 @@
 
         <div class="col-lg-12" style="margin-top: 10px">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading" style="margin-top: 10px; border-left: 1px solid #a6a6a6;>
                     <h3 class="panel-title">Info</h3>
                 </div>
                 <div class="panel-body" id="information">

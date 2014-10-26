@@ -23,6 +23,6 @@
         <label for="info">Information</label>
         <input type="text" class="form-control" id="info" placeholder="Enter Info" value="<?= $info;?>">
     </div>
-    <button type="submit" class="btn btn-default" onclick="updateCab()">Save</button>
+    <button type="submit" class="btn btn-default" onclick="updateCab(url, docs_per_page , page )">Save</button>
 </form>
 

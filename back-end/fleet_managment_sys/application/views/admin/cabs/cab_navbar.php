@@ -5,17 +5,17 @@
     </div>
 
     <ul class="nav navbar-nav">
-        <li><a href="#" onclick="getAllCabs()">Cabs</a></li>
-        <li class="active"><a href="#" onclick="getAllDriversView()">Drivers</a></li>
+        <li class="active"><a href="#" onclick="getAllCabs(docs_per_page , page , url)">Cabs</a></li>
+        <li><a href="#" onclick="getDriversView()">Drivers</a></li>
     </ul>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <form class="navbar-form navbar-left" role="search" id="getCab">
             <div class="form-group">
-                <input class="form-control" placeholder="Driver ID" type="text" id="driverIdSearch">
+                <input class="form-control" placeholder="Cab ID" type="text" id="cabIdSearch">
             </div>
-            <button type="submit" class="btn btn-default" onclick="getDriver()">Submit</button>
+            <button type="submit" class="btn btn-default" onclick="getCabView(url)">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#">Link</a></li>

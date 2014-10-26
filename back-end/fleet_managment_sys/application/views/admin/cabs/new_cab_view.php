@@ -19,7 +19,7 @@
         <label for="info">Information</label>
         <input type="text" class="form-control" id="info" placeholder="Enter Info">
     </div>
-    <button type="submit" class="btn btn-default" onclick="createNewCab()">Save</button>
+    <button type="submit" class="btn btn-default" onclick="createNewCab(url, docs_per_page , page)">Save</button>
 </form>
 
 

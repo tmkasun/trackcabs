@@ -9,7 +9,7 @@ class Driver_retriever extends CI_Controller
 
     function getDriverNavBarView(){
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('admin/cab_driver_navbar', $table_data, TRUE);
+        $data['table_content'] = $this->load->view('admin/driver_navbar', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 

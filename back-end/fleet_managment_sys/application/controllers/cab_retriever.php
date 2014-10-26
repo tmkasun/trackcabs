@@ -8,10 +8,22 @@ class Cab_retriever extends CI_Controller
 
     }
 
+
     function getNewCabView(){
-        $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('admin/new_cab_view', $table_data, TRUE);
+
+        $data['new_cab_view'] = $this->load->view('admin/cabs/new_cab_view', 'data', TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+
+    }
+
+    function getAllCabsView(){
+
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+
+        $data = $this->cab_dao->getCabsByPage($input_data['limit'],$input_data['skip']);
+        $data['table_content'] = $this->load->view('admin/cabs/all_cabs_view', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+
     }
 
     function getCabSearchView(){
@@ -19,34 +31,28 @@ class Cab_retriever extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $data = $this->cab_dao->getCab($input_data['cabId']);
 
-        $data['table_content'] = $this->load->view('admin/cab_search', $data, TRUE);
+        $data['table_content'] = $this->load->view('admin/cabs/cab_search', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
     function getCabNavBar(){
-        $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('admin/cab_navbar', $table_data, TRUE);
+
+        $data['cab_navbar_view'] = $this->load->view('admin/cabs/cab_navbar', '1', TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
     function getSidePanelView(){
-        $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('admin/cab_sidepanel', $table_data, TRUE);
+        $data['side_panel_view'] = $this->load->view('admin/cabs/cab_side_panel', '1' , TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
-    function getAllCabsView(){
-        $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $data = $this->cab_dao->getCabsByPage($input_data['limit'],$input_data['skip']);
-        $data['table_content'] = $this->load->view('admin/all_cabs_view', $data, TRUE);
-        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
-    }
+
 
     function getCabEditView(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $data = $this->cab_dao->getCab($input_data['cabId']);
-        $data['table_content'] = $this->load->view('admin/edit_cabs', $data, TRUE);
+        $data['cab_edit_view'] = $this->load->view('admin/cabs/edit_cabs', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 

@@ -133,5 +133,15 @@ class Live_dao extends CI_Model
 
     }
 
+    function getCroBookingsToday(){
+
+        $dbName = $this->db->selectDB('track');
+        $collection = $dbName->selectCollection('live');
+
+
+
+
+    }
+
 
 }

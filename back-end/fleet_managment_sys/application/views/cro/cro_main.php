@@ -19,6 +19,7 @@
         var page = 1 ;
         var obj = null;
         var tp;
+        var url = '<?= site_url(); ?>';
         </script>
 </head>
 <body>
@@ -132,7 +133,6 @@
 
     <script>
         function operations(request, param1){
-            var url = '<?= site_url(); ?>';
             if(request=="editCus"){
                 editCustomerInfoEditView( url , param1 );
             }

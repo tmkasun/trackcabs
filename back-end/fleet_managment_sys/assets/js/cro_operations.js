@@ -143,7 +143,7 @@ function updateBooking(url , objId){
 }
 
 function editCustomerInfoEditView( url , tp ){
-    url = url + "/cro_controller/loadCustomerInfoEditView";
+    url = url + "/cro_controller/getCustomerInfoEditView";
     var data = {'tp' : tp};
     var view = ajaxPost(data,url);
     var div = document.getElementById('customerInformation');

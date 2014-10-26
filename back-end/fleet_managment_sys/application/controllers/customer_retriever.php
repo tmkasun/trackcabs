@@ -27,7 +27,7 @@ class Customer_retriever extends CI_Controller
         $this->output->set_output(json_encode(array("statusMsg" => "success", "data" => $result)));
 
     }
-//  TODO CHANGE GET THE ORDER FROM BOOKING OBJECT AND APPEND TO THE CUSTOMER OBJECT
+
     public function getCustomer(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
@@ -66,6 +66,8 @@ class Customer_retriever extends CI_Controller
         $input_data["data"]["tp"] = $input_data["tp"];
         $this->live_dao->createBooking($input_data["data"]);
 
+        $this->customer_dao->addTotalJob($input_data["tp"]);
+
         $bookingCreated = $this->live_dao->getBooking($input_data['data']['refId']);
         $bookingObjId = array('_id' => $bookingCreated['_id'] );
         /* Add the booking array to the customer collection */
@@ -74,7 +76,7 @@ class Customer_retriever extends CI_Controller
         $context = new ZMQContext();
         $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
         $socket->connect("tcp://127.0.0.1:5555");
-        $socket->send(json_encode($bookingObjId));
+        $socket->send(json_encode($bookingCreated));
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
 

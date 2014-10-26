@@ -19,6 +19,7 @@
         var page = 1 ;
         var obj = null;
         var tp;
+        var url = '<?= site_url(); ?>';
     </script>
 </head>
 <body>
@@ -30,8 +31,8 @@
         </div>
 
         <ul class="nav navbar-nav">
-            <li><a href="#" onclick="getCroView()">CRO</a></li>
-            <li class="active"><a href="#" onclick="getDriversView()">My Bookings</a></li>
+            <li><a href="<?= site_url('cro_controller/getCroDefaultView')?>" >CRO</a></li>
+            <li class="active"><a href="<?= site_url('cro_controller/test')?>" >My Bookings</a></li>
         </ul>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -61,27 +62,31 @@
                 </div>
                 <div class="panel-body" id="">
 
-                    <div class="form-group">
-                        <label for="dtp_input2" class="control-label">Booking Date</label>
-                        <div id="form_date" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                            <input id="startDate" class="form-control" size="16" type="text" value="" readonly>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="work()"></span></span>
-                        </div>
-                        <input type="hidden" id="dtp_input2" value="" /><br/>
+                    <div class="col-lg-2">
+                        <a href="#" onclick="getTodayMyBookings()">Today's Bookings</a>
                     </div>
 
-                    <div class="form-group">
-                        <label for="dtp_input2" class="control-label">Booking Date</label>
-                        <div id="form_date_end" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                            <input id="endDate" class="form-control" size="16" type="text" value="" readonly>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="work()"></span></span>
+                    <div class="col-lg-5">
+
+                        <div class="form-group">
+                            <label for="dtp_input2" class="control-label">Booking Start Date</label>
+                            <div id="form_date" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input id="startDate" class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="work()"></span></span>
+                            </div>
                         </div>
-                        <input type="hidden" id="dtp_input2" value="" /><br/>
+
+                        <div class="form-group">
+                            <label for="dtp_input2" class="control-label">Booking End Date</label>
+                            <div id="form_date_end" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input id="endDate" class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="work()"></span></span>
+                            </div>
+                        </div>
+
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -99,65 +104,55 @@
                 </div>
             </div>
         </div>
-
-
-        <div class="col-lg-12" style="margin-top: 10px">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">New Order</h3>
-                </div>
-                <div class="panel-body" id="newBooking">
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-12" style="margin-top: 10px">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Booking History</h3>
-                </div>
-                <div class="panel-body" id="newBooking">
-
-                </div>
-            </div>
-        </div>
     </div>
+</div>
+
+<script>
+    function getTodayMyBookings(){
+
+            var data = {'uName' : uName };
+            alert(JSON.stringify(data));
+            url = url +"/cro_controller/getTodayMyBookings";
+            var view = ajaxPost(data,url);
+
+            alert(JSON.stringify(view));
+
+            /*  Populate the New Booking field with the editing form */
+            var editBookingDiv = document.getElementById('newBooking');
+            editBookingDiv.innerHTML = "";
+            editBookingDiv.innerHTML = view.view.edit_booking_view;
+    }
+</script>
 
     <script>
-        $("#tpSearch").keyup(function(event){
-            var url = '<?= site_url(); ?>';
-            var tp = $("#tpSearch").val();
-            getSimilarTpNumbers(url,tp)
-        });
-    </script>
 
-
-    <script>
-        function operations(request,param1){
-            var url = '<?= site_url(); ?>';
-            if(request=="editCus"){
-                editCustomerInfoEditView( url , param1 );
-            }
-
-            if(request == 'updateCusInfo'){
-                updateCustomerInfoView( url );
-            }
-            if(request == 'getCustomer'){
-                tp      = document.getElementById("tpSearch").value;
-                getCustomerInfoView( url , tp );
-            }
-            if(request == 'createCusInfo'){
-                createCusInfo( url );
-            }
-            if(request == 'createBooking'){
-                alert('create Booking ' + tp);
-                createBooking(url , tp)
-            }
+        function ajaxPost(data,urlLoc)    {
+            var result=null;
+            $.ajax({
+                type: 'POST', url: urlLoc,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                async: false,
+                success: function(data, textStatus, jqXHR) {
+                    result = JSON.parse(jqXHR.responseText);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    if(jqXHR.status == 400) {
+                        var message= JSON.parse(jqXHR.responseText);
+                        $('#messages').empty();
+                        $.each(messages, function(i, v) {
+                            var item = $('<li>').append(v);
+                            $('#messages').append(item);
+                        });
+                    } else {
+                        alert('Unexpected server error.');
+                    }
+                }
+            });
+            return result;
         }
-    </script>
 
-    <script>
         function work(){
             $('#form_date').datetimepicker({
                 //language:  'fr',
@@ -181,19 +176,5 @@
             });
         }
     </script>
-
-
-
-    <script>
-        $(document).ready(function(){
-            //$("#test").hide();
-
-            $("#show").click(function(){
-                $("#test").collapse();
-            });
-        });
-    </script>
-
-
 </body>
 </html>

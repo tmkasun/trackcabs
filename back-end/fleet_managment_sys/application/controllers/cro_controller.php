@@ -25,14 +25,18 @@ class Cro_controller extends CI_Controller
 
         $collection->insert($data);
 
-        $this->load->view('cro/my_bookings_main');
+        $this->load->view('cro/my_bookings/my_bookings_main');
     }
 
-    function getMyBookingsCroToday(){
+    function getTodayMyBookings(){
         $prev_date = date('Y-m-d', strtotime(date('Y-m-d') .' -1 day'));
     }
 
-    function loadCustomerInfoEditView(){
+    function getCroDefaultView(){
+        $this->load->view('cro/cro_main');
+    }
+
+    function getCustomerInfoEditView(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $result = $this->customer_dao->getCustomer($input_data['tp']);
 
@@ -45,8 +49,6 @@ class Cro_controller extends CI_Controller
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $result = $this->live_dao->getBookingByMongoId($input_data['objId']);
-
-
         $data['edit_booking_view'] = $this->load->view('cro/edit_booking', $result , TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
@@ -54,7 +56,6 @@ class Cro_controller extends CI_Controller
     function getCancelConfirmationView(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-
         $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
 
         $data['cancel_confirmation_view'] = $this->load->view('cro/cancel_booking', $bookingData , TRUE);
@@ -89,12 +90,10 @@ class Cro_controller extends CI_Controller
                     }
                 }
             }
-
             $data['table_content'] = $this->load->view('cro/customer_info', $result , TRUE);
             $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);
             $data['new_booking_view'] = $this->load->view('cro/new_booking', $result , TRUE);
             $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
-            //Test
         }
     }
 

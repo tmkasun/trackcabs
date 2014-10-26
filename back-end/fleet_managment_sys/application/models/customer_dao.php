@@ -36,14 +36,15 @@ class Customer_dao extends CI_Model
         $dbName = $connection->selectDB('track');
         $collection = $dbName->selectCollection('customers');
 
-        $searchQuery = array('tp' => $tp );
-        $result = true;
-        /* TODO get all booking and check if ID already Exists */
-        if($result) {
-            $collection->update($searchQuery, array('$push' => array("history" => $booking)));
-            return true;
+        $searchQuery = array('tp' => $tp);
+        $result = $collection->findOne($searchQuery);
+
+        if($result == null){
+            $searchQuery = array('tp2' => $tp);
         }
-        else return false;
+
+        $collection->update($searchQuery, array('$push' => array("history" => $booking)));
+
     }
 
 
@@ -58,6 +59,11 @@ class Customer_dao extends CI_Model
 
         $searchQuery= array('tp' => $tp);
         $record = $collection->findOne($searchQuery);
+
+        if($record == null){
+            $searchQuery = array('tp2' => $tp);
+            $record = $collection->findOne($searchQuery);
+        }
 
         /* If a record doesn't exist create new else update*/
         if(!isset($record['dis_cancel'])){
@@ -81,6 +87,11 @@ class Customer_dao extends CI_Model
         $searchQuery= array('tp' => $tp);
         $record = $collection->findOne($searchQuery);
 
+        if($record == null){
+            $searchQuery = array('tp2' => $tp);
+            $record = $collection->findOne($searchQuery);
+        }
+
         /* If a record doesn't exist create new else update*/
         if(!isset($record['tot_cancel'])){
             $record["tot_cancel"] = 1;
@@ -92,21 +103,29 @@ class Customer_dao extends CI_Model
     }
 
     /*
-     * @method add +1 to the inqCall in the customers collection
+     * @method add +1 to the total job
      */
-    function addInquireCall($tp , $refId){
+    function addTotalJob($tp){
 
         $connection = new MongoClient();
         $dbName = $connection->selectDB('track');
         $collection = $dbName->selectCollection('customers');
 
-        $searchQuery = array('tp' => $tp);
+        $searchQuery= array('tp' => $tp);
         $record = $collection->findOne($searchQuery);
 
-        $stat=array("index" => -1 , "found" => false);
-        $stat= $this->getIndex($record , $refId, $stat);
+        if($record == null){
+            $searchQuery = array('tp2' => $tp);
+            $record = $collection->findOne($searchQuery);
+        }
 
-        $record["history"][$stat["index"]]["inqCall"]++;
+        /* If a record doesn't exist create new else update*/
+        if(!isset($record['tot_job'])){
+            $record["tot_job"] = 1;
+        }
+        else {
+            $record["tot_job"]++;
+        }
         $collection->save($record);
     }
 
@@ -136,9 +155,16 @@ class Customer_dao extends CI_Model
         $connection = new MongoClient();
         $dbName = $connection->selectDB('track');
         $collection = $dbName->selectCollection('customers');
-        $searchQuery = array('tp' => $tp);
 
-        return $collection->findOne($searchQuery);
+        $searchQuery = array('tp' => $tp);
+        $result = $collection->findOne($searchQuery);
+
+        if($result == null){
+            $searchQuery = array('tp2' => $tp);
+            $result = $collection->findOne($searchQuery);
+        }
+
+        return $result;
     }
 
     /*
@@ -189,129 +215,17 @@ class Customer_dao extends CI_Model
         $searchQuery= array('tp' => $tp);
         $record = $collection->findOne($searchQuery);
 
+        if($record == null){
+            $searchQuery= array('tp2' => $tp);
+            $record = $collection->findOne($searchQuery);
+        }
+
         foreach ($data as $key => $value){
             $record[$key] = $data[$key];
         }
 
         $collection->save($record);
     }
-
-    /*
-     * Updates the order details
-     */
-    function updateBooking($tp,$refId,$data){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
-        $searchQuery= array('tp' => $tp);
-        $record = $collection->findOne($searchQuery);
-
-        $stat=array("index" => -1 , "found" => false);
-        $stat= $this->getIndex($record , $refId, $stat);
-
-        foreach($data as $key => $value){
-            $record["history"][$stat["index"]][$key] = $data [$key];
-        }
-
-        $collection->save($record);
-    }
-
-    /*
-     * Updates the fee after the travel is finished
-     */
-    function updateFee( $tp , $refId , $fee ){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
-        $searchQuery= array('tp' => $tp);
-        $record = $collection->findOne($searchQuery);
-
-        $stat=array("index" => -1 , "found" => false);
-        $stat= $this->getIndex($record , $refId, $stat);
-
-        $record["history"][$stat["index"]]["fee"]=$fee;
-
-        $collection->save($record);
-    }
-
-    /*
-     * Adds or Updates the cabID assigned for a order
-     */
-    function updateCabId($tp,$refId,$cabId){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
-        $searchQuery= array('tp' => $tp);
-        $record = $collection->findOne($searchQuery);
-
-        $stat=array("index" => -1 , "found" => false);
-        $stat= $this->getIndex($record , $refId, $stat);
-
-        $collection->update($searchQuery ,array('$set' => array('history.'.$stat["index"].'.cabId' => $cabId)));
-    }
-
-    /*
-     * Add or Updates the driverID assigned for a order
-     */
-    function updateDriverId($tp,$refId,$driverId){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
-        $searchQuery= array('tp' => $tp);
-        $record = $collection->findOne($searchQuery);
-
-        $stat=array("index" => -1 , "found" => false);
-        $stat= $this->getIndex($record , $refId, $stat);
-
-        $collection->update($searchQuery ,array('$set' => array('history.'.$stat["index"].'.driverId' => $driverId)));
-    }
-
-    /*
-    * Adds a new booking entry to the history array in the customer collection
-    * @parameters $tp= customer to number $refId = order id $address = {'number' =>'', 'road' =>'', 'city' =>'',
-    * 'town' => '', 'landmark' => ''}
-    */
-    function updateAddress($tp , $refId , $address){
-
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
-        $searchQuery= array('tp' => $tp);
-        $record = $collection->findOne($searchQuery);
-
-        $stat=array("index" => -1 , "found" => false);
-        $stat= $this->getIndex($record , $refId, $stat);
-
-        $collection->update($searchQuery ,array('$set' => array('history.'.$stat["index"].'.address' => $address)));
-
-    }
-
-    /*
-     * Adds a new booking entry to the history array in the customer collection
-     * @parameters $tp=customer tp  , $refId = order Id , $status = status to be assigned
-     */
-    function updateStatus($tp , $refId , $status)
-    {
-
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
-        $searchQuery= array('tp' => $tp);
-        $record = $collection->findOne($searchQuery);
-
-        $stat=array("index" => -1 , "found" => false);
-        $stat= $this->getIndex($record , $refId, $stat);
-
-        $collection->update($searchQuery ,array('$set' => array( 'history.'.$stat["index"].'.status' => $status)));
-    }
-
-
 
     /*
     * @Method Returns the array index for the customer order id [ref_id]

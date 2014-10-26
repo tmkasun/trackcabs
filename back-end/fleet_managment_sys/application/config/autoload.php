@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('customer_dao' , 'live_dao' , 'history_dao' , 'counters_dao' , 'driver_dao' , 'cab_dao' , 'users_dao');
+$autoload['model'] = array('customer_dao' , 'live_dao' , 'history_dao' , 'counters_dao' , 'driver_dao' , 'cab_dao' , 'users_dao','dispatcher_dao');
 
 
 /* End of file autoload.php */

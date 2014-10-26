@@ -5,7 +5,7 @@
  class Monitor extends CI_Controller {
 
      public function index() {
-         if (is_user_logged_in()) {
+         if (!is_user_logged_in()) {
              $this -> load -> view('monitor/index');
          } else {
              //If no session, redirect to login page

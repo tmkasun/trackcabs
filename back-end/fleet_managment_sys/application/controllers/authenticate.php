@@ -26,21 +26,21 @@ class Authenticate extends CI_Controller {
 	}
 
     function driver(){
-        $this -> load -> library('form_validation');
-        // TODO: get last loging of the driver and allow login
-        $this -> form_validation -> set_rules('username', 'Username', 'trim|required|xss_clean');
-        $this -> form_validation -> set_rules('password', 'Password', 'trim|required|xss_clean|callback_driver_auth');
+        $input = file_get_contents('php://input');
+        $inputArray = json_decode(trim($input), true);
+        $username = $inputArray['uName'];
+        log_message('info',$username);
 
-        $validationResult = $this -> form_validation -> run();
-        if ( $validationResult == FALSE) {
+        $authenticationResult = $this->users_dao->authenticate($username,$inputArray['pass']);
+
+        if (!$authenticationResult) {
             $authentication = array('isAuthorized' => false);
-        } else {
-            //Go to private area
-            $authentication = array('isAuthorized' => true,$validationResult->role->driverId );
-
+        }else {
+            $driver = $this->users_dao->find($username);
+            // For reference $driver->role->cab->id and $driver->role->id and $driver->role->cab->type
+            $authentication = array('isAuthorized' => true,'driverId' => $driver['uName'], 'cabId' => 11 ,'vehicleType' => 'van');
         }
-
-        $this -> output -> set_content_type('application/json') -> set_output(json_encode($return));
+        $this -> output -> set_content_type('application/json') -> set_output(json_encode($authentication));
     }
 
 	function check_database($password) {
@@ -68,16 +68,5 @@ class Authenticate extends CI_Controller {
 			return false;
 		}
 	}
-
-    function driver_auth($password){
-        $username = $this -> input -> post('username');
-        $result = $this->driver_dao->authenticate($username,$password);
-        $return = false;
-        if($result){
-            $return = true;
-        }
-
-        return $return;
-    }
 
 }

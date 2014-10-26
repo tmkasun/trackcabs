@@ -61,6 +61,9 @@
     <script src="<?= base_url() ?>assets/js/uikit/uikit.min.js"></script>
     <script src="<?= base_url() ?>assets/js/uikit/addons/notify.min.js"></script>
 
+    <!-- autobahn websocket and WAMP -->
+    <script src="<?= base_url() ?>assets/js/autobahn/autobahn.min.js"></script>
+
     <!-- Self javascript libraries (Order of the import is very important, changing the order might shadow some variables, append new script to bottom ) -->
     <!-- ** comment out below imports if using minimized wso2_geo.min library **  -->
     <script src="<?= base_url() ?>assets/js/application_options.js"></script>
@@ -68,6 +71,24 @@
         setBaseURL('<?= base_url() ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
         var webSocketURL = 'ws://localhost:9764/outputwebsocket/t/carbon.super/DefaultWebsocketOutputAdaptor/geoDataEndPoint'; // TODO: Get the server IP and port and other static information from the applicationOptions object
         ApplicationOptions.constance.WEB_SOCKET_URL = webSocketURL;
+
+        function subscribe(userid){
+            console.log("DEBUG: userid = "+userid);
+            var conn = new ab.Session('ws://192.168.0.21:8080',
+                function() {
+                    conn.subscribe(userid, function(topic, data) {
+                        // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                        alert('New Message published to user "' + topic + '" : ' + data.message);
+                    });
+                },
+                function() {
+                    console.warn('WebSocket connection closed');
+                },
+                {'skipSubprotocolCheck': true}
+            );
+        }
+        subscribe('dispatcher1');
+
     </script>
     <script src="<?= base_url() ?>assets/js/websocket.js"></script>
     <script src="<?= base_url() ?>assets/js/geo_remote.js"></script>

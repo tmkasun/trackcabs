@@ -34,6 +34,8 @@
         <ul class="nav navbar-nav">
             <li class="active"><a href="#" onclick="getAllCabs(docs_per_page , page , url)">Cabs</a></li>
             <li><a href="#" onclick="getDriversView()">Drivers</a></li>
+            <li><a href="#" onclick="getDispatchersView()">Dispatcher</a></li>
+            <li><a href="#" onclick="getDriversView()">CRO</a></li>
         </ul>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -92,20 +94,48 @@
         var driverId = document.getElementById("driverIdSearch").value;
         /* Create a JSON object from the form values */
         var driver = { 'driverId' : parseInt(driverId) };
-        var url = '<?php echo site_url("driver_retriever/getCab") ?>';
+        var url = '<?php echo site_url("driver_retriever/getDriver") ?>';
         var result = ajaxPost(driver,url);
 
     }
     function getDriverView(){
 
-        var cabId = document.getElementById("cabIdSearch").value;
+        var driverId = document.getElementById("driverIdSearch").value;
         /* Create a JSON object from the form values */
-        var cab = { 'cabId' : parseInt(cabId) };
-        var url = '<?php echo site_url("cab_retriever/getCabSearchView") ?>';
-        var result = ajaxPost(cab,url);
+        var driver = { 'driverId' : parseInt(driverId) };
+        var url = '<?php echo site_url("driver_retriever/getDriverSearchView") ?>';
+        var result = ajaxPost(driver,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = result.view.table_content;
 
+    }
+
+    function makeDriverFormEditable(driverId , url){
+
+        var data = {'driverId' : parseInt(driverId) };
+        url =url + "/driver_retriever/getDriverEditView";
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.driver_edit_view;
+    }
+
+    function updateDriver(url , docs_per_page , page ){
+
+        var driverId = document.getElementById("driverId").value;
+        var name = document.getElementById("name").value;
+        var uName = document.getElementById("uName").value;
+        var pass = document.getElementById("pass").value;
+        var nic = document.getElementById("nic").value;
+        var tp = document.getElementById("tp").value;
+        var cabIdAssigned = document.getElementById("cabIdAssigned").value;
+         /* Returns the function if validation fails */
+         /* Create a JSON object from the form values */
+
+        var driver =  {'driverId': parseInt(driverId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp ,'cabId' : cabIdAssigned }};
+        var baseUrl=url;
+        var url = '<?php echo site_url("driver_retriever/updateDriver") ?>';
+        ajaxPost(driver,url);
+        getAllDriversView(docs_per_page , page ,baseUrl);
     }
 
     function getDriversView(){
@@ -162,7 +192,103 @@
 
     }
 </script>
+<script>
+    function getDispatcher(){
 
+        var dispatcherId = document.getElementById("dispatcherIdSearch").value;
+        /* Create a JSON object from the form values */
+        var driver = { 'dispatcherId' : parseInt(dispatcherId) };
+        var url = '<?php echo site_url("dispatcher_retriever/getDispatcher") ?>';
+        var result = ajaxPost(driver,url);
+
+    }
+    function getDispatcherView(){
+
+        var dispatcherId = document.getElementById("dispatcherIdSearch").value;
+        /* Create a JSON object from the form values */
+        var dispatcher = { 'dispatcherId' : parseInt(dispatcherId) };
+        var url = '<?php echo site_url("dispatcher_retriever/getDispatcherSearchView") ?>';
+        var result = ajaxPost(dispatcher,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.table_content;
+
+    }
+
+    function makeDispatcherFormEditable(dispatcherId , url){
+
+        var data = {'dispatcherId' : parseInt(dispatcherId) };
+        url =url + "/dispatcher_retriever/getDispatcherEditView";
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.driver_edit_view;
+    }
+
+    function getDispatchersView(){
+        var data = {};
+        /* Get the nav bar for driver management view */
+        var url = '<?php echo site_url("dispatcher_retriever/getDispatcherNavBarView") ?>';
+        var result = ajaxPost(data,url);
+        /* Append the values for the div tag field */
+        var div = document.getElementById('navBarField');
+        div.innerHTML = result.view.table_content;
+
+        url = '<?php echo site_url("dispatcher_retriever/getSidePanelView") ?>';
+        result = ajaxPost(data,url);
+        div = document.getElementById('operation');
+        div.innerHTML =  result.view.table_content;
+
+        getAllDispatchersView();
+    }
+    function createNewDispatcher(){
+        var name = document.getElementById("name").value;
+        var uName = document.getElementById("uName").value;
+        var pass = document.getElementById("pass").value;
+        var nic = document.getElementById("nic").value;
+        var tp = document.getElementById("tp").value;
+        /* Create a JSON object from the form values */
+        var dispatcher = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp};
+        var url = '<?php echo site_url("dispatcher_retriever/createDispatcher") ?>';
+        alert(JSON.stringify(dispatcher));
+        ajaxPost(dispatcher ,url);
+        getAllDispatchersView();
+    }
+
+    function getAllDispatchersView(){
+        var skip = docs_per_page * (page-1);
+        var data = {"skip" : skip , "limit" : docs_per_page};
+        var url = '<?php echo site_url("dispatcher_retriever/getAllDispatchersView") ?>';
+        var view = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;
+
+    }
+
+    function getNewDispatcherView(){
+
+        var data = {};
+        var url = '<?php echo site_url("dispatcher_retriever/getNewFormDispatcherView") ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.table_content;
+    }
+
+    function updateDispatcher(url , docs_per_page , page ){
+
+        var dispatcherId = document.getElementById("dispatcherId").value;
+        var name = document.getElementById("name").value;
+        var uName = document.getElementById("uName").value;
+        var pass = document.getElementById("pass").value;
+        var nic = document.getElementById("nic").value;
+        var tp = document.getElementById("tp").value;
+        var dispatcher =  {'dispatcherId': parseInt(dispatcherId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};
+        var baseUrl=url;
+        var url = '<?php echo site_url("dispatcher_retriever/updateDispatcher") ?>';
+        ajaxPost(dispatcher,url);
+        getAllDriversView(docs_per_page , page ,baseUrl);
+    }
+
+</script>
 
 <script>
     function validate(plateNo , model , vType , color , info ){

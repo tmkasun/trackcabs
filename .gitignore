@@ -80,3 +80,5 @@ proguard/
 
 # Log Files
 *.log
+/nbproject/private/
+/nbproject

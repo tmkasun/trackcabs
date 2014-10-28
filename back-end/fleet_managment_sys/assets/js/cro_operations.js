@@ -26,6 +26,7 @@ function getCancelConfirmationView( url , tp , id ){
 
 }
 
+
 function confirmCancel(url , tp , id ){
     var siteUrl = url;
     var cancelReason="";
@@ -63,33 +64,48 @@ function createBooking(url , tp){
     var town        = $('#town').val();
     var landMark    = $('#landMark').val();
     var remark      = $('#remark').val();
+    var remark      = $('#callUpPrice').val();
     var bDate      = $('#bDate').val();
-    var bTIme      = $('#bTime').val();
-    var vType="";
+    var bTime      = $('#bTime').val();
+    var vType               = $('#vehicleType').val();
+    var payType             = $('#paymentType').val();
+    var isUnmarked          = $('#unmarked')[0].checked;
+    var isTinted            = $('#tinted')[0].checked;
+    var isVip               = $('#vip')[0].checked;
+    var isVih               = $('#vih')[0].checked;
+    var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
 
-    if(document.getElementById('carRadio').checked) {
-        vType = 'car';
-    }
-    if(document.getElementById('vanRadio').checked) {
-        vType = 'van';
-    }
-    if(document.getElementById('vanRadio').checked) {
-        vType = 'nano';
-    }
 
-    var payType="";
-
-    if(document.getElementById('cashRadio').checked) {
-        payType = 'cash';
+    var address = {
+        'no':no ,
+        'road' : road ,
+        'city' : city ,
+        'town' : town ,
+        'landmark' : landMark
     }
-    if(document.getElementById('creditRadio').checked) {
-        payType = 'credit';
-    }
+    var data = {
+        'tp' : tp ,
+        'data' : {
+            'address' : address ,
+            'vType' : vType ,
+            'payType' : payType ,
+            'bDate' : bDate,
+            'bTime' : bTime ,
 
-    var address = {'no':no , 'road' : road ,'city' : city , 'town' : town , 'landmark' : landMark}
-    var data = {'tp' : tp , 'data' : {'address' : address , 'vType' : vType , 'payType' : payType ,
-                'bDate' : bDate, 'bTime' : bTIme , 'status' : 'START' , 'cabId' : '-', 'driverId' : '-',
-                'remark' : remark , 'inqCall' : 0}};
+            'isUnmarked':isUnmarked,
+            'isTinted':isTinted,
+            'isVip':isVip,
+            'isVih':isVih,
+            'isCusNumberNotSent':isCusNumberNotSent,
+
+            'status' : 'START' ,
+            'cabId' : '-',
+            'driverId' : '-',
+            'remark' : remark ,
+            'inqCall' : 0
+        }
+    };
+
 
     var result = ajaxPost(data,url);
 
@@ -102,38 +118,48 @@ function updateBooking(url , objId){
     var baseUrl = url;
     url = baseUrl + "/customer_retriever/updateBooking";
 
-    var no          = $('#no').val();
-    var road        = $('#road').val();
-    var city        = $('#city').val();
-    var town        = $('#town').val();
-    var landMark    = $('#landMark').val();
-    var remark      = $('#remark').val();
-    var bDate      = $('#bDate').val();
-    var bTIme      = $('#bTime').val();
-    var vType="";
+    var no                  = $('#no').val();
+    var road                = $('#road').val();
+    var city                = $('#city').val();
+    var town                = $('#town').val();
+    var landMark            = $('#landMark').val();
+    var remark              = $('#remark').val();
+    var bDate               = $('#bDate').val();
+    var bTime               = $('#bTime').val();
+    var vType               = $('#vehicleType').val();
+    var payType             = $('#paymentType').val();
+    var isUnmarked          = $('#unmarked')[0].checked;
+    var isTinted            = $('#tinted')[0].checked;
+    var isVip               = $('#vip')[0].checked;
+    var isVih               = $('#vih')[0].checked;
+    var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
 
-    if(document.getElementById('carRadio').checked) {
-        vType = 'car';
-    }
-    if(document.getElementById('vanRadio').checked) {
-        vType = 'van';
-    }
-    if(document.getElementById('vanRadio').checked) {
-        vType = 'nano';
-    }
 
-    var payType="";
 
-    if(document.getElementById('cashRadio').checked) {
-        payType = 'cash';
-    }
-    if(document.getElementById('creditRadio').checked) {
-        payType = 'credit';
+    var address = {
+        'no':no ,
+        'road' : road ,
+        'city' : city ,
+        'town' : town ,
+        'landmark' : landMark
     }
 
-    var address = {'no':no , 'road' : road ,'city' : city , 'town' : town , 'landmark' : landMark}
-    var data = { 'objId' : objId , 'data' : {'address' : address , 'vType' : vType , 'payType' : payType ,
-        'bDate' : bDate, 'bTime' : bTIme ,'remark' : remark }};
+    var data = {
+        'objId' : objId ,
+        'data' : {
+            'address' : address ,
+            'vType' : vType ,
+            'payType' : payType ,
+            'bDate' : bDate,
+            'bTime' : bTime ,
+            'remark' : remark,
+            'isUnmarked':isUnmarked,
+            'isTinted':isTinted,
+            'isVip':isVip,
+            'isVih':isVih,
+            'isCusNumberNotSent':isCusNumberNotSent
+        }
+    };
 
     alert('sent data : ' + JSON.stringify(data));
 
@@ -244,7 +270,6 @@ function ajaxPost(data,urlLoc)    {
     $.ajax({
         type: 'POST', url: urlLoc,
         contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
         data: JSON.stringify(data),
         async: false,
         success: function(data, textStatus, jqXHR) {
@@ -301,4 +326,3 @@ function showCalender(){
     forceParse: 0
     });
     }
-

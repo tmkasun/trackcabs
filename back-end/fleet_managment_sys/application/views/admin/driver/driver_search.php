@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">Driver Details</h3>
         </div>
-        <div class="panel-body" id="singleCab">
+        <div class="panel-body" id="singleDriver">
             <div >
 
                 <h4>Driver ID : <?= $driverId;?></h4></br>

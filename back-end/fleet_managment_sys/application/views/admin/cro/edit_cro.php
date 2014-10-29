@@ -1,7 +1,7 @@
-<form role="form" id="editDispatchers">
+<form role="form" id="editCROs">
     <div class="form-group">
-        <label for="dispatcherId">Dispatcher ID</label>
-        <input type="text" class="form-control" id="dispatcherId"  readonly="readonly" value="<?= $dispatcherId;?>">
+        <label for="croId">CRO ID</label>
+        <input type="text" class="form-control" id="croId"  readonly="readonly" value="<?= $croId;?>">
     </div>
     <div class="form-group">
         <label for="name">Full Name</label>
@@ -24,5 +24,5 @@
         <input type="text" class="form-control" id="tp" placeholder="Enter Telephone Number" value="<?= $tp;?>">
     </div>
 
-    <button type="submit" class="btn btn-default" onclick="updateDispatcher(url, docs_per_page , page );">Save</button>
+    <button type="submit" class="btn btn-default" onclick="updateCRO(url, docs_per_page , page );">Save</button>
 </form>

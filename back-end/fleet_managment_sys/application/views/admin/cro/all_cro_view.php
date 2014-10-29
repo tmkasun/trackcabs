@@ -1,6 +1,6 @@
 <table class="table table-striped" >
     <tr>
-        <th>Dispatcher ID</th>
+        <th>CRO ID</th>
         <th>Name</th>
         <th>User Name</th>
         <th>Pass</th>
@@ -12,7 +12,7 @@
     <?php foreach ($data as $item):?>
 
         <tr>
-            <td><?= $item['dispatcherId'];?></td>
+            <td><?= $item['croId'];?></td>
             <td><?= $item['name'];?></td>
             <td><?= $item['uName'];?></td>
             <td><?= $item['pass'];?></td>

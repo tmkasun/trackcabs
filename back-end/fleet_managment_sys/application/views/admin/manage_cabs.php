@@ -308,63 +308,63 @@
 <script>
     function getCRO(){alert("in getCRO");
 
-        var driverId = document.getElementById("driverIdSearch").value;
+        var croId = document.getElementById("croIdSearch").value;
         /* Create a JSON object from the form values */
-        var driver = { 'driverId' : parseInt(driverId) };
-        var url = '<?php echo site_url("driver_retriever/getDriver") ?>';
-        var result = ajaxPost(driver,url);
+        var cro = { 'croId' : parseInt(croId) };
+        var url = '<?php echo site_url("cro_retriever/getCRO") ?>';
+        var result = ajaxPost(cro,url);
 
     }
     function getCROView(){alert("in getCROView");
 
-        var driverId = document.getElementById("driverIdSearch").value;
+        var croId = document.getElementById("croIdSearch").value;
         /* Create a JSON object from the form values */
-        var driver = { 'driverId' : parseInt(driverId) };
-        var url = '<?php echo site_url("driver_retriever/getDriverSearchView") ?>';
-        var result = ajaxPost(driver,url);
+        var cro = { 'croId' : parseInt(croId) };
+        var url = '<?php echo site_url("cro_retriever/getCROSearchView") ?>';
+        var result = ajaxPost(cro,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = result.view.table_content;
 
     }
 
-    function makeCROFormEditable(driverId , url){alert("in makeCROFormEditable");
+    function makeCROFormEditable(croId , url){alert("in makeCROFormEditable");
 
-        var data = {'driverId' : parseInt(driverId) };
-        url =url + "/driver_retriever/getDriverEditView";
+        var data = {'croId' : parseInt(croId) };
+        url =url + "/cro_retriever/getCROEditView";
         var result = ajaxPost(data,url);
         var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.driver_edit_view;
+        div.innerHTML = result.view.cro_edit_view;
     }
 
     function updateCRO(url , docs_per_page , page ){alert("in updateCRO");
 
-        var driverId = document.getElementById("driverId").value;
+        var croId = document.getElementById("croId").value;
         var name = document.getElementById("name").value;
         var uName = document.getElementById("uName").value;
         var pass = document.getElementById("pass").value;
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
-        var cabIdAssigned = document.getElementById("cabIdAssigned").value;
+        //var cabIdAssigned = document.getElementById("cabIdAssigned").value;
          /* Returns the function if validation fails */
          /* Create a JSON object from the form values */
 
-        var driver =  {'driverId': parseInt(driverId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp ,'cabId' : cabIdAssigned }};
+        var cro =  {'croId': parseInt(croId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};
         var baseUrl=url;
-        var url = '<?php echo site_url("driver_retriever/updateDriver") ?>';
-        ajaxPost(driver,url);
+        var url = '<?php echo site_url("cro_retriever/updateCRO") ?>';
+        ajaxPost(cro,url);
         getAllDriversView(docs_per_page , page ,baseUrl);
     }
 
     function getCROsView(){alert("in getCROsView");
         var data = {};
-        /* Get the nav bar for driver management view */
-        var url = '<?php echo site_url("driver_retriever/getDriverNavBarView") ?>';
+        /* Get the nav bar for cro management view */
+        var url = '<?php echo site_url("cro_retriever/getCRONavBarView") ?>';
         var result = ajaxPost(data,url);
         /* Append the values for the div tag field */
         var div = document.getElementById('navBarField');
         div.innerHTML = result.view.table_content;
 
-        url = '<?php echo site_url("driver_retriever/getSidePanelView") ?>';
+        url = '<?php echo site_url("cro_retriever/getSidePanelView") ?>';
         result = ajaxPost(data,url);
 
         div = document.getElementById('operation');
@@ -376,7 +376,7 @@
     function getNewCROView(){alert("in getNewCROView");
 
         var data = {};
-        var url = '<?php echo site_url("driver_retriever/getNewFormDriverView") ?>';
+        var url = '<?php echo site_url("cro_retriever/getNewFormCROView") ?>';
         var result = ajaxPost(data,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = result.view.table_content;
@@ -388,19 +388,19 @@
         var pass = document.getElementById("pass").value;
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
-        var cabIdAssigned = document.getElementById("cabIdAssigned").value;
+        //var cabIdAssigned = document.getElementById("cabIdAssigned").value;
         if(name == "" ){return false;}
         if(uName == "" ){return false;}
         if(pass == "" ){return false;}
         if(nic == "" ){return false;}
         if(tp == "" ){return false;}
 
-        if(cabIdAssigned == "" ){cabIdAssigned="null"}
+        //if(cabIdAssigned == "" ){cabIdAssigned="null"}
         /* Create a JSON object from the form values */
-        var driver = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp ,'cabId' : cabIdAssigned };
-        var url = '<?php echo site_url("driver_retriever/createDriver") ?>';
-        alert(JSON.stringify(driver));
-        ajaxPost(driver,url);
+        var cro = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp };
+        var url = '<?php echo site_url("cro_retriever/createCRO") ?>';
+        alert(JSON.stringify(cro));
+        ajaxPost(cro,url);
         getAllDriversView();
     }
 
@@ -408,7 +408,7 @@
     function getAllCROsView(){alert("in getAllCROsView");
         var skip = docs_per_page * (page-1);
         var data = {"skip" : skip , "limit" : docs_per_page};
-        var url = '<?php echo site_url("driver_retriever/getAllDriversView") ?>';
+        var url = '<?php echo site_url("cro_retriever/getAllCROsView") ?>';
         var view = ajaxPost(data,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = "";

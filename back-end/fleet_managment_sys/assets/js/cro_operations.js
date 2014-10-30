@@ -109,7 +109,7 @@ function createBooking(url , tp){
 
     var result = ajaxPost(data,url);
 
-    getCustomerInfoView(baseUrl , tp);
+
 }
 
 
@@ -205,7 +205,7 @@ function createCusInfo(url){
                 'org' : org , 'des' : des, 'title' : title , 'position' : position, 'dis_cancel' : 0 , 'tot_cancel' : 0,
                 'tot_job' : 0 };
     ajaxPost(data,url);
-    getCustomerInfoView(siteUrl , tp);
+
 }
 
 function updateCustomerInfoView(url){
@@ -325,4 +325,20 @@ function showCalender(){
     maxView: 1,
     forceParse: 0
     });
-    }
+}
+
+function uiInit(){
+    $("#callUp").click(function(){
+        $("#callUpPrice").toggle();
+    });
+
+    $(".btn-group > .btn").click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+        $(this).parent().siblings("input.customRadio").val($(this).val());
+    });
+
+    $("button.customRadio").click(function(){
+        $(this).parent().siblings("input.customRadio").val($(this).val());
+        $(this).parent().siblings("input.customRadio").text($(this).text())
+    });
+}

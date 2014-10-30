@@ -5,6 +5,7 @@ class Live_dao extends CI_Model
     function __construct()
     {
         $this->db  = new MongoClient();
+        //$this.db
     }
 
     /**

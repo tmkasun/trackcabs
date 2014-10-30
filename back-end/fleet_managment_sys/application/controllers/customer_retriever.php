@@ -77,8 +77,8 @@ class Customer_retriever extends CI_Controller
         $this->customer_dao->addBooking($input_data["tp"], $bookingObjId);
 
         // send $_SESSION['user']->id
-        $webSocket = new Websocket('cro');
-        $response = $webSocket->send($bookingCreated, 'dispatcher');
+        //$webSocket = new Websocket('cro');
+        //$response = $webSocket->send($bookingCreated, 'dispatcher');
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg,'dest' => 'dispatcher1')));
 

@@ -18,7 +18,7 @@
     </select>
 </form>
 
-<form role="form" id="editCustomer" >
+<form role="form" id="editCustomer" class="customerForm">
     <div class="form-group">
         <label for="tp">Telephone Number</label>
         <input type="text" class="form-control" id="tp" placeholder="Telephone Number" value="<?= $tp?>">

@@ -1,27 +1,28 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Cro extends CI_Controller
+class Cro_retriever extends CI_Controller
 {
 
     public function index()
-    {       
+    {
+        echo "index works";
     }
     
-    function getCRONavBarView(){
+    function getCRONavBarView(){       
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('admin/driver/driver_navbar', $table_data, TRUE);
+        $data['table_content'] = $this->load->view('admin/cro/cro_navbar', $table_data, TRUE);//, $table_data, TRUE
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
     function getNewFormCROView(){
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('admin/driver/new_driver_view', $table_data, TRUE);
+        $data['table_content'] = $this->load->view('admin/cro/new_cro_view', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
     function getSidePanelView(){
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('admin/driver/driver_sidepanel', $table_data, TRUE);
+        $data['table_content'] = $this->load->view('admin/cro/cro_sidepanel', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
@@ -29,7 +30,7 @@ class Cro extends CI_Controller
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $data = $this->driver_dao->getDriversByPage($input_data['limit'],$input_data['skip']);
-        $data['table_content'] = $this->load->view('admin/driver/all_drivers_view', $data, TRUE);
+        $data['table_content'] = $this->load->view('admin/cro/all_cro_view', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
 
     }
@@ -39,7 +40,7 @@ class Cro extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $data = $this->driver_dao->getDriver($input_data['driverId']);
 
-        $data['table_content'] = $this->load->view('admin/driver/driver_search', $data, TRUE);
+        $data['table_content'] = $this->load->view('admin/cro/cro_search', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
@@ -47,7 +48,7 @@ class Cro extends CI_Controller
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $data = $this->driver_dao->getDriver($input_data['driverId']);
-        $data['driver_edit_view'] = $this->load->view('admin/driver/edit_drivers', $data, TRUE);
+        $data['driver_edit_view'] = $this->load->view('admin/cro/edit_cro', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 

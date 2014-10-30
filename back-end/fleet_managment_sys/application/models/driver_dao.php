@@ -35,8 +35,8 @@ class Driver_dao extends CI_Model
         $connection = new MongoClient();
         $dbName = $connection->selectDB('track');
         $collection = $dbName->selectCollection('drivers');
-
-        $cursor = $collection->find();
+        $query = array('id' => '3');
+        $cursor = $collection->find($query);
         $data= array();
         foreach ($cursor as $doc) {
             $data[]= $doc;

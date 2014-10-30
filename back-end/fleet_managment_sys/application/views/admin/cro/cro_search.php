@@ -3,10 +3,10 @@
         <div class="panel-heading">
             <h3 class="panel-title">CRO Details</h3>
         </div>
-        <div class="panel-body" id="singleCab">
+        <div class="panel-body" id="singleCRO">
             <div >
 
-                <h4>Dispatcher ID : <?= $dispatcherId;?></h4></br>
+                <h4>CRO ID : <?= $croId;?></h4></br>
                 <h4>Name : <?= $name?></h4></br>
                 <h4>User Name : <?= $uName;?></h4></br>
                 <h4>Pass : <?= $pass;?></h4></br>
@@ -14,7 +14,7 @@
                 <h4>Telephone Number : <?= $tp;?></h4></br>
                 </br>
 
-                <button type="button" class="btn btn-danger btn-lg" onclick="makeDispatcherFormEditable(<?= $dispatcherId;?>,url)"
+                <button type="button" class="btn btn-danger btn-lg" onclick="makeCROFormEditable(<?= $croId;?>,url)"
                         style="float: right">Edit</button>
             </div>
         </div>

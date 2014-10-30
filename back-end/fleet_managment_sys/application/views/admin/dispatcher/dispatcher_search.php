@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">Dispatcher Details</h3>
         </div>
-        <div class="panel-body" id="singleCab">
+        <div class="panel-body" id="singleDispatcher">
             <div >
 
                 <h4>Dispatcher ID : <?= $dispatcherId;?></h4></br>

@@ -8,11 +8,18 @@
     <!-------------------------------- CSS Files------------------------------------>
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/webLibs/bootstrapvalidator-dist-0.5.2/dist/css/bootstrapValidator.css">
+
+
+
+
     <!-------------------------------- JS Files------------------------------------>
     <script type="text/javascript" src="<?= base_url();?>assets/js/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/cro_operations.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="<?= base_url();?>assets/webLibs/bootstrapvalidator-dist-0.5.2/dist/js/bootstrapValidator.js" charset="UTF-8"></script>
+
 
         <script>
         var docs_per_page= 100 ;
@@ -141,13 +148,95 @@
                 updateCustomerInfoView( url );
             }
             if(request == 'getCustomer'){
+
                 tp      = document.getElementById("tpSearch").value;
                 getCustomerInfoView( url , tp );
+                ///CustomerInfoView UI Logic
+                $("#callUp").click(function(){
+                    $("#callUpPrice").toggle();
+                });
+
+                $(".btn-group > .btn").click(function(){
+                    $(this).addClass("active").siblings().removeClass("active");
+                    $(this).parent().siblings("input.customRadio").val($(this).val())
+                });
+
+                $("button.customRadio").click(function(){
+                    $(this).parent().siblings("input.customRadio").val($(this).val())
+                });
+
+                $('#newBookingForm').bootstrapValidator({
+                    message: 'This value is not valid',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    excluded:[]
+                    ,
+                    fields: {
+                        paymentType: {
+                            message: 'The field is not valid',
+                            validators: {
+                                notEmpty: {
+                                    message: 'Payment Type Not Selected'
+                                }
+                            }
+                        },
+
+                        vehicleType: {
+                            message: 'The field is not valid',
+                            validators: {
+                                notEmpty: {
+                                    message: 'Vehicle Type Not Selected'
+                                }
+                            }
+                        },
+                        bDate: {
+                            message: 'The field is not valid',
+                            validators: {
+                                notEmpty: {
+                                    message: 'Booking Date Not Selected'
+                                }
+                            }
+                        },
+                        bTime:{
+                            message: 'The field is not valid',
+                            validators: {
+                                notEmpty: {
+                                    message: 'Booking Time Not Selected'
+                                }
+                            }
+                        },
+
+                        dispatchBefore:{
+                            message: 'The field is not valid',
+                            validators: {
+                                notEmpty: {
+                                    message: 'Dispatch Before time cannot be empty'
+                                },
+                                greaterThan: {
+                                    message: 'Dispatch before time should be greater than or equal to  30',
+                                    value : 30,
+                                    inclusive:true
+
+                                }
+                            }
+                        }
+                    }
+
+                })
+                    .on('success.form.bv', function(e) {
+                    // Prevent form submission
+                    e.preventDefault();
+                    createBooking(url , tp)
+                });
             }
             if(request == 'createCusInfo'){
                 createCusInfo( url );
             }
             if(request == 'createBooking'){
+                // Validate Form Before Creating Booking
                 createBooking(url , tp)
             }
             if(request == 'cancel'){

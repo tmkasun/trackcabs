@@ -2,75 +2,103 @@
 
 class Users_dao extends CI_Model
 {
-    protected $role;
-    protected $roleId;
 
     function __construct()
     {
-        parent::__construct();
-        $this->mongodb = new MongoClient();
+
+    }
+    
+    function get_collection()
+    {
+        $conn = new MongoClient();
+        $collection = $conn->selectDB('track')->selectCollection('users');
+        return $collection;
+        
+    }
+            
+    function createUser($user_details)
+    {
+        $collection = $this->get_collection();
+
+        $statusMsg = true;
+        $searchQuery = array('userId' => $user_details['userId']);
+        $record = $collection->findOne($searchQuery);
+
+        if( $record == null){ $collection->insert($user_details);}           
+        else {$statusMsg = false;} 
+
+        return $statusMsg;
     }
 
-    /**
-     * @param $geoNameId Geoname ID of a location , This is the default primary key for the geo_names collection
-     * Return the
-     * sample:
-     *
-     * {
-     * "_id" : 1222722,
-     * "uName" : "tmkasun",
-     * "pass" : "plain_text",
-     * "roleId" : "mongo_id",
-     * "role" : 'role_name'
-     * }
-     * @returns null if record doesn't exist , if exist sends the first record
-     */
-
-    function authenticate($uName, $pass)
+    function getUser($userId)
     {
-        $searchQuery = array('uName' => $uName, 'pass' => $pass);
-        return $this->mongodb->track->users->findOne($searchQuery);
+        $collection = $this->get_collection();
+
+        $searchQuery = array('userId' => $userId);
+        $user = $collection->findOne($searchQuery);
+        return $user;
     }
 
-    /**
-     * @param $uName
-     * @param string $pass
-     * @return array
-     */
-    function create($uName, $pass = "123456")
+    function getAllUsers()
     {
+        $collection = $this->get_collection();
 
-        $user = $this->mongodb->track->users->findAndModify(
-            array('uName' => $uName),
-            array(
-                '$setOnInsert' => array('pass' => $pass, 'createdOn' => new MongoDate())
-            ), null,
-            array('new' => true,
-                'upsert' => true)
-        );
+        $cursor = $collection->find();
+        $users= array();
+        foreach ($cursor as $user) {
+            $users[]= $user;
+        }
+
+        return $users;
+    }
+    
+
+    function getUsersByPage($limit,$skip)
+    {
+        $collection = $this->get_collection();
+
+        $cursor = $collection->find()->limit($limit)->skip($skip);
+        $users= array('data' => array());
+        foreach ($cursor as $user) 
+        {
+            $users['data'][]= $user;
+        }
+        return $users;
+    }
+
+    function authenticate($userName, $pass)
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array("uName" => $userName , 'pass' => $pass );
+        $user = $collection->findOne($searchQuery);
         return $user;
 
     }
 
-    /**
-     * @param null $name
-     * @return mixed
-     */
-    public function __get($name = null)
+    function updateUser($userId , $edited_data)
     {
-        return $this->self[$name];
+        $collection = $this->get_collection();
+
+        $searchQuery= array('userId' => $userId);
+        $user = $collection->findOne($searchQuery);
+
+        foreach ($data as $key => $value)
+        {
+            $user[$key] = $edited_data[$key];
+        }
+
+        $collection->save($record);
+    }
+    
+    //Special functions
+    function getDriverByCabId()
+    {
+
+    }
+    function getCabByDriverId()
+    {
+
     }
 
-    /**
-     * @param $role
-     */
-    public function assignRole($role)
-    {
-        $this->role = $role;
-    }
-
-    function find($username){
-        return $this->mongodb->track->users->findOne(array('uName' => $username));
-    }
 
 }

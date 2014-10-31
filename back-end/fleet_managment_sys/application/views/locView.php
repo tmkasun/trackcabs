@@ -81,13 +81,13 @@
                     <td class="col-md-2"><input class="form-control cabInput" type="text"><button class="form-control cabAdd">+</button></td>
                     <td class="col-md-6">
                         <ul class="cabs">
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1001</button></li>
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1002</button></li>
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1003</button></li>
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1004</button></li>
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1005</button></li>
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1005</button></li>
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1006</button></li>
+                            <li class="cab"><button class="btn btn-success dropdown-toggle cabDispatch" data-toggle="dropdown" aria-expanded="false">Cab 1001</button></li>
+                            <li class="cab"><button class="btn btn-success dropdown-toggle cabDispatch" >Cab 1002</button></li>
+                            <li class="cab"><button class="btn btn-success dropdown-toggle cabDispatch" >Cab 1003</button></li>
+                            <li class="cab"><button class="btn btn-success cabDispatch" >Cab 1004</button></li>
+                            <li class="cab"><button class="btn btn-success cabDispatch" >Cab 1005</button></li>
+                            <li class="cab"><button class="btn btn-success cabDispatch" >Cab 1005</button></li>
+                            <li class="cab"><button class="btn btn-success cabDispatch" >Cab 1006</button></li>
 
                         </ul>
 
@@ -131,7 +131,78 @@
                 <tr>
                     <td class="col-md-2">Moratuwa</td>
                     <td class="col-md-3"><input class="form-control cabInput" type="text"><button class="form-control cabAdd">+</button></td>
-                    <td class="col-md-5"><button class="form-control cabDispatch">Dispatch</button></td>
+                    <td class="col-md-5">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success">Cab 4455</button>
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Turbo Boost</a></li>
+                                <li><a href="#">Teleport</a></li>
+                                <li><a href="#">Submersible</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Other Options</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success">Cab 6547</button>
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Turbo Boost</a></li>
+                                <li><a href="#">Teleport</a></li>
+                                <li><a href="#">Submersible</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Other Options</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group open">
+                            <button type="button" class="btn btn-success">Cab 4455</button>
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu" role="menu" style="  padding: 10px; min-width: 200%">
+
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                        <h2 class="panel-title">Cab 4455 Info</h2>
+                                    </div>
+                                    <div class="panel-body" style="padding: 4%">
+                                        <div style="margin:0">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <span>Has Turbo Boost</span>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <span>True</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <span>Has Teleportation</span>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <span>True</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin: 0">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </td>
+
 
                 </tr>
                 <tr>

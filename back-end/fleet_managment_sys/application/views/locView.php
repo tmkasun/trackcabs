@@ -19,61 +19,135 @@
     <script type="text/javascript" src="<?= base_url();?>assets/js/cro_operations.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/webLibs/bootstrapvalidator-dist-0.5.2/dist/js/bootstrapValidator.js" charset="UTF-8"></script>
+<style>
+    input.cabInput{
+        width:65%;
+        display: inline;
+    }
+
+    ul.cabs{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li.cab{
+        display: inline;
+    }
+
+    button.cabDispatch{
+        width: auto;
+        display: inline;
+        margin-bottom: 5px;
+
+    }
+    button.cabAdd{
+        width: auto;
+        display: inline;
+        margin-bottom: 5px;
+
+    }
+
+    input{
+
+    }
 
 
-    <script>
-        var docs_per_page= 100 ;
-        var page = 1 ;
-        var obj = null;
-        var tp;
-        var url = '<?= site_url(); ?>';
-    </script>
+
+
+</style>
 </head>
 <body>
-<div class="table-responsive">
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>1</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-        </tr>
-        </tbody>
-    </table>
+<h2 style="text-align: center; margin-bottom: 1%">Location Board</h2>
+<div class="form-group" style="text-align: center">
+    <input class="form-control" style="width: auto; display: inline">
+    <button class="form-control" style="width: auto;display: inline">Add Location</button>
 </div>
+<div class="row" style="padding: 2%">
+    <div class="col-md-6">
+        <div class="table-responsive" style="width:100%; margin:auto 0 auto auto">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th  class="col-md-2">Location</th>
+                    <th  class="col-md-2">Add Cab</th>
+                    <th  class="col-md-6">Avail. Cabs</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-md-2">Rajagiriya</td>
+                    <td class="col-md-2"><input class="form-control cabInput" type="text"><button class="form-control cabAdd">+</button></td>
+                    <td class="col-md-6">
+                        <ul class="cabs">
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1001</button></li>
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1002</button></li>
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1003</button></li>
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1004</button></li>
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1005</button></li>
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1005</button></li>
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1006</button></li>
+
+                        </ul>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="col-md-2">Dematagoda</td>
+                    <td class="col-md-2"><input class="form-control cabInput" type="text"><button class="form-control cabAdd">+</button></td>
+                    <td class="col-md-6">
+                        <ul class="cabs">
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1001</button></li>
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1002</button></li>
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1003</button></li>
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1004</button></li>
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1005</button></li>
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1005</button></li>
+                            <li class="cab"><button class="form-control cabDispatch" >Cab 1006</button></li>
+
+                        </ul>
+
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="table-responsive" style="width:100%; margin:0">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th  class="col-md-2">Location</th>
+                    <th  class="col-md-3">Add Cab</th>
+                    <th  class="col-md-5">Avail. Cabs</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-md-2">Moratuwa</td>
+                    <td class="col-md-3"><input class="form-control cabInput" type="text"><button class="form-control cabAdd">+</button></td>
+                    <td class="col-md-5"><button class="form-control cabDispatch">Dispatch</button></td>
+
+                </tr>
+                <tr>
+                    <td class="col-md-2">Galle</td>
+                    <td class="col-md-3"><input class="form-control cabInput" type="text"><button class="form-control cabAdd">+</button></td>
+                    <td class="col-md-5"><button class="form-control cabDispatch">Dispatch</button></td>
+
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
 
 
 

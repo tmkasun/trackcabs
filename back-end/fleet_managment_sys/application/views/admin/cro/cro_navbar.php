@@ -8,7 +8,7 @@
         <li><a href="#" onclick="getCabsDefaultView(url, docs_per_page , page)">Cabs</a></li>
         <li><a href="#" onclick="getDriversView()">Drivers</a></li>
         <li class="active"><a href="#" onclick="getDispatchersView()">Dispatcher</a></li>
-        <li><a href="#" onclick="getCROsView()">CRO</a></li>
+        <li><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
     </ul>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -17,7 +17,7 @@
             <div class="form-group">
                 <input class="form-control" placeholder="CRO ID" type="text" id="croIdSearch">
             </div>
-            <button type="submit" class="btn btn-default" onclick="getCROView()">Submit</button>
+            <button type="submit" id="cro" class="btn btn-default" onclick="getCROView(this.id)">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#">Link</a></li>

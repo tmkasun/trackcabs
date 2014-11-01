@@ -1,6 +1,6 @@
 <?php
 
-class Users_dao extends CI_Model
+class User_dao extends CI_Model
 {
 
     function __construct()
@@ -39,6 +39,7 @@ class Users_dao extends CI_Model
         return $user;
     }
 
+    //This function will be used if needed to get all user types
     function getAllUsers()
     {
         $collection = $this->get_collection();
@@ -52,12 +53,42 @@ class Users_dao extends CI_Model
         return $users;
     }
     
-
+    //This function will be used if needed to get all user types, number of users limited to page size
     function getUsersByPage($limit,$skip)
     {
         $collection = $this->get_collection();
 
         $cursor = $collection->find()->limit($limit)->skip($skip);
+        $users= array('data' => array());
+        foreach ($cursor as $user) 
+        {
+            $users['data'][]= $user;
+        }
+        return $users;
+    }
+    
+    //This function is used to get all users of a certain type
+    function getAllUsers_by_type($type)
+    {
+        $collection = $this->get_collection();
+        
+        $user_type = array('user_type' => $type);
+        $cursor = $collection->find($user_type);
+        $users= array();
+        foreach ($cursor as $user) {
+            $users[]= $user;
+        }
+
+        return $users;
+    }
+    
+    //This function is used to get all users of a certain type, limited to page size
+    function getUsersByPage_by_type($limit,$skip,$type)
+    {
+        $collection = $this->get_collection();
+        
+        $user_type = array('user_type' => $type);
+        $cursor = $collection->find()->limit($limit)->skip($skip);//$user_type
         $users= array('data' => array());
         foreach ($cursor as $user) 
         {

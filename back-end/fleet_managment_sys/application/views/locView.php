@@ -18,44 +18,55 @@
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/cro_operations.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+
     <script type="text/javascript" src="<?= base_url();?>assets/webLibs/bootstrapvalidator-dist-0.5.2/dist/js/bootstrapValidator.js" charset="UTF-8"></script>
-<style>
-    input.cabInput{
-        width:65%;
-        display: inline;
-    }
+    <script type="text/javascript" src="<?= base_url();?>assets/webLibs/knockout/knockout-3.2.0.js"></script>
+    <style>
+        input.cabInput{
+            width:65%;
+            display: inline;
+        }
 
-    ul.cabs{
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
+        ul.cabs{
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+        }
 
-    li.cab{
-        display: inline;
-    }
+        li.cab{
+            display: inline;
+        }
 
-    button.cabDispatch{
-        width: auto;
-        display: inline;
-        margin-bottom: 5px;
+        .cabView{
+            width: auto;
+            display: inline;
+            margin-bottom: 2%;
+            margin-right: 2%;
 
-    }
-    button.cabAdd{
-        width: auto;
-        display: inline;
-        margin-bottom: 5px;
+        }
+        button.cabAdd{
+            width: auto;
+            display: inline;
+            margin-bottom: 5px;
 
-    }
+        }
 
-    input{
+        .dropdown-menu2{
 
-    }
+            left:-217%;
+        }
+
+
+        .dropdown-menu1{
+
+            left:-45%;
+        }
 
 
 
 
-</style>
+    </style>
 </head>
 <body>
 <h2 style="text-align: center; margin-bottom: 1%">Location Board</h2>
@@ -63,155 +74,196 @@
     <input class="form-control" style="width: auto; display: inline">
     <button class="form-control" style="width: auto;display: inline">Add Location</button>
 </div>
-<div class="row" style="padding: 2%">
-    <div class="col-md-6">
-        <div class="table-responsive" style="width:100%; margin:auto 0 auto auto">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th  class="col-md-2">Location</th>
-                    <th  class="col-md-2">Add Cab</th>
-                    <th  class="col-md-6">Avail. Cabs</th>
+<div id="zoneContainer" class="row" style="padding: 2%">
 
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="col-md-2">Rajagiriya</td>
-                    <td class="col-md-2"><input class="form-control cabInput" type="text"><button class="form-control cabAdd">+</button></td>
-                    <td class="col-md-6">
-                        <ul class="cabs">
-                            <li class="cab"><button class="btn btn-success dropdown-toggle cabDispatch" data-toggle="dropdown" aria-expanded="false">Cab 1001</button></li>
-                            <li class="cab"><button class="btn btn-success dropdown-toggle cabDispatch" >Cab 1002</button></li>
-                            <li class="cab"><button class="btn btn-success dropdown-toggle cabDispatch" >Cab 1003</button></li>
-                            <li class="cab"><button class="btn btn-success cabDispatch" >Cab 1004</button></li>
-                            <li class="cab"><button class="btn btn-success cabDispatch" >Cab 1005</button></li>
-                            <li class="cab"><button class="btn btn-success cabDispatch" >Cab 1005</button></li>
-                            <li class="cab"><button class="btn btn-success cabDispatch" >Cab 1006</button></li>
+    <!--Container for Order List-->
+    <!--div class="col-md-2">
 
-                        </ul>
+    </div-->
 
-                    </td>
-
-                </tr>
-                <tr>
-                    <td class="col-md-2">Dematagoda</td>
-                    <td class="col-md-2"><input class="form-control cabInput" type="text"><button class="form-control cabAdd">+</button></td>
-                    <td class="col-md-6">
-                        <ul class="cabs">
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1001</button></li>
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1002</button></li>
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1003</button></li>
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1004</button></li>
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1005</button></li>
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1005</button></li>
-                            <li class="cab"><button class="form-control cabDispatch" >Cab 1006</button></li>
-
-                        </ul>
-
-                    </td>
-
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="col-md-6">
+    <!--First Column of Zones-->
+    <div id="zoneCol1Container" class="col-md-6">
         <div class="table-responsive" style="width:100%; margin:0">
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th  class="col-md-2">Location</th>
+                    <th  class="col-md-2">Zone</th>
                     <th  class="col-md-3">Add Cab</th>
                     <th  class="col-md-5">Avail. Cabs</th>
 
                 </tr>
                 </thead>
-                <tbody>
+                <tbody data-bind="foreach:ZonesColumn1">
                 <tr>
-                    <td class="col-md-2">Moratuwa</td>
-                    <td class="col-md-3"><input class="form-control cabInput" type="text"><button class="form-control cabAdd">+</button></td>
+                    <td class="col-md-2" data-bind="text:name" ></td>
+                    <td class="col-md-3">
+                        <input data-bind="attr:{id:id}, value:cabInput" class="form-control cabInput" type="text">
+                        <button data-bind="click:$root.addCab" class="form-control cabAdd">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </td>
                     <td class="col-md-5">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success">Cab 4455</button>
-                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Turbo Boost</a></li>
-                                <li><a href="#">Teleport</a></li>
-                                <li><a href="#">Submersible</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Other Options</a></li>
-                            </ul>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success">Cab 6547</button>
-                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Turbo Boost</a></li>
-                                <li><a href="#">Teleport</a></li>
-                                <li><a href="#">Submersible</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Other Options</a></li>
-                            </ul>
-                        </div>
+                        <ul style="display: inline" class="cabs" data-bind="foreach:cabs">
+                            <li style="display: inline">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown">
+                                        <span data-bind="text:vehicleType"></span>
+                                        <span data-bind="text:id">2342 &nbsp;</span>
+                                        <span class="caret"></span>
+                                    </button>
 
-                        <div class="btn-group open">
-                            <button type="button" class="btn btn-success">Cab 4455</button>
-                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div class="dropdown-menu" role="menu" style="  padding: 10px; min-width: 200%">
+                                    <div class="dropdown-menu dropdown-menu1" role="menu" style="  padding: 10px; min-width: 400%; border-radius: 5px">
 
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">
-                                        <h2 class="panel-title">Cab 4455 Info</h2>
-                                    </div>
-                                    <div class="panel-body" style="padding: 4%">
-                                        <div style="margin:0">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <span>Has Turbo Boost</span>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <span>True</span>
-                                                </div>
+                                        <div class="panel panel-success">
+                                            <div class="panel-heading">
+                                                <h2 class="panel-title" data-bind="text:vehicleType + ' '+ id + ' Info' "></h2>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <span>Has Teleportation</span>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <span>True</span>
+
+                                            <div class="panel-body" style="padding: 3%">
+                                                <div style="margin:0">
+                                                    <table class="table table-bordered" style="margin-bottom:2%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th style="width:30%">Attribute</th>
+                                                            <th>Value</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td><span>Vehicle Type</span></td>
+                                                            <td><span data-bind="text:vehicleType"></span></td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><span>Model</span></td>
+                                                            <td><span data-bind="text:attributes.model"></span></td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><span>Is Tinted?</span></td>
+                                                            <td><span data-bind="text:attributes.isTinted"></span></td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><span>Is Marked?</span></td>
+                                                            <td><span data-bind="text:attributes.isMarked"></span></td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><span>Current Location</span></td>
+                                                            <td><span data-bind="text:currentLocation"></span></td>
+                                                        </tr>
+
+                                                        </tbody>
+                                                    </table>
+
+                                                    <div class="row" style="float:right; margin:0">
+                                                        <button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="row" style="margin: 0">
-
-                                </div>
-
-                            </div>
-                        </div>
+                            </li>
+                        </ul>
                     </td>
-
-
                 </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--Second Column of Zones-->
+    <div id="zoneCol2Container" class="col-md-6">
+        <div class="table-responsive" style="width:100%; margin:0">
+            <table class="table table-hover">
+                <thead>
                 <tr>
-                    <td class="col-md-2">Galle</td>
-                    <td class="col-md-3"><input class="form-control cabInput" type="text"><button class="form-control cabAdd">+</button></td>
-                    <td class="col-md-5"><button class="form-control cabDispatch">Dispatch</button></td>
+                    <th  class="col-md-2">Zone</th>
+                    <th  class="col-md-3">Add Cab</th>
+                    <th  class="col-md-5">Avail. Cabs</th>
 
                 </tr>
+                </thead>
+                <tbody data-bind="foreach:ZonesColumn2">
+                <tr>
+                    <td class="col-md-2" data-bind="text:name" ></td>
+                    <td class="col-md-3">
+                        <input data-bind="attr:{id:id}, value:cabInput" class="form-control cabInput" type="text">
+                        <button data-bind="click:$root.addCab" class="form-control cabAdd">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </td>
+                    <td class="col-md-5">
+                        <ul style="display: inline" class="cabs" data-bind="foreach:cabs">
+                            <li style="display: inline">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown">
+                                        <span data-bind="text:vehicleType"></span>
+                                        <span data-bind="text:id">2342 &nbsp;</span>
+                                        <span class="caret"></span>
+                                    </button>
 
+                                    <div class="dropdown-menu dropdown-menu1" role="menu" style="  padding: 10px; min-width: 400%; border-radius: 5px">
+
+                                        <div class="panel panel-success">
+                                            <div class="panel-heading">
+                                                <h2 class="panel-title" data-bind="text:vehicleType + ' '+ id + ' Info' "></h2>
+                                            </div>
+
+                                            <div class="panel-body" style="padding: 3%">
+                                                <div style="margin:0">
+                                                    <table class="table table-bordered" style="margin-bottom:2%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th style="width:30%">Attribute</th>
+                                                            <th>Value</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td><span>Vehicle Type</span></td>
+                                                            <td><span data-bind="text:vehicleType"></span></td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><span>Model</span></td>
+                                                            <td><span data-bind="text:attributes.model"></span></td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><span>Is Tinted?</span></td>
+                                                            <td><span data-bind="text:attributes.isTinted"></span></td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><span>Is Marked?</span></td>
+                                                            <td><span data-bind="text:attributes.isMarked"></span></td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><span>Current Location</span></td>
+                                                            <td><span data-bind="text:currentLocation"></span></td>
+                                                        </tr>
+
+                                                        </tbody>
+                                                    </table>
+
+                                                    <div class="row" style="float:right; margin:0">
+                                                        <button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -220,6 +272,8 @@
 </div>
 
 
+
+<script type="text/javascript" src="<?= base_url();?>assets/js/LocationBoardScripts/ViewModel.js" charset="UTF-8"></script>
 
 
 </body>

@@ -72,6 +72,14 @@ function createBooking(url , tp){
     var isVih               = $('#vih')[0].checked;
     var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
 
+    if (no == ''){no = '-'}
+    if (road == ''){road= '-'}
+    if (city== ''){city= '-'}
+    if (town== ''){town= '-'}
+    if (landMark== ''){landMark= '-'}
+    if (remark== ''){remark= '-'}
+    if (callUpPrice== ''){callUpPrice= 0}
+    if (dispatchB4== ''){dispatchB4= 0}
 
     var address = {
         'no':no ,
@@ -104,11 +112,7 @@ function createBooking(url , tp){
             'dispatchB4' : dispatchB4
         }
     };
-
-
-    var result = ajaxPost(data,url);
-
-
+    ajaxPost(data,url);
 }
 
 

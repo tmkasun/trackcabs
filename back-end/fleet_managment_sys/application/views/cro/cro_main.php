@@ -255,33 +255,18 @@
                 confirmCancel(url , tp ,param1);
             }
             if(request == 'denyCancel'){
-                //param2 = refId
                 getCustomerInfoView(url, tp)
             }
             if(request == 'editBooking'){
-                getEditBookingView(url,param1)
+                getEditBookingView(url,param1);
+                uiInit();
             }
             if(request == 'updateBooking'){
-                alert('obj id is '+param1);
                 updateBooking(url,param1);
                 getCustomerInfoView(url , tp);
             }
         }
     </script>
-
-
-
-
-
-<script>
-    $(document).ready(function(){
-            //$("#test").hide();
-
-        $("#show").click(function(){
-            $("#test").collapse();
-        });
-    });
-</script>
 
 
 </body>

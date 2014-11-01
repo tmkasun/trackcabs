@@ -42,6 +42,13 @@
             <li><a href="<?= site_url('cro_controller/test')?>" >My Bookings</a></li>
         </ul>
 
+        <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch">
+            </div>
+            <button type="button" class="btn btn-default" onclick="operations('getCustomer')">Submit</button>
+        </form>
+
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -67,25 +74,9 @@
                 <div class="panel-heading">
                     <h5 class="panel-title">Job Information</h5>
                 </div>
-                <div class="panel-body" id="">
+                <div class="panel-body" >
 
-                    <div class="col-lg-5" >
-                        <div class="col-lg-12" id="mainSearch">
-                            <div class="input-group">
-
-                                    <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" onclick="operations('getCustomer')">
-                                                <span class="glyphicon glyphicon-search"></span> Search
-                                            </button>
-                                        </span>
-                            </div>
-                            <hr>
-
-                        </div>
-                    </div>
-
-                    <div class="col-lg-7" id="jobInfo" style="border-left: 2px solid #a6a6a6" >
+                    <div class="col-lg-12" id="jobInfo" >
 
                     </div>
                 </div>
@@ -272,7 +263,8 @@
             }
             if(request == 'updateBooking'){
                 alert('obj id is '+param1);
-                updateBooking(url,param1)
+                updateBooking(url,param1);
+                getCustomerInfoView(url , tp);
             }
         }
     </script>

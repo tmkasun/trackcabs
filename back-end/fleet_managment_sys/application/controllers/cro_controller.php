@@ -87,11 +87,11 @@ class Cro_controller extends CI_Controller
                     foreach($value as $newKey){
                         $data = $this->live_dao->getBookingByMongoId($newKey['_id']);
                         if($data != null){
-                            $bookingData['booking'][] = $data;
+                            $bookingData['live_booking'][] = $data;
                         }
                         $data = $this->history_dao->getBookingByMongoId($newKey['_id']);
                         if($data != null){
-                            $bookingData['booking'][] = $data;
+                            $bookingData['history_booking'][] = $data;
                         }
                     }
                 }

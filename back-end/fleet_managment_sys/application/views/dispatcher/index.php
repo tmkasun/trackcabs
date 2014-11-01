@@ -72,16 +72,16 @@
         var webSocketURL = 'ws://localhost:9764/outputwebsocket/t/carbon.super/DefaultWebsocketOutputAdaptor/geoDataEndPoint'; // TODO: Get the server IP and port and other static information from the applicationOptions object
         ApplicationOptions.constance.WEB_SOCKET_URL = webSocketURL;
 
-        function subscribe(userid){
-            console.log("DEBUG: userid = "+userid);
+        function subscribe(userid) {
+            console.log("DEBUG: userid = " + userid);
             var conn = new ab.Session('ws://192.168.0.21:8080',
-                function() {
-                    conn.subscribe(userid, function(topic, data) {
+                function () {
+                    conn.subscribe(userid, function (topic, data) {
                         // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
                         console.log('New Message published to user "' + topic + '" : ' + data.message.vType);
                     });
                 },
-                function() {
+                function () {
                     console.warn('WebSocket connection closed');
                 },
                 {'skipSubprotocolCheck': true}
@@ -159,8 +159,8 @@
     <script>
         //TODO: move this scripts to separate file like dispatcher.js in assets file
         var currentDispatchOrderRefId;
-        function dispatchCab(){
-            if(!currentDispatchOrderRefId){
+        function dispatchCab() {
+            if (!currentDispatchOrderRefId) {
                 $.UIkit.notify({
                     message: '<span style="color: dodgerblue">Please select an order first!</span><br>',
                     status: 'danger',
@@ -186,9 +186,7 @@
 <body style="margin: 0;padding: 0;">
 
 <div id="container">
-    <!-- Sidebar -->
-    <div id="map"></div>
-</div>
+
 
 <nav class="navbar navbar-inverse" role="navigation">
     <div class="navbar-header">
@@ -305,7 +303,7 @@
     <div class="panel-heading text-center">
         <h4> Spatial Object ID: <span id="objectInfoId" class="text-info"></span>
             <i id="objectInfoCloseButton" class="fa fa-times pull-right"
-               onclick="$('#objectInfo').animate({width: ['toggle','swing']},200);toggled = false;spatialObject = currentSpatialObjects[selectedSpatialObject];spatialObject.removePath();spatialObject.marker.closePopup();selectedSpatialObject = null;">
+               onclick="$('#objectInfo').animate({width: ['toggle','swing']},200);toggled = false;spatialObject = currentOrdersList[selectedSpatialObject];spatialObject.removePath();spatialObject.marker.closePopup();selectedSpatialObject = null;">
             </i>
         </h4>
     </div>
@@ -405,60 +403,55 @@
     </div>
 </div>
 
-
-<div id="leftSidePane">
-    <div class="panel panel-info boxElement" style="position: relative;width: 40%;margin-bottom: 0px
-">
-        <div class="panel-heading">
-            <h3 class="panel-title">Search</h3>
-        </div>
-        <div class="panel-body">
-            <form id="locationSearch" class="navbar-form" role="search"
-                  onsubmit="return false;">
-                <div class="form-group has-feedback">
-                    <div class="input-group">
-                        <span class="input-group-btn"><button class="btn btn-default" type="button">Search by
-                                Location
-                            </button></span>
-                        <input autofocus="true" id="locationSearchbox" type="text"
-                               placeholder="Search For location"
-                               class="form-control typeahead">
-                        <span id="searchicon" class="fa fa-search form-control-feedback"></span>
-                    </div>
+<div class="boxElement" style="position: relative;width: 100%;margin-bottom: 0px">
+    <div class="row">
+        <form id="locationSearch" class="navbar-form" role="search"
+              onsubmit="return false;">
+            <div class="form-group has-feedback" style="width: 50%">
+                <div class="input-group">
+                    <span class="input-group-btn"><button class="btn btn-default" type="button">Search by
+                            Location
+                        </button></span>
+                    <input autofocus="true" id="locationSearchbox" type="text"
+                           placeholder="Search For location"
+                           class="form-control typeahead">
+                    <span id="searchicon" class="fa fa-search form-control-feedback"></span>
                 </div>
-                <input style="visibility: hidden; position: fixed;" type="submit"/>
-            </form>
+            </div>
+            <input style="visibility: hidden; position: fixed;" type="submit"/>
 
-            <form id="mapSearch" class="navbar-form" role="search"
-                  onsubmit="focusOnSpatialObject($(this).find('#searchbox').val());return false;">
-                <div class="form-group has-feedback">
-                    <div class="input-group">
-                        <span class="input-group-btn"><button class="btn btn-default" type="button">Search by CabId
-                            </button></span><input autofocus="true" id="searchbox"
-                                                   type="text"
-                                                   placeholder="Search for cab"
-                                                   class="form-control typeahead">
-                        <span id="searchicon" class="fa fa-search form-control-feedback"></span>
-                    </div>
+            <div class="form-group has-feedback">
+                <div class="input-group">
+                    <span class="input-group-btn"><button class="btn btn-default" type="button">Search by CabId
+                        </button></span><input autofocus="true" id="searchbox"
+                                               type="text"
+                                               placeholder="Search for cab"
+                                               class="form-control typeahead">
+                    <span id="searchicon" class="fa fa-search form-control-feedback"></span>
                 </div>
-                <input style="visibility: hidden; position: fixed;" type="submit"/>
-            </form>
-        </div>
+            </div>
+            <input style="visibility: hidden; position: fixed;" type="submit"/>
+        </form>
     </div>
 
-    <div style="position: relative;width: 40%;max-height: 90%;" id="newOrdersPane">
+</div>
+
+
+<div id="leftSidePane">
+
+    <div style="position: relative;width: 50%;max-height: 90%;" id="newOrdersPane">
         <?= $new_orders_pane ?>
     </div>
 
 </div>
 
 
-<div id="loading">
-    <div class="loading-indicator">
-        <div class="progress progress-striped active">
-            <div class="progress-bar progress-bar-info" style="width: 100%"></div>
-        </div>
+<div id="rightSidePane">
+
+    <div style="position: relative;width: 50%;max-height: 90%;float: right;" id="locationBoardPane">
+        <?= "Location board" ?>
     </div>
+
 </div>
 
 <!-- Modals in use -->
@@ -924,6 +917,7 @@
         </form>
     </div>
     <div id="templateLoader"></div>
+</div>
 </div>
 </body>
 </html>

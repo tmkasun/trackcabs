@@ -8,12 +8,12 @@
         <li><a href="#" onclick="getCabsDefaultView(url, docs_per_page , page)">Cabs</a></li>
         <li class="active"><a href="#" onclick="getAllDriversView()">Drivers</a></li>
         <li><a href="#" onclick="getDispatchersView()">Dispatcher</a></li>
-        <li><a href="#" onclick="getDriversView()">CRO</a></li>
+        <li><a href="#" onclick="getCROsView()">CRO</a></li>
     </ul>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <form class="navbar-form navbar-left" role="search" id="getCab">
+        <form class="navbar-form navbar-left" role="search" id="getDriver">
             <div class="form-group">
                 <input class="form-control" placeholder="Driver ID" type="text" id="driverIdSearch">
             </div>

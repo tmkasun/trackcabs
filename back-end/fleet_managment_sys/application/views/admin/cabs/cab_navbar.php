@@ -8,7 +8,7 @@
         <li class="active"><a href="#" onclick="getAllCabs(docs_per_page , page , url)">Cabs</a></li>
         <li><a href="#" onclick="getDriversView()">Drivers</a></li>
         <li><a href="#" onclick="getDispatchersView()">Dispatcher</a></li>
-        <li><a href="#" onclick="getDriversView()">CRO</a></li>
+        <li><a href="#" onclick="getCROsView()">CRO</a></li>
     </ul>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

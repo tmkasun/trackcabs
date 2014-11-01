@@ -18,7 +18,7 @@
     </select>
 </form>
 
-<form role="form" id="newCustomer" >
+<form role="form" id="newCustomer" class="customerForm">
     <div class="form-group">
         <label for="tp">Telephone Number</label>
         <input type="text" class="form-control" id="tp" placeholder="Telephone Number" value="<?= $tp?>">
@@ -53,5 +53,5 @@
         <label for="destination">Destination</label>
         <input type="text" class="form-control" id="destination" placeholder="Destination">
     </div>
-    <button type="submit" class="btn btn-default" onclick="operations('createCusInfo')">Save</button>
+    <button type="button" class="btn btn-default" onclick="operations('createCusInfo')">Save</button>
 </form>

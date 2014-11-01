@@ -13,11 +13,11 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <form class="navbar-form navbar-left" role="search" id="getDispatcher">
+        <form class="navbar-form navbar-left" role="search" id="getCRO">
             <div class="form-group">
-                <input class="form-control" placeholder="Dispatcher ID" type="text" id="dispatcherIdSearch">
+                <input class="form-control" placeholder="CRO ID" type="text" id="croIdSearch">
             </div>
-            <button type="submit" class="btn btn-default" onclick="getDispatcherView()">Submit</button>
+            <button type="submit" class="btn btn-default" onclick="getCROView()">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#">Link</a></li>

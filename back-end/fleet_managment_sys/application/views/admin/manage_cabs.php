@@ -15,8 +15,8 @@
 
     <script>
 
-        var docs_per_page= 100 ;
-        var page = 1 ;
+        var docs_per_page= 100;
+        var page = 1;
         var obj = null;
         var url = '<?php echo site_url(); ?>';
 
@@ -329,13 +329,13 @@
 
     }
 
-    function makeCROFormEditable(userId , url, type){alert("in makeCROFormEditable "+type);
+    function makeCROFormEditable(userId , url, user_type){alert("in makeCROFormEditable "+user_type);
 
-        var data = {'userId' : parseInt(userId), 'user_type' : type };
+        var data = {'userId' : parseInt(userId), 'user_type' : user_type };
         url =url + "/user_controller/getUserEditView";
         var result = ajaxPost(data,url);
         var div = document.getElementById('dataFiled');
-        div.innerHTML = eval("result.view."+type+"_edit_view");//result.view.type_edit_view;
+        div.innerHTML = eval("result.view."+user_type+"_edit_view");//result.view.type_edit_view;
     }
 
     function updateCRO(id){alert("in updateCRO");
@@ -346,12 +346,12 @@
         var pass = document.getElementById("pass").value;
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
-        //var cabIdAssigned = document.getElementById("cabIdAssigned").value;
-         /* Returns the function if validation fails */
-         /* Create a JSON object from the form values */
+        var cabId = "";
+        if(id.toString() === "driver" ){cabId = document.getElementById("cabId").value;}
 
-        var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};
-        var baseUrl=url;
+        if(cabId === ""){var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};}
+        else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId}};}
+        //var baseUrl=url;
         var url = '<?php echo site_url("user_controller/updateUser") ?>';
         ajaxPost(user,url);
         //getAllCROsView(docs_per_page , page ,baseUrl);
@@ -364,11 +364,11 @@
         var url = '<?php echo site_url("user_controller/getUserNavBarView") ?>';
         var result = ajaxPost(data,url);
         /* Append the values for the div tag field */
-        var div = document.getElementById('navBarField');alert("CRO NavBar ok");
+        var div = document.getElementById('navBarField');//alert("CRO NavBar ok");
         div.innerHTML = result.view.table_content;
 
         url = '<?php echo site_url("user_controller/getSidePanelView") ?>';
-        result = ajaxPost(data,url);alert("CRO SideBar ok");
+        result = ajaxPost(data,url);//alert("CRO SideBar ok");
 
         div = document.getElementById('operation');
         div.innerHTML =  result.view.table_content;
@@ -391,7 +391,9 @@
         var pass = document.getElementById("pass").value;
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
-        var user_type = id.toString().toUpperCase();
+        var user_type = id;
+        var cabId = "";
+        if(id.toString() === "driver" ){cabId = document.getElementById("cabId").value;}
         //var cabIdAssigned = document.getElementById("cabIdAssigned").value;
         if(name == "" ){return false;}
         if(uName == "" ){return false;}
@@ -401,7 +403,8 @@
 
         //if(cabIdAssigned == "" ){cabIdAssigned="null"}
         /* Create a JSON object from the form values */
-        var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type };//the value CRO can be passed here as a variable
+        if(cabId === ""){var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type };}
+        else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId };}
         var url = '<?php echo site_url("user_controller/createUser") ?>';
         alert(JSON.stringify(user));
         ajaxPost(user,url);

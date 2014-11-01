@@ -1,7 +1,7 @@
 <form role="form" id="editDispatchers">
     <div class="form-group">
         <label for="userId">Dispatcher ID</label>
-        <input type="text" class="form-control" id="userId"  readonly="readonly" value="<?= $usererId;?>">
+        <input type="text" class="form-control" id="userId"  readonly="readonly" value="<?= $userId;?>">
     </div>
     <div class="form-group">
         <label for="name">Full Name</label>
@@ -25,5 +25,5 @@
     </div>
 
 <!--    <button type="submit" class="btn btn-default" onclick="updateDispatcher($user_type);">Save</button>-->
-        <button type="submit" class="btn btn-default" onclick="updateCRO(<?php echo $user_type?>)">Save</button>
+        <button type="submit" class="btn btn-default" onclick="updateCRO('<?php echo $user_type;?>')">Save</button>
 </form>

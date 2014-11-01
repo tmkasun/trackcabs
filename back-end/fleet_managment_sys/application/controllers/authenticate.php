@@ -25,6 +25,22 @@ class Authenticate extends CI_Controller {
 
 	}
 
+    function logout(){
+        $input = file_get_contents('php://input');
+        $inputArray = json_decode(trim($input), true);
+        $userId = $inputArray['userId'];
+        log_message('info',$userId);
+
+        $authenticationResult = $this->user_dao->logout($userId);
+
+        if (!$authenticationResult) {
+            $authentication = array('isAuthorized' => false);
+        }else {
+            $authentication = array('isAuthorized' => true);
+        }
+        $this -> output -> set_content_type('application/json') -> set_output(json_encode($authentication));
+    }
+
     function driver(){
         $input = file_get_contents('php://input');
         $inputArray = json_decode(trim($input), true);

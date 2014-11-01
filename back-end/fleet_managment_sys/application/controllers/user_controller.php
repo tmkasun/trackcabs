@@ -44,7 +44,7 @@ class User_controller extends CI_Controller
         $user_type = $input_data['user_type'];//strtoupper($input_data['user_type']);
         
         
-        $data = $this->user_dao->getUsersByPage_by_type($limit,$skip,strtoupper($input_data['user_type']));
+        $data = $this->user_dao->getUsersByPage_by_type($limit,$skip,$user_type);
         $data['table_content'] = $this->load->view('admin/'.$user_type.'/all_'.$user_type.'_view', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
 

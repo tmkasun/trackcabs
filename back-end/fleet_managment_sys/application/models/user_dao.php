@@ -106,6 +106,21 @@ class User_dao extends CI_Model
 
     }
 
+
+    /**
+     * Returns if user is able to logout or not
+     * @param $driverId
+     * @return array|null
+     */
+    function logout($driverId)
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array("userId" => $driverId , 'logout' => 'true' );
+        $user = $collection->findOne($searchQuery);
+        return $user;
+
+    }
+
     function updateUser($userId , $edited_data)
     {
         $collection = $this->get_collection();
@@ -113,12 +128,12 @@ class User_dao extends CI_Model
         $searchQuery= array('userId' => $userId);
         $user = $collection->findOne($searchQuery);
 
-        foreach ($data as $key => $value)
+        foreach ($edited_data as $key => $value)
         {
             $user[$key] = $edited_data[$key];
         }
 
-        $collection->save($record);
+        $collection->save($user);
     }
     
     //Special functions

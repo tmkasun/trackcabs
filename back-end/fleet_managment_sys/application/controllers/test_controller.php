@@ -34,7 +34,7 @@ class Test_controller extends CI_Controller
         $user_type = 'cro';//$input_data['user_type'];
         
         
-        $data = $this->test_dao->getUsersByPage_by_type($user_type);
+        $data = $this->test_dao->getUsersByPage_by_type();
         print_r($data);
         //$data['table_content'] = $this->load->view('admin/'.$user_type.'/all_'.$user_type.'_view', $data, TRUE);
         //$this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));

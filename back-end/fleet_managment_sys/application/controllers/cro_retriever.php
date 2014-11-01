@@ -1,16 +1,15 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Cro_retriever extends CI_Controller
+class Cro extends CI_Controller
 {
 
     public function index()
-    {
-        echo "index works";
+    {       
     }
     
-    function getCRONavBarView(){       
+    function getCRONavBarView(){
         $table_data['x'] = 1;
-        $data['table_content'] = $this->load->view('admin/cro/cro_navbar', $table_data, TRUE);//, $table_data, TRUE
+        $data['table_content'] = $this->load->view('admin/cro/cro_navbar', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 

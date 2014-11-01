@@ -130,7 +130,7 @@ var substringMatcher = function () {
         var matches, substrRegex;
         matches = [];
         substrRegex = new RegExp(q, 'i');
-        $.each(currentSpatialObjects, function (i, str) {
+        $.each(currentOrdersList, function (i, str) {
             if (substrRegex.test(i)) {
                 matches.push({ value: i });
             }
@@ -223,7 +223,7 @@ function init_typeahead() {
 // TODO: when click on a notification alert ? "Uncaught ReferenceError: KM is not defined "
 var toggled = false;
 function focusOnSpatialObject(objectId) {
-    var spatialObject = currentSpatialObjects[objectId];// (local)
+    var spatialObject = currentOrdersList[objectId];// (local)
     if (!spatialObject) {
         $.UIkit.notify({
             message: "Spatial Object <span style='color:red'>" + objectId + "</span> not in the Map!!",
@@ -255,7 +255,7 @@ function focusOnSpatialObject(objectId) {
 // Unfocused on current searched spatial object
 function clearFocus() {
     if (selectedSpatialObject) {
-        spatialObject = currentSpatialObjects[selectedSpatialObject];
+        spatialObject = currentOrdersList[selectedSpatialObject];
         spatialObject.removePath();
         spatialObject.marker.closePopup();
         selectedSpatialObject = null;

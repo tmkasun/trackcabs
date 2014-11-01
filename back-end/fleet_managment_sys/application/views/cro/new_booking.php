@@ -141,7 +141,7 @@
     </div>
     <div class="col-lg-2">
         <div class="form-group" style="text-align: center">
-            <button type="submit" style="width:100%" class="btn btn-success" >Save Booking</button>
+            <button type="button" style="width:100%" class="btn btn-success" onclick="operations('createBooking')">Save Booking</button>
         </div>
     </div>
 </form>

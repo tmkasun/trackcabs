@@ -151,19 +151,37 @@
 
                 tp      = document.getElementById("tpSearch").value;
                 getCustomerInfoView( url , tp );
-                ///CustomerInfoView UI Logic
-                $("#callUp").click(function(){
-                    $("#callUpPrice").toggle();
+                uiInit();
+            }
+            if(request == 'createCusInfo'){
+                $('#newCustomer').bootstrapValidator({
+                    message: 'This value is not valid',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    excluded:[]
+                    ,
+                    fields: {
+                    }
+
+                })
+                .on('success.form.bv', function(e) {
+                    // Prevent form submission
+                    e.preventDefault();
+                    createCusInfo( url );
                 });
 
-                $(".btn-group > .btn").click(function(){
-                    $(this).addClass("active").siblings().removeClass("active");
-                    $(this).parent().siblings("input.customRadio").val($(this).val())
-                });
+                createCusInfo( url );
+                getCustomerInfoView(url , tp);
+                uiInit();
 
-                $("button.customRadio").click(function(){
-                    $(this).parent().siblings("input.customRadio").val($(this).val())
-                });
+
+            }
+            if(request == 'createBooking'){
+                // Validate Form Before Creating Booking
+
 
                 $('#newBookingForm').bootstrapValidator({
                     message: 'This value is not valid',
@@ -226,18 +244,18 @@
                     }
 
                 })
-                    .on('success.form.bv', function(e) {
+                .on('success.form.bv', function(e) {
                     // Prevent form submission
                     e.preventDefault();
-                    createBooking(url , tp)
+                    createBooking(url , tp);
+                    getCustomerInfoView(url , tp);
+                    uiInit();
+
+
                 });
-            }
-            if(request == 'createCusInfo'){
-                createCusInfo( url );
-            }
-            if(request == 'createBooking'){
-                // Validate Form Before Creating Booking
-                createBooking(url , tp)
+
+                createBooking(url , tp);
+                getCustomerInfoView(url , tp);
             }
             if(request == 'cancel'){
                 getCancelConfirmationView(url , tp , param1)

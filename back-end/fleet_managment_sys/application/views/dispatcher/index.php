@@ -436,23 +436,31 @@
 
 </div>
 
+<div class="row">
+    <div class="col-md-6">
 
-<div id="leftSidePane">
+        <div id="leftSidePane">
 
-    <div style="position: relative;width: 50%;max-height: 90%;" id="newOrdersPane">
-        <?= $new_orders_pane ?>
+            <div style="position: relative;max-height: 90%;" id="newOrdersPane">
+                <?= $new_orders_pane ?>
+            </div>
+
+        </div>
     </div>
+    <div class="col-md-6">
 
+        <div id="rightSidePane">
+
+            <div style="position: relative;max-height: 90%;float: right;" id="locationBoardPane">
+                <?= $location_board_pane ?>
+            </div>
+
+        </div>
+    </div>
 </div>
 
 
-<div id="rightSidePane">
 
-    <div style="position: relative;width: 50%;max-height: 90%;float: right;" id="locationBoardPane">
-        <?= "Location board" ?>
-    </div>
-
-</div>
 
 <!-- Modals in use -->
 <div class="modal" id="aboutModal" tabindex="-1" role="dialog">

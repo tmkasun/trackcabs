@@ -246,7 +246,7 @@
     <table class="table" id="IDLE">
         <thead>
         <tr>
-            <th>Cab #</th>
+            <th>Driver #</th>
             <th>Hire Finished Time</th>
             <th>Location</th>
         </tr>

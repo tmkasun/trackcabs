@@ -32,13 +32,22 @@ class Testing extends CI_Controller
 //        log_message("info","hmmm");
 //        print_r();
         $today = getdate();
-        $logFile = "application/logs/log-".$today['year']."-".$today['mon']."-".$today['mday'].".php";
-        echo nl2br(@file_get_contents($logFile,false,null,(filesize ($logFile) - 500*10)));
+        $test = function($today){return strlen($today['mday']) <= 1 ? '0' : '';};
+        $logFile = "application/logs/log-".$today['year']."-".$today['mon']."-".$test($today).$today['mday'].".php";
+        echo nl2br(@file_get_contents('application/logs/log-2014-11-01.php',false,null,(filesize ($logFile) - 500*10)));
         exit;
     }
 
 
     function geo_names(){
+        $POST = $this->input->get();
+        $query = $POST['location'];
+        $geo_names = $this->geo_name->find($query);
+        header('Content-Type: application/json');
+        echo $geo_names;
+    }
+
+    function geoCode(){
         $POST = $this->input->get();
         $query = $POST['location'];
         $geo_names = $this->geo_name->find($query);

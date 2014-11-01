@@ -6,16 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-------------------------------- CSS Files------------------------------------>
-    <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap.css">
+<!--    <link rel="stylesheet" type="text/css" href="--><?//= base_url();?><!--assets/css/bootstrap.css">-->
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap-datetimepicker.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/webLibs/bootstrapvalidator-dist-0.5.2/dist/css/bootstrapValidator.css">
 
 
-
-
     <!-------------------------------- JS Files------------------------------------>
-    <script type="text/javascript" src="<?= base_url();?>assets/js/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap.js"></script>
+<!--    <script type="text/javascript" src="--><?//= base_url();?><!--assets/js/jquery-1.10.2.js"></script>-->
+<!--    <script type="text/javascript" src="--><?//= base_url();?><!--assets/js/bootstrap.js"></script>-->
     <script type="text/javascript" src="<?= base_url();?>assets/js/cro_operations.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 

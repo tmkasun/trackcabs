@@ -6,7 +6,7 @@
         <div class="panel-body" id="singleDriver">
             <div >
 
-                <h4>Driver ID : <?= $driverId;?></h4></br>
+                <h4>Driver ID : <?= $userId;?></h4></br>
                 <h4>Name : <?= $name?></h4></br>
                 <h4>User Name : <?= $uName;?></h4></br>
                 <h4>Pass : <?= $pass;?></h4></br>
@@ -20,7 +20,7 @@
                     }
                     ?></h4></br>
 
-                <button type="button" class="btn btn-danger btn-lg" onclick="makeDriverFormEditable(<?php echo $driverId;?>,url)"
+                    <button type="button" class="btn btn-danger btn-lg" onclick="makeCROFormEditable(<?= $userId;?>,url, <?php echo strtolower($user_type);?>)"
                         style="float: right">Edit</button>
             </div>
         </div>

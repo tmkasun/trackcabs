@@ -6,16 +6,18 @@
 
     <ul class="nav navbar-nav">
         <li><a href="#" onclick="getCabsDefaultView(url, docs_per_page , page)">Cabs</a></li>
-        <li><a href="#" onclick="getDriversView()">Drivers</a></li>
-        <li class="active"><a href="#" onclick="getDispatchersView()">Dispatcher</a></li>
-        <li><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
+<!--        <li><a href="#" onclick="getDriversView()">Drivers</a></li>-->
+        <li><a href="#" id="driver" onclick="getCROsView(this.id)">Drivers</a></li>
+<!--        <li class="active"><a href="#" onclick="getDispatchersView()">Dispatcher</a></li>-->
+        <li ><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>
+        <li class="active"><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
     </ul>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <form class="navbar-form navbar-left" role="search" id="getCRO">
             <div class="form-group">
-                <input class="form-control" placeholder="CRO ID" type="text" id="croIdSearch">
+                <input class="form-control" placeholder="CRO ID" type="text" id="userIdSearch">
             </div>
             <button type="submit" id="cro" class="btn btn-default" onclick="getCROView(this.id)">Submit</button>
         </form>

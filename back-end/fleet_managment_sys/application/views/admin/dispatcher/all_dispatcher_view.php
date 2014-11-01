@@ -12,7 +12,7 @@
     <?php foreach ($data as $item):?>
 
         <tr>
-            <td><?= $item['dispatcherId'];?></td>
+            <td><?= $item['userId'];?></td>
             <td><?= $item['name'];?></td>
             <td><?= $item['uName'];?></td>
             <td><?= $item['pass'];?></td>

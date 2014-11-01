@@ -33,10 +33,10 @@
 
         <ul class="nav navbar-nav">
             <li class="active"><a href="#" onclick="getAllCabs(docs_per_page , page , url)">Cabs</a></li>
-            <li><a href="#" id="driver" onclick="getDriversView(this.id)">Drivers</a></li>
-<!--            <li><a href="#" id="driver" onclick="getCROsView(this.id)">Drivers</a></li>-->
-            <li><a href="#" id="dispatcher" onclick="getDispatchersView(this.id)">Dispatcher</a></li>
-<!--            <li><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>-->
+<!--            <li><a href="#" id="driver" onclick="getDriversView(this.id)">Drivers</a></li>-->
+            <li><a href="#" id="driver" onclick="getCROsView(this.id)">Drivers</a></li>
+<!--            <li><a href="#" id="dispatcher" onclick="getDispatchersView(this.id)">Dispatcher</a></li>-->
+            <li><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>
             <li><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
         </ul>
 
@@ -310,37 +310,37 @@
 <script>
     function getCRO(){alert("in getCRO");
 
-        var croId = document.getElementById("croIdSearch").value;
+        var userId = document.getElementById("userIdSearch").value;
         /* Create a JSON object from the form values */
-        var cro = { 'croId' : parseInt(croId) };
+        var user = { 'userId' : parseInt(userId) };
         var url = '<?php echo site_url("user_controller/getUser") ?>';
-        var result = ajaxPost(cro,url);
+        var result = ajaxPost(user,url);
 
     }
     function getCROView(id){alert("in getCROView");
 
-        var croId = document.getElementById("croIdSearch").value;
+        var userId = document.getElementById("userIdSearch").value;
         /* Create a JSON object from the form values */
-        var cro = { 'croId' : parseInt(croId), 'user_type': id };
+        var user = { 'userId' : parseInt(userId), 'user_type': id };
         var url = '<?php echo site_url("user_controller/getUserSearchView") ?>';
-        var result = ajaxPost(cro,url);
+        var result = ajaxPost(user,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = result.view.table_content;
 
     }
 
-    function makeCROFormEditable(croId , url, type){alert("in makeCROFormEditable");
+    function makeCROFormEditable(userId , url, type){alert("in makeCROFormEditable "+type);
 
-        var data = {'croId' : parseInt(croId), 'user_type' : type };
+        var data = {'userId' : parseInt(userId), 'user_type' : type };
         url =url + "/user_controller/getUserEditView";
         var result = ajaxPost(data,url);
         var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.cro_edit_view;
+        div.innerHTML = eval("result.view."+type+"_edit_view");//result.view.type_edit_view;
     }
 
-    function updateCRO(url , docs_per_page , page ){alert("in updateCRO");
+    function updateCRO(id){alert("in updateCRO");
 
-        var croId = document.getElementById("croId").value;
+        var userId = document.getElementById("userId").value;
         var name = document.getElementById("name").value;
         var uName = document.getElementById("uName").value;
         var pass = document.getElementById("pass").value;
@@ -350,11 +350,12 @@
          /* Returns the function if validation fails */
          /* Create a JSON object from the form values */
 
-        var cro =  {'croId': parseInt(croId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};
+        var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};
         var baseUrl=url;
         var url = '<?php echo site_url("user_controller/updateUser") ?>';
-        ajaxPost(cro,url);
-        getAllCROsView(docs_per_page , page ,baseUrl);
+        ajaxPost(user,url);
+        //getAllCROsView(docs_per_page , page ,baseUrl);
+        getAllCROsView(id);
     }
 
     function getCROsView(id){alert("in getCROsView");
@@ -400,10 +401,10 @@
 
         //if(cabIdAssigned == "" ){cabIdAssigned="null"}
         /* Create a JSON object from the form values */
-        var cro = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type };//the value CRO can be passed here as a variable
+        var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type };//the value CRO can be passed here as a variable
         var url = '<?php echo site_url("user_controller/createUser") ?>';
-        alert(JSON.stringify(cro));
-        ajaxPost(cro,url);
+        alert(JSON.stringify(user));
+        ajaxPost(user,url);
         getAllCROsView(id);
     }
 

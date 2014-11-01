@@ -41,10 +41,10 @@ class User_controller extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $limit = $input_data['limit'];
         $skip = $input_data['skip'];
-        $user_type = $input_data['user_type'];
+        $user_type = $input_data['user_type'];//strtoupper($input_data['user_type']);
         
         
-        $data = $this->user_dao->getUsersByPage_by_type($limit,$skip,$user_type);
+        $data = $this->user_dao->getUsersByPage_by_type($limit,$skip,strtoupper($input_data['user_type']));
         $data['table_content'] = $this->load->view('admin/'.$user_type.'/all_'.$user_type.'_view', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
 
@@ -65,10 +65,10 @@ class User_controller extends CI_Controller
     function getUserEditView(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $userId = $input_data['driverId'];
+        $userId = $input_data['userId'];
         $user_type = $input_data['user_type'];
         
-        $data = $this->user_dao->getDriver($userId);
+        $data = $this->user_dao->getUser($userId);
         $data[$user_type.'_edit_view'] = $this->load->view('admin/'.$user_type.'/edit_'.$user_type, $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
@@ -105,7 +105,7 @@ class User_controller extends CI_Controller
 
     function updateUser(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $this->user_dao->updateDriver($input_data['userId'],$input_data['details']);
+        $this->user_dao->updateUser($input_data['userId'],$input_data['details']);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
     }
 

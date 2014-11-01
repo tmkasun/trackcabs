@@ -5,7 +5,7 @@ class Test_dao extends CI_Model
     function get_collection()
     {
         $conn = new MongoClient();
-        $collection = $conn->selectDB('track')->selectCollection('test_collection');
+        $collection = $conn->selectDB('track')->selectCollection('users');
         return $collection;
         
     }
@@ -34,6 +34,20 @@ class Test_dao extends CI_Model
             $users[]= $user;
         }
 
+        return $users;
+    }
+    
+    function getUsersByPage_by_type($type)
+    {
+        $collection = $this->get_collection();
+        echo $type;
+        $user_type = array('user_type' => $type);
+        $cursor = $collection->find();//$user_type
+        $users= array('data' => array());
+        foreach ($cursor as $user) 
+        {
+            $users['data'][]= $user;
+        }
         return $users;
     }
     

@@ -1,7 +1,7 @@
 <form role="form" id="editDrivers">
     <div class="form-group">
         <label for="cabId">Driver ID</label>
-        <input type="text" class="form-control" id="driverId"  readonly="readonly" value="<?= $driverId;?>">
+        <input type="text" class="form-control" id="userId"  readonly="readonly" value="<?= $userId;?>">
     </div>
     <div class="form-group">
         <label for="name">Full Name</label>
@@ -25,7 +25,7 @@
     </div>
     <div class="form-group">
         <label for="cabIdAssigned">Cab ID</label>
-        <input type="text" class="form-control" id="cabIdAssigned" placeholder="Enter Cab ID" value="<?= $cabId;?>">
+        <input type="text" class="form-control" id="cabId" placeholder="Enter Cab ID" value="<?= $cabId;?>">
     </div>
-    <button type="submit" class="btn btn-default" onclick="updateDriver(url, docs_per_page , page )">Save</button>
+    <button type="submit" class="btn btn-default" onclick="updateCRO('<?php echo $user_type?>')">Save</button>
 </form>

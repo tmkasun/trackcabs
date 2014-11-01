@@ -1,11 +1,9 @@
 function getEditBookingView(url , objId){
 
     var data = {'objId' : objId};
-    alert(JSON.stringify(data));
     url = url +"/cro_controller/getEditBookingView";
     var view = ajaxPost(data,url);
 
-    alert(JSON.stringify(view));
 
     /*  Populate the New Booking field with the editing form */
     var editBookingDiv = document.getElementById('newBooking');
@@ -47,8 +45,6 @@ function confirmCancel(url , tp , id ){
 
     var data = {'_id' : id , 'cancelReason' : cancelReason, 'tp' : tp};
 
-    alert(JSON.stringify(data));
-
     ajaxPost(data,url);
     getCustomerInfoView(siteUrl , tp);
 }
@@ -64,7 +60,8 @@ function createBooking(url , tp){
     var town        = $('#town').val();
     var landMark    = $('#landMark').val();
     var remark      = $('#remark').val();
-    var remark      = $('#callUpPrice').val();
+    var callUpPrice = $('#callUpPrice').val();
+    var dispatchB4  = $('#dispatchB4').val();
     var bDate      = $('#bDate').val();
     var bTime      = $('#bTime').val();
     var vType               = $('#vehicleType').val();
@@ -75,6 +72,14 @@ function createBooking(url , tp){
     var isVih               = $('#vih')[0].checked;
     var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
 
+    if (no == ''){no = '-'}
+    if (road == ''){road= '-'}
+    if (city== ''){city= '-'}
+    if (town== ''){town= '-'}
+    if (landMark== ''){landMark= '-'}
+    if (remark== ''){remark= '-'}
+    if (callUpPrice== ''){callUpPrice= 0}
+    if (dispatchB4== ''){dispatchB4= 0}
 
     var address = {
         'no':no ,
@@ -82,7 +87,7 @@ function createBooking(url , tp){
         'city' : city ,
         'town' : town ,
         'landmark' : landMark
-    }
+    };
     var data = {
         'tp' : tp ,
         'data' : {
@@ -102,14 +107,12 @@ function createBooking(url , tp){
             'cabId' : '-',
             'driverId' : '-',
             'remark' : remark ,
-            'inqCall' : 0
+            'inqCall' : 0,
+            'callUpPrice' : callUpPrice,
+            'dispatchB4' : dispatchB4
         }
     };
-
-
-    var result = ajaxPost(data,url);
-
-
+    ajaxPost(data,url);
 }
 
 
@@ -118,14 +121,16 @@ function updateBooking(url , objId){
     var baseUrl = url;
     url = baseUrl + "/customer_retriever/updateBooking";
 
-    var no                  = $('#no').val();
-    var road                = $('#road').val();
-    var city                = $('#city').val();
-    var town                = $('#town').val();
-    var landMark            = $('#landMark').val();
-    var remark              = $('#remark').val();
-    var bDate               = $('#bDate').val();
-    var bTime               = $('#bTime').val();
+    var no          = $('#no').val();
+    var road        = $('#road').val();
+    var city        = $('#city').val();
+    var town        = $('#town').val();
+    var landMark    = $('#landMark').val();
+    var remark      = $('#remark').val();
+    var callUpPrice = $('#callUpPrice').val();
+    var dispatchB4  = $('#dispatchB4').val();
+    var bDate      = $('#bDate').val();
+    var bTime      = $('#bTime').val();
     var vType               = $('#vehicleType').val();
     var payType             = $('#paymentType').val();
     var isUnmarked          = $('#unmarked')[0].checked;
@@ -135,37 +140,39 @@ function updateBooking(url , objId){
     var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
 
 
-
     var address = {
         'no':no ,
         'road' : road ,
         'city' : city ,
         'town' : town ,
         'landmark' : landMark
-    }
-
+    };
     var data = {
-        'objId' : objId ,
+        'objId' : objId,
         'data' : {
             'address' : address ,
             'vType' : vType ,
             'payType' : payType ,
             'bDate' : bDate,
             'bTime' : bTime ,
-            'remark' : remark,
+
             'isUnmarked':isUnmarked,
             'isTinted':isTinted,
             'isVip':isVip,
             'isVih':isVih,
-            'isCusNumberNotSent':isCusNumberNotSent
+            'isCusNumberNotSent':isCusNumberNotSent,
+
+            'status' : 'START' ,
+            'cabId' : '-',
+            'driverId' : '-',
+            'remark' : remark ,
+            'inqCall' : 0,
+            'callUpPrice' : callUpPrice,
+            'dispatchB4' : dispatchB4
         }
     };
 
-    alert('sent data : ' + JSON.stringify(data));
-
-    var result = ajaxPost(data,url);
-
-    getCustomerInfoView(baseUrl , tp);
+    ajaxPost(data,url);
 }
 
 function editCustomerInfoEditView( url , tp ){

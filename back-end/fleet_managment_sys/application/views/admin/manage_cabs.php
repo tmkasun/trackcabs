@@ -15,8 +15,8 @@
 
     <script>
 
-        var docs_per_page= 100 ;
-        var page = 1 ;
+        var docs_per_page= 100;
+        var page = 1;
         var obj = null;
         var url = '<?php echo site_url(); ?>';
 
@@ -33,9 +33,11 @@
 
         <ul class="nav navbar-nav">
             <li class="active"><a href="#" onclick="getAllCabs(docs_per_page , page , url)">Cabs</a></li>
-            <li><a href="#" onclick="getDriversView()">Drivers</a></li>
-            <li><a href="#" onclick="getDispatchersView()">Dispatcher</a></li>
-            <li><a href="#" onclick="getCROsView()">CRO</a></li>
+<!--            <li><a href="#" id="driver" onclick="getDriversView(this.id)">Drivers</a></li>-->
+            <li><a href="#" id="driver" onclick="getCROsView(this.id)">Drivers</a></li>
+<!--            <li><a href="#" id="dispatcher" onclick="getDispatchersView(this.id)">Dispatcher</a></li>-->
+            <li><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>
+            <li><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
         </ul>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -308,86 +310,90 @@
 <script>
     function getCRO(){alert("in getCRO");
 
-        var croId = document.getElementById("croIdSearch").value;
+        var userId = document.getElementById("userIdSearch").value;
         /* Create a JSON object from the form values */
-        var cro = { 'croId' : parseInt(croId) };
-        var url = '<?php echo site_url("cro_retriever/getCRO") ?>';
-        var result = ajaxPost(cro,url);
+        var user = { 'userId' : parseInt(userId) };
+        var url = '<?php echo site_url("user_controller/getUser") ?>';
+        var result = ajaxPost(user,url);
 
     }
-    function getCROView(){alert("in getCROView");
+    function getCROView(id){alert("in getCROView");
 
-        var croId = document.getElementById("croIdSearch").value;
+        var userId = document.getElementById("userIdSearch").value;
         /* Create a JSON object from the form values */
-        var cro = { 'croId' : parseInt(croId) };
-        var url = '<?php echo site_url("cro_retriever/getCROSearchView") ?>';
-        var result = ajaxPost(cro,url);
+        var user = { 'userId' : parseInt(userId), 'user_type': id };
+        var url = '<?php echo site_url("user_controller/getUserSearchView") ?>';
+        var result = ajaxPost(user,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = result.view.table_content;
 
     }
 
-    function makeCROFormEditable(croId , url){alert("in makeCROFormEditable");
+    function makeCROFormEditable(userId , url, user_type){alert("in makeCROFormEditable "+user_type);
 
-        var data = {'croId' : parseInt(croId) };
-        url =url + "/cro_retriever/getCROEditView";
+        var data = {'userId' : parseInt(userId), 'user_type' : user_type };
+        url =url + "/user_controller/getUserEditView";
         var result = ajaxPost(data,url);
         var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.cro_edit_view;
+        div.innerHTML = eval("result.view."+user_type+"_edit_view");//result.view.type_edit_view;
     }
 
-    function updateCRO(url , docs_per_page , page ){alert("in updateCRO");
+    function updateCRO(id){alert("in updateCRO");
 
-        var croId = document.getElementById("croId").value;
+        var userId = document.getElementById("userId").value;
         var name = document.getElementById("name").value;
         var uName = document.getElementById("uName").value;
         var pass = document.getElementById("pass").value;
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
-        //var cabIdAssigned = document.getElementById("cabIdAssigned").value;
-         /* Returns the function if validation fails */
-         /* Create a JSON object from the form values */
+        var cabId = "";
+        if(id.toString() === "driver" ){cabId = document.getElementById("cabId").value;}
 
-        var cro =  {'croId': parseInt(croId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};
-        var baseUrl=url;
-        var url = '<?php echo site_url("cro_retriever/updateCRO") ?>';
-        ajaxPost(cro,url);
-        getAllDriversView(docs_per_page , page ,baseUrl);
+        if(cabId === ""){var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};}
+        else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId}};}
+        //var baseUrl=url;
+        var url = '<?php echo site_url("user_controller/updateUser") ?>';
+        ajaxPost(user,url);
+        //getAllCROsView(docs_per_page , page ,baseUrl);
+        getAllCROsView(id);
     }
 
-    function getCROsView(){alert("in getCROsView");
-        var data = {};
+    function getCROsView(id){alert("in getCROsView");
+        var data = {'user_type': id};alert(id);
         /* Get the nav bar for cro management view */
-        var url = '<?php echo site_url("cro_retriever/getCRONavBarView") ?>';
+        var url = '<?php echo site_url("user_controller/getUserNavBarView") ?>';
         var result = ajaxPost(data,url);
         /* Append the values for the div tag field */
-        var div = document.getElementById('navBarField');
+        var div = document.getElementById('navBarField');//alert("CRO NavBar ok");
         div.innerHTML = result.view.table_content;
 
-        url = '<?php echo site_url("cro_retriever/getSidePanelView") ?>';
-        result = ajaxPost(data,url);
+        url = '<?php echo site_url("user_controller/getSidePanelView") ?>';
+        result = ajaxPost(data,url);//alert("CRO SideBar ok");
 
         div = document.getElementById('operation');
         div.innerHTML =  result.view.table_content;
 
-        getAllDriversView();
+        getAllCROsView(id);
     }
 
-    function getNewCROView(){alert("in getNewCROView");
+    function getNewCROView(id){alert("in getNewCROView");
 
-        var data = {};
-        var url = '<?php echo site_url("cro_retriever/getNewFormCROView") ?>';
+        var data = {'user_type' : id};
+        var url = '<?php echo site_url("user_controller/getNewFormUserView") ?>';
         var result = ajaxPost(data,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = result.view.table_content;
     }
 
-    function createNewCRO(){alert("in createNewCRO");
+    function createNewCRO(id){alert("in createNewCRO");
         var name = document.getElementById("name").value;
         var uName = document.getElementById("uName").value;
         var pass = document.getElementById("pass").value;
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
+        var user_type = id;
+        var cabId = "";
+        if(id.toString() === "driver" ){cabId = document.getElementById("cabId").value;}
         //var cabIdAssigned = document.getElementById("cabIdAssigned").value;
         if(name == "" ){return false;}
         if(uName == "" ){return false;}
@@ -397,18 +403,19 @@
 
         //if(cabIdAssigned == "" ){cabIdAssigned="null"}
         /* Create a JSON object from the form values */
-        var cro = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp };
-        var url = '<?php echo site_url("cro_retriever/createCRO") ?>';
-        alert(JSON.stringify(cro));
-        ajaxPost(cro,url);
-        getAllDriversView();
+        if(cabId === ""){var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type };}
+        else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId };}
+        var url = '<?php echo site_url("user_controller/createUser") ?>';
+        alert(JSON.stringify(user));
+        ajaxPost(user,url);
+        getAllCROsView(id);
     }
 
     /* Gets all available cabs and show in the 'dataFiled' div tag */
-    function getAllCROsView(){alert("in getAllCROsView");
-        var skip = docs_per_page * (page-1);
-        var data = {"skip" : skip , "limit" : docs_per_page};
-        var url = '<?php echo site_url("cro_retriever/getAllCROsView") ?>';
+    function getAllCROsView(id){alert("in getAllCROsView");
+        var skip = docs_per_page * (page-1);alert("the id val in getALLCROView is : "+id);
+        var data = {"skip" : skip , "limit" : docs_per_page, "user_type" : id};
+        var url = '<?php echo site_url("user_controller/getAllUsersView") ?>';
         var view = ajaxPost(data,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = "";

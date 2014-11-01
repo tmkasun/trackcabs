@@ -21,7 +21,7 @@
     </div>
     <div class="form-group">
         <label for="cabIdAssigned">Cab ID</label>
-        <input type="text" class="form-control" id="cabIdAssigned" placeholder="Enter Cab ID">
+        <input type="text" class="form-control" id="cabId" placeholder="Enter Cab ID">
     </div>
-    <button type="submit" class="btn btn-default" onclick="createNewDriver()">Save</button>
+    <button type="submit" id="driver" class="btn btn-default" onclick="createNewCRO(this.id)">Save</button>
 </form>

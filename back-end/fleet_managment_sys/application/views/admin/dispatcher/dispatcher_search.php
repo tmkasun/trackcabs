@@ -6,15 +6,16 @@
         <div class="panel-body" id="singleDispatcher">
             <div >
 
-                <h4>Dispatcher ID : <?= $dispatcherId;?></h4></br>
+                <h4>Dispatcher ID : <?= $userId;?></h4></br>
                 <h4>Name : <?= $name?></h4></br>
                 <h4>User Name : <?= $uName;?></h4></br>
                 <h4>Pass : <?= $pass;?></h4></br>
                 <h4>NIC Number : <?= $nic;?></h4></br>
                 <h4>Telephone Number : <?= $tp;?></h4></br>
+                <h4>Type : <?= $user_type;?></h4></br>
                 </br>
-
-                <button type="button" class="btn btn-danger btn-lg" onclick="makeDispatcherFormEditable(<?= $dispatcherId;?>,url)"
+                
+                <button type="button" class="btn btn-danger btn-lg" onclick="makeCROFormEditable(<?= $userId;?>,url, '<?php echo $user_type;?>')"
                         style="float: right">Edit</button>
             </div>
         </div>

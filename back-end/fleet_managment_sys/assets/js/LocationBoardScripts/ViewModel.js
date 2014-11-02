@@ -5,7 +5,7 @@
 var LocationBoard = {};
 LocationBoard.zones = [];
 var GlobalCabs = [];
-
+var currentDispatchOrderRefId = 12341234;
 
 var user1 = {};
 user1.id = 9900;
@@ -200,6 +200,8 @@ LocationBoard.zones.push(zone4);
 var currentActiveOrder = 12345678;
 
 //==============ViewModel============================//
+
+var baseUrl = "localhost/fleet-managment-system/back-end/fleet_managment_sys/index.php/";
 function LocationBoardViewModel(){
     var self = this;
 
@@ -239,9 +241,19 @@ function LocationBoardViewModel(){
         zone.cabInput('');
 
 
-    }
+    };
 
     self.dispatchCab = function(zone, cab){
+        sendingData = {};
+        sendingData.cabId = cab.id;
+        sendingData.orderId = currentDispatchOrderRefId;
+
+        $.ajax({
+            url:baseUrl + "dispatcher/dispatchVehicle",
+            type:"POST",
+            data:sendingData
+        });
+
         zone.cabs.remove(cab);
     }
 

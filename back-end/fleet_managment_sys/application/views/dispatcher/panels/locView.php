@@ -68,10 +68,10 @@
 </head>
 <body>
 <h2 style="text-align: center; margin-bottom: 1%">Location Board</h2>
-<div class="form-group" style="text-align: center">
+<!--div class="form-group" style="text-align: center">
     <input class="form-control" style="width: auto; display: inline">
     <button class="form-control" style="width: auto;display: inline">Add Location</button>
-</div>
+</div-->
 <div id="zoneContainer" class="row" style="padding: 2%">
 
     <!--Container for Order List-->

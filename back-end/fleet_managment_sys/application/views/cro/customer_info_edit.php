@@ -1,20 +1,20 @@
 
 <form  class="form-inline" role="form" >
     <select class="form-control" id="title">Select a Title
-        <option selected value="-">Title</option>
-        <option value="Ms">Ms</option>
-        <option value="Miss">Miss</option>
-        <option value="Mrs">Mrs</option>
-        <option value="Mr">Mr</option>
-        <option value="Rev">Rev</option>
-        <option value="Doc">Doc</option>
+        <option value="-"    <?php if($title == '-')echo 'selected';?> >Title</option>
+        <option value="Ms"   <?php if($title == 'Ms')echo 'selected';?>>Ms</option>
+        <option value="Miss" <?php if($title == 'Miss')echo 'selected';?>>Miss</option>
+        <option value="Mrs"  <?php if($title == 'Mrs')echo 'selected';?>>Mrs</option>
+        <option value="Mr"   <?php if($title == 'Mr')echo 'selected';?>>Mr</option>
+        <option value="Rev"  <?php if($title == 'Rev')echo 'selected';?>>Rev</option>
+        <option value="Doc"  <?php if($title == 'Doc')echo 'selected';?>>Doc</option>
     </select>
 
     <select id="position" class="form-control">
-        <option selected value="-">Position</option>
-        <option value="Dig">Dig</option>
-        <option value="Mag">Mag</option>
-        <option value="Col">Col</option>
+        <option value="-"   <?php if($title == '-')echo 'selected';?>>Position</option>
+        <option value="Dig" <?php if($title == 'Dig')echo 'selected';?>>Dig</option>
+        <option value="Mag" <?php if($title == 'Mag')echo 'selected';?>>Mag</option>
+        <option value="Col" <?php if($title == 'Col')echo 'selected';?>>Col</option>
     </select>
 </form>
 

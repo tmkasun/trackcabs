@@ -46,7 +46,7 @@
 
         <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch">
+                <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch" autofocus>
             </div>
             <input type="submit" class="btn btn-default" onclick="operations('getCustomer');return false" onsubmit="operations('getCustomer');return false" value="Submit" />
         </form>
@@ -134,7 +134,9 @@
     <script>
         function operations(request, param1){
             if(request=="editCus"){
+                console.log(param1);
                 editCustomerInfoEditView( url , param1 );
+
             }
 
             if(request == 'updateCusInfo'){
@@ -143,16 +145,15 @@
             if(request == 'getCustomer'){
 
                 tp      = document.getElementById("tpSearch").value;
-                var view =getCustomerInfoView( url , tp , customerObj,bookingObj);
-                bookingObj=view.important.live_booking;
-                customerObj=view.important.customerInfo;
+                var view =getCustomerInfoView( url , tp );
+
                 uiInit();
 
-                var arr = jobInfo.getElementsByTagName('script');
-                for (var n = 0; n < arr.length; n++) {
-                    eval(arr[n].innerHTML)//run script inside div
-                }
-                alert(JSON.stringify(bookingObj));
+//                var arr = jobInfo.getElementsByTagName('script');
+//                for (var n = 0; n < arr.length; n++) {
+//                    eval(arr[n].innerHTML)//run script inside div
+//                }
+
             }
             if(request == 'createCusInfo'){
                 $('#newCustomer').bootstrapValidator({

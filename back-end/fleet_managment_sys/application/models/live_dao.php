@@ -85,6 +85,24 @@ class Live_dao extends CI_Model
         $collection->update($searchQuery ,array('$set' => array('status' => $status)));
     }
 
+    function setDriverId($orderId, $driverId){
+        $dbName = $this->db->selectDB('track');
+        $collection = $dbName->selectCollection('live');
+
+        $searchQuery= array('refId' => (int)$orderId);
+
+        $collection->update($searchQuery ,array('$set' => array('driverId' => $driverId)));
+    }
+
+    function setCabId($orderId,$cabId){
+        $dbName = $this->db->selectDB('track');
+        $collection = $dbName->selectCollection('live');
+
+        $searchQuery= array('refId' => (int)$orderId);
+
+        $collection->update($searchQuery ,array('$set' => array('cabId' => (int)$cabId)));
+    }
+
     function deleteBookingByMongoId($objId){
         $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');

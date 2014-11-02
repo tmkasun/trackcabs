@@ -43,15 +43,14 @@ class Authenticate extends CI_Controller {
     function driver(){
         $input = file_get_contents('php://input');
         $inputArray = json_decode(trim($input), true);
-        $username = $inputArray['uName'];
-        log_message('info',$username);
+        $userId = $inputArray['uName'];
 
-        $authenticationResult = $this->user_dao->driverAuthenticate($username,$inputArray['pass']);
+        $authenticationResult = $this->user_dao->driverAuthenticate($userId,$inputArray['pass']);
 
         if (!$authenticationResult) {
             $authentication = array('isAuthorized' => false);
         }else {
-            $driver = $this->user_dao->getUser($username);
+            $driver = $this->user_dao->getUserById($userId);
             // For reference $driver->role->cab->id and $driver->role->id and $driver->role->cab->type
             $authentication = array('isAuthorized' => true,'driverId' => $driver['uName'],  'cabId' => $driver['cabId'] ,'vehicleType' => 'van');
         }

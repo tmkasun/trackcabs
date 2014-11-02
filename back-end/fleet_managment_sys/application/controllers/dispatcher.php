@@ -53,7 +53,7 @@ class Dispatcher extends CI_Controller {
         $orderId = $postData['orderId'];
         $dispatchingOrder = $this->live_dao->getBooking($orderId);
         $dispatchingDriver = $this->user_dao->getDriverByCabId($cabId);
-
+        $driverId = $dispatchingDriver['userId'];
 //        $this->live_dao->deleteBooking($postData['refId']);
 //        $customer = $this->customer_dao->getCustomer($dispatchingOrder['tp']); // TODO: need this when updating customer order history
 
@@ -63,7 +63,11 @@ class Dispatcher extends CI_Controller {
         $addressArray = array_values($dispatchingOrder['address']);
         $custoAddress = implode(" ",$addressArray);
 
-        $driverMessage = "#".$dispatchingDriver['userId'].'1'.$dispatchingOrder['refId']." Address: ".$custoAddress;
+        $this->live_dao->setDriverId($orderId,$driverId);
+        $this->live_dao->setCabId($orderId,$cabId);
+
+        $driverId  = strlen($driverId) <= 1 ? '0'.$driverId : $driverId;
+        $driverMessage = "#".$driverId.'1'.$dispatchingOrder['refId']." Address: ".$custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
         $sentCusto = $sms->send($custoNumber,$custoMessage);

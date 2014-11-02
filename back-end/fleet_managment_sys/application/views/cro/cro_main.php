@@ -279,6 +279,9 @@
                 getCustomerInfoView(url , tp);
                 uiInit();
             }
+            if(request == 'changeJobInfoView'){
+                changeJobInfoView(param1)
+            }
         }
     </script>
 

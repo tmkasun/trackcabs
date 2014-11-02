@@ -95,4 +95,16 @@ class Cab_dao extends CI_Model
 
         return $record['vType'];
     }
+
+
+    function setZone($cabId , $zone){
+        $connection = new MongoClient();
+        $dbName = $connection->selectDB('track');
+        $collection = $dbName->selectCollection('cabs');
+        $searchQuery= array('cabId' => $cabId);
+
+        $collection->update($searchQuery ,array('$set' => array('zone' => $zone)));
+
+
+    }
 }

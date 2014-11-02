@@ -118,6 +118,7 @@ function createBooking(url , tp){
         }
     };
     ajaxPost(data,url);
+    alert('booking added is working');
 }
 
 
@@ -154,7 +155,7 @@ function updateBooking(url , objId){
         'landmark' : landMark
     };
     var data = {
-        'objId' : objId,
+        '_id' : objId,
         'data' : {
             'address' : address ,
             'vType' : vType ,
@@ -250,7 +251,7 @@ function getCustomerInfoView( url , tp ){
     url = url + "/cro_controller/getCustomerInfoView";
     var data = {"tp" : tp};
     var view = ajaxPost(data,url);
-
+    alert('getcustomer info view is also completed');
     if(view.hasOwnProperty('important'))
     bookingObj=view.important.live_booking;
 
@@ -363,8 +364,11 @@ function uiInit(){
     });
 }
 
-function changeJobInfoView(){
+function changeJobInfoView(bookingObjId){
 
+    alert(bookingObjId);
+    alert(JSON.stringify(bookingObj));
+    //$('#jobStatus').html()
 
 
 }

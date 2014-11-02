@@ -28,7 +28,7 @@
 
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <span class="badge">START</span>
+                            <span class="badge" id="jobStatus"><?= $live_booking[sizeof($live_booking)-1]['status']; ?></span>
                             Status
                         </li>
                         <li class="list-group-item">
@@ -52,9 +52,14 @@
                         <?php $status =$live_booking[sizeof($live_booking)-1]['status']; ?>
 
                         <h4>Address </h4>
-                        <?= $live_booking[sizeof($live_booking)-1]['address']['no'] ." ". $live_booking[sizeof($live_booking)-1]['address']['road'] ." ". $live_booking[sizeof($live_booking)-1]['address']['city'] ." ". $live_booking[sizeof($live_booking)-1]['address']['town'];?>
+                        <span id="jobAddress">
+                            <?= $live_booking[sizeof($live_booking)-1]['address']['no'] ." ".
+                                $live_booking[sizeof($live_booking)-1]['address']['road'] ." ".
+                                $live_booking[sizeof($live_booking)-1]['address']['city'] ." ".
+                                $live_booking[sizeof($live_booking)-1]['address']['town'];?>
+                        </span>
                         <h4>Remark </h4>
-                        <?= $live_booking[sizeof($live_booking)-1]['remark']?>
+                        <span id="jobRemark"><?= $live_booking[sizeof($live_booking)-1]['remark']?></span>
                         <h5>VIP | VIH | UNMARK | CASH</h5>
                     </div>
 

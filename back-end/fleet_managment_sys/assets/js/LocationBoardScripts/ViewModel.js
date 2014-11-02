@@ -201,7 +201,7 @@ var currentActiveOrder = 12345678;
 
 //==============ViewModel============================//
 
-var baseUrl = "localhost/fleet-managment-system/back-end/fleet_managment_sys/index.php/";
+var baseUrl = BASE_URL;
 function LocationBoardViewModel(){
     var self = this;
 
@@ -247,14 +247,18 @@ function LocationBoardViewModel(){
         sendingData = {};
         sendingData.cabId = cab.id;
         sendingData.orderId = currentDispatchOrderRefId;
-
-        $.ajax({
-            url:baseUrl + "dispatcher/dispatchVehicle",
-            type:"POST",
-            data:sendingData
+        $.post('dispatcher/dispatchVehicle', sendingData, function (response) {
+            console.log(response);
+            $.UIkit.notify({
+                message: '<span style="color: dodgerblue">' + response.status + '</span><br>' + response.message,
+                status: (response.status == 'success' ? 'success' : 'danger'),
+                timeout: 3000,
+                pos: 'top-center'
+            });
+            currentDispatchOrderRefId = null;
+            zone.cabs.remove(cab);
         });
 
-        zone.cabs.remove(cab);
     }
 
 

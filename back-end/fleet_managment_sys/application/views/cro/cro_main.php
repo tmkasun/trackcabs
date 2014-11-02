@@ -46,7 +46,7 @@
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch">
             </div>
-            <button type="button" class="btn btn-default" onclick="operations('getCustomer')">Submit</button>
+            <input type="submit" class="btn btn-default" onclick="operations('getCustomer');return false" onsubmit="operations('getCustomer');return false" value="Submit" />
         </form>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

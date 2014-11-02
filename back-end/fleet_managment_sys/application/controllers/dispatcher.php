@@ -49,12 +49,20 @@ class Dispatcher extends CI_Controller {
 
     function dispatchVehicle(){
         $postData = $this->input->post();
-        $dispatchingOrder = $this->live_dao->getBooking($postData['refId']);
-        $this->live_dao->deleteBooking($postData['refId']);
+        $cabId = $postData['cabId'];
+        $orderId = $postData['orderId'];
+        $dispatchingOrder = $this->live_dao->getBooking($postData['orderId']);
+//        $this->live_dao->deleteBooking($postData['refId']);
 //        $customer = $this->customer_dao->getCustomer($dispatchingOrder['tp']); // TODO: need this when updating customer order history
-        $sms = new Sms("Testing message");
-        $sentCusto = $sms->send($dispatchingOrder['tp'],"Your reference number is ".$postData['refId'] . "we have dispatch a cab, you will recede a cab on".$dispatchingOrder['address']);
-        $sentDriver = $sms->send("0711661919","Your reference number is ".$postData['refId'] . "Please go to this address".$dispatchingOrder['address']);
+
+        $sms = new Sms();
+        $custoMessage = "You order has been dispatched Order # $dispatchingOrder[refId]";
+        $custoNumber = $dispatchingOrder['tp'];
+
+        $driverMessage = "";
+        $driverNumber = "";
+//        $sentCusto = $sms->send("0711661919","sdsa");
+//        $sentDriver = $sms->send("0711661919","Your reference number is ".$postData['refId'] . "Please go to this address".$dispatchingOrder['address']);
 
         /*
          * get cust no from refid
@@ -63,9 +71,11 @@ class Dispatcher extends CI_Controller {
          *
          * */
 
-
-        header('Content-Type: application/json');
-        echo json_encode(array('status'=> 'success', 'message' => 'Reference Id '.$postData['refId'].'Dispatched to '.$dispatchingOrder['address']));
+//        $response = array('status'=> 'success', 'message' => 'Reference Id '.$postData['refId'].'Dispatched to '.$dispatchingOrder['address']);
+//        $this -> output -> set_content_type('application/json');
+//        echo json_encode($response);
+//        echo json_encode($dispatchingOrder);
+            echo $custoNumber;
     }
 
 }

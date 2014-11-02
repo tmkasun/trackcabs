@@ -68,7 +68,7 @@
     <!-- ** comment out below imports if using minimized wso2_geo.min library **  -->
     <script src="<?= base_url() ?>assets/js/application_options.js"></script>
     <script>
-        setBaseURL('<?= base_url() ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
+        setBaseURL('<?= base_url().'index.php/' ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
         var webSocketURL = 'ws://localhost:9764/outputwebsocket/t/carbon.super/DefaultWebsocketOutputAdaptor/geoDataEndPoint'; // TODO: Get the server IP and port and other static information from the applicationOptions object
         ApplicationOptions.constance.WEB_SOCKET_URL = webSocketURL;
 
@@ -330,7 +330,7 @@
     <!--/panel-->
 </div>
 
-<div id="left_side_pannel" class="uk-offcanvas" style="z-index: -1;">
+<div id="left_side_pannel" class="uk-offcanvas" ">
     <div class="uk-offcanvas-bar" style="box-shadow: 3px 14px 13px -2px #211404;">
         <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon" data-uk-nav>
             <li class="uk-parent" style="box-shadow: 0 2px 12px 1px #2D1600;min-height: 50px;line-height: 25px;">
@@ -437,7 +437,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-3">
 
         <div id="leftSidePane">
 
@@ -447,7 +447,7 @@
 
         </div>
     </div>
-    <div class="col-md-6">
+    <div id="locBoardWrapper" class="col-md-9">
 
         <div id="rightSidePane">
 

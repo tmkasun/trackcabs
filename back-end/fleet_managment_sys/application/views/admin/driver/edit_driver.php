@@ -25,7 +25,7 @@
     </div>
     <div class="form-group">
         <label for="cabIdAssigned">Cab ID</label>
-        <input type="text" class="form-control" id="cabIdAssigned" placeholder="Enter Cab ID" value="<?= $cabId;?>">
+        <input type="text" class="form-control" id="cabId" placeholder="Enter Cab ID" value="<?= $cabId;?>">
     </div>
-    <button type="submit" class="btn btn-default" onclick="updateCRO(<?php echo $user_type?>)">Save</button>
+    <button type="submit" class="btn btn-default" onclick="updateCRO('<?php echo $user_type?>')">Save</button>
 </form>

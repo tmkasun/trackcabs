@@ -25,20 +25,36 @@ class Authenticate extends CI_Controller {
 
 	}
 
+    function logout(){
+        $input = file_get_contents('php://input');
+        $inputArray = json_decode(trim($input), true);
+        $userId = $inputArray['userId'];
+        log_message('info',$userId);
+
+        $authenticationResult = $this->user_dao->logout($userId);
+
+        if (!$authenticationResult) {
+            $authentication = array('isAuthorized' => false);
+        }else {
+            $authentication = array('isAuthorized' => true);
+        }
+        $this -> output -> set_content_type('application/json') -> set_output(json_encode($authentication));
+    }
+
     function driver(){
         $input = file_get_contents('php://input');
         $inputArray = json_decode(trim($input), true);
         $username = $inputArray['uName'];
         log_message('info',$username);
 
-        $authenticationResult = $this->users_dao->authenticate($username,$inputArray['pass']);
+        $authenticationResult = $this->user_dao->authenticate($username,$inputArray['pass']);
 
         if (!$authenticationResult) {
             $authentication = array('isAuthorized' => false);
         }else {
-            $driver = $this->users_dao->find($username);
+            $driver = $this->user_dao->getUser($username);
             // For reference $driver->role->cab->id and $driver->role->id and $driver->role->cab->type
-            $authentication = array('isAuthorized' => true,'driverId' => $driver['uName'], 'cabId' => 11 ,'vehicleType' => 'van');
+            $authentication = array('isAuthorized' => true,'driverId' => $driver['uName'],  'cabId' => $driver['cabId'] ,'vehicleType' => 'van');
         }
         $this -> output -> set_content_type('application/json') -> set_output(json_encode($authentication));
     }
@@ -58,7 +74,7 @@ class Authenticate extends CI_Controller {
 				$this->user->update_login($row -> computer_number);
 				return TRUE;
 			} else {
-                $driver = $this->users_dao->find();
+                $driver = $this->user_dao->find();
 				$this -> form_validation -> set_message('check_database', 'Sorry you do not have privileges to login to the system');
 				return false;
 			}

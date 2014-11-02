@@ -36,10 +36,13 @@ class AlertToMongo(Resource):
         print("Request content {}".format(jsonContent))
 
         result = self.updateAlert(jsonContent)
+        print(result)
 
         return ""
 
     def updateAlert(self, jsonHash, collection='live'):
+        print("DEBUG: jsonHash['properties']['orderId'] = "+jsonHash['properties']['orderId'])
+        print("DEBUG: jsonHash['properties']['orderId'] = "+jsonHash['properties']['state'])
         return client.track[collection].update({'refId': int(jsonHash['properties']['orderId'])},
                                                {'$set': {'status': str(jsonHash['properties']['state'])}}, #"lastUpdatedOn": datetime.datetime.utcnow()
                                                upsert=False, multi=False)

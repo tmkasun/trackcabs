@@ -24,14 +24,14 @@ var websocket;
 
 // Make the function wait until the connection is made...
 var waitTime = 1000;
-function waitForSocketConnection(socket, callback){
+function waitForSocketConnection(socket, callback) {
     setTimeout(
         function () {
             if (socket.readyState === 1) {
                 initializeWebSocket();
                 waitTime = 1000;
                 console.log("Connection is made");
-                if(callback != null){
+                if (callback != null) {
                     callback();
                 }
                 return;
@@ -40,7 +40,7 @@ function waitForSocketConnection(socket, callback){
                 websocket = new WebSocket(webSocketURL);
                 waitTime += 400;
                 $.UIkit.notify({
-                    message: "wait for connection "+waitTime/1000+" Seconds...",
+                    message: "wait for connection " + waitTime / 1000 + " Seconds...",
                     status: 'warning',
                     timeout: waitTime,
                     pos: 'top-center'
@@ -62,7 +62,7 @@ var webSocketOnOpen = function () {
 
 var webSocketOnError = function (e) {
     $.UIkit.notify({
-        message: 'Something went wrong when trying to connect to <b>'+webSocketURL+'<b/>',
+        message: 'Something went wrong when trying to connect to <b>' + webSocketURL + '<b/>',
         status: 'danger',
         timeout: 600,
         pos: 'top-center'
@@ -70,7 +70,7 @@ var webSocketOnError = function (e) {
 //    waitForSocketConnection(websocket);
 };
 
-var webSocketOnClose =function (e) {
+var webSocketOnClose = function (e) {
     $.UIkit.notify({
         message: 'Connection lost with server!!',
         status: 'danger',
@@ -86,10 +86,12 @@ var webSocketOnMessage = function processMessage(message) {
     notifyAlert(geoJsonFeature);
 
     if (geoJsonFeature.id in currentCabsList) { // TODO: actual value properties.cabId
+        console.log("DEBUG: geoJsonFeature.id in +" + geoJsonFeature.id);
         var excitingCab = currentCabsList[geoJsonFeature.id];
         excitingCab.update(geoJsonFeature);
     }
     else {
+        console.log("DEBUG: geoJsonFeature.id not in =" + geoJsonFeature.id);
         var newCab = new Cab(geoJsonFeature);
         newCab.update(geoJsonFeature);
         currentCabsList[newCab.id] = newCab;
@@ -97,7 +99,7 @@ var webSocketOnMessage = function processMessage(message) {
     }
 };
 
-function initializeWebSocket(){
+function initializeWebSocket() {
     websocket = new WebSocket(webSocketURL);
     websocket.onmessage = webSocketOnMessage;
     websocket.onclose = webSocketOnClose;
@@ -117,6 +119,7 @@ function Cab(geoJSON) {
     this.heading = geoJSON.properties.heading;
     this.orderId = geoJSON.properties.orderId;
     this.locationCoordinates = [geoJSON.geometry.coordinates];
+    this.geoJson = geoJSON; // TODO: why again ?
 
     return this;
 }
@@ -135,41 +138,96 @@ Cab.prototype.setSpeed = function (speed) {
 
 Cab.prototype.stateRow = function () {
     // Performance of if-else, switch or map based conditioning http://stackoverflow.com/questions/8624939/performance-of-if-else-switch-or-map-based-conditioning
+    var currentTime = new Date();
     switch (this.state) {
         case "IDLE":
-            return tableRowFactory(this.state, this.id);
+            return (
+            "<tr id='" + this.id+ "'>" +
+            '<td>' +
+            this.driver.id +
+            '</td>' +
+            '<td>' +
+            currentTime.toLocaleString() +
+            '</td>' +
+            '<td class = "locationName">' +
+            setLocationName(locationCoordinates, '#'+this.id) +
+            '</td>' +
+            "</tr>"
+            );
         case "MSG_NOT_COPIED":
-            return tableRowFactory(this.state, this.id);
+            return (
+            "<tr id='" + this.id + "'>" +
+            '<td>' +
+            this.geoJson.properties.orderId +
+            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.toLocaleString() + '</td>' + '<td>' + 'N/A' + '</td>' +
+            '<td>' + this.geoJson.properties.cabId + '</td>' + '<td>' + 'N/A' + '</td>' + /*Address*/'<td>' + 'N/A' + '</td>' + /*agent*/'<td>' + 'N/A' + '</td>' +
+                /*Inquire*/'<td>' + 'N/A' + '</td>' + /*DIM*/'<td>' + 'N/A' + '</td>' + /*VIH*/'<td>' + 'N/A' + '</td>' + /*VIP*/'<td>' + 'N/A' +
+            '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
+            );
         case "MSG_COPIED":
-            return tableRowFactory(this.state, this.id);
+            return (
+            "<tr id='" + this.id + "'>" +
+            '<td>' +
+            this.geoJson.properties.orderId +
+            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.toLocaleString() + '</td>' + '<td>' + 'N/A' + '</td>' +
+            '<td>' + this.geoJson.properties.cabId + '</td>' + '<td>' + 'N/A' + '</td>' + /*Address*/'<td>' + 'N/A' + '</td>' + /*agent*/'<td>' + 'N/A' + '</td>' +
+                /*Inquire*/'<td>' + 'N/A' + '</td>' + /*DIM*/'<td>' + 'N/A' + '</td>' + /*VIH*/'<td>' + 'N/A' + '</td>' + /*VIP*/'<td>' + 'N/A' +
+            '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
+            );
         case "AT_THE_PLACE":
-            return tableRowFactory(this.state, this.id);
+            return (
+            "<tr id='" + this.id + "'>" +
+            '<td>' +
+            this.geoJson.properties.orderId +
+            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.toLocaleString() + '</td>' + '<td>' + 'N/A' + '</td>' +
+            '<td>' + this.geoJson.properties.cabId + '</td>' + '<td>' + 'N/A' + '</td>' + /*Address*/'<td>' + 'N/A' + '</td>' + /*agent*/'<td>' + 'N/A' + '</td>' +
+                /*Inquire*/'<td>' + 'N/A' + '</td>' + /*DIM*/'<td>' + 'N/A' + '</td>' + /*VIH*/'<td>' + 'N/A' + '</td>' + /*VIP*/'<td>' + 'N/A' +
+            '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
+            );
         case "POB":
-            return tableRowFactory(this.state, this.id);
+            return (
+            "<tr id='" + this.id + "'>" +
+            '<td>' +
+            this.geoJson.properties.orderId +
+            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.toLocaleString() + '</td>' + '<td>' + this.geoJson.properties.cabId + '</td>' +
+            '<td>' + 'N/A' + '</td>'+ '<td>' + 'N/A' + '</td>' + /*Address*/'<td>' + 'N/A' + '</td>' + /*agent*/'<td>' + 'N/A' + '</td>' +
+                /*Inquire*/'<td>' + 'N/A' + '</td>' + /*DIM*/'<td>' + 'N/A' + '</td>' + /*VIH*/'<td>' + 'N/A' + '</td>' + /*VIP*/'<td>' + 'N/A' +
+            '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
+            );
         default:
             return defaultIcon;
     }
 };
 
 Cab.prototype.update = function (geoJSON) {
+    console.log("DEBUG: updating geoJSON = " + geoJSON);
+    this.geoJson = geoJSON;
     this.locationCoordinates = geoJSON.geometry.coordinates;
     this.setSpeed(geoJSON.properties.speed);
     this.state = geoJSON.properties.state;
     this.heading = geoJSON.properties.heading;
-    this.orderDOM = $('#'+this.id);
-    if(this.orderDOM.lenght){
-        this.orderDOM.remove();
+    console.log("DEBUG: this.id = " + this.id);
+    this.orderDOM = $('#' + this.id);
+    debugObject = this.orderDOM;
+    console.log("DEBUG: this.orderDOM.lenght = " + this.orderDOM.lenght);
+    if (this.orderDOM.length) {
+        console.log("DEBUG: this.orderDOM.lenght = " + this.orderDOM.lenght);
+        this.orderDOM.fadeOut().remove();
+        console.log("DEBUG: Removed");
     }
     this.orderDOM = this.stateRow();
-    $('#'+this.state+' > tbody:last').append(this.orderDOM);
+    $('#' + this.state + ' > tbody:last').append(this.orderDOM);
 };
 
-
 /*------------------------------ Helper methods ------------------------------*/
-function tableRowFactory(state, refId){
-    var row = "<td id='"+refId+"'>"+state+"</td>";
-    return row;
+function setLocationName(latLng, domId){
+    $.post('testing/geoCode', {longitude: latLng[0], latitude: latLng[1]}, function (response) {
+        alert(response[0].name);
+        debugObject = response;
+        $(domId).find('.locationName').html(response[0].name);
+    });
 }
+
 function notifyAlert(message) {
     $.UIkit.notify({
         message: "Alert: " + message,
@@ -223,7 +281,7 @@ function LocalStorageArray(id) {
             updatedStorageValue = currentStorageValue + DELIMITER + value;
         }
         sessionStorage.setItem(this.storageId, updatedStorageValue);
-        this.length +=1;
+        this.length += 1;
     };
     this.isEmpty = function () {
         return (this.getArray().length === 0);

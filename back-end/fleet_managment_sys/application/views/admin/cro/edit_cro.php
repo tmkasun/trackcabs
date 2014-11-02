@@ -1,7 +1,7 @@
 <form role="form" id="editCROs">
     <div class="form-group">
         <label for="userId">CRO ID</label>
-        <input type="text" class="form-control" id="userId"  readonly="readonly" value="<?= $croId;?>">
+        <input type="text" class="form-control" id="userId"  readonly="readonly" value="<?= $userId;?>">
     </div>
     <div class="form-group">
         <label for="name">Full Name</label>
@@ -24,5 +24,5 @@
         <input type="text" class="form-control" id="tp" placeholder="Enter Telephone Number" value="<?= $tp;?>">
     </div>
 
-    <button type="submit" class="btn btn-default" onclick="updateCRO(<?php echo $user_type?>)">Save</button>
+    <button type="submit" class="btn btn-default" onclick="updateCRO('<?php echo $user_type?>')">Save</button>
 </form>

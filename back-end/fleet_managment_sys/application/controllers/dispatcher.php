@@ -12,7 +12,9 @@ class Dispatcher extends CI_Controller {
 //			$this -> load -> view('layouts/inner_layout', $layout_data);
             $new_orders = $this->live_dao->getAllBookings();
             $new_orders_pane = $this->load->view("dispatcher/panels/new_orders",array('orders'=>$new_orders),TRUE);
-            $this -> load -> view('dispatcher/index',array('new_orders_pane' => $new_orders_pane));
+            $location_board_pane = $this->load->view("dispatcher/panels/locView",NULL,TRUE);
+
+            $this -> load -> view('dispatcher/index',array('new_orders_pane' => $new_orders_pane, 'location_board_pane' => $location_board_pane));
 		} else {
 			//If no session, redirect to login page
 			$this -> load -> library('form_validation');

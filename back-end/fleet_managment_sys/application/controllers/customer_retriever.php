@@ -128,7 +128,7 @@ class Customer_retriever extends CI_Controller
         unset($input_data['data']['bTime']);
         unset($input_data['data']['bDate']);
 
-        $this->live_dao->updateBooking($input_data["objId"] , $input_data["data"]);
+        $this->live_dao->updateBooking($input_data["_id"] , $input_data["data"]);
         $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
 
         /* Send the updated booking to the dispatch view */

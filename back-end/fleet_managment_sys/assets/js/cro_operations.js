@@ -150,7 +150,7 @@ function updateBooking(url , objId){
         'landmark' : landMark
     };
     var data = {
-        'objId' : objId,
+        '_id' : objId,
         'data' : {
             'address' : address ,
             'vType' : vType ,
@@ -348,8 +348,11 @@ function uiInit(){
     });
 }
 
-function changeJobInfoView(){
+function changeJobInfoView(bookingObjId){
 
+    alert(bookingObjId);
+    alert(JSON.stringify(bookingObj));
+    //$('#jobStatus').html()
 
 
 }

@@ -244,12 +244,13 @@ function updateCustomerInfoView(url){
     getCustomerInfoView(siteUrl , tp);
 }
 
-function getCustomerInfoView( url , tp ){
+function getCustomerInfoView( url , tp , customerObj,bookingObj ){
 
     url = url + "/cro_controller/getCustomerInfoView";
     var data = {"tp" : tp};
     var view = ajaxPost(data,url);
     alert(JSON.stringify(view));
+
     /*  Populate the customer information view */
     $('#customerInformation').html(view.view.table_content);
 
@@ -258,9 +259,8 @@ function getCustomerInfoView( url , tp ){
     //$('#jobCount').html(view.important.customerInfo.tot_job);
 
     /*  Populate the job information view */
-    var newBookingDiv = document.getElementById('newBooking');
-    newBookingDiv.innerHTML = "";
-    newBookingDiv.innerHTML = view.view.new_booking_view;
+    $('#newBooking').html(view.view.new_booking_view);
+    return view;
 }
 
 function getSimilarTpNumbers(url , tp){
@@ -346,4 +346,8 @@ function uiInit(){
         $(this).parent().siblings("input.customRadio").val($(this).val());
         $(this).parent().siblings("input.customRadio").text($(this).text())
     });
+}
+
+function changeJobInfoView(bookignObjId){
+
 }

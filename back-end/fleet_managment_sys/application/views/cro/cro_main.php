@@ -28,6 +28,7 @@
         var tp;
         var url = '<?= site_url(); ?>';
         var bookingObj = null;
+        var customerObj = null;
         </script>
 </head>
 <body>
@@ -142,7 +143,9 @@
             if(request == 'getCustomer'){
 
                 tp      = document.getElementById("tpSearch").value;
-                getCustomerInfoView( url , tp );
+                var view =getCustomerInfoView( url , tp , customerObj,bookingObj);
+                bookingObj=view.important.live_booking;
+                customerObj=view.important.customerInfo;
                 uiInit();
 
                 var arr = jobInfo.getElementsByTagName('script');
@@ -172,7 +175,7 @@
                 });
 
                 createCusInfo( url );
-                getCustomerInfoView(url , tp);
+                getCustomerInfoView(url , tp , customerObj,bookingObj);
                 uiInit();
 
 
@@ -246,14 +249,14 @@
                     // Prevent form submission
                     e.preventDefault();
                     createBooking(url , tp);
-                    getCustomerInfoView(url , tp);
+                    getCustomerInfoView(url , tp , customerObj,bookingObj);
                     uiInit();
 
 
                 });
 
                 createBooking(url , tp);
-                getCustomerInfoView(url , tp);
+                getCustomerInfoView(url , tp , customerObj,bookingObj);
             }
             if(request == 'cancel'){
                 getCancelConfirmationView(url , tp , param1)
@@ -262,7 +265,7 @@
                 confirmCancel(url , tp ,param1);
             }
             if(request == 'denyCancel'){
-                getCustomerInfoView(url, tp)
+                getCustomerInfoView(url, tp,customerObj,bookingObj)
             }
             if(request == 'editBooking'){
                 getEditBookingView(url,param1);
@@ -270,7 +273,7 @@
             }
             if(request == 'updateBooking'){
                 updateBooking(url,param1);
-                getCustomerInfoView(url , tp);
+                getCustomerInfoView(url , tp,customerObj,bookingObj);
             }
         }
     </script>

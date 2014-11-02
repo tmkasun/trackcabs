@@ -53,7 +53,7 @@
                         <h4>Address </h4>
                         <?= $live_booking[sizeof($live_booking)-1]['address']['no'] ." ". $live_booking[sizeof($live_booking)-1]['address']['road'] ." ". $live_booking[sizeof($live_booking)-1]['address']['city'] ." ". $live_booking[sizeof($live_booking)-1]['address']['town'];?></td>
                         <h4>Remark </h4>
-                        <?= $live_booking['remark']?>
+                        <?= $live_booking[sizeof($live_booking)-1]['remark']?>
                         <h5>VIP | VIH | UNMARK | CASH</h5>
                     </div>
 
@@ -95,7 +95,7 @@
 
 
 <div class="col-lg-12">
-    <table class="table table-striped" style="max-height: 50px;overflow: scroll;">
+    <table class="table table-striped" style="max-height: 50px;overflow: scroll;margin-top: 3%;">
         <tr>
             <th>Status</th>
             <th>Ref ID</th>
@@ -108,7 +108,7 @@
         </tr>
         <?php foreach(array_reverse($live_booking) as $item):?>
             <tr>
-                <td><?= $item['status'];?></td>
+                <td><a href="#" onclick="changeJobInfoView('<?= $_id?>')"><?= $item['status'];?></td>
                 <td><?= $item['refId'];?></td>
                 <td><?=  date('H:i:s Y-m-d ', $item['callTime']->sec);?></td>
                 <td><?=  date('H:i:s Y-m-d ', $item['bookTime']->sec);?></td>

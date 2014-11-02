@@ -39,6 +39,15 @@ class User_dao extends CI_Model
         return $user;
     }
 
+    function getUserById($userId)
+    {
+        $collection = $this->get_collection();
+
+        $searchQuery = array('userId' => (int)$userId);
+        $user = $collection->findOne($searchQuery);
+        return $user;
+    }
+
     //This function will be used if needed to get all user types
     function getAllUsers()
     {
@@ -109,7 +118,7 @@ class User_dao extends CI_Model
     function driverAuthenticate($driverId, $pass)
     {
         $collection = $this->get_collection();
-        $searchQuery = array("userId" => $driverId , 'pass' => $pass , "user_type" => "driver" );
+        $searchQuery = array("userId" => (int)$driverId , 'pass' => $pass , "user_type" => "driver" );
         $user = $collection->findOne($searchQuery);
         return $user;
 

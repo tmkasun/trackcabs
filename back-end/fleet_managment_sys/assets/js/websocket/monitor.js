@@ -149,8 +149,8 @@ Cab.prototype.stateRow = function () {
             '<td>' +
             currentTime.toLocaleString() +
             '</td>' +
-            '<td>' +
-            this.locationCoordinates.toString() +
+            '<td class = "locationName">' +
+            setLocationName(locationCoordinates, '#'+this.id) +
             '</td>' +
             "</tr>"
             );
@@ -219,21 +219,13 @@ Cab.prototype.update = function (geoJSON) {
     $('#' + this.state + ' > tbody:last').append(this.orderDOM);
 };
 
-
 /*------------------------------ Helper methods ------------------------------*/
-function getLocation(latLng){
-    var location;
-
-    $.post('dispatcher/dispatchVehicle', {refId: currentDispatchOrderRefId}, function (response) {
-        $.UIkit.notify({
-            message: '<span style="color: dodgerblue">' + response.status + '</span><br>' + response.message,
-            status: (response.status == 'success' ? 'success' : 'danger'),
-            timeout: 3000,
-            pos: 'top-center'
-        });
+function setLocationName(latLng, domId){
+    $.post('testing/geoCode', {longitude: latLng[0], latitude: latLng[1]}, function (response) {
+        alert(response[0].name);
+        debugObject = response;
+        $(domId).find('.locationName').html(response[0].name);
     });
-
-    return location;
 }
 
 function notifyAlert(message) {

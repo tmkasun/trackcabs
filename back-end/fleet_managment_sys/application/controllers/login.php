@@ -37,7 +37,7 @@ class Login extends CI_Controller {
 
         $userName = $this->input->post('username');
         $pass = $this->input->post('password');
-        $result = $this->users_dao->authenticate($userName,$pass);
+        $result = $this->user_dao->authenticate($userName,$pass);
 
         if($result != null ){
             $this->session->set_userdata('logged_in', true);

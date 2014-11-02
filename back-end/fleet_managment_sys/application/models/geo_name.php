@@ -48,4 +48,18 @@ class Geo_name extends CI_Model
         return json_encode($return);
     }
 
+    function geoCode($query){
+        $result = $this->mongodb->geo_names->lk_test->find($query);
+        $result->limit(10);
+
+        $return = array();
+        $i = 0;
+        while ($result->hasNext()) {
+
+            $return[$i] = $result->getNext();
+            $return[$i++]['_id'] = $result->key();
+        }
+        return json_encode($return);
+    }
+
 }

@@ -47,12 +47,12 @@ class Authenticate extends CI_Controller {
         $username = $inputArray['uName'];
         log_message('info',$username);
 
-        $authenticationResult = $this->users_dao->authenticate($username,$inputArray['pass']);
+        $authenticationResult = $this->user_dao->authenticate($username,$inputArray['pass']);
 
         if (!$authenticationResult) {
             $authentication = array('isAuthorized' => false);
         }else {
-            $driver = $this->users_dao->find($username);
+            $driver = $this->user_dao->find($username);
             // For reference $driver->role->cab->id and $driver->role->id and $driver->role->cab->type
             $authentication = array('isAuthorized' => true,'driverId' => $driver['uName'], 'cabId' => 11 ,'vehicleType' => 'van');
         }
@@ -74,7 +74,7 @@ class Authenticate extends CI_Controller {
 				$this->user->update_login($row -> computer_number);
 				return TRUE;
 			} else {
-                $driver = $this->users_dao->find();
+                $driver = $this->user_dao->find();
 				$this -> form_validation -> set_message('check_database', 'Sorry you do not have privileges to login to the system');
 				return false;
 			}

@@ -40,7 +40,7 @@ class Testing extends CI_Controller
             return strlen($today['mday']) <= 1 ? '0' : '';
         };
         $logFile = "application/logs/log-" . $today['year'] . "-" . $today['mon'] . "-" . $test($today) . $today['mday'] . ".php";
-        echo nl2br(@file_get_contents('application/logs/log-2014-11-01.php', false, null, (filesize($logFile) - 500 * 10)));
+        echo nl2br(@file_get_contents($logFile, false, null, (filesize($logFile) - 500 * 10)));
         exit;
     }
 

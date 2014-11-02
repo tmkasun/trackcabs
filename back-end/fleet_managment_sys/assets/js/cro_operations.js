@@ -176,7 +176,7 @@ function updateBooking(url , objId){
 }
 
 function editCustomerInfoEditView( url , tp ){
-    url = url + "/cro_controller/loadCustomerInfoEditView";
+    url = url + "/cro_controller/getCustomerInfoEditView";
     var data = {'tp' : tp};
     var view = ajaxPost(data,url);
     var div = document.getElementById('customerInformation');
@@ -244,12 +244,17 @@ function updateCustomerInfoView(url){
     getCustomerInfoView(siteUrl , tp);
 }
 
-function getCustomerInfoView( url , tp , customerObj,bookingObj ){
+function getCustomerInfoView( url , tp ){
 
     url = url + "/cro_controller/getCustomerInfoView";
     var data = {"tp" : tp};
     var view = ajaxPost(data,url);
-    alert(JSON.stringify(view));
+
+    if(view.hasOwnProperty('important'))
+    bookingObj=view.important.live_booking;
+
+    if(view.hasOwnProperty('important'))
+    customerObj=view.important.customerInfo;
 
     /*  Populate the customer information view */
     $('#customerInformation').html(view.view.table_content);

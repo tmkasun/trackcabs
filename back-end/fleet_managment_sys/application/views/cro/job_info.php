@@ -16,6 +16,7 @@
         </ul>
     </div>
 
+    <?php if(isset($history)):?>
     <div class="col-lg-9" style="border-left: 2px solid #a6a6a6" >
         <div class="panel panel-success">
             <div class="panel-heading">
@@ -91,10 +92,12 @@
             </div>
         </div>
     </div>
+    <?php endif;?>
 </div>
 
 
 <div class="col-lg-12">
+    <?php if(isset($history)):?>
     <table class="table table-striped" style="max-height: 50px;overflow: scroll;margin-top: 3%;">
         <tr>
             <th>Status</th>
@@ -120,4 +123,5 @@
 
         <?php endforeach?>
     </table>
+    <?php endif;?>
 </div>

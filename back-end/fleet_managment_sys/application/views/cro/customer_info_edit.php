@@ -1,13 +1,13 @@
 
 <form  class="form-inline" role="form" >
     <select class="form-control" id="title">Select a Title
-        <option selected value="-">Title</option>
-        <option value="Ms">Ms</option>
-        <option value="Miss">Miss</option>
-        <option value="Mrs">Mrs</option>
-        <option value="Mr">Mr</option>
-        <option value="Rev">Rev</option>
-        <option value="Doc">Doc</option>
+        <option value="-"    <?php if($title == '-')echo 'selected';?> >Title</option>
+        <option value="Ms"   <?php if($title == 'Ms')echo 'selected';?>>Ms</option>
+        <option value="Miss" <?php if($title == 'Miss')echo 'selected';?>>Miss</option>
+        <option value="Mrs"  <?php if($title == 'Mrs')echo 'selected';?>>Mrs</option>
+        <option value="Mr"   <?php if($title == 'Mr')echo 'selected';?>>Mr</option>
+        <option value="Rev"  <?php if($title == 'Rev')echo 'selected';?>>Rev</option>
+        <option value="Doc"  <?php if($title == 'Doc')echo 'selected';?>>Doc</option>
     </select>
 
     <select id="position" class="form-control">

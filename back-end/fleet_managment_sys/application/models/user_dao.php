@@ -34,7 +34,7 @@ class User_dao extends CI_Model
     {
         $collection = $this->get_collection();
 
-        $searchQuery = array('uName' => $userId);
+        $searchQuery = array('uName' => $userId); // TODO: FTW ? parameter  name is userId and searching for uName while there is an attribute for userId FK
         $user = $collection->findOne($searchQuery);
         return $user;
     }
@@ -106,6 +106,15 @@ class User_dao extends CI_Model
 
     }
 
+    function driverAuthenticate($driverId, $pass)
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array("userId" => $driverId , 'pass' => $pass , "user_type" => "driver" );
+        $user = $collection->findOne($searchQuery);
+        return $user;
+
+    }
+
 
     /**
      * Returns if user is able to logout or not
@@ -137,8 +146,12 @@ class User_dao extends CI_Model
     }
 
     //Special functions
-    function getDriverByCabId()
+    function getDriverByCabId($cabId)
     {
+        $collection = $this->get_collection();
+        $searchQuery= array('cabId' => $cabId,'user_type' => 'driver');
+        $user = $collection->findOne($searchQuery);
+        return $user;
 
     }
     function getCabByDriverId()

@@ -46,7 +46,7 @@ class Authenticate extends CI_Controller {
         $username = $inputArray['uName'];
         log_message('info',$username);
 
-        $authenticationResult = $this->user_dao->authenticate($username,$inputArray['pass']);
+        $authenticationResult = $this->user_dao->driverAuthenticate($username,$inputArray['pass']);
 
         if (!$authenticationResult) {
             $authentication = array('isAuthorized' => false);

@@ -51,18 +51,23 @@ class Dispatcher extends CI_Controller {
         $postData = $this->input->post();
         $cabId = $postData['cabId'];
         $orderId = $postData['orderId'];
-        $dispatchingOrder = $this->live_dao->getBooking($postData['orderId']);
+        $dispatchingOrder = $this->live_dao->getBooking($orderId);
+        $dispatchingDriver = $this->user_dao->getDriverByCabId($cabId);
+
 //        $this->live_dao->deleteBooking($postData['refId']);
 //        $customer = $this->customer_dao->getCustomer($dispatchingOrder['tp']); // TODO: need this when updating customer order history
 
         $sms = new Sms();
         $custoMessage = "You order has been dispatched Order # $dispatchingOrder[refId]";
         $custoNumber = $dispatchingOrder['tp'];
+        $addressArray = array_values($dispatchingOrder['address']);
+        $custoAddress = implode(" ",$addressArray);
 
-        $driverMessage = "";
-        $driverNumber = "";
-//        $sentCusto = $sms->send("0711661919","sdsa");
-//        $sentDriver = $sms->send("0711661919","Your reference number is ".$postData['refId'] . "Please go to this address".$dispatchingOrder['address']);
+        $driverMessage = "#".$dispatchingDriver['userId'].'1'.$dispatchingOrder['refId']." Address: ".$custoAddress;
+        $driverNumber = $dispatchingDriver['tp'];
+
+        $sentCusto = $sms->send($custoNumber,$custoMessage);
+        $sentDriver = $sms->send($driverNumber,$driverMessage);
 
         /*
          * get cust no from refid
@@ -72,10 +77,9 @@ class Dispatcher extends CI_Controller {
          * */
 
 //        $response = array('status'=> 'success', 'message' => 'Reference Id '.$postData['refId'].'Dispatched to '.$dispatchingOrder['address']);
-//        $this -> output -> set_content_type('application/json');
+        $this -> output -> set_content_type('application/json');
 //        echo json_encode($response);
-//        echo json_encode($dispatchingOrder);
-            echo $custoNumber;
+        echo json_encode($dispatchingDriver);
     }
 
 }

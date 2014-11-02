@@ -18,6 +18,7 @@ function getCancelConfirmationView( url , tp , id ){
     url = url +"/cro_controller/getCancelConfirmationView";
     var view = ajaxPost(data,url);
     /*  Populate the job information view */
+
     var jobInfoDiv = document.getElementById('jobInfo');
     jobInfoDiv.innerHTML = "";
     jobInfoDiv.innerHTML = view.view.cancel_confirmation_view;
@@ -179,10 +180,7 @@ function editCustomerInfoEditView( url , tp ){
     url = url + "/cro_controller/getCustomerInfoEditView";
     var data = {'tp' : tp};
     var view = ajaxPost(data,url);
-    var div = document.getElementById('customerInformation');
-    div.innerHTML = "";
-    div.innerHTML = view.view.table_content;
-
+    $('#customerInformation').html(view.view.customer_info_edit_view);
 }
 
 function createCusInfo(url){
@@ -193,7 +191,6 @@ function createCusInfo(url){
     var cusName = $('#cusName').val();
     var pRemark = $('#pRemark').val();
     var org     = $('#organization').val();
-    var des     = $('#destination').val();
     var title = $('#title').val();
     var position = $('#position').val();
 
@@ -209,7 +206,7 @@ function createCusInfo(url){
 
     /* Added extra info to the customer object of total job and job cancellations */
     var data = { 'tp' : tp , 'type1' : type1 , 'tp2' : tp2 , 'type2' : type2 ,'name' : cusName , 'pRemark' : pRemark ,
-                'org' : org , 'des' : des, 'title' : title , 'position' : position, 'dis_cancel' : 0 , 'tot_cancel' : 0,
+                'org' : org , 'title' : title , 'position' : position, 'dis_cancel' : 0 , 'tot_cancel' : 0,
                 'tot_job' : 0 };
     ajaxPost(data,url);
 
@@ -224,7 +221,6 @@ function updateCustomerInfoView(url){
     var cusName = $('#cusName').val();
     var pRemark = $('#pRemark').val();
     var org     = $('#organization').val();
-    var des     = $('#destination').val();
     var title = $('#title').val();
     var position = $('#position').val();
 
@@ -239,8 +235,8 @@ function updateCustomerInfoView(url){
     }
 
     var data = { 'tp' : tp , 'data' : {'tp' : tp , 'type1' : type1 , 'tp2' : tp2 , 'type2' : type2 ,'name' : cusName , 'pRemark' : pRemark ,
-        'org' : org , 'des' : des, 'title' : title , 'position' : position }};
-    var result = ajaxPost(data,url);
+        'org' : org , 'title' : title , 'position' : position }};
+    ajaxPost(data,url);
     getCustomerInfoView(siteUrl , tp);
 }
 
@@ -257,15 +253,13 @@ function getCustomerInfoView( url , tp ){
     customerObj=view.important.customerInfo;
 
     /*  Populate the customer information view */
-    $('#customerInformation').html(view.view.table_content);
+    $('#customerInformation').html(view.view.customer_info_view);
 
     /*  Populate the job information view */
     $('#jobInfo').html(view.view.job_info_view);
-    //$('#jobCount').html(view.important.customerInfo.tot_job);
 
     /*  Populate the job information view */
     $('#newBooking').html(view.view.new_booking_view);
-    return view;
 }
 
 function getSimilarTpNumbers(url , tp){

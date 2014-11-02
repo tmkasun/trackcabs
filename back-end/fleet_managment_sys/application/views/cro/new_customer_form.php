@@ -49,9 +49,6 @@
         <label for="organization">Organization</label>
         <input type="text" class="form-control" id="organization" placeholder="Organization Name">
     </div>
-    <div class="form-group">
-        <label for="destination">Destination</label>
-        <input type="text" class="form-control" id="destination" placeholder="Destination">
-    </div>
-    <button type="button" class="btn btn-default" onclick="operations('createCusInfo')">Save</button>
+    <input type="submit" class="btn btn-default" onclick="operations('createCusInfo');return false" onsubmit="operations('createCusInfo');return false" value="Submit" />
+
 </form>

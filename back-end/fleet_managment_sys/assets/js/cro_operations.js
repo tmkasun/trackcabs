@@ -114,6 +114,7 @@ function createBooking(url , tp){
         }
     };
     ajaxPost(data,url);
+    alert('booking added is working');
 }
 
 
@@ -245,7 +246,7 @@ function getCustomerInfoView( url , tp ){
     url = url + "/cro_controller/getCustomerInfoView";
     var data = {"tp" : tp};
     var view = ajaxPost(data,url);
-
+    alert('getcustomer info view is also completed');
     if(view.hasOwnProperty('important'))
     bookingObj=view.important.live_booking;
 

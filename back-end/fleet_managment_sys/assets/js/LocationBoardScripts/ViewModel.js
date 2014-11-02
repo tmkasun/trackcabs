@@ -193,6 +193,21 @@ LocationBoard.zones.push(zone3);
 LocationBoard.zones.push(zone4);
 
 
+function Cab(response){
+
+    this.id                         = response.cabId;
+    this.attributes                 = {};
+    this.currentDriver              = response.currentDriver;
+    this.vehicleType                = response.vType;
+    this.attributes.vehicleColor    = response.color;
+    //this.attributes.isTinted        response.;
+    //this.attributes.isMarked        response.;
+    this.attributes.info            = response.info;
+    this.attributes.model           = response.model;
+    this.isDriverIdle               = true;
+}
+
+
 
 //=================End Of Models======================//
 
@@ -228,11 +243,26 @@ function LocationBoardViewModel(){
 
         cabId = parseInt(zone.cabInput());
 
-        var cabToBeAdded = ko.utils.arrayFirst(GlobalCabs, function(item) {
-            return item.id === cabId
+        sendingData = {};
+        sendingData.cabId = cab.id;
+        sendingData.zoneName = zone.Name;
+
+        var gotResponse = null;
+        $.post("http://192.168.0.21/index.php/dispatcher/setZone",sendingData,function(response){
+            gotResponse = response;
+            console.log(response);
+            $.UIkit.notify({
+                message: '<span style="color: dodgerblue">' + response.status + '</span><br>' + response.message,
+                status: (response.status == 'success' ? 'success' : 'danger'),
+                timeout: 3000,
+                pos: 'top-center'
+            });
         });
-        if(cabToBeAdded != null){
-            zone.cabs.push(cabToBeAdded);
+
+
+        if(gotResponse != null){
+            varNewCab = new Cab(gotResponse);
+            zone.cabs.push(varNewCab);
         }
         else{
             alert('Cab Id does not exist');

@@ -231,7 +231,7 @@
                                                             <td><span data-bind="text:attributes.model"></span></td>
                                                         </tr>
 
-                                                        <tr>
+                                                        <!--tr>
                                                             <td><span>Is Tinted?</span></td>
                                                             <td><span data-bind="text:attributes.isTinted"></span></td>
                                                         </tr>
@@ -239,12 +239,13 @@
                                                         <tr>
                                                             <td><span>Is Marked?</span></td>
                                                             <td><span data-bind="text:attributes.isMarked"></span></td>
-                                                        </tr>
+                                                        </tr-->
 
                                                         <tr>
-                                                            <td><span>Current Location</span></td>
-                                                            <td><span data-bind="text:currentLocation"></span></td>
+                                                            <td><span>Information</span></td>
+                                                            <td><span data-bind="text:attributes.info"></span></td>
                                                         </tr>
+
 
                                                         </tbody>
                                                     </table>

@@ -150,7 +150,7 @@ Cab.prototype.stateRow = function () {
             currentTime.toLocaleString() +
             '</td>' +
             '<td class = "locationName">' +
-            setLocationName(locationCoordinates, '#'+this.id) +
+            setLocationName(this.locationCoordinates, '#'+this.id) +
             '</td>' +
             "</tr>"
             );
@@ -222,7 +222,7 @@ Cab.prototype.update = function (geoJSON) {
 /*------------------------------ Helper methods ------------------------------*/
 function setLocationName(latLng, domId){
     $.post('testing/geoCode', {longitude: latLng[0], latitude: latLng[1]}, function (response) {
-        alert(response[0].name);
+        //console.log(response[0].name);
         debugObject = response;
         $(domId).find('.locationName').html(response[0].name);
     });

@@ -28,8 +28,7 @@ class Authenticate extends CI_Controller {
     function logout(){
         $input = file_get_contents('php://input');
         $inputArray = json_decode(trim($input), true);
-        $userId = $inputArray['userId'];
-        log_message('info',$userId);
+        $userId = $inputArray['uName'];
 
         $authenticationResult = $this->user_dao->logout($userId);
 

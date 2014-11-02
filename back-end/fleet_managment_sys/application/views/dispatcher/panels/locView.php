@@ -67,211 +67,627 @@
     </style>
 </head>
 <body>
-<h2 style="text-align: center; margin-bottom: 1%">Location Board</h2>
-<!--div class="form-group" style="text-align: center">
-    <input class="form-control" style="width: auto; display: inline">
-    <button class="form-control" style="width: auto;display: inline">Add Location</button>
-</div-->
-<div id="zoneContainer" class="row" style="padding: 2%">
+<h2 style="text-align: center; margin-bottom: 0">Location Board</h2>
 
-    <!--Container for Order List-->
-    <!--div class="col-md-2">
+<div id="LocationContainer" style="overflow: auto; height: 100%">
 
-    </div-->
+        <div id="liveContainer" class="row" style="padding: 2%">
 
-    <!--First Column of Zones-->
-    <div id="zoneCol1Container" class="col-md-6">
-        <div class="table-responsive" style="width:100%; margin:0">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th  class="col-md-2">Zone</th>
-                    <th  class="col-md-3">Add Cab</th>
-                    <th  class="col-md-5">Avail. Cabs</th>
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    <span>Live Cabs</span>
+                </div>
+                <div class="panel-body">
 
-                </tr>
-                </thead>
-                <tbody data-bind="foreach:ZonesColumn1">
-                <tr>
-                    <td class="col-md-2" data-bind="text:name" ></td>
-                    <td class="col-md-3">
-                        <input data-bind="attr:{id:id}, value:cabInput" class="form-control cabInput" type="text">
-                        <button data-bind="click:$root.addCab" class="form-control cabAdd">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                    </td>
-                    <td class="col-md-5">
-                        <ul style="display: inline" class="cabs" data-bind="foreach:cabs">
-                            <li style="display: inline">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown">
-                                        <span data-bind="text:vehicleType"></span>
-                                        <span data-bind="text:id">2342 &nbsp;</span>
-                                        <span class="caret"></span>
-                                    </button>
+                    <!--First Column of Zones-->
+                    <div id="zoneCol1Container" class="col-md-6">
+                        <div class="table-responsive" style="width:100%; margin:0">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th  class="col-md-2">Zone</th>
+                                    <th  class="col-md-3">Add Cab</th>
+                                    <th  class="col-md-5">Avail. Cabs</th>
 
-                                    <div class="dropdown-menu dropdown-menu1" role="menu" style="  padding: 10px; min-width: 400%; border-radius: 5px">
+                                </tr>
+                                </thead>
+                                <tbody data-bind="foreach:ZonesColumn1">
+                                <tr>
+                                    <td class="col-md-2" data-bind="text:name" ></td>
+                                    <td class="col-md-3">
+                                        <input data-bind="attr:{id:id}, value:live.cabInput" class="form-control cabInput" type="text">
+                                        <button data-bind="click:$root.addCab" class="form-control cabAdd">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+                                    </td>
+                                    <td class="col-md-5">
+                                        <ul style="display: inline" class="cabs" data-bind="foreach:live.cabs">
+                                            <li style="display: inline">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown">
+                                                        <span data-bind="text:vehicleType"></span>
+                                                        <span data-bind="text:id">2342 &nbsp;</span>
+                                                        <span class="caret"></span>
+                                                    </button>
 
-                                        <div class="panel panel-success">
-                                            <div class="panel-heading">
-                                                <h2 class="panel-title" data-bind="text:vehicleType + ' '+ id + ' Info' "></h2>
-                                            </div>
+                                                    <div class="dropdown-menu dropdown-menu1" role="menu" style="  padding: 10px; min-width: 400%; border-radius: 5px">
 
-                                            <div class="panel-body" style="padding: 3%">
-                                                <div style="margin:0">
-                                                    <table class="table table-bordered" style="margin-bottom:2%">
-                                                        <thead>
-                                                        <tr>
-                                                            <th style="width:30%">Attribute</th>
-                                                            <th>Value</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td><span>Vehicle Type</span></td>
-                                                            <td><span data-bind="text:vehicleType"></span></td>
-                                                        </tr>
+                                                        <div class="panel panel-success">
+                                                            <div class="panel-heading">
+                                                                <h2 class="panel-title" data-bind="text:vehicleType + ' '+ id + ' Info' "></h2>
+                                                            </div>
 
-                                                        <tr>
-                                                            <td><span>Model</span></td>
-                                                            <td><span data-bind="text:attributes.model"></span></td>
-                                                        </tr>
+                                                            <div class="panel-body" style="padding: 3%">
+                                                                <div style="margin:0">
+                                                                    <table class="table table-bordered" style="margin-bottom:2%">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th style="width:30%">Attribute</th>
+                                                                            <th>Value</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td><span>Vehicle Type</span></td>
+                                                                            <td><span data-bind="text:vehicleType"></span></td>
+                                                                        </tr>
 
-                                                        <tr>
-                                                            <td><span>Is Tinted?</span></td>
-                                                            <td><span data-bind="text:attributes.isTinted"></span></td>
-                                                        </tr>
+                                                                        <tr>
+                                                                            <td><span>Model</span></td>
+                                                                            <td><span data-bind="text:attributes.model"></span></td>
+                                                                        </tr>
 
-                                                        <tr>
-                                                            <td><span>Is Marked?</span></td>
-                                                            <td><span data-bind="text:attributes.isMarked"></span></td>
-                                                        </tr>
+                                                                        <!--tr>
+                                                                            <td><span>Is Tinted?</span></td>
+                                                                            <td><span data-bind="text:attributes.isTinted"></span></td>
+                                                                        </tr>
 
-                                                        <tr>
-                                                            <td><span>Current Location</span></td>
-                                                            <td><span data-bind="text:currentLocation"></span></td>
-                                                        </tr>
+                                                                        <tr>
+                                                                            <td><span>Is Marked?</span></td>
+                                                                            <td><span data-bind="text:attributes.isMarked"></span></td>
+                                                                        </tr-->
+                                                                        <tr>
+                                                                            <td><span>Information</span></td>
+                                                                            <td><span data-bind="text:attributes.info"></span></td>
+                                                                        </tr>
 
-                                                        </tbody>
-                                                    </table>
 
-                                                    <div class="row" style="float:right; margin:0">
-                                                        <button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>
+
+                                                                        </tbody>
+                                                                    </table>
+
+                                                                    <div class="row" style="float:right; margin:0">
+                                                                        <button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-    <!--Second Column of Zones-->
-    <div id="zoneCol2Container" class="col-md-6">
-        <div class="table-responsive" style="width:100%; margin:0">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th  class="col-md-2">Zone</th>
-                    <th  class="col-md-3">Add Cab</th>
-                    <th  class="col-md-5">Avail. Cabs</th>
+                    <!--Second Column of Zones-->
+                    <div id="zoneCol2Container" class="col-md-6">
+                        <div class="table-responsive" style="width:100%; margin:0">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th  class="col-md-2">Zone</th>
+                                    <th  class="col-md-3">Add Cab</th>
+                                    <th  class="col-md-5">Avail. Cabs</th>
 
-                </tr>
-                </thead>
-                <tbody data-bind="foreach:ZonesColumn2">
-                <tr>
-                    <td class="col-md-2" data-bind="text:name" ></td>
-                    <td class="col-md-3">
-                        <input data-bind="attr:{id:id}, value:cabInput" class="form-control cabInput" type="text">
-                        <button data-bind="click:$root.addCab" class="form-control cabAdd">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                    </td>
-                    <td class="col-md-5">
-                        <ul style="display: inline" class="cabs" data-bind="foreach:cabs">
-                            <li style="display: inline">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown">
-                                        <span data-bind="text:vehicleType"></span>
-                                        <span data-bind="text:id">2342 &nbsp;</span>
-                                        <span class="caret"></span>
-                                    </button>
+                                </tr>
+                                </thead>
+                                <tbody data-bind="foreach:ZonesColumn2">
+                                <tr>
+                                    <td class="col-md-2" data-bind="text:name" ></td>
+                                    <td class="col-md-3">
+                                        <input data-bind="attr:{id:id}, value:live.cabInput" class="form-control cabInput" type="text">
+                                        <button data-bind="click:$root.addLiveCab" class="form-control cabAdd">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+                                    </td>
+                                    <td class="col-md-5">
+                                        <ul style="display: inline" class="cabs" data-bind="foreach:live.cabs">
+                                            <li style="display: inline">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown">
+                                                        <span data-bind="text:vehicleType"></span>
+                                                        <span data-bind="text:id">2342 &nbsp;</span>
+                                                        <span class="caret"></span>
+                                                    </button>
 
-                                    <div class="dropdown-menu dropdown-menu1" role="menu" style="  padding: 10px; min-width: 400%; border-radius: 5px">
+                                                    <div class="dropdown-menu dropdown-menu1" role="menu" style="  padding: 10px; min-width: 400%; border-radius: 5px">
 
-                                        <div class="panel panel-success">
-                                            <div class="panel-heading">
-                                                <h2 class="panel-title" data-bind="text:vehicleType + ' '+ id + ' Info' "></h2>
-                                            </div>
+                                                        <div class="panel panel-success">
+                                                            <div class="panel-heading">
+                                                                <h2 class="panel-title" data-bind="text:vehicleType + ' '+ id + ' Info' "></h2>
+                                                            </div>
 
-                                            <div class="panel-body" style="padding: 3%">
-                                                <div style="margin:0">
-                                                    <table class="table table-bordered" style="margin-bottom:2%">
-                                                        <thead>
-                                                        <tr>
-                                                            <th style="width:30%">Attribute</th>
-                                                            <th>Value</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td><span>Vehicle Type</span></td>
-                                                            <td><span data-bind="text:vehicleType"></span></td>
-                                                        </tr>
+                                                            <div class="panel-body" style="padding: 3%">
+                                                                <div style="margin:0">
+                                                                    <table class="table table-bordered" style="margin-bottom:2%">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th style="width:30%">Attribute</th>
+                                                                            <th>Value</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td><span>Vehicle Type</span></td>
+                                                                            <td><span data-bind="text:vehicleType"></span></td>
+                                                                        </tr>
 
-                                                        <tr>
-                                                            <td><span>Model</span></td>
-                                                            <td><span data-bind="text:attributes.model"></span></td>
-                                                        </tr>
+                                                                        <tr>
+                                                                            <td><span>Model</span></td>
+                                                                            <td><span data-bind="text:attributes.model"></span></td>
+                                                                        </tr>
 
-                                                        <!--tr>
-                                                            <td><span>Is Tinted?</span></td>
-                                                            <td><span data-bind="text:attributes.isTinted"></span></td>
-                                                        </tr>
+                                                                        <!--tr>
+                                                                            <td><span>Is Tinted?</span></td>
+                                                                            <td><span data-bind="text:attributes.isTinted"></span></td>
+                                                                        </tr>
 
-                                                        <tr>
-                                                            <td><span>Is Marked?</span></td>
-                                                            <td><span data-bind="text:attributes.isMarked"></span></td>
-                                                        </tr-->
+                                                                        <tr>
+                                                                            <td><span>Is Marked?</span></td>
+                                                                            <td><span data-bind="text:attributes.isMarked"></span></td>
+                                                                        </tr-->
 
-                                                        <tr>
-                                                            <td><span>Information</span></td>
-                                                            <td><span data-bind="text:attributes.info"></span></td>
-                                                        </tr>
+                                                                        <tr>
+                                                                            <td><span>Information</span></td>
+                                                                            <td><span data-bind="text:attributes.info"></span></td>
+                                                                        </tr>
 
 
-                                                        </tbody>
-                                                    </table>
+                                                                        </tbody>
+                                                                    </table>
 
-                                                    <div class="row" style="float:right; margin:0">
-                                                        <button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>
+                                                                    <div class="row" style="float:right; margin:0">
+                                                                        <button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
-    </div>
+
+        <div id="pendingContainer" class="row" style="padding: 2%">
+
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    <span>Pending Container</span>
+                </div>
+                <div class="panel-body">
+
+                    <!--First Column of Zones-->
+                    <div id="zoneCol1Container" class="col-md-6">
+                        <div class="table-responsive" style="width:100%; margin:0">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th  class="col-md-2">Zone</th>
+                                    <th  class="col-md-3">Add Cab</th>
+                                    <th  class="col-md-5">Avail. Cabs</th>
+
+                                </tr>
+                                </thead>
+                                <tbody data-bind="foreach:ZonesColumn1">
+                                <tr>
+                                    <td class="col-md-2" data-bind="text:name" ></td>
+                                    <td class="col-md-3">
+                                        <input data-bind="attr:{id:id}, value:pending.cabInput" class="form-control cabInput" type="text">
+                                        <button data-bind="click:$root.addCab" class="form-control cabAdd">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+                                    </td>
+                                    <td class="col-md-5">
+                                        <ul style="display: inline" class="cabs" data-bind="foreach:pending.cabs">
+                                            <li style="display: inline">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown">
+                                                        <span data-bind="text:vehicleType"></span>
+                                                        <span data-bind="text:id">2342 &nbsp;</span>
+                                                        <span class="caret"></span>
+                                                    </button>
+
+                                                    <div class="dropdown-menu dropdown-menu1" role="menu" style="  padding: 10px; min-width: 400%; border-radius: 5px">
+
+                                                        <div class="panel panel-success">
+                                                            <div class="panel-heading">
+                                                                <h2 class="panel-title" data-bind="text:vehicleType + ' '+ id + ' Info' "></h2>
+                                                            </div>
+
+                                                            <div class="panel-body" style="padding: 3%">
+                                                                <div style="margin:0">
+                                                                    <table class="table table-bordered" style="margin-bottom:2%">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th style="width:30%">Attribute</th>
+                                                                            <th>Value</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td><span>Vehicle Type</span></td>
+                                                                            <td><span data-bind="text:vehicleType"></span></td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td><span>Model</span></td>
+                                                                            <td><span data-bind="text:attributes.model"></span></td>
+                                                                        </tr>
+
+                                                                        <!--tr>
+                                                                            <td><span>Is Tinted?</span></td>
+                                                                            <td><span data-bind="text:attributes.isTinted"></span></td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td><span>Is Marked?</span></td>
+                                                                            <td><span data-bind="text:attributes.isMarked"></span></td>
+                                                                        </tr-->
+                                                                        <tr>
+                                                                            <td><span>Information</span></td>
+                                                                            <td><span data-bind="text:attributes.info"></span></td>
+                                                                        </tr>
+
+
+
+                                                                        </tbody>
+                                                                    </table>
+
+                                                                    <div class="row" style="float:right; margin:0">
+                                                                        <button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!--Second Column of Zones-->
+                    <div id="zoneCol2Container" class="col-md-6">
+                        <div class="table-responsive" style="width:100%; margin:0">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th  class="col-md-2">Zone</th>
+                                    <th  class="col-md-3">Add Cab</th>
+                                    <th  class="col-md-5">Avail. Cabs</th>
+
+                                </tr>
+                                </thead>
+                                <tbody data-bind="foreach:ZonesColumn2">
+                                <tr>
+                                    <td class="col-md-2" data-bind="text:name" ></td>
+                                    <td class="col-md-3">
+                                        <input data-bind="attr:{id:id}, value:pending.cabInput" class="form-control cabInput" type="text">
+                                        <button data-bind="click:$root.addCab" class="form-control cabAdd">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+                                    </td>
+                                    <td class="col-md-5">
+                                        <ul style="display: inline" class="cabs" data-bind="foreach:pending.cabs">
+                                            <li style="display: inline">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown">
+                                                        <span data-bind="text:vehicleType"></span>
+                                                        <span data-bind="text:id">2342 &nbsp;</span>
+                                                        <span class="caret"></span>
+                                                    </button>
+
+                                                    <div class="dropdown-menu dropdown-menu1" role="menu" style="  padding: 10px; min-width: 400%; border-radius: 5px">
+
+                                                        <div class="panel panel-success">
+                                                            <div class="panel-heading">
+                                                                <h2 class="panel-title" data-bind="text:vehicleType + ' '+ id + ' Info' "></h2>
+                                                            </div>
+
+                                                            <div class="panel-body" style="padding: 3%">
+                                                                <div style="margin:0">
+                                                                    <table class="table table-bordered" style="margin-bottom:2%">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th style="width:30%">Attribute</th>
+                                                                            <th>Value</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td><span>Vehicle Type</span></td>
+                                                                            <td><span data-bind="text:vehicleType"></span></td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td><span>Model</span></td>
+                                                                            <td><span data-bind="text:attributes.model"></span></td>
+                                                                        </tr>
+
+                                                                        <!--tr>
+                                                                            <td><span>Is Tinted?</span></td>
+                                                                            <td><span data-bind="text:attributes.isTinted"></span></td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td><span>Is Marked?</span></td>
+                                                                            <td><span data-bind="text:attributes.isMarked"></span></td>
+                                                                        </tr-->
+
+                                                                        <tr>
+                                                                            <td><span>Information</span></td>
+                                                                            <td><span data-bind="text:attributes.info"></span></td>
+                                                                        </tr>
+
+
+                                                                        </tbody>
+                                                                    </table>
+
+                                                                    <div class="row" style="float:right; margin:0">
+                                                                        <button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="pobContainer" class="row" style="padding: 2%">
+
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    <span>POB Board</span>
+                </div>
+                <div class="panel-body">
+
+                    <!--First Column of Zones-->
+                    <div id="zoneCol1Container" class="col-md-6">
+                        <div class="table-responsive" style="width:100%; margin:0">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th  class="col-md-2">Zone</th>
+                                    <th  class="col-md-3">Add Cab</th>
+                                    <th  class="col-md-5">Avail. Cabs</th>
+
+                                </tr>
+                                </thead>
+                                <tbody data-bind="foreach:ZonesColumn1">
+                                <tr>
+                                    <td class="col-md-2" data-bind="text:name" ></td>
+                                    <td class="col-md-3">
+                                        <input data-bind="attr:{id:id}, value:pob.cabInput" class="form-control cabInput" type="text">
+                                        <button data-bind="click:$root.addCab" class="form-control cabAdd">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+                                    </td>
+                                    <td class="col-md-5">
+                                        <ul style="display: inline" class="cabs" data-bind="foreach:pob.cabs">
+                                            <li style="display: inline">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown">
+                                                        <span data-bind="text:vehicleType"></span>
+                                                        <span data-bind="text:id">2342 &nbsp;</span>
+                                                        <span class="caret"></span>
+                                                    </button>
+
+                                                    <div class="dropdown-menu dropdown-menu1" role="menu" style="  padding: 10px; min-width: 400%; border-radius: 5px">
+
+                                                        <div class="panel panel-success">
+                                                            <div class="panel-heading">
+                                                                <h2 class="panel-title" data-bind="text:vehicleType + ' '+ id + ' Info' "></h2>
+                                                            </div>
+
+                                                            <div class="panel-body" style="padding: 3%">
+                                                                <div style="margin:0">
+                                                                    <table class="table table-bordered" style="margin-bottom:2%">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th style="width:30%">Attribute</th>
+                                                                            <th>Value</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td><span>Vehicle Type</span></td>
+                                                                            <td><span data-bind="text:vehicleType"></span></td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td><span>Model</span></td>
+                                                                            <td><span data-bind="text:attributes.model"></span></td>
+                                                                        </tr>
+
+                                                                        <!--tr>
+                                                                            <td><span>Is Tinted?</span></td>
+                                                                            <td><span data-bind="text:attributes.isTinted"></span></td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td><span>Is Marked?</span></td>
+                                                                            <td><span data-bind="text:attributes.isMarked"></span></td>
+                                                                        </tr-->
+                                                                        <tr>
+                                                                            <td><span>Information</span></td>
+                                                                            <td><span data-bind="text:attributes.info"></span></td>
+                                                                        </tr>
+
+
+
+                                                                        </tbody>
+                                                                    </table>
+
+                                                                    <div class="row" style="float:right; margin:0">
+                                                                        <button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!--Second Column of Zones-->
+                    <div id="zoneCol2Container" class="col-md-6">
+                        <div class="table-responsive" style="width:100%; margin:0">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th  class="col-md-2">Zone</th>
+                                    <th  class="col-md-3">Add Cab</th>
+                                    <th  class="col-md-5">Avail. Cabs</th>
+
+                                </tr>
+                                </thead>
+                                <tbody data-bind="foreach:ZonesColumn2">
+                                <tr>
+                                    <td class="col-md-2" data-bind="text:name" ></td>
+                                    <td class="col-md-3">
+                                        <input data-bind="attr:{id:id}, value:pob.cabInput" class="form-control cabInput" type="text">
+                                        <button data-bind="click:$root.addCab" class="form-control cabAdd">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+                                    </td>
+                                    <td class="col-md-5">
+                                        <ul style="display: inline" class="cabs" data-bind="foreach:pob.cabs">
+                                            <li style="display: inline">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown">
+                                                        <span data-bind="text:vehicleType"></span>
+                                                        <span data-bind="text:id">2342 &nbsp;</span>
+                                                        <span class="caret"></span>
+                                                    </button>
+
+                                                    <div class="dropdown-menu dropdown-menu1" role="menu" style="  padding: 10px; min-width: 400%; border-radius: 5px">
+
+                                                        <div class="panel panel-success">
+                                                            <div class="panel-heading">
+                                                                <h2 class="panel-title" data-bind="text:vehicleType + ' '+ id + ' Info' "></h2>
+                                                            </div>
+
+                                                            <div class="panel-body" style="padding: 3%">
+                                                                <div style="margin:0">
+                                                                    <table class="table table-bordered" style="margin-bottom:2%">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th style="width:30%">Attribute</th>
+                                                                            <th>Value</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td><span>Vehicle Type</span></td>
+                                                                            <td><span data-bind="text:vehicleType"></span></td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td><span>Model</span></td>
+                                                                            <td><span data-bind="text:attributes.model"></span></td>
+                                                                        </tr>
+
+                                                                        <!--tr>
+                                                                            <td><span>Is Tinted?</span></td>
+                                                                            <td><span data-bind="text:attributes.isTinted"></span></td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td><span>Is Marked?</span></td>
+                                                                            <td><span data-bind="text:attributes.isMarked"></span></td>
+                                                                        </tr-->
+
+                                                                        <tr>
+                                                                            <td><span>Information</span></td>
+                                                                            <td><span data-bind="text:attributes.info"></span></td>
+                                                                        </tr>
+
+
+                                                                        </tbody>
+                                                                    </table>
+
+                                                                    <div class="row" style="float:right; margin:0">
+                                                                        <button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div style="height: 45%">
+
+        </div>
 
 </div>
-
-
-
 <script type="text/javascript" src="<?= base_url();?>assets/js/LocationBoardScripts/ViewModel.js" charset="UTF-8"></script>
 
 

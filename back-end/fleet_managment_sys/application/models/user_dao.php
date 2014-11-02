@@ -34,7 +34,7 @@ class User_dao extends CI_Model
     {
         $collection = $this->get_collection();
 
-        $searchQuery = array('userId' => $userId);
+        $searchQuery = array('uName' => $userId);
         $user = $collection->findOne($searchQuery);
         return $user;
     }

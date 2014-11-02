@@ -11,14 +11,14 @@ class Login extends CI_Controller {
 	public function index() {
 
         $user = $this->session->userdata('user');
-
+//        var_dump($user['user_type']);
         if (is_user_logged_in()) {
-            if($user['role']=='dispatcher')
+            if($user['user_type']=='dispatcher')
                 redirect('dispatcher', 'refresh');
-            if($user['role'] == 'admin'){
+            if($user['user_type'] == 'admin'){
                 redirect('admin', 'refresh');
             }
-            if($user['role'] == 'cro'){
+            if($user['user_type'] == 'cro'){
                 redirect('cro', 'refresh');
             }
 		} else {

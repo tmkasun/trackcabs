@@ -52,9 +52,9 @@ class Authenticate extends CI_Controller {
         if (!$authenticationResult) {
             $authentication = array('isAuthorized' => false);
         }else {
-            $driver = $this->user_dao->find($username);
+            $driver = $this->user_dao->getUser($username);
             // For reference $driver->role->cab->id and $driver->role->id and $driver->role->cab->type
-            $authentication = array('isAuthorized' => true,'driverId' => $driver['uName'], 'cabId' => 11 ,'vehicleType' => 'van');
+            $authentication = array('isAuthorized' => true,'driverId' => $driver['uName'],  'cabId' => $driver['cabId'] ,'vehicleType' => 'van');
         }
         $this -> output -> set_content_type('application/json') -> set_output(json_encode($authentication));
     }

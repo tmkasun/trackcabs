@@ -79,7 +79,7 @@ function createBooking(url , tp){
     if (landMark== ''){landMark= '-'}
     if (remark== ''){remark= '-'}
     if (callUpPrice== ''){callUpPrice= 0}
-    if (dispatchB4== ''){dispatchB4= 0}
+    if (dispatchB4== ''){dispatchB4= 30}
 
     var address = {
         'no':no ,
@@ -244,25 +244,23 @@ function updateCustomerInfoView(url){
     getCustomerInfoView(siteUrl , tp);
 }
 
-function getCustomerInfoView( url , tp ){
+function getCustomerInfoView( url , tp , customerObj,bookingObj ){
 
     url = url + "/cro_controller/getCustomerInfoView";
     var data = {"tp" : tp};
     var view = ajaxPost(data,url);
+    alert(JSON.stringify(view));
+
     /*  Populate the customer information view */
-    var cusInfoDiv = document.getElementById('customerInformation');
-    cusInfoDiv.innerHTML = "";
-    cusInfoDiv.innerHTML = view.view.table_content;
+    $('#customerInformation').html(view.view.table_content);
 
     /*  Populate the job information view */
-    var jobInfoDiv = document.getElementById('jobInfo');
-    jobInfoDiv.innerHTML = "";
-    jobInfoDiv.innerHTML = view.view.job_info_view;
+    $('#jobInfo').html(view.view.job_info_view);
+    //$('#jobCount').html(view.important.customerInfo.tot_job);
 
     /*  Populate the job information view */
-    var newBookingDiv = document.getElementById('newBooking');
-    newBookingDiv.innerHTML = "";
-    newBookingDiv.innerHTML = view.view.new_booking_view;
+    $('#newBooking').html(view.view.new_booking_view);
+    return view;
 }
 
 function getSimilarTpNumbers(url , tp){
@@ -348,4 +346,8 @@ function uiInit(){
         $(this).parent().siblings("input.customRadio").val($(this).val());
         $(this).parent().siblings("input.customRadio").text($(this).text())
     });
+}
+
+function changeJobInfoView(bookignObjId){
+
 }

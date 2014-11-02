@@ -347,6 +347,8 @@ function uiInit(){
     });
 }
 
-function changeJobInfoView(bookignObjId){
+function changeJobInfoView(){
+
+
 
 }

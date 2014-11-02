@@ -19,7 +19,7 @@ class Login extends CI_Controller {
                 redirect('admin', 'refresh');
             }
             if($user['user_type'] == 'cro'){
-                redirect('cro', 'refresh');
+                redirect('cro_controller', 'refresh');
             }
 		} else {
             $this -> load -> helper(array('form'));

@@ -32,15 +32,15 @@
                             Status
                         </li>
                         <li class="list-group-item">
-                            <span class="badge">Van</span>
+                            <span class="badge" id="jobVehicleType"><?= $live_booking[sizeof($live_booking)-1]['vType']; ?></span>
                             Vehicle Type
                         </li>
                         <li class="list-group-item">
-                            <span class="badge">14</span>
+                            <span class="badge" id="jobDriverId"><?= $live_booking[sizeof($live_booking)-1]['driverId']; ?></span>
                             Driver ID
                         </li>
                         <li class="list-group-item">
-                            <span class="badge">14</span>
+                            <span class="badge" id="jobCabId"><?= $live_booking[sizeof($live_booking)-1]['cabId']; ?></span>
                             Cab ID
                         </li>
                     </ul>
@@ -52,7 +52,7 @@
                         <?php $status =$live_booking[sizeof($live_booking)-1]['status']; ?>
 
                         <h4>Address </h4>
-                        <?= $live_booking[sizeof($live_booking)-1]['address']['no'] ." ". $live_booking[sizeof($live_booking)-1]['address']['road'] ." ". $live_booking[sizeof($live_booking)-1]['address']['city'] ." ". $live_booking[sizeof($live_booking)-1]['address']['town'];?></td>
+                        <?= $live_booking[sizeof($live_booking)-1]['address']['no'] ." ". $live_booking[sizeof($live_booking)-1]['address']['road'] ." ". $live_booking[sizeof($live_booking)-1]['address']['city'] ." ". $live_booking[sizeof($live_booking)-1]['address']['town'];?>
                         <h4>Remark </h4>
                         <?= $live_booking[sizeof($live_booking)-1]['remark']?>
                         <h5>VIP | VIH | UNMARK | CASH</h5>
@@ -61,12 +61,13 @@
                     <div class="col-lg-5">
 
                         <h4>Book Time </h4>
-                        <?php echo date('H:i Y-m-d ', $live_booking[sizeof($live_booking)-1]['bookTime']->sec);?>
+                        <span id="jobBookTime"><?php echo date('H:i Y-m-d ', $live_booking[sizeof($live_booking)-1]['bookTime']->sec);?></span>
                         </br>
-                        <h4>Call Time </h4> <?php echo date('H:i Y-m-d ', $live_booking[sizeof($live_booking)-1]['callTime']->sec);?>
+                        <h4>Call Time </h4>
+                        <span id="jobCallTime"><?php echo date('H:i Y-m-d ', $live_booking[sizeof($live_booking)-1]['callTime']->sec);?></span>
                         </br>
                         <h4>Dispatch Before </h4>
-                        30min
+                        <span id="jobDispatchB4">30min
 
                     </div>
                 </div>

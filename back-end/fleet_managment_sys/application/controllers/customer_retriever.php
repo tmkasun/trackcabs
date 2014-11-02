@@ -52,10 +52,10 @@ class Customer_retriever extends CI_Controller
         $user = $this->session->userdata('user');
         // TODO REMOVE THIS LINE AFTER SETTING THE SESSION
         $user=array();
-        $user['uName']="niro";
+        $user['userId']="niro";
 
         $input_data["data"]["refId"]=$this->counters_dao->getNextId('reference');
-        $input_data['data']['croId']=$user['uName'];
+        $input_data['data']['croId']=$user['userId'];
 
         /* Set the date and time to UTC */
         $input_data["data"]["callTime"]=new MongoDate();
@@ -76,9 +76,8 @@ class Customer_retriever extends CI_Controller
         /* Add the booking array to the customer collection */
         $this->customer_dao->addBooking($input_data["tp"], $bookingObjId);
 
-        // send $_SESSION['user']->id
-        //$webSocket = new Websocket('cro');
-        //$response = $webSocket->send($bookingCreated, 'dispatcher');
+        $webSocket = new Websocket($user['userId']);
+        $webSocket->send($bookingCreated, 'dispatcher');
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg,'dest' => 'dispatcher1')));
 

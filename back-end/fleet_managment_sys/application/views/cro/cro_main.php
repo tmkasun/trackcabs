@@ -145,7 +145,7 @@
             if(request == 'getCustomer'){
 
                 tp      = document.getElementById("tpSearch").value;
-                var view =getCustomerInfoView( url , tp );
+                getCustomerInfoView( url , tp );
 
                 uiInit();
 
@@ -250,14 +250,15 @@
                     // Prevent form submission
                     e.preventDefault();
                     createBooking(url , tp);
-                    getCustomerInfoView(url , tp , customerObj,bookingObj);
+                    getCustomerInfoView(url , tp );
                     uiInit();
 
 
                 });
 
                 createBooking(url , tp);
-                getCustomerInfoView(url , tp , customerObj,bookingObj);
+                getCustomerInfoView(url , tp );
+                uiInit();
             }
             if(request == 'cancel'){
                 getCancelConfirmationView(url , tp , param1)
@@ -266,7 +267,8 @@
                 confirmCancel(url , tp ,param1);
             }
             if(request == 'denyCancel'){
-                getCustomerInfoView(url, tp,customerObj,bookingObj)
+                getCustomerInfoView(url, tp);
+                uiInit();
             }
             if(request == 'editBooking'){
                 getEditBookingView(url,param1);
@@ -274,7 +276,8 @@
             }
             if(request == 'updateBooking'){
                 updateBooking(url,param1);
-                getCustomerInfoView(url , tp,customerObj,bookingObj);
+                getCustomerInfoView(url , tp);
+                uiInit();
             }
         }
     </script>

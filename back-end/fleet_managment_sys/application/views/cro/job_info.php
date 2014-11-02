@@ -1,8 +1,13 @@
+
+<script>
+    alert('working');
+</script>
 <div class="col-lg-12">
     <div class="col-lg-3"   >
+        <div id="testing"></div>
         <ul class="list-group">
             <li class="list-group-item">
-                <span class="badge">14</span>
+                <span class="badge" id="jobCount">14</span>
                 Job Count
             </li>
             <li class="list-group-item">

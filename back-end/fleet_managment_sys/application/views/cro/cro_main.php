@@ -27,6 +27,7 @@
         var obj = null;
         var tp;
         var url = '<?= site_url(); ?>';
+        var bookingObj = null;
         </script>
 </head>
 <body>
@@ -143,6 +144,12 @@
                 tp      = document.getElementById("tpSearch").value;
                 getCustomerInfoView( url , tp );
                 uiInit();
+
+                var arr = jobInfo.getElementsByTagName('script');
+                for (var n = 0; n < arr.length; n++) {
+                    eval(arr[n].innerHTML)//run script inside div
+                }
+                alert(JSON.stringify(bookingObj));
             }
             if(request == 'createCusInfo'){
                 $('#newCustomer').bootstrapValidator({

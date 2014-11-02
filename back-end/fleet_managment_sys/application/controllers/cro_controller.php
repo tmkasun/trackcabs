@@ -81,7 +81,8 @@ class Cro_controller extends CI_Controller
             $this->output->set_output(json_encode(array("statusMsg" => "fail","view" => $data)));
         }else{
 
-            $bookingData=array('booking' => array());
+            $bookingData=array('customerInfo' => $result);
+            $important = array();
             foreach($result as $key => $value){
                 if($key == 'history'){
                     foreach($value as $newKey){
@@ -99,7 +100,7 @@ class Cro_controller extends CI_Controller
             $data['table_content'] = $this->load->view('cro/customer_info', $result , TRUE);
             $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);
             $data['new_booking_view'] = $this->load->view('cro/new_booking', $result , TRUE);
-            $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+            $this->output->set_output(json_encode(array("statusMsg" => "success","important" => $bookingData ,"view" => $data)));
         }
     }
 

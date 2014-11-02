@@ -11,10 +11,10 @@
     </select>
 
     <select id="position" class="form-control">
-        <option selected value="-">Position</option>
-        <option value="Dig">Dig</option>
-        <option value="Mag">Mag</option>
-        <option value="Col">Col</option>
+        <option value="-"   <?php if($title == '-')echo 'selected';?>>Position</option>
+        <option value="Dig" <?php if($title == 'Dig')echo 'selected';?>>Dig</option>
+        <option value="Mag" <?php if($title == 'Mag')echo 'selected';?>>Mag</option>
+        <option value="Col" <?php if($title == 'Col')echo 'selected';?>>Col</option>
     </select>
 </form>
 

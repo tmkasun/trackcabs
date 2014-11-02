@@ -251,15 +251,11 @@ function getCustomerInfoView( url , tp ){
     var view = ajaxPost(data,url);
     alert(JSON.stringify(view));
     /*  Populate the customer information view */
-    //var cusInfoDiv = document.getElementById('customerInformation');
-    //cusInfoDiv.innerHTML = "";
     $('#customerInformation').html(view.view.table_content);
-
-    //cusInfoDiv.innerHTML = view.view.table_content;
 
     /*  Populate the job information view */
     $('#jobInfo').html(view.view.job_info_view);
-    $('#jobCount').html(view.important.customerInfo.tot_job);
+    //$('#jobCount').html(view.important.customerInfo.tot_job);
 
     /*  Populate the job information view */
     var newBookingDiv = document.getElementById('newBooking');

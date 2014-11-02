@@ -1,21 +1,16 @@
-
-<script>
-    alert('working');
-</script>
 <div class="col-lg-12">
     <div class="col-lg-3"   >
-        <div id="testing"></div>
         <ul class="list-group">
             <li class="list-group-item">
-                <span class="badge" id="jobCount">14</span>
+                <span class="badge" id="jobCount"><?= $tot_job?></span>
                 Job Count
             </li>
             <li class="list-group-item">
-                <span class="badge">14</span>
+                <span class="badge"><?= $tot_cancel?></span>
                 Cancel[Total]
             </li>
             <li class="list-group-item">
-                <span class="badge">14</span>
+                <span class="badge"><?= $dis_cancel?></span>
                 Cancel[Dispatch]
             </li>
         </ul>
@@ -52,12 +47,13 @@
 
                 <div class="col-lg-8">
                     <div class="col-lg-7">
+                        <?php $index=sizeof($live_booking)-1;?>
                         <?php $status =$live_booking[sizeof($live_booking)-1]['status']; ?>
 
                         <h4>Address </h4>
-                        8/2 ,Vihara Road , Mount Lavania
+                        <?= $live_booking[sizeof($live_booking)-1]['address']['no'] ." ". $live_booking[sizeof($live_booking)-1]['address']['road'] ." ". $live_booking[sizeof($live_booking)-1]['address']['city'] ." ". $live_booking[sizeof($live_booking)-1]['address']['town'];?></td>
                         <h4>Remark </h4>
-                        white driver
+                        <?= $live_booking['remark']?>
                         <h5>VIP | VIH | UNMARK | CASH</h5>
                     </div>
 

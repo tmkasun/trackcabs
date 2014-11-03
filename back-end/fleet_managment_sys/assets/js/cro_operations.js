@@ -305,7 +305,6 @@ function ajaxPost(data,urlLoc)    {
 
 function showCalender(){
     $('#form_datetime').datetimepicker({
-        //language:  'fr',
         weekStart: 1,
         todayBtn:  1,
         autoclose: 1,
@@ -316,7 +315,6 @@ function showCalender(){
     });
 
     $('#form_date').datetimepicker({
-    //language:  'fr',
     weekStart: 1,
     todayBtn:  1,
     autoclose: 1,
@@ -326,7 +324,6 @@ function showCalender(){
     forceParse: 0
     });
     $('#form_time').datetimepicker({
-    //language:  'fr',
     weekStart: 1,
     todayBtn:  1,
     autoclose: 1,
@@ -368,15 +365,15 @@ function changeJobInfoView(bookingObjId){
     }
 
     var driverId = bookingObj[index]['driverId'];
-    var cabId   = 'NOT_ASSIGNED';
+    var cabId   = bookingObj[index]['cabId'];
 
     if(driverId == '-')  driverId = 'NOT_ASSIGNED';
     if(cabId == '-')  cabId = 'NOT_ASSIGNED';
 
     $('#jobStatus').html(bookingObj[index]['status']);
     $('#jobVehicleType').html(bookingObj[index]['vType']);
-    $('#jobDriverId').html(bookingObj[index]['driverId']);
-    $('#jobCabId').html(bookingObj[index]['cabId']);
+    $('#jobDriverId').html(driverId);
+    $('#jobCabId').html(cabId);
 
     $('#jobAddress').html(bookingObj[index]['address']['no'] + ' , ' + bookingObj[index]['address']['road'] + ' , ' +
                         bookingObj[index]['address']['city'] + ' , ' + bookingObj[index]['address']['town'] + ' ,'  +
@@ -384,13 +381,19 @@ function changeJobInfoView(bookingObjId){
     $('#jobRemark').html(bookingObj[index]['remark']);
 
     var specifications = "";
-    if(bookingObj[index]['isVip']) specifications = specifications + ' VIP |';
-    if(bookingObj[index]['isVih']) specifications = specifications + ' VIH |';
-    if(bookingObj[index]['isUnmarked']) specifications = specifications + ' UNMARK |';
-    if(bookingObj[index]['isTinted']) specifications = specifications + ' TINTED |';
+    if(bookingObj[index]['isVip'])
+        specifications =specifications + ' VIP |';
+    if(bookingObj[index]['isVih'])
+        specifications =specifications + ' VIH |';
+    if(bookingObj[index]['isUnmarked'])
+        specifications =specifications + ' UNMARK |';
+    if(bookingObj[index]['isTinted'])
+        specifications =specifications + ' TINTED |';
+
+    if(specifications == '')
+        specifications = '-';
 
     $('#jobSpecifications').html(specifications);
-
 
     var bookDate=new Date(bookingObj[index]['bookTime']['sec'] * 1000);
     var callDate=new Date(bookingObj[index]['callTime']['sec'] * 1000);

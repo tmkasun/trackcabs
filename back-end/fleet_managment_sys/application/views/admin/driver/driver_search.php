@@ -23,7 +23,7 @@
                             <td><?= $tp;?></td>
                             <td><?= $logout;?></td>
                             <td><?php
-                                if(!isset($cabId) || trim($cabId)==''){
+                                if(!isset($cabId) || trim($cabId)=='' || $cabId == -1){
                                     echo "empty";
                                 }else{
                                     echo $cabId;

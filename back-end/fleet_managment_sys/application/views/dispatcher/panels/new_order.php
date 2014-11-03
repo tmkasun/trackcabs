@@ -58,7 +58,7 @@
         <div style="margin-bottom: -15px" class="btn-group btn-group-justified">
             <div class="btn-group">
                 <button style="background-color: #f4f4f4;" type="button" class="btn btn-default"
-                        onclick="allowDispatchCab(<?= $newOrder['refId'] ?>)">Dispatch cab
+                        onclick="allowDispatchCab(<?= $newOrder['refId'] ?>)">Assign cab
                 </button>
             </div>
             <div class="btn-group">

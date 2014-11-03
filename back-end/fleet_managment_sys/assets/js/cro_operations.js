@@ -1,3 +1,7 @@
+$(document).ready(function(){
+    uiInit();
+});
+
 function getEditBookingView(url , objId){
 
     var data = {'objId' : objId};
@@ -18,6 +22,7 @@ function getCancelConfirmationView( url , tp , id ){
     url = url +"/cro_controller/getCancelConfirmationView";
     var view = ajaxPost(data,url);
     /*  Populate the job information view */
+
     var jobInfoDiv = document.getElementById('jobInfo');
     jobInfoDiv.innerHTML = "";
     jobInfoDiv.innerHTML = view.view.cancel_confirmation_view;
@@ -79,7 +84,7 @@ function createBooking(url , tp){
     if (landMark== ''){landMark= '-'}
     if (remark== ''){remark= '-'}
     if (callUpPrice== ''){callUpPrice= 0}
-    if (dispatchB4== ''){dispatchB4= 0}
+    if (dispatchB4== ''){dispatchB4= 30}
 
     var address = {
         'no':no ,
@@ -128,6 +133,7 @@ function updateBooking(url , objId){
     var landMark    = $('#landMark').val();
     var remark      = $('#remark').val();
     var callUpPrice = $('#callUpPrice').val();
+    var destination = $('#destination').val();
     var dispatchB4  = $('#dispatchB4').val();
     var bDate      = $('#bDate').val();
     var bTime      = $('#bTime').val();
@@ -148,7 +154,7 @@ function updateBooking(url , objId){
         'landmark' : landMark
     };
     var data = {
-        'objId' : objId,
+        '_id' : objId,
         'data' : {
             'address' : address ,
             'vType' : vType ,
@@ -176,13 +182,10 @@ function updateBooking(url , objId){
 }
 
 function editCustomerInfoEditView( url , tp ){
-    url = url + "/cro_controller/loadCustomerInfoEditView";
+    url = url + "/cro_controller/getCustomerInfoEditView";
     var data = {'tp' : tp};
     var view = ajaxPost(data,url);
-    var div = document.getElementById('customerInformation');
-    div.innerHTML = "";
-    div.innerHTML = view.view.table_content;
-
+    $('#customerInformation').html(view.view.customer_info_edit_view);
 }
 
 function createCusInfo(url){
@@ -193,7 +196,6 @@ function createCusInfo(url){
     var cusName = $('#cusName').val();
     var pRemark = $('#pRemark').val();
     var org     = $('#organization').val();
-    var des     = $('#destination').val();
     var title = $('#title').val();
     var position = $('#position').val();
 
@@ -209,7 +211,7 @@ function createCusInfo(url){
 
     /* Added extra info to the customer object of total job and job cancellations */
     var data = { 'tp' : tp , 'type1' : type1 , 'tp2' : tp2 , 'type2' : type2 ,'name' : cusName , 'pRemark' : pRemark ,
-                'org' : org , 'des' : des, 'title' : title , 'position' : position, 'dis_cancel' : 0 , 'tot_cancel' : 0,
+                'org' : org , 'title' : title , 'position' : position, 'dis_cancel' : 0 , 'tot_cancel' : 0,
                 'tot_job' : 0 };
     ajaxPost(data,url);
 
@@ -224,7 +226,6 @@ function updateCustomerInfoView(url){
     var cusName = $('#cusName').val();
     var pRemark = $('#pRemark').val();
     var org     = $('#organization').val();
-    var des     = $('#destination').val();
     var title = $('#title').val();
     var position = $('#position').val();
 
@@ -239,8 +240,8 @@ function updateCustomerInfoView(url){
     }
 
     var data = { 'tp' : tp , 'data' : {'tp' : tp , 'type1' : type1 , 'tp2' : tp2 , 'type2' : type2 ,'name' : cusName , 'pRemark' : pRemark ,
-        'org' : org , 'des' : des, 'title' : title , 'position' : position }};
-    var result = ajaxPost(data,url);
+        'org' : org , 'title' : title , 'position' : position }};
+    ajaxPost(data,url);
     getCustomerInfoView(siteUrl , tp);
 }
 
@@ -249,20 +250,20 @@ function getCustomerInfoView( url , tp ){
     url = url + "/cro_controller/getCustomerInfoView";
     var data = {"tp" : tp};
     var view = ajaxPost(data,url);
+    if(view.hasOwnProperty('important'))
+    bookingObj=view.important.live_booking;
+
+    if(view.hasOwnProperty('important'))
+    customerObj=view.important.customerInfo;
+
     /*  Populate the customer information view */
-    var cusInfoDiv = document.getElementById('customerInformation');
-    cusInfoDiv.innerHTML = "";
-    cusInfoDiv.innerHTML = view.view.table_content;
+    $('#customerInformation').html(view.view.customer_info_view);
 
     /*  Populate the job information view */
-    var jobInfoDiv = document.getElementById('jobInfo');
-    jobInfoDiv.innerHTML = "";
-    jobInfoDiv.innerHTML = view.view.job_info_view;
+    $('#jobInfo').html(view.view.job_info_view);
 
     /*  Populate the job information view */
-    var newBookingDiv = document.getElementById('newBooking');
-    newBookingDiv.innerHTML = "";
-    newBookingDiv.innerHTML = view.view.new_booking_view;
+    $('#newBooking').html(view.view.new_booking_view);
 }
 
 function getSimilarTpNumbers(url , tp){
@@ -335,9 +336,20 @@ function showCalender(){
 }
 
 function uiInit(){
-    $("#callUp").click(function(){
-        $("#callUpPrice").toggle();
+
+
+    //Appear element on element tick
+    $(".checkBoxMakeAppear").click(function(){
+        $(this).parent().siblings('.checkBoxElementAppearing').toggle()
     });
+
+    //Click button on enter in a text box
+
+    /*$(".clickOnEnterOriginatingElement").keyup(function(event){
+        if(event.keyCode == 13){
+            $(this).parent().siblings('.clickedElementOnEnter').click();
+        }
+    });*/
 
     $(".btn-group > .btn").click(function(){
         $(this).addClass("active").siblings().removeClass("active");
@@ -348,4 +360,43 @@ function uiInit(){
         $(this).parent().siblings("input.customRadio").val($(this).val());
         $(this).parent().siblings("input.customRadio").text($(this).text())
     });
+}
+
+function changeJobInfoView(bookingObjId){
+
+    var index = -1;
+    console.log(bookingObjId);
+    for(var i=0 ; i < bookingObj.length ; i++){
+        index++;
+        console.log(bookingObj[i]['_id']['$id']);
+        if( bookingObj[i]['_id']['$id'] === bookingObjId){
+            break;
+        }
+    }
+    $('#jobStatus').html(bookingObj[index]['status']);
+    $('#jobVehicleType').html(bookingObj[index]['vType']);
+    $('#jobDriverId').html(bookingObj[index]['driverId']);
+    $('#jobCabId').html(bookingObj[index]['cabId']);
+
+    $('#jobAddress').html(bookingObj[index]['address']['no'] + ' , ' + bookingObj[index]['address']['road'] + ' , ' +
+                        bookingObj[index]['address']['city'] + ' , ' + bookingObj[index]['address']['town'] + ' ,'  +
+                        bookingObj[index]['address']['landmark']);
+    $('#jobRemark').html(bookingObj[index]['remark']);
+
+
+    var bookDate=new Date(bookingObj[index]['bookTime']['sec'] * 1000);
+    var callDate=new Date(bookingObj[index]['callTime']['sec'] * 1000);
+
+    $('#jobBookTime').html(bookDate.toDateString()+'</br>'+bookDate.toTimeString());
+    $('#jobCallTime').html(callDate.toDateString()+'</br>'+callDate.toTimeString());
+    $('#jobDispatchB4').html(bookingObj[index]['dispatchB4']);
+
+
+    $('#jobEditButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'editBooking \', \'testing\')">Edit Booking</button></div>');
+
+
+    //$('#jobBookTime').html(date.format("m/dd/yy"));
+    //$('#test').attr('onclick','alert("onclick event appended")')
+
+
 }

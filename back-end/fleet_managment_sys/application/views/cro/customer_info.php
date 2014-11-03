@@ -2,18 +2,18 @@
     <table class="table table-striped" >
         <tr>
             <th>Title</th>
+            <th>Position</th>
             <th>Name</th>
             <th>Permanent Remarks</th>
-            <th>Organization</th>
-            <th>Destination</th>
+            <th>Organization</th
         </tr>
 
         <tr>
             <td><?= $title?></td>
+            <td><?= $position?></td>
             <td><?= $name?></td>
             <td><?= $pRemark?></td>
             <td><?= $org?></td>
-            <td><?= $des?></td>
         </tr>
     </table>
 </div>

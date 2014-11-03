@@ -12,7 +12,9 @@ class Dispatcher extends CI_Controller {
 //			$this -> load -> view('layouts/inner_layout', $layout_data);
             $new_orders = $this->live_dao->getAllBookings();
             $new_orders_pane = $this->load->view("dispatcher/panels/new_orders",array('orders'=>$new_orders),TRUE);
-            $this -> load -> view('dispatcher/index',array('new_orders_pane' => $new_orders_pane));
+            $location_board_pane = $this->load->view("dispatcher/panels/locView",NULL,TRUE);
+
+            $this -> load -> view('dispatcher/index',array('new_orders_pane' => $new_orders_pane, 'location_board_pane' => $location_board_pane));
 		} else {
 			//If no session, redirect to login page
 			$this -> load -> library('form_validation');
@@ -47,12 +49,29 @@ class Dispatcher extends CI_Controller {
 
     function dispatchVehicle(){
         $postData = $this->input->post();
-        $dispatchingOrder = $this->live_dao->getBooking($postData['refId']);
-        $this->live_dao->deleteBooking($postData['refId']);
+        $cabId = $postData['cabId'];
+        $orderId = $postData['orderId'];
+        $dispatchingOrder = $this->live_dao->getBooking($orderId);
+        $dispatchingDriver = $this->user_dao->getDriverByCabId($cabId);
+        $driverId = $dispatchingDriver['userId'];
+//        $this->live_dao->deleteBooking($postData['refId']);
 //        $customer = $this->customer_dao->getCustomer($dispatchingOrder['tp']); // TODO: need this when updating customer order history
-        $sms = new Sms("Testing message");
-        $sentCusto = $sms->send($dispatchingOrder['tp'],"Your reference number is ".$postData['refId'] . "we have dispatch a cab, you will recede a cab on".$dispatchingOrder['address']);
-        $sentDriver = $sms->send("0711661919","Your reference number is ".$postData['refId'] . "Please go to this address".$dispatchingOrder['address']);
+
+        $sms = new Sms();
+        $custoMessage = "You order has been dispatched Order # $dispatchingOrder[refId]";
+        $custoNumber = $dispatchingOrder['tp'];
+        $addressArray = array_values($dispatchingOrder['address']);
+        $custoAddress = implode(" ",$addressArray);
+
+        $this->live_dao->setDriverId($orderId,$driverId);
+        $this->live_dao->setCabId($orderId,$cabId);
+
+        $driverId  = strlen($driverId) <= 1 ? '0'.$driverId : $driverId;
+        $driverMessage = "#".$driverId.'1'.$dispatchingOrder['refId']." Address: ".$custoAddress;
+        $driverNumber = $dispatchingDriver['tp'];
+
+        $sentCusto = $sms->send($custoNumber,$custoMessage);
+        $sentDriver = $sms->send($driverNumber,$driverMessage);
 
         /*
          * get cust no from refid
@@ -61,9 +80,10 @@ class Dispatcher extends CI_Controller {
          *
          * */
 
-
-        header('Content-Type: application/json');
-        echo json_encode(array('status'=> 'success', 'message' => 'Reference Id '.$postData['refId'].'Dispatched to '.$dispatchingOrder['address']));
+//        $response = array('status'=> 'success', 'message' => 'Reference Id '.$postData['refId'].'Dispatched to '.$dispatchingOrder['address']);
+        $this -> output -> set_content_type('application/json');
+//        echo json_encode($response);
+        echo json_encode($dispatchingDriver);
     }
 
 }

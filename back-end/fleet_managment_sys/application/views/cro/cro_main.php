@@ -27,6 +27,8 @@
         var obj = null;
         var tp;
         var url = '<?= site_url(); ?>';
+        var bookingObj = null;
+        var customerObj = null;
         </script>
 </head>
 <body>
@@ -38,15 +40,16 @@
         </div>
 
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#" onclick="getAllCabs()">CRO</a></li>
-            <li><a href="<?= site_url('cro_controller/test')?>" >My Bookings</a></li>
+            <li class="active"><a href="<?= site_url('cro_controller')?>">CRO</a></li>
+            <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
+            <li><a href="<?= site_url('cro_controller/loadMapView')?>" >My Bookings</a></li>
         </ul>
 
         <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch">
+                <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch" autofocus>
             </div>
-            <button type="button" class="btn btn-default" onclick="operations('getCustomer')">Submit</button>
+            <input type="submit" class="btn btn-default" onclick="operations('getCustomer');return false" onsubmit="operations('getCustomer');return false" value="Submit" />
         </form>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -139,114 +142,19 @@
                 updateCustomerInfoView( url );
             }
             if(request == 'getCustomer'){
-
                 tp      = document.getElementById("tpSearch").value;
-                getCustomerInfoView( url , tp );
+                getCustomerInfoView( url , tp);
                 uiInit();
             }
             if(request == 'createCusInfo'){
-                $('#newCustomer').bootstrapValidator({
-                    message: 'This value is not valid',
-                    feedbackIcons: {
-                        valid: 'glyphicon glyphicon-ok',
-                        invalid: 'glyphicon glyphicon-remove',
-                        validating: 'glyphicon glyphicon-refresh'
-                    },
-                    excluded:[]
-                    ,
-                    fields: {
-                    }
-
-                })
-                .on('success.form.bv', function(e) {
-                    // Prevent form submission
-                    e.preventDefault();
-                    createCusInfo( url );
-                });
-
                 createCusInfo( url );
-                getCustomerInfoView(url , tp);
+                getCustomerInfoView(url , tp , customerObj,bookingObj);
                 uiInit();
-
-
             }
             if(request == 'createBooking'){
-                // Validate Form Before Creating Booking
-
-
-                $('#newBookingForm').bootstrapValidator({
-                    message: 'This value is not valid',
-                    feedbackIcons: {
-                        valid: 'glyphicon glyphicon-ok',
-                        invalid: 'glyphicon glyphicon-remove',
-                        validating: 'glyphicon glyphicon-refresh'
-                    },
-                    excluded:[]
-                    ,
-                    fields: {
-                        paymentType: {
-                            message: 'The field is not valid',
-                            validators: {
-                                notEmpty: {
-                                    message: 'Payment Type Not Selected'
-                                }
-                            }
-                        },
-
-                        vehicleType: {
-                            message: 'The field is not valid',
-                            validators: {
-                                notEmpty: {
-                                    message: 'Vehicle Type Not Selected'
-                                }
-                            }
-                        },
-                        bDate: {
-                            message: 'The field is not valid',
-                            validators: {
-                                notEmpty: {
-                                    message: 'Booking Date Not Selected'
-                                }
-                            }
-                        },
-                        bTime:{
-                            message: 'The field is not valid',
-                            validators: {
-                                notEmpty: {
-                                    message: 'Booking Time Not Selected'
-                                }
-                            }
-                        },
-
-                        dispatchBefore:{
-                            message: 'The field is not valid',
-                            validators: {
-                                notEmpty: {
-                                    message: 'Dispatch Before time cannot be empty'
-                                },
-                                greaterThan: {
-                                    message: 'Dispatch before time should be greater than or equal to  30',
-                                    value : 30,
-                                    inclusive:true
-
-                                }
-                            }
-                        }
-                    }
-
-                })
-                .on('success.form.bv', function(e) {
-                    // Prevent form submission
-                    e.preventDefault();
-                    createBooking(url , tp);
-                    getCustomerInfoView(url , tp);
-                    uiInit();
-
-
-                });
-
                 createBooking(url , tp);
-                getCustomerInfoView(url , tp);
+                getCustomerInfoView(url , tp );
+                uiInit();
             }
             if(request == 'cancel'){
                 getCancelConfirmationView(url , tp , param1)
@@ -255,7 +163,8 @@
                 confirmCancel(url , tp ,param1);
             }
             if(request == 'denyCancel'){
-                getCustomerInfoView(url, tp)
+                getCustomerInfoView(url, tp);
+                uiInit();
             }
             if(request == 'editBooking'){
                 getEditBookingView(url,param1);
@@ -264,6 +173,10 @@
             if(request == 'updateBooking'){
                 updateBooking(url,param1);
                 getCustomerInfoView(url , tp);
+                uiInit();
+            }
+            if(request == 'changeJobInfoView'){
+                changeJobInfoView(param1)
             }
         }
     </script>

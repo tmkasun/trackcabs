@@ -32,8 +32,8 @@
 
         <ul class="nav navbar-nav">
             <li><a href="<?= site_url('cro_controller')?>" >CRO</a></li>
-            <li class="active"><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
-            <li><a href="<?= site_url('cro_controller/loadMapView')?>" >My Bookings</a></li>
+            <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
+            <li class="active"><a href="<?= site_url('cro_controller/loadMapView')?>" >My Bookings</a></li>
         </ul>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -107,70 +107,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    function getTodayMyBookings(){
-
-        var data = {};
-        url = url +"/cro_controller/getTodayMyBookings";
-        var view = ajaxPost(data,url);
-        /*  Populate the New Booking field with the editing form */
-        var bookingsDiv = document.getElementById('bookings');
-        bookingsDiv.innerHTML = view.view.booking_summary;
-    }
-</script>
-
-    <script>
-
-        function ajaxPost(data,urlLoc)    {
-            var result=null;
-            $.ajax({
-                type: 'POST', url: urlLoc,
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                data: JSON.stringify(data),
-                async: false,
-                success: function(data, textStatus, jqXHR) {
-                    result = JSON.parse(jqXHR.responseText);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    if(jqXHR.status == 400) {
-                        var message= JSON.parse(jqXHR.responseText);
-                        $('#messages').empty();
-                        $.each(messages, function(i, v) {
-                            var item = $('<li>').append(v);
-                            $('#messages').append(item);
-                        });
-                    } else {
-                        alert('Unexpected server error.');
-                    }
-                }
-            });
-            return result;
-        }
-
-        function work(){
-            $('#form_date').datetimepicker({
-                //language:  'fr',
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0
-            });
-            $('#form_date_end').datetimepicker({
-                //language:  'fr',
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0
-            });
-        }
-    </script>
 </body>
 </html>

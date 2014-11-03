@@ -7,15 +7,15 @@ class User_dao extends CI_Model
     {
 
     }
-    
+
     function get_collection()
     {
         $conn = new MongoClient();
         $collection = $conn->selectDB('track')->selectCollection('users');
         return $collection;
-        
+
     }
-            
+
     function createUser($user_details)
     {
         $collection = $this->get_collection();
@@ -24,8 +24,8 @@ class User_dao extends CI_Model
         $searchQuery = array('userId' => $user_details['userId']);
         $record = $collection->findOne($searchQuery);
 
-        if( $record == null){ $collection->insert($user_details);}           
-        else {$statusMsg = false;} 
+        if( $record == null){ $collection->insert($user_details);}
+        else {$statusMsg = false;}
 
         return $statusMsg;
     }
@@ -34,7 +34,18 @@ class User_dao extends CI_Model
     {
         $collection = $this->get_collection();
 
-        $searchQuery = array('userId' => $userId);
+        $searchQuery = array('uName' => $userId);
+   // TODO: FTW ? parameter  name is userId and searching for uName while
+        //there is an attribute for userId FK
+        $user = $collection->findOne($searchQuery);
+        return $user;
+    }
+
+    function getUserById($userId)
+    {
+        $collection = $this->get_collection();
+
+        $searchQuery = array('userId' => (int)$userId);
         $user = $collection->findOne($searchQuery);
         return $user;
     }
@@ -52,7 +63,7 @@ class User_dao extends CI_Model
 
         return $users;
     }
-    
+
     //This function will be used if needed to get all user types, number of users limited to page size
     function getUsersByPage($limit,$skip)
     {
@@ -60,18 +71,18 @@ class User_dao extends CI_Model
 
         $cursor = $collection->find()->limit($limit)->skip($skip);
         $users= array('data' => array());
-        foreach ($cursor as $user) 
+        foreach ($cursor as $user)
         {
             $users['data'][]= $user;
         }
         return $users;
     }
-    
+
     //This function is used to get all users of a certain type
     function getAllUsers_by_type($type)
     {
         $collection = $this->get_collection();
-        
+
         $user_type = array('user_type' => $type);
         $cursor = $collection->find($user_type);
         $users= array();
@@ -81,16 +92,16 @@ class User_dao extends CI_Model
 
         return $users;
     }
-    
+
     //This function is used to get all users of a certain type, limited to page size
     function getUsersByPage_by_type($limit,$skip,$type)
     {
         $collection = $this->get_collection();
-        
+
         $user_type = array('user_type' => $type);
         $cursor = $collection->find($user_type)->limit($limit)->skip($skip);//$user_type
         $users= array('data' => array());
-        foreach ($cursor as $user) 
+        foreach ($cursor as $user)
         {
             $users['data'][]= $user;
         }
@@ -101,6 +112,15 @@ class User_dao extends CI_Model
     {
         $collection = $this->get_collection();
         $searchQuery = array("uName" => $userName , 'pass' => $pass );
+        $user = $collection->findOne($searchQuery);
+        return $user;
+
+    }
+
+    function driverAuthenticate($driverId, $pass)
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array("userId" => (int)$driverId , 'pass' => $pass , "user_type" => "driver" );
         $user = $collection->findOne($searchQuery);
         return $user;
 
@@ -136,10 +156,14 @@ class User_dao extends CI_Model
 //
 //        $collection->save($user);
     }
-    
+
     //Special functions
-    function getDriverByCabId()
+    function getDriverByCabId($cabId)
     {
+        $collection = $this->get_collection();
+        $searchQuery= array('cabId' => $cabId,'user_type' => 'driver');
+        $user = $collection->findOne($searchQuery);
+        return $user;
 
     }
     function getCabByDriverId()

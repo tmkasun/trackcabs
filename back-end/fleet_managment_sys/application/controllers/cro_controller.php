@@ -8,25 +8,16 @@ class Cro_controller extends CI_Controller
         $this->load->view('cro/cro_main');
     }
 
-    function test()
-    {
-        //$prev_date = date('Y-m-d', strtotime(date('Y-m-d') .' -1 day'));
-        $prev_date = date('Y-m-d');
-        var_dump($prev_date);
-
-        /* set the timezone for the call time */
-        $bookDT = new DateTime(date($prev_date). ''.date('00:00:00'), new DateTimeZone('UTC'));
-        $bookTS = $bookDT->getTimestamp();
-        $data = array('time' => new MongoDate($bookTS));
-
-        $db  = new MongoClient();
-        $dbName = $db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
-
-        $collection->insert($data);
-
+    function loadMyBookingsView(){
         $this->load->view('cro/my_bookings/my_bookings_main');
     }
+
+
+    function loadMapView(){
+        
+
+    }
+
 
     function getTodayMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
@@ -38,15 +29,11 @@ class Cro_controller extends CI_Controller
 
     }
 
-    function getCroDefaultView(){
-        $this->load->view('cro/cro_main');
-    }
-
     function getCustomerInfoEditView(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $result = $this->customer_dao->getCustomer($input_data['tp']);
 
-        $data['table_content'] = $this->load->view('cro/customer_info_edit', $result , TRUE);
+        $data['customer_info_edit_view'] = $this->load->view('cro/customer_info_edit', $result , TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
 
     }
@@ -74,14 +61,14 @@ class Cro_controller extends CI_Controller
 
         if($result == null){
             $result =array('tp' => $input_data['tp']);
-            $data['table_content'] = $this->load->view('cro/new_customer_form', $result , TRUE);
+            $data['customer_info_view'] = $this->load->view('cro/new_customer_form', $result , TRUE);
             /* Customer is new so send empty to to the JOB Info View */
             $data['job_info_view'] = '';
             $data['new_booking_view'] = '';
             $this->output->set_output(json_encode(array("statusMsg" => "fail","view" => $data)));
         }else{
 
-            $bookingData=array('booking' => array());
+            $bookingData=array('customerInfo' => $result);
             foreach($result as $key => $value){
                 if($key == 'history'){
                     foreach($value as $newKey){
@@ -96,10 +83,10 @@ class Cro_controller extends CI_Controller
                     }
                 }
             }
-            $data['table_content'] = $this->load->view('cro/customer_info', $result , TRUE);
+            $data['customer_info_view'] = $this->load->view('cro/customer_info', $result , TRUE);
             $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);
             $data['new_booking_view'] = $this->load->view('cro/new_booking', $result , TRUE);
-            $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+            $this->output->set_output(json_encode(array("statusMsg" => "success","important" => $bookingData ,"view" => $data)));
         }
     }
 

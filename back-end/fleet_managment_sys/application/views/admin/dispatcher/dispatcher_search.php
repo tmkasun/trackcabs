@@ -1,24 +1,37 @@
-<div class="col-lg-10">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h3 class="panel-title">Dispatcher Details</h3>
-        </div>
-        <div class="panel-body" id="singleDispatcher">
-            <div >
+<div class="col-lg-7">
 
-                <h4>Dispatcher ID : <?= $userId;?></h4></br>
-                <h4>Name : <?= $name?></h4></br>
-                <h4>User Name : <?= $uName;?></h4></br>
-                <h4>Pass : <?= $pass;?></h4></br>
-                <h4>NIC Number : <?= $nic;?></h4></br>
-                <h4>Telephone Number : <?= $tp;?></h4></br>
-                <h4>Type : <?= $user_type;?></h4></br>
-                </br>
-                
-                <button type="button" class="btn btn-danger btn-lg" onclick="makeCROFormEditable(<?= $userId;?>,url, '<?php echo $user_type;?>')"
-                        style="float: right">Edit</button>
-            </div>
-        </div>
+            <div >
+                <table class="table table-striped" >
+                    <tr>
+                        <th>Dispatcher ID</th>
+                        <th>Name</th>
+                        <th>User Name</th>
+                        <th>Pass</th>
+                        <th>NIC</th>
+                        <th>tp</th>
+                        <th>User Type</th>
+                        <th>Action</th>
+                    </tr>
+
+
+                     <tr>
+                            <td><?= $userId;?></td>
+                            <td><?= $name?></td>
+                            <td><?= $uName;?></td>
+                            <td><?= $pass;?></td>
+                            <td><?= $nic;?></td>
+                            <td><?= $tp;?></td>
+                            <td><?= $user_type;?></td>
+                            <td><div class="btn-group btn-group-justified">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-success" onclick="makeCROFormEditable(<?= $userId;?>,url, '<?php echo $user_type;?>')">Edit</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                </table>
+
 
     </div>
 </div>

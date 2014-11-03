@@ -122,4 +122,16 @@ class Testing extends CI_Controller
         $searchQuery = array('uName' => 'kasun', 'pass' => 'pasd');
         var_dump($this->mongodb->track->users->findOne($searchQuery));
     }
+
+    function setZone($driverId , $zone){
+        $cab = $this->user_dao->getCabByDriverId($driverId);
+        $result = $this->cab_dao->setZone($cab['cabId'] , $zone);
+        echo implode(" ",array_keys($result));
+        echo("\n");
+        echo implode(" ",array_values($result));
+    }
+
+    function getCabsInZones(){
+        $result = $this->cab_dao->getCabsInZones();
+    }
 }

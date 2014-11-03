@@ -8,10 +8,10 @@ class User_dao extends CI_Model
 
     }
 
-    function get_collection()
+    function get_collection($collection = 'users')
     {
         $conn = new MongoClient();
-        $collection = $conn->selectDB('track')->selectCollection('users');
+        $collection = $conn->selectDB('track')->selectCollection($collection);
         return $collection;
 
     }
@@ -132,7 +132,7 @@ class User_dao extends CI_Model
      * @param $driverId
      * @return array|null
      */
-    function logout($driverId)
+    function logout($driverId)//the variable $dirverId refers to the 'userId' atrribute of a single driver(user)
     {
         $collection = $this->get_collection();
         $searchQuery = array("userId" => $driverId , 'logout' => 'true' );
@@ -146,28 +146,44 @@ class User_dao extends CI_Model
         $collection = $this->get_collection();
 
         $searchQuery= array('userId' => $userId);
-        $user = $collection->findOne($searchQuery);
+        $collection->update($searchQuery,array('$set' => $edited_data));
+        //$user = $collection->findOne($searchQuery);
 
-        foreach ($edited_data as $key => $value)
-        {
-            $user[$key] = $edited_data[$key];
-        }
-
-        $collection->save($user);
+//        foreach ($edited_data as $key => $value)
+//        {
+//            $user[$key] = $edited_data[$key];
+//        }
+//
+//        $collection->save($user);
     }
 
     //Special functions
     function getDriverByCabId($cabId)
     {
         $collection = $this->get_collection();
-        $searchQuery= array('cabId' => $cabId,'user_type' => 'driver');
+        $searchQuery= array('cabId' => (int)$cabId,'user_type' => 'driver');
         $user = $collection->findOne($searchQuery);
+
+        $collection = $this->get_collection('cabs');
+        $searchQuery= array('cabId' => (int)$cabId);
+        $cab = $collection->findOne($searchQuery);
+        $user['cab'] = $cab;
+
         return $user;
 
     }
-    function getCabByDriverId()
+    function getCabByDriverId($driverId)
     {
+        $collection = $this->get_collection();
+        $searchQuery= array('userId' => (int)$driverId,'user_type' => 'driver');
+        $driver = $collection->findOne($searchQuery);
 
+        $collection = $this->get_collection('cabs');
+        $searchQuery= array('cabId' => (int)$driver['cabId']);
+        $cab = $collection->findOne($searchQuery);
+        $cab['driver'] = $driver;
+
+        return $cab;
     }
 
 

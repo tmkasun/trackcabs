@@ -36,7 +36,19 @@ class Test_dao extends CI_Model
 
         return $users;
     }
-    
+    function update_and_get_user($query, $edited_info)
+    {
+        $collection = $this->get_collection();
+        //$query = array('userId' => $userId);
+        $collection->update($query, array('$set' => $edited_info));
+        $cursor = $collection->find();
+        $users = array();
+        foreach($cursor as $user)
+            {
+                $users[] = $user;
+            }
+         return $users;
+    }
     function getUsersByPage_by_type($type)
     {
         $collection = $this->get_collection();

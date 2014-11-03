@@ -49,18 +49,23 @@
                 <div class="col-lg-8">
                     <div class="col-lg-7">
                         <?php $index=sizeof($live_booking)-1;?>
-                        <?php $status =$live_booking[sizeof($live_booking)-1]['status']; ?>
+                        <?php $status =$live_booking[$index]['status']; ?>
 
                         <h4>Address </h4>
                         <span id="jobAddress">
-                            <?= $live_booking[sizeof($live_booking)-1]['address']['no'] ." ".
-                                $live_booking[sizeof($live_booking)-1]['address']['road'] ." ".
-                                $live_booking[sizeof($live_booking)-1]['address']['city'] ." ".
-                                $live_booking[sizeof($live_booking)-1]['address']['town'];?>
+                            <?= $live_booking[$index]['address']['no'] ." ".
+                                $live_booking[$index]['address']['road'] ." ".
+                                $live_booking[$index]['address']['city'] ." ".
+                                $live_booking[$index]['address']['town'];?>
                         </span>
                         <h4>Remark </h4>
                         <span id="jobRemark"><?= $live_booking[sizeof($live_booking)-1]['remark']?></span>
-                        <h5>VIP | VIH | UNMARK | CASH</h5>
+                        <h4>Specifications</h4>
+                            <span id="jobSpecifications"> <?php if($live_booking[$index]['isVip'])echo 'VIP | ';?>
+                                                          <?php if($live_booking[$index]['isVih'])echo  'VIH | ';?>
+                                                          <?php if($live_booking[$index]['isUnmarked']) echo 'UNMARK |'?>
+                                                          <?php if($live_booking[$index]['isTinted']) echo 'Tinted'?>
+                            </span>
                     </div>
 
                     <div class="col-lg-5">
@@ -72,28 +77,30 @@
                         <span id="jobCallTime"><?php echo date('H:i Y-m-d ', $live_booking[sizeof($live_booking)-1]['callTime']->sec);?></span>
                         </br>
                         <h4>Dispatch Before </h4>
-                        <span id="jobDispatchB4">30min
+                        <span id="jobDispatchB4"><?= $live_booking[$index]['dispatchB4'];?> min
 
                     </div>
                 </div>
 
                 <div class="col-lg-offset-8 col-lg-4">
-                    <div class="btn-group btn-group-justified">
-                        <?php if( ($status == "START") || ($status == 'MSG_COPIED') || ($status =='MSG_NOT_COPIED') || ($status =='AT_THE_PLACE')):?>
+                        <div id="jobEditButton" class="col-lg-6">
+                            <?php if( ($status == "START") || ($status == 'MSG_COPIED') || ($status =='MSG_NOT_COPIED') || ($status =='AT_THE_PLACE')):?>
 
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-warning" onclick="operations('editBooking', '<?= $live_booking[sizeof($live_booking)-1]['_id'];?>')">Edit Booking</button>
-                            </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-warning" onclick="operations('editBooking', '<?= $live_booking[sizeof($live_booking)-1]['_id'];?>')">Edit Booking</button>
+                                </div>
 
-                        <?php endif; ?>
-                        <?php if( ($status == "START") || ($status == 'MSG_COPIED') || ($status =='MSG_NOT_COPIED') || ($status =='AT_THE_PLACE')):?>
+                            <?php endif?>
+                        </div>
+                        <div id="jobCancelButton" class="col-lg-6">
+                            <?php if( ($status == "START") || ($status == 'MSG_COPIED') || ($status =='MSG_NOT_COPIED') || ($status =='AT_THE_PLACE')):?>
 
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-danger" onclick="operations('cancel' , '<?php echo $live_booking[sizeof($live_booking)-1]['_id']?>' )">Cancel</button>
-                            </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-danger" onclick="operations('cancel' , '<?php echo $live_booking[sizeof($live_booking)-1]['_id']?>' )">Cancel</button>
+                                </div>
 
-                        <?php endif; ?>
-                    </div>
+                            <?php endif?>
+                        </div>
                 </div>
             </div>
         </div>
@@ -117,7 +124,7 @@
         </tr>
         <?php foreach(array_reverse($live_booking) as $item):?>
             <tr>
-                <td><a href="#" onclick="changeJobInfoView('<?= $_id?>')"><?= $item['status'];?></td>
+                <td><a href="#" onclick="changeJobInfoView('<?= $item['_id']?>')"><?= $item['status'];?></td>
                 <td><?= $item['refId'];?></td>
                 <td><?=  date('H:i:s Y-m-d ', $item['callTime']->sec);?></td>
                 <td><?=  date('H:i:s Y-m-d ', $item['bookTime']->sec);?></td>

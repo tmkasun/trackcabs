@@ -62,6 +62,18 @@ class Cab_dao extends CI_Model
         return $data;
     }
 
+    function getCabsInZones(){
+        $allCabs = $this->getAllCabs();
+
+        $data = array();
+        foreach ($allCabs as $cab) {
+            $cabWithDriver = $this->user_dao->getDriverByCabId((int)$cab['cabId']);
+            array_push($data,$cabWithDriver);
+        }
+        return $data;
+    }
+
+
     function getCabsByPage($limit,$skip){
 
         $connection = new MongoClient();
@@ -101,10 +113,10 @@ class Cab_dao extends CI_Model
         $connection = new MongoClient();
         $dbName = $connection->selectDB('track');
         $collection = $dbName->selectCollection('cabs');
-        $searchQuery= array('cabId' => $cabId);
+        $searchQuery= array('cabId' => (int)$cabId);
 
-        $collection->update($searchQuery ,array('$set' => array('zone' => $zone)));
-
+        $collection->update($searchQuery ,array('$set' => array('zone' => $zone)),array('new' => true));
+        return $collection->findOne($searchQuery);
 
     }
 }

@@ -14,7 +14,11 @@ class Test_controller extends CI_Controller
         $users = $this->test_dao->getAllUsers();
         print_r($users);
     }
-    
+    function update_and_get_user()
+    {
+        $user_data = $this->test_dao->update_and_get_user(array('address' => ''),array('address' => 'test address 2'));
+        print_r($user_data);
+    }
     function getCRONavBarView(){       
         $table_data['x'] = 1;
         $data['table_content'] = $this->load->view('admin/cro/cro_navbar', $table_data, TRUE);//, $table_data, TRUE

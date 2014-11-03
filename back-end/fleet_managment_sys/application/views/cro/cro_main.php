@@ -40,8 +40,9 @@
         </div>
 
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#" onclick="getAllCabs()">CRO</a></li>
-            <li><a href="<?= site_url('cro_controller/test')?>" >My Bookings</a></li>
+            <li class="active"><a href="<?= site_url('cro_controller')?>">CRO</a></li>
+            <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
+            <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
         </ul>
 
         <form class="navbar-form navbar-left" role="search">
@@ -134,128 +135,23 @@
     <script>
         function operations(request, param1){
             if(request=="editCus"){
-                console.log(param1);
                 editCustomerInfoEditView( url , param1 );
-
             }
 
             if(request == 'updateCusInfo'){
                 updateCustomerInfoView( url );
             }
             if(request == 'getCustomer'){
-
                 tp      = document.getElementById("tpSearch").value;
-                getCustomerInfoView( url , tp );
-
+                getCustomerInfoView( url , tp);
                 uiInit();
-
-//                var arr = jobInfo.getElementsByTagName('script');
-//                for (var n = 0; n < arr.length; n++) {
-//                    eval(arr[n].innerHTML)//run script inside div
-//                }
-
             }
             if(request == 'createCusInfo'){
-                $('#newCustomer').bootstrapValidator({
-                    message: 'This value is not valid',
-                    feedbackIcons: {
-                        valid: 'glyphicon glyphicon-ok',
-                        invalid: 'glyphicon glyphicon-remove',
-                        validating: 'glyphicon glyphicon-refresh'
-                    },
-                    excluded:[]
-                    ,
-                    fields: {
-                    }
-
-                })
-                .on('success.form.bv', function(e) {
-                    // Prevent form submission
-                    e.preventDefault();
-                    createCusInfo( url );
-                });
-
                 createCusInfo( url );
                 getCustomerInfoView(url , tp , customerObj,bookingObj);
                 uiInit();
-
-
             }
             if(request == 'createBooking'){
-                // Validate Form Before Creating Booking
-
-
-                $('#newBookingForm').bootstrapValidator({
-                    message: 'This value is not valid',
-                    feedbackIcons: {
-                        valid: 'glyphicon glyphicon-ok',
-                        invalid: 'glyphicon glyphicon-remove',
-                        validating: 'glyphicon glyphicon-refresh'
-                    },
-                    excluded:[]
-                    ,
-                    fields: {
-                        paymentType: {
-                            message: 'The field is not valid',
-                            validators: {
-                                notEmpty: {
-                                    message: 'Payment Type Not Selected'
-                                }
-                            }
-                        },
-
-                        vehicleType: {
-                            message: 'The field is not valid',
-                            validators: {
-                                notEmpty: {
-                                    message: 'Vehicle Type Not Selected'
-                                }
-                            }
-                        },
-                        bDate: {
-                            message: 'The field is not valid',
-                            validators: {
-                                notEmpty: {
-                                    message: 'Booking Date Not Selected'
-                                }
-                            }
-                        },
-                        bTime:{
-                            message: 'The field is not valid',
-                            validators: {
-                                notEmpty: {
-                                    message: 'Booking Time Not Selected'
-                                }
-                            }
-                        },
-
-                        dispatchBefore:{
-                            message: 'The field is not valid',
-                            validators: {
-                                notEmpty: {
-                                    message: 'Dispatch Before time cannot be empty'
-                                },
-                                greaterThan: {
-                                    message: 'Dispatch before time should be greater than or equal to  30',
-                                    value : 30,
-                                    inclusive:true
-
-                                }
-                            }
-                        }
-                    }
-
-                })
-                .on('success.form.bv', function(e) {
-                    // Prevent form submission
-                    e.preventDefault();
-                    createBooking(url , tp);
-                    getCustomerInfoView(url , tp );
-                    uiInit();
-
-
-                });
-
                 createBooking(url , tp);
                 getCustomerInfoView(url , tp );
                 uiInit();

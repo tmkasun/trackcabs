@@ -1,14 +1,16 @@
 <script>
     //TODO: move this scripts to separate file like dispatcher.js in assets file
     function allowDispatchCab(refId){
-        closeAll();
-        $("#newOrdersPane").fadeOut('slow');
-        $.UIkit.notify({
-            message: "Select a vehicle to dispatch....",
-            status: 'success',
-            timeout: 0,
-            pos: 'top-center'
-        });
+//        closeAll();
+//        $("#newOrdersPane").fadeOut('slow');
+//        $.UIkit.notify({
+//            message: "Select a vehicle to dispatch....",
+//            status: 'success',
+//            timeout: 0,
+//            pos: 'top-center'
+//        });
+        $("#"+orderId).fadeOut('slow');
+        $('#dispatchedOrders ').append(this.orderDOM);
     }
 </script>
 <div class="modal-header"

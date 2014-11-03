@@ -167,7 +167,7 @@ class User_dao extends CI_Model
         $collection = $this->get_collection('cabs');
         $searchQuery= array('cabId' => (int)$cabId);
         $cab = $collection->findOne($searchQuery);
-        $user['cab'] = $cab;
+//        $user['cab'] = $cab;
 
         return $user;
 

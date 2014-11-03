@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <script>
+        setBaseURL('<?= base_url().'index.php/' ?>');
+    </script>
     <!-------------------------------- CSS Files------------------------------------>
 <!--    <link rel="stylesheet" type="text/css" href="--><?//= base_url();?><!--assets/css/bootstrap.css">-->
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap-datetimepicker.css">
@@ -65,6 +67,7 @@
 
 
     </style>
+
 </head>
 <body>
 <h2 style="text-align: center; margin-bottom: 0">Location Board</h2>
@@ -96,7 +99,7 @@
                                     <td class="col-md-2" data-bind="text:name" ></td>
                                     <td class="col-md-3">
                                         <input data-bind="attr:{id:id}, value:live.cabInput" class="form-control cabInput" type="text">
-                                        <button data-bind="click:$root.addCab" class="form-control cabAdd">
+                                        <button data-bind="click:$root.addLiveCab" class="form-control cabAdd">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
                                     </td>

@@ -67,8 +67,9 @@ class Cab_dao extends CI_Model
 
         $data = array();
         foreach ($allCabs as $cab) {
-            $cabWithDriver = $this->user_dao->getDriverByCabId((int)$cab['cabId']);
-            array_push($data,$cabWithDriver);
+            $driver = $this->user_dao->getDriverByCabId((int)$cab['cabId']);
+            $cab['driver'] = $driver;
+            array_push($data,$cab);
         }
         return $data;
     }

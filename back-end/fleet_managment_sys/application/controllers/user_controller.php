@@ -97,6 +97,10 @@ class User_controller extends CI_Controller
                 {
                     if($input_data['cabId'] === ""){$input_data['cabId']= (int)-1;}
                     else{$input_data['cabId']= (int)$input_data['cabId'];}
+                    $input_data['status'] = 'out';
+                    $input_data['lastLogout'] = new MongoDate();
+                    $input_data['lastLogin'] = new MongoDate();
+                  
                 }
         $result = $this->user_dao->createUser($input_data);
 

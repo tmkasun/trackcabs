@@ -366,6 +366,13 @@ function changeJobInfoView(bookingObjId){
             break;
         }
     }
+
+    var driverId = bookingObj[index]['driverId'];
+    var cabId   = 'NOT_ASSIGNED';
+
+    if(driverId == '-')  driverId = 'NOT_ASSIGNED';
+    if(cabId == '-')  cabId = 'NOT_ASSIGNED';
+
     $('#jobStatus').html(bookingObj[index]['status']);
     $('#jobVehicleType').html(bookingObj[index]['vType']);
     $('#jobDriverId').html(bookingObj[index]['driverId']);

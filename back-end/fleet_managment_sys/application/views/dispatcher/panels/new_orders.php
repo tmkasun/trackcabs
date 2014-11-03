@@ -8,10 +8,7 @@
         currentDispatchOrderRefId = orderId;
     }
 </script>
-<div class="panel panel-default boxElement" style="height: 90%;">
-    <!-- Default panel contents -->
-    <div class="panel-heading text-center"><span style="font-size: medium;" class="text-info" >New Orders</span></div>
-    <!-- Table -->
+<div class="panel panel-default boxElement" style="height: 50%;">
     <table class="table table-hover">
         <thead>
         <tr>
@@ -31,6 +28,21 @@
             <td><?= $order['remark'] ?></td>
         </tr>
         <?php } ?>
+        </tbody>
+    </table>
+</div>
+<div id="dispatchedOrders" class="panel panel-default boxElement" style="height: 40%;">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Ref Id</th>
+            <th># number</th>
+            <th>Booking</th>
+            <th>Remarks</th>
+        </tr>
+        </thead>
+        <tbody>
+
         </tbody>
     </table>
 </div>

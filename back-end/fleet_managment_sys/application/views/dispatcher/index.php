@@ -402,40 +402,6 @@
 
     </div>
 </div>
-
-<div class="boxElement" style="position: relative;width: 100%;margin-bottom: 0px">
-    <div class="row">
-        <form id="locationSearch" class="navbar-form" role="search"
-              onsubmit="return false;">
-            <div class="form-group has-feedback" style="width: 50%">
-                <div class="input-group">
-                    <span class="input-group-btn"><button class="btn btn-default" type="button">Search by
-                            Location
-                        </button></span>
-                    <input autofocus="true" id="locationSearchbox" type="text"
-                           placeholder="Search For location"
-                           class="form-control typeahead">
-                    <span id="searchicon" class="fa fa-search form-control-feedback"></span>
-                </div>
-            </div>
-            <input style="visibility: hidden; position: fixed;" type="submit"/>
-
-            <div class="form-group has-feedback">
-                <div class="input-group">
-                    <span class="input-group-btn"><button class="btn btn-default" type="button">Search by CabId
-                        </button></span><input autofocus="true" id="searchbox"
-                                               type="text"
-                                               placeholder="Search for cab"
-                                               class="form-control typeahead">
-                    <span id="searchicon" class="fa fa-search form-control-feedback"></span>
-                </div>
-            </div>
-            <input style="visibility: hidden; position: fixed;" type="submit"/>
-        </form>
-    </div>
-
-</div>
-
 <div class="row">
     <div class="col-md-3">
 

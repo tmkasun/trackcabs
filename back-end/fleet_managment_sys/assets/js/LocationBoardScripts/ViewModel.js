@@ -321,62 +321,50 @@ var currentActiveOrder = 12345678;
 
 //==============ViewModel============================//
 
-var baseUrl = BASE_URL;
-var serviceUrl = "http://192.168.2.103/index.php/";
+var baseUrl = ApplicationOptions.BASE_URL;
+
+var serviceUrl = "http://fleet.local.knnect.com/index.php/";
 function LocationBoardViewModel(){
     var self = this;
 
     var zonesLength = LocationBoard.zones.length;
 
-    var zonesRange1 = LocationBoard.zones.slice(0,Math.round(zonesLength/2));
-    var zonesRange2 = LocationBoard.zones.slice(Math.round(zonesLength/2),zonesLength);
 
+
+    self.zones = ko.observableArray(LocationBoard.zones);
 
     self.cabList = {};
     self.initializeLocationBoard = function(){
         self.responseCabs;
-       $.ajax(serviceUrl + "testing/getCabsInZones")
-            .done(function(response){
-                var x = response
-            });
-
         $.ajax({
-            url: serviceUrl + "testing/getCabsInZones",
+            url: serviceUrl + "dispatcher/cabsInZones",
             type: "GET",
             dataType: "json"
         }).done(function( response ) {
-            self.responseCabs = response;
+
+            self.cabListBuffer = $.map(response,function(item){
+                return new Cab(item);
+            });
+
+            self.cabList = ko.observableArray(self.cabListBuffer);
+
+            for(var key in self.cabList()){
+                var currentCab = self.cabList()[key];
+                var zoneObject = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+                    return item.name === currentCab.zone
+                });
+                var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
+                if(index != -1){
+                    self.zones()[index][currentCab.state].cabs.push(currentCab);
+                }
+            }
         }).fail(function( jqXHR, textStatus ) {
             console.log( "Location Board Init failed: " + textStatus );
         });
-
-        self.cabListBuffer = $.map(self.responseCabs,function(item){
-            return new Cab(item.cab);
-        });
-
-
-        self.cabList = ko.observableArray(self.cabListBuffer);
-
-        for(var key in self.cabList()){
-            var currentCab = self.cabList()[key];
-            var zoneObject = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
-                return item.name === currentCab.zone
-            });
-            var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
-            if(index != -1){
-                LocationBoard.zones[index][currentCab.state].cabs.push(currentCab);
-            }
-
-
-        }
-
-
-
-
-
     };
 
-    self.zones = ko.observableArray(LocationBoard.zones);
+    var zonesRange1 = self.zones.slice(0,Math.round(zonesLength/2));
+    var zonesRange2 = self.zones.slice(Math.round(zonesLength/2),zonesLength);
 
     self.ZonesColumn1 = ko.computed(function() {
         var zoneList = LocationBoard.zones.slice(0,Math.round(zonesLength/2));
@@ -401,7 +389,6 @@ function LocationBoardViewModel(){
         var gotResponse = null;
         $.post("http://192.168.0.21/index.php/dispatcher/setZone",sendingData,function(response){
             gotResponse = response;
-            console.log(response);
             $.UIkit.notify({
                 message: '<span style="color: dodgerblue">' + response.status + '</span><br>' + response.message,
                 status: (response.status == 'success' ? 'success' : 'danger'),
@@ -412,15 +399,20 @@ function LocationBoardViewModel(){
 
 
         if(gotResponse != null){
-            varNewCab = new Cab(gotResponse);
-            zone.live.cabs.push(varNewCab);
+
+            var currentCab = new Cab(gotResponse);
+            var zoneObject = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+                return item.name === currentCab.zone
+            });
+            var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
+            if(index != -1){
+                self.zones[index].live.cabs.push(currentCab);
+            }
+
         }
         else{
             alert('Cab Id does not exist');
         }
-
-        zone.live.cabInput('');
-
 
     };
 

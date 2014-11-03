@@ -105,4 +105,10 @@ class Dispatcher extends CI_Controller
         echo json_encode($newCab);
     }
 
+    function cabsInZones(){
+        $result = $this->cab_dao->getCabsInZones();
+        $this->output->set_content_type('application/json');
+        echo json_encode($result);
+    }
+
 }

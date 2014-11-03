@@ -3,17 +3,13 @@ $(document).ready(function(){
 });
 
 function getEditBookingView(url , objId){
-
+    alert('edit booking');
     var data = {'objId' : objId};
     url = url +"/cro_controller/getEditBookingView";
     var view = ajaxPost(data,url);
-
-
+    alert(view);
     /*  Populate the New Booking field with the editing form */
-    var editBookingDiv = document.getElementById('newBooking');
-    editBookingDiv.innerHTML = "";
-    editBookingDiv.innerHTML = view.view.edit_booking_view;
-
+    $('#newBooking').html(view.view.edit_booking_view);
 }
 
 function getCancelConfirmationView( url , tp , id ){
@@ -21,12 +17,9 @@ function getCancelConfirmationView( url , tp , id ){
     var data = {'_id' : id };
     url = url +"/cro_controller/getCancelConfirmationView";
     var view = ajaxPost(data,url);
-    /*  Populate the job information view */
 
-    var jobInfoDiv = document.getElementById('jobInfo');
-    jobInfoDiv.innerHTML = "";
-    jobInfoDiv.innerHTML = view.view.cancel_confirmation_view;
-
+    /*  Populate the job information view with cancel confirmation view*/
+    $('#jobInfo').html(view.view.cancel_confirmation_view);
 }
 
 
@@ -67,6 +60,7 @@ function createBooking(url , tp){
     var remark      = $('#remark').val();
     var callUpPrice = $('#callUpPrice').val();
     var dispatchB4  = $('#dispatchB4').val();
+    var destination = $('#destination').val();
     var bDate      = $('#bDate').val();
     var bTime      = $('#bTime').val();
     var vType               = $('#vehicleType').val();
@@ -85,6 +79,7 @@ function createBooking(url , tp){
     if (remark== ''){remark= '-'}
     if (callUpPrice== ''){callUpPrice= 0}
     if (dispatchB4== ''){dispatchB4= 30}
+    if (destination== ''){destination= '-'}
 
     var address = {
         'no':no ,
@@ -114,7 +109,8 @@ function createBooking(url , tp){
             'remark' : remark ,
             'inqCall' : 0,
             'callUpPrice' : callUpPrice,
-            'dispatchB4' : dispatchB4
+            'dispatchB4' : dispatchB4,
+            'destination' : destination
         }
     };
     ajaxPost(data,url);
@@ -208,6 +204,12 @@ function createCusInfo(url){
     if(document.getElementById('type2').checked) {
         type2='land'
     }
+
+    if(tp == ''){
+        alert('Telephone Number is Important');
+        return false;
+    };
+    if(tp2 == ''){ tp = '-' };
 
     /* Added extra info to the customer object of total job and job cancellations */
     var data = { 'tp' : tp , 'type1' : type1 , 'tp2' : tp2 , 'type2' : type2 ,'name' : cusName , 'pRemark' : pRemark ,
@@ -383,6 +385,14 @@ function changeJobInfoView(bookingObjId){
                         bookingObj[index]['address']['landmark']);
     $('#jobRemark').html(bookingObj[index]['remark']);
 
+    var specifications = "";
+    if(bookingObj[index]['isVip']) specifications = specifications + ' VIP |';
+    if(bookingObj[index]['isVih']) specifications = specifications + ' VIH |';
+    if(bookingObj[index]['isUnmarked']) specifications = specifications + ' UNMARK |';
+    if(bookingObj[index]['isTinted']) specifications = specifications + ' TINTED |';
+
+    $('#jobSpecifications').html(specifications);
+
 
     var bookDate=new Date(bookingObj[index]['bookTime']['sec'] * 1000);
     var callDate=new Date(bookingObj[index]['callTime']['sec'] * 1000);
@@ -393,15 +403,10 @@ function changeJobInfoView(bookingObjId){
 
     var status = bookingObj[index]['status'];
     if( status == 'START' ||  status == 'MSG_COPIED' || status == 'MSG_NOT_COPIED' || status == 'AT_THE_PLACE') {
-        $('#jobEditButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'editBooking \', \''+ bookingObj[index]['_id']['$id']  +'\')">Edit Booking</button></div>');
+        $('#jobEditButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'editBooking\', \''+ bookingObj[index]['_id']['$id']  +'\')">Edit Booking</button></div>');
     }
 
     if( status == 'START' ||  status == 'MSG_COPIED' || status == 'MSG_NOT_COPIED' || status == 'AT_THE_PLACE') {
-        $('#jobCancelButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'cancel\', \'' + bookingObj[index]['_id']['$id']   +  '\')">Edit Booking</button></div>');
+        $('#jobCancelButton').html('<div class="btn-group"> <button type="button" class="btn btn-danger" onclick="operations(\'cancel\', \'' + bookingObj[index]['_id']['$id']   +  '\')">Cancel</button></div>');
     }
-
-    //$('#jobBookTime').html(date.format("m/dd/yy"));
-    //$('#test').attr('onclick','alert("onclick event appended")')
-
-
 }

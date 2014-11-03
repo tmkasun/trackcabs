@@ -73,13 +73,29 @@ class Customer_retriever extends CI_Controller
         /* Add the booking array to the customer collection */
         $this->customer_dao->addBooking($input_data["tp"], $bookingObjId);
 
+
+        $tpType = $this->findTelephoneType($input_data["tp"]);
+//        if($tpType != 'land') {
+//            $sms = new Sms();
+//            $message = 'Your order has been confirmed. The booking number is ' . $input_data['data']['refId'] . '. Have a nice day';
+//            $sms->send($input_data["tp"], $message);
+//        }
+
         /* Send the newly added booking to the dispatch view */
 //        $webSocket = new Websocket($user['userId']);
 //        $webSocket->send($bookingCreated, 'dispatcher');
 
-        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg,'dest' => 'dispatcher1')));
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
+    }
 
-
+    function findTelephoneType($tp){
+        $customerRecord = $this->customer_dao->getCustomer($tp);
+        if($customerRecord['tp'] == $tp){
+            return $customerRecord['type1'];
+        }
+        if($customerRecord['tp2'] == $tp){
+            return $customerRecord['type2'];
+        }
     }
 
     public function canceled(){

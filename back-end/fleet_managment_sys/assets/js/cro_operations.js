@@ -391,9 +391,14 @@ function changeJobInfoView(bookingObjId){
     $('#jobCallTime').html(callDate.toDateString()+'</br>'+callDate.toTimeString());
     $('#jobDispatchB4').html(bookingObj[index]['dispatchB4']);
 
+    var status = bookingObj[index]['status'];
+    if( status == 'START' ||  status == 'MSG_COPIED' || status == 'MSG_NOT_COPIED' || status == 'AT_THE_PLACE') {
+        $('#jobEditButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'editBooking \', \''+ bookingObj[index]['_id']['$id']  +'\')">Edit Booking</button></div>');
+    }
 
-    $('#jobEditButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'editBooking \', \'testing\')">Edit Booking</button></div>');
-
+    if( status == 'START' ||  status == 'MSG_COPIED' || status == 'MSG_NOT_COPIED' || status == 'AT_THE_PLACE') {
+        $('#jobCancelButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'cancel\', \'' + bookingObj[index]['_id']['$id']   +  '\')">Edit Booking</button></div>');
+    }
 
     //$('#jobBookTime').html(date.format("m/dd/yy"));
     //$('#test').attr('onclick','alert("onclick event appended")')

@@ -14,7 +14,7 @@ class Cro_controller extends CI_Controller
 
 
     function loadMapView(){
-        
+
 
     }
 

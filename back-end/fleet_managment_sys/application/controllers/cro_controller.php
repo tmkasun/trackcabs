@@ -13,7 +13,12 @@ class Cro_controller extends CI_Controller
     }
 
 
-loadMapView
+    function loadMapView(){
+        
+
+    }
+
+
     function getTodayMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         // TODO SET THE SESSION USERID AS PARAMETER

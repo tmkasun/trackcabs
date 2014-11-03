@@ -347,11 +347,13 @@
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
         var cabId = "";
+        var logout = "false";
         if(id.toString() === "driver" )
         {
             cabId = document.getElementById("cabId").value;
+            logout = document.getElementById("logout").value;
             //json object for 'user_type' 'driver'....when driver edited, 'logout' alwys set to false
-            var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId, 'logout':'false'}};
+            var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId, 'logout': logout}};
         }
         //jason object when for 'user_type's 'cro', and 'dispatcher' 
         else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};}

@@ -112,7 +112,7 @@ class Customer_retriever extends CI_Controller
 
                 /* Adds +1 to the dis_cancel in customers collection */
                 $this->customer_dao->addCanceledDispatch($input_data["tp"]);
-                $this->live_dao->updateStatus($input_data['_id'],  "cancelDis");
+                $this->live_dao->updateStatus($input_data['_id'],  "DIS_CANCEL");
 
             } else if ($result == ("START")) {
                 $this->live_dao->updateStatus($input_data['_id'],  "CANCEL");
@@ -123,6 +123,13 @@ class Customer_retriever extends CI_Controller
             /* Remove the record from live collection and add it to the history */
             $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
             $this->live_dao->deleteBookingByMongoId($input_data['_id']);
+
+            $tpType = $this->findTelephoneType($input_data["tp"]);
+//        if($tpType != 'land') {
+//            $sms = new Sms();
+//            $message = 'Your booking ' . $input_data['data']['refId'] . '. has been canceled. Have a nice day';
+//            $sms->send($input_data["tp"], $message);
+//        }
 
             /* Send the canceled booking to the dispatch view */
 //            $webSocket = new Websocket($user['userId']);

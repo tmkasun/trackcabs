@@ -5,7 +5,9 @@ class Cro_controller extends CI_Controller
 
     public function index()
     {
-        $this->load->view('cro/cro_main');
+        $userData = $this->session->userdata('user');
+        var_dump($userData);
+        $this->load->view('cro/cro_main',$userData);
     }
 
     function loadMyBookingsView(){

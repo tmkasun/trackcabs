@@ -64,13 +64,11 @@ class Cab_dao extends CI_Model
 
     function getCabsInZones(){
         $allCabs = $this->getAllCabs();
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('cabs');
 
         $data = array();
         foreach ($allCabs as $cab) {
-            log_message('info', implode(" ", $cab));
+            $cabWithDriver = $this->user_dao->getDriverByCabId((int)$cab['cabId']);
+            array_push($data,$cabWithDriver);
         }
         return $data;
     }

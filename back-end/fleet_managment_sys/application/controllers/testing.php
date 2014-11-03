@@ -133,5 +133,13 @@ class Testing extends CI_Controller
 
     function getCabsInZones(){
         $result = $this->cab_dao->getCabsInZones();
+        $this->output->set_content_type('application/json');
+        echo json_encode($result);
+    }
+
+    function getDriverByCabId($cabId){
+        $result = $this->user_dao->getDriverByCabId($cabId);
+        $this->output->set_content_type('application/json');
+        echo json_encode($result);
     }
 }

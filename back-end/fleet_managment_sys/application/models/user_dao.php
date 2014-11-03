@@ -8,10 +8,10 @@ class User_dao extends CI_Model
 
     }
 
-    function get_collection()
+    function get_collection($collection = 'users')
     {
         $conn = new MongoClient();
-        $collection = $conn->selectDB('track')->selectCollection('users');
+        $collection = $conn->selectDB('track')->selectCollection($collection);
         return $collection;
 
     }
@@ -166,9 +166,17 @@ class User_dao extends CI_Model
         return $user;
 
     }
-    function getCabByDriverId()
+    function getCabByDriverId($driverId)
     {
+        $collection = $this->get_collection();
+        $searchQuery= array('driverId' => $driverId,'user_type' => 'driver');
+        $driver = $collection->findOne($searchQuery);
 
+        $collection = $this->get_collection('cabs');
+        $searchQuery= array('cabId' => $driver['cabId']);
+        $cab = $collection->findOne($searchQuery);
+
+        return $cab;
     }
 
 

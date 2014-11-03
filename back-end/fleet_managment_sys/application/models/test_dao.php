@@ -5,7 +5,7 @@ class Test_dao extends CI_Model
     function get_collection()
     {
         $conn = new MongoClient();
-        $collection = $conn->selectDB('track')->selectCollection('test_collection');
+        $collection = $conn->selectDB('track')->selectCollection('users');
         return $collection;
         
     }

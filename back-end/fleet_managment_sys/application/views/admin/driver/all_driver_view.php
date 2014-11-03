@@ -21,7 +21,7 @@
             <td><?= $item['tp'];?></td>
             <td><?= $item['logout'];?></td>
             <td><?php
-                if(!array_key_exists("cabId", $item) || $item['cabId'] === ""){
+                if(!array_key_exists("cabId", $item) || $item['cabId'] === "" || $item['cabId']==-1){
                     echo 'empty';
                 }else{
                     echo $item['cabId'];

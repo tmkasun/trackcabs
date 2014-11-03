@@ -98,7 +98,6 @@ class Dispatcher extends CI_Controller
         $driverId = $this->input->post('driverId');
         $zone = $this->input->post('zone');
         $cab = $this->user_dao->getCabByDriverId($driverId);
-
         $newCab = $this->cab_dao->setZone($cab['cabId'], $zone);
         $this->output->set_content_type('application/json');
         echo json_encode($newCab);

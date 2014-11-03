@@ -161,20 +161,27 @@ class User_dao extends CI_Model
     function getDriverByCabId($cabId)
     {
         $collection = $this->get_collection();
-        $searchQuery= array('cabId' => $cabId,'user_type' => 'driver');
+        $searchQuery= array('cabId' => (int)$cabId,'user_type' => 'driver');
         $user = $collection->findOne($searchQuery);
+
+        $collection = $this->get_collection('cabs');
+        $searchQuery= array('cabId' => (int)$cabId);
+        $cab = $collection->findOne($searchQuery);
+        $user['cab'] = $cab;
+
         return $user;
 
     }
     function getCabByDriverId($driverId)
     {
         $collection = $this->get_collection();
-        $searchQuery= array('driverId' => $driverId,'user_type' => 'driver');
+        $searchQuery= array('userId' => (int)$driverId,'user_type' => 'driver');
         $driver = $collection->findOne($searchQuery);
 
         $collection = $this->get_collection('cabs');
-        $searchQuery= array('cabId' => $driver['cabId']);
+        $searchQuery= array('cabId' => (int)$driver['cabId']);
         $cab = $collection->findOne($searchQuery);
+        $cab['driver'] = $driver;
 
         return $cab;
     }

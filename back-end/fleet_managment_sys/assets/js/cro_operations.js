@@ -186,6 +186,7 @@ function editCustomerInfoEditView( url , tp ){
 
 function createCusInfo(url){
     var siteUrl = url;
+    alert('came to creat cus info');
     url = siteUrl + "/customer_retriever/createCustomer";
     var tp      = $('#tp').val();
     var tp2     = $('#tp2').val();
@@ -209,7 +210,7 @@ function createCusInfo(url){
         alert('Telephone Number is Important');
         return false;
     };
-    if(tp2 == ''){ tp = '-' };
+    if(tp2 == ''){ tp2 = '-' };
 
     /* Added extra info to the customer object of total job and job cancellations */
     var data = { 'tp' : tp , 'type1' : type1 , 'tp2' : tp2 , 'type2' : type2 ,'name' : cusName , 'pRemark' : pRemark ,

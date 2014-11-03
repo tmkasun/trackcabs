@@ -1,3 +1,7 @@
+$(document).ready(function(){
+    uiInit();
+});
+
 function getEditBookingView(url , objId){
 
     var data = {'objId' : objId};
@@ -114,6 +118,7 @@ function createBooking(url , tp){
         }
     };
     ajaxPost(data,url);
+    alert('booking added is working');
 }
 
 
@@ -129,6 +134,7 @@ function updateBooking(url , objId){
     var landMark    = $('#landMark').val();
     var remark      = $('#remark').val();
     var callUpPrice = $('#callUpPrice').val();
+    var destination = $('#destination').val();
     var dispatchB4  = $('#dispatchB4').val();
     var bDate      = $('#bDate').val();
     var bTime      = $('#bTime').val();
@@ -149,7 +155,7 @@ function updateBooking(url , objId){
         'landmark' : landMark
     };
     var data = {
-        'objId' : objId,
+        '_id' : objId,
         'data' : {
             'address' : address ,
             'vType' : vType ,
@@ -245,7 +251,7 @@ function getCustomerInfoView( url , tp ){
     url = url + "/cro_controller/getCustomerInfoView";
     var data = {"tp" : tp};
     var view = ajaxPost(data,url);
-
+    alert('getcustomer info view is also completed');
     if(view.hasOwnProperty('important'))
     bookingObj=view.important.live_booking;
 
@@ -332,9 +338,20 @@ function showCalender(){
 }
 
 function uiInit(){
-    $("#callUp").click(function(){
-        $("#callUpPrice").toggle();
+
+
+    //Appear element on element tick
+    $(".checkBoxMakeAppear").click(function(){
+        $(this).parent().siblings('.checkBoxElementAppearing').toggle()
     });
+
+    //Click button on enter in a text box
+
+    /*$(".clickOnEnterOriginatingElement").keyup(function(event){
+        if(event.keyCode == 13){
+            $(this).parent().siblings('.clickedElementOnEnter').click();
+        }
+    });*/
 
     $(".btn-group > .btn").click(function(){
         $(this).addClass("active").siblings().removeClass("active");
@@ -347,8 +364,11 @@ function uiInit(){
     });
 }
 
-function changeJobInfoView(){
+function changeJobInfoView(bookingObjId){
 
+    alert(bookingObjId);
+    alert(JSON.stringify(bookingObj));
+    //$('#jobStatus').html()
 
 
 }

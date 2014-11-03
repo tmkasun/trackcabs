@@ -155,42 +155,129 @@ GlobalCabs.push(cab7);
 GlobalCabs.push(cab8);
 
 
-var zone1 = {};
-zone1.id = 1;
-zone1.cabInput = ko.observable();
-zone1.name = "Nawaloka";
-zone1.cabs = ko.observableArray([]);
-zone1.cabs.push(cab1);
-zone1.cabs.push(cab4);
-zone1.cabs.push(cab5);
-zone1.cabs.push(cab6);
-zone1.cabs.push(cab7);
 
-var zone2 = {};
-zone2.id = 2;
-zone2.cabInput = ko.observable();
-zone2.name = "Rajagiriya";
-zone2.cabs = ko.observableArray([]);
-zone2.cabs.push(cab2);
+function Zone(id, name){
+    this.id = id;
+    this.name           = name;
+    this.live               = {};
+    this.live.cabInput      = ko.observable();
+    this.live.cabs          = ko.observableArray([]);
 
-var zone3 = {};
-zone3.id = 3;
-zone3.cabInput = ko.observable();
-zone3.name = "Moratuwa";
-zone3.cabs = ko.observableArray([]);
-zone3.cabs.push(cab3);
+    this.pending            = {};
+    this.pending.cabInput   = ko.observable();
+    this.pending.cabs       = ko.observableArray([]);
 
-var zone4 = {};
-zone4.id = 4;
-zone4.cabInput = ko.observable();
-zone4.name = "Galle";
-zone4.cabs = ko.observableArray([]);
-zone4.cabs.push(cab4);
 
-LocationBoard.zones.push(zone1);
-LocationBoard.zones.push(zone2);
-LocationBoard.zones.push(zone3);
-LocationBoard.zones.push(zone4);
+    this.pob                = {};
+    this.pob.cabInput       = ko.observable();
+    this.pob.cabs           = ko.observableArray([]);
+
+
+}
+
+
+var zone1   = new Zone( 1,"Fort");
+var zone2   = new Zone( 2,"Nawaloka");
+var zone3   = new Zone( 3,"Colombo 03");
+var zone4   = new Zone( 4,"Marinedrive 03");
+var zone5   = new Zone( 5,"Colombo 04");
+var zone6   = new Zone( 6,"Marinedrive 04");
+var zone7   = new Zone( 7,"T'Malla/COLOS");
+var zone8   = new Zone( 8,"Vilasitha(Kirulapona)");
+var zone9   = new Zone( 9,"Colombo 04");
+var zone10  = new Zone(10,"Marinedrive 04");
+
+var zone11  = new Zone(11,"T'Malla/COLOS");
+var zone12  = new Zone(12,"Vilasitha(Kirulapona)");
+var zone13  = new Zone(13,"Colombo 06");
+var zone14  = new Zone(14,"Marinedrive 06");
+var zone15  = new Zone(15,"Alex");
+var zone16  = new Zone(16,"Rupavahing");
+var zone17  = new Zone(17,"Borella");
+var zone18  = new Zone(18,"Narahenpita");
+var zone19  = new Zone(19,"Nawala");
+var zone20  = new Zone(20,"Rajagiriya");
+
+var zone21  = new Zone(21,"Kotte");
+var zone22  = new Zone(22,"Battaramulla");
+var zone23  = new Zone(23,"Malabe");
+var zone24  = new Zone(24,"Kottawa");
+var zone25  = new Zone(25,"Maharagama");
+var zone26  = new Zone(26,"Nugegoda");
+var zone27  = new Zone(27,"Piliyandala");
+var zone28  = new Zone(28,"Boralesgamuwa");
+var zone29  = new Zone(29,"Kohuvala");
+var zone30  = new Zone(30,"Kalubovila");
+
+var zone31  = new Zone(31,"Dehivala");
+var zone32  = new Zone(32,"Mount Lavinia");
+
+
+
+
+
+
+zone1.live.cabs.push(cab1);
+zone1.live.cabs.push(cab4);
+zone1.live.cabs.push(cab5);
+zone1.live.cabs.push(cab6);
+zone1.live.cabs.push(cab7);
+zone2.live.cabs.push(cab2);
+zone3.live.cabs.push(cab3);
+zone4.live.cabs.push(cab4);
+
+LocationBoard.zones.push(zone1 );
+LocationBoard.zones.push(zone2 );
+LocationBoard.zones.push(zone3 );
+LocationBoard.zones.push(zone4 );
+LocationBoard.zones.push(zone5 );
+LocationBoard.zones.push(zone6 );
+LocationBoard.zones.push(zone7 );
+LocationBoard.zones.push(zone8 );
+LocationBoard.zones.push(zone9 );
+LocationBoard.zones.push(zone10);
+
+LocationBoard.zones.push(zone11);
+LocationBoard.zones.push(zone12);
+LocationBoard.zones.push(zone13);
+LocationBoard.zones.push(zone14);
+LocationBoard.zones.push(zone15);
+LocationBoard.zones.push(zone16);
+LocationBoard.zones.push(zone17);
+LocationBoard.zones.push(zone18);
+LocationBoard.zones.push(zone19);
+LocationBoard.zones.push(zone20);
+
+LocationBoard.zones.push(zone21);
+LocationBoard.zones.push(zone22);
+LocationBoard.zones.push(zone23);
+LocationBoard.zones.push(zone24);
+LocationBoard.zones.push(zone25);
+LocationBoard.zones.push(zone26);
+LocationBoard.zones.push(zone27);
+LocationBoard.zones.push(zone28);
+LocationBoard.zones.push(zone29);
+LocationBoard.zones.push(zone30);
+
+LocationBoard.zones.push(zone31);
+LocationBoard.zones.push(zone32);
+
+
+
+
+function Cab(response){
+
+    this.id                         = response.cabId;
+    this.attributes                 = {};
+    this.currentDriver              = response.currentDriver;
+    this.vehicleType                = response.vType;
+    this.attributes.vehicleColor    = response.color;
+    //this.attributes.isTinted        response.;
+    //this.attributes.isMarked        response.;
+    this.attributes.info            = response.info;
+    this.attributes.model           = response.model;
+    this.isDriverIdle               = true;
+}
 
 
 
@@ -224,21 +311,36 @@ function LocationBoardViewModel(){
 
 
 
-    self.addCab = function(zone,event){
+    self.addLiveCab = function(zone,event){
 
-        cabId = parseInt(zone.cabInput());
+        cabId = parseInt(zone.live.cabInput());
 
-        var cabToBeAdded = ko.utils.arrayFirst(GlobalCabs, function(item) {
-            return item.id === cabId
+        sendingData = {};
+        sendingData.cabId = cab.id;
+        sendingData.zoneName = zone.Name;
+
+        var gotResponse = null;
+        $.post("http://192.168.0.21/index.php/dispatcher/setZone",sendingData,function(response){
+            gotResponse = response;
+            console.log(response);
+            $.UIkit.notify({
+                message: '<span style="color: dodgerblue">' + response.status + '</span><br>' + response.message,
+                status: (response.status == 'success' ? 'success' : 'danger'),
+                timeout: 3000,
+                pos: 'top-center'
+            });
         });
-        if(cabToBeAdded != null){
-            zone.cabs.push(cabToBeAdded);
+
+
+        if(gotResponse != null){
+            varNewCab = new Cab(gotResponse);
+            zone.live.cabs.push(varNewCab);
         }
         else{
             alert('Cab Id does not exist');
         }
 
-        zone.cabInput('');
+        zone.live.cabInput('');
 
 
     };
@@ -256,7 +358,7 @@ function LocationBoardViewModel(){
                 pos: 'top-center'
             });
             currentDispatchOrderRefId = null;
-            zone.cabs.remove(cab);
+            zone.live.cabs.remove(cab);
         });
 
     }

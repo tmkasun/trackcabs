@@ -1,4 +1,4 @@
-<form id="newBookingForm">
+<form id="newBookingForm" >
     <div class="col-lg-5">
         <div class="panel panel-success">
             <div class="panel-heading">
@@ -47,9 +47,20 @@
 
                 <div class="form-group">
                     <div class="checkbox">
-                        <label style="font-weight: bold"><input type="checkbox" name="callUp"  id="callUp"> Call Up</label>
+                        <label style="font-weight: bold">
+                            <input type="checkbox" name="callUp"  id="callUp" class="checkBoxMakeAppear"> Call Up Given
+                        </label>
+                        <input type="text" class="form-control checkBoxElementAppearing" id="callUpPrice" name="callUpPrice" placeholder="Call Up Price" style="display:none">
                     </div>
-                    <input type="text" class="form-control" id="callUpPrice" name="callUpPrice" placeholder="Call Up Price" style="display:none">
+
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label style="font-weight: bold"><input type="checkbox" name="destinationGiven"  id="destinationGiven" class="checkBoxMakeAppear"> Destination Given
+                        </label>
+                        <input type="text" class="form-control checkBoxElementAppearing" id="destination" name="destination" placeholder="Given Destination" style="display:none">
+                    </div>
                 </div>
             </div>
         </div>
@@ -127,7 +138,7 @@
 
                 <div class="form-group">
                     <div class="checkbox">
-                        <label><input type="checkbox" id="vih"      >Very Important Hire<small style="font-weight: lighter"> [Court Case/Interview/Appointment]</small></label>
+                        <label><input type="checkbox" id="vih">Very Important Hire<small style="font-weight: lighter"> [Court Case/Interview/Appointment]</small></label>
                     </div>
                 </div>
 
@@ -141,7 +152,7 @@
     </div>
     <div class="col-lg-2">
         <div class="form-group" style="text-align: center">
-            <button type="button" style="width:100%" class="btn btn-success" onclick="operations('createBooking')">Save Booking</button>
+            <button type="button" style="width:100%" class="btn btn-success" onclick="operations('createBooking');return false;">Save Booking</button>
         </div>
     </div>
 </form>

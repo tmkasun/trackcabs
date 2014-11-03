@@ -111,10 +111,10 @@ class User_controller extends CI_Controller
     function updateUser(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $input_data['userId'] = (int)$input_data['userId'];
-        if(key_exists('cabId',$input_data['details']))
+        if(key_exists('cabId',$input_data))
                 {
-                    if($input_data['cabId'] === "" || $input_data['cabId'] == -1){$input_data['cabId']= (int)-1;}
-                    else{$input_data['cabId']= (int)$input_data['cabId'];}
+                    if($input_data['details']['cabId'] === "" || $input_data['details']['cabId'] == -1){$input_data['details']['cabId']= (int)-1;}
+                    else{$input_data['details']['cabId']= (int)$input_data['details']['cabId'];}
                 }
         $this->user_dao->updateUser($input_data['userId'],$input_data['details']);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));

@@ -6,7 +6,6 @@ class Cro_controller extends CI_Controller
     public function index()
     {
         $userData = $this->session->userdata('user');
-        var_dump($userData);
         $this->load->view('cro/cro_main',$userData);
     }
 
@@ -18,7 +17,6 @@ class Cro_controller extends CI_Controller
     function loadMapView(){
         $this->load->view('cro/map/map_main');
     }
-
 
     function getTodayMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);

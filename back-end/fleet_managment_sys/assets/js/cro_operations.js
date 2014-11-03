@@ -118,7 +118,6 @@ function createBooking(url , tp){
         }
     };
     ajaxPost(data,url);
-    alert('booking added is working');
 }
 
 
@@ -251,7 +250,6 @@ function getCustomerInfoView( url , tp ){
     url = url + "/cro_controller/getCustomerInfoView";
     var data = {"tp" : tp};
     var view = ajaxPost(data,url);
-    alert('getcustomer info view is also completed');
     if(view.hasOwnProperty('important'))
     bookingObj=view.important.live_booking;
 
@@ -366,9 +364,39 @@ function uiInit(){
 
 function changeJobInfoView(bookingObjId){
 
-    alert(bookingObjId);
-    alert(JSON.stringify(bookingObj));
-    //$('#jobStatus').html()
+    var index = -1;
+    console.log(bookingObjId);
+    for(var i=0 ; i < bookingObj.length ; i++){
+        index++;
+        console.log(bookingObj[i]['_id']['$id']);
+        if( bookingObj[i]['_id']['$id'] === bookingObjId){
+            break;
+        }
+    }
+    $('#jobStatus').html(bookingObj[index]['status']);
+    $('#jobVehicleType').html(bookingObj[index]['vType']);
+    $('#jobDriverId').html(bookingObj[index]['driverId']);
+    $('#jobCabId').html(bookingObj[index]['cabId']);
+
+    $('#jobAddress').html(bookingObj[index]['address']['no'] + ' , ' + bookingObj[index]['address']['road'] + ' , ' +
+                        bookingObj[index]['address']['city'] + ' , ' + bookingObj[index]['address']['town'] + ' ,'  +
+                        bookingObj[index]['address']['landmark']);
+    $('#jobRemark').html(bookingObj[index]['remark']);
+
+
+    var bookDate=new Date(bookingObj[index]['bookTime']['sec'] * 1000);
+    var callDate=new Date(bookingObj[index]['callTime']['sec'] * 1000);
+
+    $('#jobBookTime').html(bookDate.toDateString()+'</br>'+bookDate.toTimeString());
+    $('#jobCallTime').html(callDate.toDateString()+'</br>'+callDate.toTimeString());
+    $('#jobDispatchB4').html(bookingObj[index]['dispatchB4']);
+
+
+    $('#jobEditButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'editBooking \', \'testing\')">Edit Booking</button></div>');
+
+
+    //$('#jobBookTime').html(date.format("m/dd/yy"));
+    //$('#test').attr('onclick','alert("onclick event appended")')
 
 
 }

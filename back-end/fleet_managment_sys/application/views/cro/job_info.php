@@ -78,22 +78,24 @@
                 </div>
 
                 <div class="col-lg-offset-8 col-lg-4">
-                    <div class="btn-group btn-group-justified">
-                        <?php if( ($status == "START") || ($status == 'MSG_COPIED') || ($status =='MSG_NOT_COPIED') || ($status =='AT_THE_PLACE')):?>
+                        <div id="jobEditButton" class="col-lg-6">
+                            <?php if( ($status == "START") || ($status == 'MSG_COPIED') || ($status =='MSG_NOT_COPIED') || ($status =='AT_THE_PLACE')):?>
 
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-warning" onclick="operations('editBooking', '<?= $live_booking[sizeof($live_booking)-1]['_id'];?>')">Edit Booking</button>
-                            </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-warning" onclick="operations('editBooking', '<?= $live_booking[sizeof($live_booking)-1]['_id'];?>')">Edit Booking</button>
+                                </div>
 
-                        <?php endif; ?>
-                        <?php if( ($status == "START") || ($status == 'MSG_COPIED') || ($status =='MSG_NOT_COPIED') || ($status =='AT_THE_PLACE')):?>
+                            <?php endif; ?>
+                        </div>
+                        <div id="jobCancelButton" class="col-lg-6">
+                            <?php if( ($status == "START") || ($status == 'MSG_COPIED') || ($status =='MSG_NOT_COPIED') || ($status =='AT_THE_PLACE')):?>
 
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-danger" onclick="operations('cancel' , '<?php echo $live_booking[sizeof($live_booking)-1]['_id']?>' )">Cancel</button>
-                            </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-danger" onclick="operations('cancel' , '<?php echo $live_booking[sizeof($live_booking)-1]['_id']?>' )">Cancel</button>
+                                </div>
 
-                        <?php endif; ?>
-                    </div>
+                            <?php endif; ?>
+                        </div>
                 </div>
             </div>
         </div>
@@ -117,7 +119,7 @@
         </tr>
         <?php foreach(array_reverse($live_booking) as $item):?>
             <tr>
-                <td><a href="#" onclick="changeJobInfoView('<?= $_id?>')"><?= $item['status'];?></td>
+                <td><a href="#" onclick="changeJobInfoView('<?= $item['_id']?>')"><?= $item['status'];?></td>
                 <td><?= $item['refId'];?></td>
                 <td><?=  date('H:i:s Y-m-d ', $item['callTime']->sec);?></td>
                 <td><?=  date('H:i:s Y-m-d ', $item['bookTime']->sec);?></td>

@@ -8,6 +8,16 @@ class Cro_controller extends CI_Controller
         $this->load->view('cro/cro_main');
     }
 
+    function loadMyBookingsView(){
+        $this->load->view('cro/my_bookings/my_bookings_main');
+    }
+
+
+    function loadMapView(){
+        
+
+    }
+
 
     function getTodayMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
@@ -17,10 +27,6 @@ class Cro_controller extends CI_Controller
         $data['booking_summary'] = $this->load->view('cro/my_bookings/booking_summary', $data , TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
 
-    }
-
-    function getCroDefaultView(){
-        $this->load->view('cro/cro_main');
     }
 
     function getCustomerInfoEditView(){

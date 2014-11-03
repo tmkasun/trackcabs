@@ -19,11 +19,11 @@ function getCancelConfirmationView( url , tp , id ){
     var view = ajaxPost(data,url);
 
     /*  Populate the job information view with cancel confirmation view*/
-    $('#jobInfo').html(view.view.cancel_confirmation_view);
+    $('#bookingStatus').html(view.view.cancel_confirmation_view);
 }
 
 
-function confirmCancel(url , tp , id ){
+function confirmCancel(url , tp , bookingObjId ){
     var siteUrl = url;
     var cancelReason="";
     url = siteUrl +"/customer_retriever/canceled";
@@ -41,7 +41,7 @@ function confirmCancel(url , tp , id ){
         cancelReason = 4;
     }
 
-    var data = {'_id' : id , 'cancelReason' : cancelReason, 'tp' : tp};
+    var data = {'_id' : bookingObjId , 'cancelReason' : cancelReason, 'tp' : tp};
 
     ajaxPost(data,url);
     getCustomerInfoView(siteUrl , tp);
@@ -340,19 +340,9 @@ function showCalender(){
 
 function uiInit(){
 
-
-    //Appear element on element tick
     $(".checkBoxMakeAppear").click(function(){
         $(this).parent().siblings('.checkBoxElementAppearing').toggle()
     });
-
-    //Click button on enter in a text box
-
-    /*$(".clickOnEnterOriginatingElement").keyup(function(event){
-        if(event.keyCode == 13){
-            $(this).parent().siblings('.clickedElementOnEnter').click();
-        }
-    });*/
 
     $(".btn-group > .btn").click(function(){
         $(this).addClass("active").siblings().removeClass("active");

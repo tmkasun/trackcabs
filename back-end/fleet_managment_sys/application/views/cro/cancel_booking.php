@@ -1,5 +1,5 @@
-<div class="col-lg-offset-1 col-lg-5" >
-    <h4>Cancel Booking Reason <?php echo $_id; ?></h4>
+<div class="col-lg-5" >
+    <h4>Confirm Cancel For Reference ID <?php echo $refId; ?></h4>
 
 
     <form role="form">

@@ -2,8 +2,42 @@
  * Created by dehan on 11/1/14.
  */
 //Models
+var test2=[
+    {"cab":{"_id":{"$id":"544915126b648683578b4569"},"model":"nano","color":"red","plateNo":"GA-45852","vType":"Nano","info":"Other","cabId":1,"zone":"Nawaloka"}},
+    {"cab":{"_id":{"$id":"5455c0746b6486251ae31e24"},"model":"toyota","color":"red","plateNo":"km-46569","vType":"car","info":"dam cab","cabId":2,"zone":"Nawala"}},
+    {"cab":{"_id":{"$id":"5455fb40e1074dcd0d377af4"},"model":"Honda","color":"green","plateNo":"km-48964","vType":"car","info":"Testing cab","cabId":12,"zone":"Rajagiriya"}}];
+var test = [{
+                "model":"nano",
+                "color":"red",
+                "plateNo":"GA-45852",
+                "vType":"vehicle_type_demo",
+                "info":"Other",
+                "cabId":1,
+                "zone":"Fort"
+
+
+            },
+            {
+                "model":"toyota",
+                "color":"red",
+                "plateNo":"km-46569",
+                "vType":"car",
+                "info":"dam cab",
+                "cabId":2,
+                "zone":"Nawaloka"
+            },
+            {
+                "model":"Honda",
+                "color":"green",
+                "plateNo":"km-48964",
+                "vType":"car",
+                "info":"Testing cab",
+                "cabId":12,
+                "zone":"Nawaloka"
+
+            }];
 var LocationBoard = {};
-LocationBoard.zones = [];
+LocationBoard.zones = []
 var GlobalCabs = [];
 var currentDispatchOrderRefId = 12341234;
 
@@ -97,16 +131,16 @@ cab4.isDriverIdle = "false";
 cab4.currentLocation = "23,Kotta Road, Borella";
 
 var cab5 ={};
-cab5.id = 1005;
-cab5.attributes = {};
-cab5.currentDriver = user5;
-cab5. vehicleType = "Nano";
-cab5.attributes.vehicleColor = "Black";
-cab5.attributes.isTinted = "Yes";
-cab5.attributes.isMarked = "Yes";
-cab5.attributes.model = "Toyota Corolla";
-cab5.isDriverIdle = "false";
-cab5.currentLocation = "23,Kotta Road, Borella";
+cab5.id                         = 1005;
+cab5.attributes                 = {};
+cab5.currentDriver              = user5;
+cab5. vehicleType               = "Nano";
+cab5.attributes.vehicleColor    = "Black";
+cab5.attributes.isTinted        = "Yes";
+cab5.attributes.isMarked        = "Yes";
+cab5.attributes.model           = "Toyota Corolla";
+cab5.isDriverIdle               = "false";
+cab5.currentLocation            = "23,Kotta Road, Borella";
 
 cab6 ={};
 cab6.id = 1006;
@@ -136,7 +170,7 @@ var cab8 ={};
 cab8.id = 1008;
 cab8.attributes = {};
 cab8.currentDriver = user8;
-cab8. vehicleType = "Nano";
+cab8.vehicleType = "Nano";
 cab8.attributes.vehicleColor = "Black";
 cab8.attributes.isTinted = "Yes";
 cab8.attributes.isMarked = "Yes";
@@ -173,6 +207,18 @@ function Zone(id, name){
     this.pob.cabs           = ko.observableArray([]);
 
 
+}
+
+function Cab(data){
+    this.id                         =  data.cabId;
+    this.attributes                 =  {};
+    this.currentDriver              =  {};
+    this.attributes.model           =  data.model;
+    this.attributes.vehicleColor    =  data.color;
+    this.vehicleType                =  data.vType;
+    this.info                       =  data.info;
+    this.zone                       =  data.zone;
+    this.state                      =  "live";
 }
 
 
@@ -217,14 +263,14 @@ var zone32  = new Zone(32,"Mount Lavinia");
 
 
 
-zone1.live.cabs.push(cab1);
-zone1.live.cabs.push(cab4);
-zone1.live.cabs.push(cab5);
-zone1.live.cabs.push(cab6);
-zone1.live.cabs.push(cab7);
-zone2.live.cabs.push(cab2);
-zone3.live.cabs.push(cab3);
-zone4.live.cabs.push(cab4);
+//zone1.live.cabs.push(cab1);
+//zone1.live.cabs.push(cab4);
+//zone1.live.cabs.push(cab5);
+//zone1.live.cabs.push(cab6);
+//zone1.live.cabs.push(cab7);
+//zone2.live.cabs.push(cab2);
+//zone3.live.cabs.push(cab3);
+//zone4.live.cabs.push(cab4);
 
 LocationBoard.zones.push(zone1 );
 LocationBoard.zones.push(zone2 );
@@ -265,19 +311,6 @@ LocationBoard.zones.push(zone32);
 
 
 
-function Cab(response){
-
-    this.id                         = response.cabId;
-    this.attributes                 = {};
-    this.currentDriver              = response.currentDriver;
-    this.vehicleType                = response.vType;
-    this.attributes.vehicleColor    = response.color;
-    //this.attributes.isTinted        response.;
-    //this.attributes.isMarked        response.;
-    this.attributes.info            = response.info;
-    this.attributes.model           = response.model;
-    this.isDriverIdle               = true;
-}
 
 
 
@@ -289,6 +322,7 @@ var currentActiveOrder = 12345678;
 //==============ViewModel============================//
 
 var baseUrl = BASE_URL;
+var serviceUrl = "http://192.168.2.103/index.php/";
 function LocationBoardViewModel(){
     var self = this;
 
@@ -296,6 +330,51 @@ function LocationBoardViewModel(){
 
     var zonesRange1 = LocationBoard.zones.slice(0,Math.round(zonesLength/2));
     var zonesRange2 = LocationBoard.zones.slice(Math.round(zonesLength/2),zonesLength);
+
+
+    self.cabList = {};
+    self.initializeLocationBoard = function(){
+        self.responseCabs;
+       $.ajax(serviceUrl + "testing/getCabsInZones")
+            .done(function(response){
+                var x = response
+            });
+
+        $.ajax({
+            url: serviceUrl + "testing/getCabsInZones",
+            type: "GET",
+            dataType: "json"
+        }).done(function( response ) {
+            self.responseCabs = response;
+        }).fail(function( jqXHR, textStatus ) {
+            console.log( "Location Board Init failed: " + textStatus );
+        });
+
+        self.cabListBuffer = $.map(self.responseCabs,function(item){
+            return new Cab(item.cab);
+        });
+
+
+        self.cabList = ko.observableArray(self.cabListBuffer);
+
+        for(var key in self.cabList()){
+            var currentCab = self.cabList()[key];
+            var zoneObject = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+                return item.name === currentCab.zone
+            });
+            var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
+            if(index != -1){
+                LocationBoard.zones[index][currentCab.state].cabs.push(currentCab);
+            }
+
+
+        }
+
+
+
+
+
+    };
 
     self.zones = ko.observableArray(LocationBoard.zones);
 
@@ -368,5 +447,6 @@ function LocationBoardViewModel(){
 
 }
 var locVM = new LocationBoardViewModel();
+locVM.initializeLocationBoard();
 ko.applyBindings(locVM);
 

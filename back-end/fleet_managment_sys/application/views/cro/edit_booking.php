@@ -47,10 +47,22 @@
 
                 <div class="form-group">
                     <div class="checkbox">
-                        <label style="font-weight: bold"><input type="checkbox" name="callUp"  id="callUp"> Call Up</label>
+                        <label style="font-weight: bold">
+                            <input type="checkbox" name="callUp"  id="callUp" class="checkBoxMakeAppear"> Call Up Given
+                        </label>
+                        <input type="text" class="form-control checkBoxElementAppearing" id="callUpPrice" name="callUpPrice" placeholder="Call Up Price" style="display:none">
                     </div>
-                    <input type="text" class="form-control" id="callUpPrice" name="callUpPrice" value="<?= $callUpPrice;?>" placeholder="Call Up Price" style="display:none">
                 </div>
+
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label style="font-weight: bold"><input type="checkbox" name="destinationGiven"  id="destinationGiven" class="checkBoxMakeAppear"> Destination Given
+                        </label>
+                        <input type="text" class="form-control checkBoxElementAppearing" id="destination" name="destination" placeholder="Given Destination" style="display:none">
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -141,7 +153,7 @@
     </div>
     <div class="col-lg-2">
         <div class="form-group" style="text-align: center">
-            <button type="button" style="width:100%" class="btn btn-success" onclick="operations('updateBooking','<?= $_id?>')">Update Booking</button>
+            <button type="button" style="width:100%" class="btn btn-success" onclick="operations('updateBooking','<?= $_id?>');return false">Update Booking</button>
         </div>
     </div>
 </form>

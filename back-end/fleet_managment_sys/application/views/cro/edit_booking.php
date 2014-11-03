@@ -50,15 +50,15 @@
                         <label style="font-weight: bold">
                             <input type="checkbox" name="callUp"  id="callUp" class="checkBoxMakeAppear"> Call Up Given
                         </label>
-                        <input type="text" class="form-control checkBoxElementAppearing" id="callUpPrice" name="callUpPrice" placeholder="Call Up Price" style="display:none">
+                        <input type="text" class="form-control checkBoxElementAppearing" id="callUpPrice" value="<?= $callUpPrice?>" name="callUpPrice" placeholder="Call Up Price" style="display:none">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="checkbox">
-                        <label style="font-weight: bold"><input type="checkbox" name="destinationGiven"  id="destinationGiven" class="checkBoxMakeAppear"> Destination Given
+                        <label style="font-weight: bold"><input type="checkbox" name="destinationGiven"  id="destinationGiven" class="checkBoxMakeAppear"> Destination
                         </label>
-                        <input type="text" class="form-control checkBoxElementAppearing" id="destination" name="destination" placeholder="Given Destination" style="display:none">
+                        <input type="text" class="form-control checkBoxElementAppearing" id="destination" value="<?= $destination?>" name="destination" placeholder="Given Destination" style="display:none">
                     </div>
                 </div>
 

@@ -57,7 +57,7 @@
 
                 <div class="form-group">
                     <div class="checkbox">
-                        <label style="font-weight: bold"><input type="checkbox" name="destinationGiven"  id="destinationGiven" class="checkBoxMakeAppear"> Destination Given
+                        <label style="font-weight: bold"><input type="checkbox" name="destinationGiven"  id="destinationGiven" class="checkBoxMakeAppear"> Destination
                         </label>
                         <input type="text" class="form-control checkBoxElementAppearing" id="destination" name="destination" placeholder="Given Destination" style="display:none">
                     </div>

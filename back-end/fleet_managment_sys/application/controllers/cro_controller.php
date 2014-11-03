@@ -14,8 +14,7 @@ class Cro_controller extends CI_Controller
 
 
     function loadMapView(){
-
-
+        $this->load->view('cro/map/map_main');
     }
 
 

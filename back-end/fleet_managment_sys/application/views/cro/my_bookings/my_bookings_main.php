@@ -33,7 +33,7 @@
         <ul class="nav navbar-nav">
             <li><a href="<?= site_url('cro_controller')?>" >CRO</a></li>
             <li class="active"><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
-            <li><a href="<?= site_url('cro_controller/loadMapView')?>" >My Bookings</a></li>
+            <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
         </ul>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

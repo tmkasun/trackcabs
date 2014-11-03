@@ -308,7 +308,7 @@
 
 <!-- CRO javascript-->
 <script>
-    function getCRO(){alert("in getCRO");
+    function getCRO(){//alert("in getCRO");
 
         var userId = document.getElementById("userIdSearch").value;
         /* Create a JSON object from the form values */
@@ -317,7 +317,7 @@
         var result = ajaxPost(user,url);
 
     }
-    function getCROView(id){alert("in getCROView");
+    function getCROView(id){//alert("in getCROView");
 
         var userId = document.getElementById("userIdSearch").value;
         /* Create a JSON object from the form values */
@@ -329,7 +329,7 @@
 
     }
 
-    function makeCROFormEditable(userId , url, user_type){alert("in makeCROFormEditable "+user_type);
+    function makeCROFormEditable(userId , url, user_type){//alert("in makeCROFormEditable "+user_type);
 
         var data = {'userId' : parseInt(userId), 'user_type' : user_type };
         url =url + "/user_controller/getUserEditView";
@@ -338,7 +338,7 @@
         div.innerHTML = eval("result.view."+user_type+"_edit_view");//result.view.type_edit_view;
     }
 
-    function updateCRO(id){alert("in updateCRO");
+    function updateCRO(id){//alert("in updateCRO");
 
         var userId = document.getElementById("userId").value;
         var name = document.getElementById("name").value;
@@ -362,8 +362,8 @@
         getAllCROsView(id);
     }
 
-    function getCROsView(id){alert("in getCROsView");
-        var data = {'user_type': id};alert(id);
+    function getCROsView(id){//alert("in getCROsView");
+        var data = {'user_type': id};//alert(id);
         /* Get the nav bar for cro management view */
         var url = '<?php echo site_url("user_controller/getUserNavBarView") ?>';
         var result = ajaxPost(data,url);
@@ -380,7 +380,7 @@
         getAllCROsView(id);
     }
 
-    function getNewCROView(id){alert("in getNewCROView");
+    function getNewCROView(id){//alert("in getNewCROView");
 
         var data = {'user_type' : id};
         var url = '<?php echo site_url("user_controller/getNewFormUserView") ?>';
@@ -389,7 +389,7 @@
         div.innerHTML = result.view.table_content;
     }
 
-    function createNewCRO(id){alert("in createNewCRO");
+    function createNewCRO(id){//alert("in createNewCRO");
         var name = document.getElementById("name").value;
         var uName = document.getElementById("uName").value;
         var pass = document.getElementById("pass").value;
@@ -420,8 +420,8 @@
     }
 
     /* Gets all available cabs and show in the 'dataFiled' div tag */
-    function getAllCROsView(id){alert("in getAllCROsView");
-        var skip = docs_per_page * (page-1);alert("the id val in getALLCROView is : "+id);
+    function getAllCROsView(id){//alert("in getAllCROsView");
+        var skip = docs_per_page * (page-1);//alert("the id val in getALLCROView is : "+id);
         var data = {"skip" : skip , "limit" : docs_per_page, "user_type" : id};
         var url = '<?php echo site_url("user_controller/getAllUsersView") ?>';
         var view = ajaxPost(data,url);

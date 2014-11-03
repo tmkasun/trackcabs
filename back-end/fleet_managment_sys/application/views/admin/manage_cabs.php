@@ -347,14 +347,18 @@
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
         var cabId = "";
-        if(id.toString() === "driver" ){cabId = document.getElementById("cabId").value;}
-
-        if(cabId === ""){var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};}
-        else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId}};}
-        //var baseUrl=url;
+        if(id.toString() === "driver" )
+        {
+            cabId = document.getElementById("cabId").value;
+            //json object for 'user_type' 'driver'....when driver edited, 'logout' alwys set to false
+            var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId, 'logout':'false'}};
+        }
+        //jason object when for 'user_type's 'cro', and 'dispatcher' 
+        else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};}
+        //else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId}};}
+        
         var url = '<?php echo site_url("user_controller/updateUser") ?>';
-        ajaxPost(user,url);
-        //getAllCROsView(docs_per_page , page ,baseUrl);
+        ajaxPost(user,url);        
         getAllCROsView(id);
     }
 
@@ -392,19 +396,23 @@
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
         var user_type = id;
-        var cabId = "";
-        if(id.toString() === "driver" ){cabId = document.getElementById("cabId").value;}
-        //var cabIdAssigned = document.getElementById("cabIdAssigned").value;
+        var cabId = "";        
+        
         if(name == "" ){return false;}
         if(uName == "" ){return false;}
         if(pass == "" ){return false;}
         if(nic == "" ){return false;}
         if(tp == "" ){return false;}
 
-        //if(cabIdAssigned == "" ){cabIdAssigned="null"}
-        /* Create a JSON object from the form values */
-        if(cabId === ""){var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type };}
-        else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId };}
+        if(id.toString() === "driver" )
+        {
+            cabId = document.getElementById("cabId").value;
+            //json object for 'user_type' 'driver'
+            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' };
+        }
+        //jason object when for 'user_type's 'cro', and 'dispatcher' 
+        else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type };}
+        //else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId };}
         var url = '<?php echo site_url("user_controller/createUser") ?>';
         alert(JSON.stringify(user));
         ajaxPost(user,url);
@@ -423,109 +431,6 @@
 
     }
 </script>
-<!--
-<script>
-    function getDispatcher(){
-
-        var dispatcherId = document.getElementById("dispatcherIdSearch").value;
-        /* Create a JSON object from the form values */
-        var driver = { 'dispatcherId' : parseInt(dispatcherId) };
-        var url = '<?php //echo site_url("dispatcher_retriever/getDispatcher") ?>';
-        var result = ajaxPost(driver,url);
-
-    }
-    function getDispatcherView(){
-
-        var dispatcherId = document.getElementById("dispatcherIdSearch").value;
-        /* Create a JSON object from the form values */
-        var dispatcher = { 'dispatcherId' : parseInt(dispatcherId) };
-        var url = '<?php //echo site_url("dispatcher_retriever/getDispatcherSearchView") ?>';
-        var result = ajaxPost(dispatcher,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.table_content;
-
-    }
-
-    function makeDispatcherFormEditable(dispatcherId , url){
-
-        var data = {'dispatcherId' : parseInt(dispatcherId) };
-        url =url + "/dispatcher_retriever/getDispatcherEditView";
-        var result = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.dispatcher_edit_view;
-    }
-
-    function getDispatchersView(){
-        var data = {};
-        /* Get the nav bar for driver management view */
-        var url = '<?php //echo site_url("dispatcher_retriever/getDispatcherNavBarView") ?>';
-        var result = ajaxPost(data,url);
-        /* Append the values for the div tag field */
-        var div = document.getElementById('navBarField');
-        div.innerHTML = result.view.table_content;
-
-        url = '<?php //echo site_url("dispatcher_retriever/getSidePanelView") ?>';
-        result = ajaxPost(data,url);
-        div = document.getElementById('operation');
-        div.innerHTML =  result.view.table_content;
-
-        getAllDispatchersView();
-    }
-    function createNewDispatcher(){
-        var name = document.getElementById("name").value;
-        var uName = document.getElementById("uName").value;
-        var pass = document.getElementById("pass").value;
-        var nic = document.getElementById("nic").value;
-        var tp = document.getElementById("tp").value;
-
-        if(name == "" ){return false;}
-        if(uName == "" ){return false;}
-        if(pass == "" ){return false;}
-        if(nic == "" ){return false;}
-        if(tp == "" ){return false;}
-        /* Create a JSON object from the form values */
-        var dispatcher = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp};
-        var url = '<?php //echo site_url("dispatcher_retriever/createDispatcher") ?>';
-        alert(JSON.stringify(dispatcher));
-        ajaxPost(dispatcher ,url);
-        getAllDispatchersView();
-    }
-
-    function getAllDispatchersView(){
-        var skip = docs_per_page * (page-1);
-        var data = {"skip" : skip , "limit" : docs_per_page};
-        var url = '<?php //echo site_url("dispatcher_retriever/getAllDispatchersView") ?>';
-        var view = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = "";
-        div.innerHTML = view.view.table_content;
-
-    }
-
-    function getNewDispatcherView(){
-
-        var data = {};
-        var url = '<?php //echo site_url("dispatcher_retriever/getNewFormDispatcherView") ?>';
-        var result = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.table_content;
-    }
-
-    function updateDispatcher(url , docs_per_page , page ){
-        var dispatcherId = document.getElementById("dispatcherId").value;
-        var name = document.getElementById("name").value;
-        var uName = document.getElementById("uName").value;
-        var pass = document.getElementById("pass").value;
-        var nic = document.getElementById("nic").value;
-        var tp = document.getElementById("tp").value;
-        var dispatcher =  {'dispatcherId': parseInt(dispatcherId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};
-        var baseUrl=url;
-        var url = '<?php //echo site_url("dispatcher_retriever/updateDispatcher") ?>';
-        ajaxPost(dispatcher,url);
-        getAllDispatchersView(docs_per_page , page ,baseUrl);
-    }
-
-</script>-->
 
 <script>
     function validate(plateNo , model , vType , color , info ){

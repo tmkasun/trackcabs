@@ -112,7 +112,7 @@ class User_dao extends CI_Model
      * @param $driverId
      * @return array|null
      */
-    function logout($driverId)
+    function logout($driverId)//the variable $dirverId refers to the 'userId' atrribute of a single driver(user)
     {
         $collection = $this->get_collection();
         $searchQuery = array("userId" => $driverId , 'logout' => 'true' );
@@ -126,14 +126,15 @@ class User_dao extends CI_Model
         $collection = $this->get_collection();
 
         $searchQuery= array('userId' => $userId);
-        $user = $collection->findOne($searchQuery);
+        $collection->update($searchQuery,array('$set' => $edited_data));
+        //$user = $collection->findOne($searchQuery);
 
-        foreach ($edited_data as $key => $value)
-        {
-            $user[$key] = $edited_data[$key];
-        }
-
-        $collection->save($user);
+//        foreach ($edited_data as $key => $value)
+//        {
+//            $user[$key] = $edited_data[$key];
+//        }
+//
+//        $collection->save($user);
     }
     
     //Special functions

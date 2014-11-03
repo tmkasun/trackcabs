@@ -24,6 +24,13 @@
         <input type="text" class="form-control" id="tp" placeholder="Enter Telephone Number" value="<?= $tp;?>">
     </div>
     <div class="form-group">
+        <label for="cabIdAssigned">Can Logout</label>
+        <select class="form-control" id="logout" placeholder="Can Logout?" >
+            <option <?php if($logout=='true')echo "selected";?> value="true">Yes</option>
+            <option <?php if($logout=='false')echo "selected";?> value="false">No</option>
+        </select>
+    </div>
+    <div class="form-group">
         <label for="cabIdAssigned">Cab ID</label>
         <input type="text" class="form-control" id="cabId" placeholder="Enter Cab ID" value="<?= $cabId;?>">
     </div>

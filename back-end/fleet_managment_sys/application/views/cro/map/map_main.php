@@ -56,55 +56,6 @@
 
 <div class="container-fluid">
     <div class="row" style="background: #d7ddeb">
-        <div class="col-lg-12" style="margin-top: 10px">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h5 class="panel-title">Job Information</h5>
-                </div>
-                <div class="panel-body" id="">
-
-                    <div class="col-lg-2">
-                        <a href="#" onclick="getTodayMyBookings()">Today's Bookings</a>
-                    </div>
-
-                    <div class="col-lg-5">
-
-                        <div class="form-group">
-                            <label for="dtp_input2" class="control-label">Booking Start Date</label>
-                            <div id="form_date" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                <input id="startDate" class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="work()"></span></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dtp_input2" class="control-label">Booking End Date</label>
-                            <div id="form_date_end" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                <input id="endDate" class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="work()"></span></span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-12" style="margin-top: 10px">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Bookings</h3>
-                </div>
-                <div class="panel-body" id="bookings">
-
-
-
-
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 </body>

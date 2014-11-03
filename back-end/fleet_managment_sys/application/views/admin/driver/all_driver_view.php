@@ -6,6 +6,7 @@
         <th>Pass</th>
         <th>NIC</th>
         <th>tp</th>
+        <th>Can Logout</th>
         <th>Cab ID</th>
     </tr>
 
@@ -18,11 +19,12 @@
             <td><?= $item['pass'];?></td>
             <td><?= $item['nic'];?></td>
             <td><?= $item['tp'];?></td>
+            <td><?= $item['logout'];?></td>
             <td><?php
-                if(array_key_exists("cabId", $item)){
-                    echo $item['cabId'];
-                }elseif(!array_key_exists("cabId", $item)){
+                if(!array_key_exists("cabId", $item) || $item['cabId'] === ""){
                     echo 'empty';
+                }else{
+                    echo $item['cabId'];
                 }
                 ?></td>
         </tr>

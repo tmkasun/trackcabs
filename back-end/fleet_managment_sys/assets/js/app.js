@@ -27,17 +27,6 @@ $('body').on('hidden.bs.modal', '.modal', function () {
     $(this).removeData('bs.modal');
 });
 
-/*Map layer configurations*/
-var map;
-
-getTileServers();
-getWms();
-initializeMap();
-
-$("#loading").hide();
-
-navigator.geolocation.getCurrentPosition(success, error);
-
 function success(position) {
     var browserLatitude = position.coords.latitude;
     var browserLongitude = position.coords.longitude;
@@ -62,25 +51,6 @@ function error() {
     });
 };
 
-function initializeMap() {
-    if (typeof(map) !== 'undefined'){
-        map.remove();
-    }
-    map = L.map("map", {
-        zoom: 10,
-        center: [6.934846, 79.851980],
-        layers: [defaultOSM],
-        zoomControl: false,
-        attributionControl: false,
-        maxZoom: 20,
-        maxNativeZoom: 18
-    });
-
-    map.on('click', function (e) {
-        $.UIkit.offcanvas.hide();//[force = false] no animation
-    });
-}
-
 /* Attribution control */
 function updateAttribution(e) {
     $.each(map._layers, function (index, layer) {
@@ -89,34 +59,7 @@ function updateAttribution(e) {
         }
     });
 }
-map.on("layeradd", updateAttribution);
-map.on("layerremove", updateAttribution);
 
-var attributionControl = L.control({
-    position: "bottomright"
-});
-attributionControl.onAdd = function (map) {
-    var div = L.DomUtil.create("div", "leaflet-control-attribution");
-    div.innerHTML = "<a href='#' onclick='$(\"#attributionModal\").modal(\"show\"); return false;'>Attribution</a>";
-    return div;
-};
-map.addControl(attributionControl);
-
-L.control.fullscreen({
-    position: 'bottomright'
-}).addTo(map);
-L.control.zoom({
-    position: "bottomright"
-}).addTo(map);
-
-var groupedOverlays = {
-    "Web Map Service layers": {
-    }
-};
-
-var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, {
-    collapsed: true
-}).addTo(map);
 
 /* Highlight search box text on click */
 $("#searchbox").click(function () {

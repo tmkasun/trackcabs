@@ -110,7 +110,7 @@ $autoload['language'] = array();
 */
 
 $autoload['model'] = array('customer_dao' , 'live_dao' , 'history_dao' , 'counters_dao' , 'driver_dao' , 'cab_dao' , 'user_dao','dispatcher_dao','test_dao');
-$autoload['libraries'] += array('websocket','sms');
+$autoload['libraries'] = array_merge(array($autoload['libraries'],'websocket','sms'));
 
 
 /* End of file autoload.php */

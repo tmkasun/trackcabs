@@ -18,7 +18,7 @@ class Pusher implements WampServerInterface {
      */
     public function onBlogEntry($entry) {
         $entryData = json_decode($entry, true);
-
+        var_dump($entryData);
         // If the lookup topic object isn't set there is no one to publish to
 
 	$star='*';

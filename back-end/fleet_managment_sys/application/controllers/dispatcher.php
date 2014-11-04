@@ -95,14 +95,24 @@ class Dispatcher extends CI_Controller
 
     function setZone()
     {
-        header("Access-Control-Allow-Origin: *");
+
+        $postData = $this->input->post();
         $driverId = $this->input->post('driverId');
         $zone = $this->input->post('zone');
         $cab = $this->user_dao->getCabByDriverId($driverId);
-        $newCab = $this->cab_dao->setZone($cab['cabId'], $zone);
-        $newCab['driverId'] = $driverId;
-        $this->output->set_content_type('application/json');
-        echo json_encode($newCab);
+        if($cab != null){
+            $newCab = $this->cab_dao->setZone($cab['cabId'], $zone);
+            $newCab['driverId'] = $driverId;
+            $this->output->set_content_type('application/json');
+            echo json_encode($cab);
+
+        }
+        else{
+            $this->output->set_content_type('application/json');
+            echo json_encode($cab);
+
+        }
+
     }
 
     function cabsInZones(){

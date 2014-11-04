@@ -107,7 +107,7 @@
                                         <ul style="display: inline" class="cabs" data-bind="foreach:live.cabs">
                                             <li style="display: inline">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown">
+                                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown" style="min-width: 90px">
                                                         <span data-bind="text:vehicleType"></span>
                                                         <span data-bind="text:id">2342 &nbsp;</span>
                                                         <span class="caret"></span>
@@ -149,6 +149,11 @@
                                                                             <td><span>Is Marked?</span></td>
                                                                             <td><span data-bind="text:attributes.isMarked"></span></td>
                                                                         </tr-->
+                                                                        <tr>
+                                                                            <td><span>Vehicle Colour</span></td>
+                                                                            <td><span data-bind="text:attributes.vehicleColor"></span></td>
+                                                                        </tr>
+
                                                                         <tr>
                                                                             <td><span>Information</span></td>
                                                                             <td><span data-bind="text:attributes.info"></span></td>
@@ -546,6 +551,11 @@
                                                                         <tr>
                                                                             <td><span>Model</span></td>
                                                                             <td><span data-bind="text:attributes.model"></span></td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td><span>Colour</span></td>
+                                                                            <td><span data-bind="text:attributes.vehicleColor"></span></td>
                                                                         </tr>
 
                                                                         <!--tr>

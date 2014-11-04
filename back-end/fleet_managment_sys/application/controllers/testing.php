@@ -32,6 +32,8 @@ class Testing extends CI_Controller
      */
     public function debug()
     {
+
+        $this->output->enable_profiler(TRUE);
 //        show_error('message' , 500  );
 //        log_message("info","hmmm");
 //        print_r();

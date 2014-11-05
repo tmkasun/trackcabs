@@ -132,8 +132,8 @@ class Customer_retriever extends CI_Controller
         }
 
             /* Send the canceled booking to the dispatch view */
-//            $webSocket = new Websocket($user['userId']);
-//            $webSocket->send($bookingData , 'dispatcher1');
+            $webSocket = new Websocket($user['userId']);
+            $webSocket->send($bookingData , 'dispatcher1');
 
             $this->history_dao->createBooking($bookingData);
         }

@@ -326,9 +326,9 @@ var currentActiveOrder = 12345678;
 
 //==============ViewModel============================//
 
-var baseUrl = ApplicationOptions.BASE_URL;
+var baseUrl = ApplicationOptions.constance.BASE_URL;
 
-var serviceUrl = "http://localhost/fleet-managment-system/back-end/fleet_managment_sys/index.php/";
+var serviceUrl = baseUrl;
 function LocationBoardViewModel(){
     var self = this;
 

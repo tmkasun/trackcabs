@@ -1,5 +1,5 @@
 <div class="col-lg-12">
-    <div class="col-lg-3"   >
+    <div class="col-lg-2"   >
         <ul class="list-group">
             <li class="list-group-item">
                 <span class="badge" id="jobCount"><?= $tot_job?></span>
@@ -17,7 +17,7 @@
     </div>
 
     <?php if(isset($live_booking) ):?>
-    <div class="col-lg-9" style="border-left: 2px solid #a6a6a6" >
+    <div class="col-lg-10" style="border-left: 2px solid #a6a6a6" >
         <div class="panel panel-success">
             <div class="panel-heading">
                 <h3 class="panel-title">Booking Status</h3>
@@ -36,11 +36,11 @@
                             Reference ID
                         </li>
                         <li class="list-group-item">
-                            <span class="badge" id="jobDriverId"><?php if($live_booking[$index]['driverId'] == '-' )echo 'NOT_ASSIGNED'; ?></span>
+                            <span class="badge" id="jobDriverId"><?php if($live_booking[$index]['driverId'] == '-' )echo 'NOT_ASSIGNED';else echo $live_booking[$index]['driverId'];?></span>
                             Driver ID
                         </li>
                         <li class="list-group-item">
-                            <span class="badge" id="jobCabId"><?php if($live_booking[$index]['cabId'] == '-' )echo 'NOT_ASSIGNED'; ?></span>
+                            <span class="badge" id="jobCabId"><?php if($live_booking[$index]['cabId'] == '-' )echo 'NOT_ASSIGNED';else $live_booking[$index]['cabId']; ?></span>
                             Cab ID
                         </li>
                         <li class="list-group-item">

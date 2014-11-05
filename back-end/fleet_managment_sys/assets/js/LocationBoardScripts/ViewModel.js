@@ -37,7 +37,12 @@ var test = [{
 
             }];
 var LocationBoard = {};
-LocationBoard.zones = []
+LocationBoard.zones = [];
+
+LocationBoard.pending = [];
+LocationBoard.pob = [];
+LocationBoard.Unknown = [];
+
 var GlobalCabs = [];
 var currentDispatchOrderRefId = 12341234;
 
@@ -355,7 +360,9 @@ function LocationBoardViewModel(){
                 });
                 var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
                 if(index != -1){
-                    self.zones()[index][currentCab.state].cabs.push(currentCab);
+                    if(currentCab.state == "live"){
+                        self.zones()[index]["live"].cabs.push(currentCab);
+                    }
                 }
             }
         }).fail(function( jqXHR, textStatus ) {
@@ -383,21 +390,21 @@ function LocationBoardViewModel(){
         cabId = parseInt(zone.live.cabInput());
 
         sendingData = {};
-        sendingData.driverId = cabId
+        sendingData.driverId = cabId;
         sendingData.zone = zone.name;
 
         var gotResponse = null;
         $.post(serviceUrl +"dispatcher/setZone",sendingData,function(response){
             gotResponse = response;
 
-            if(gotResponse != null){
+            if(gotResponse !== null || gotResponse.driver !== null){
 
                 var currentCab = new Cab(gotResponse);
                 var zoneObject = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
                     return item.name === currentCab.zone
                 });
                 var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
-                if(index != -1){
+                if(index !== -1){
                     self.zones()[index].live.cabs.push(currentCab);
                 }
 

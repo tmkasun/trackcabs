@@ -15,8 +15,11 @@ class Cab_dao extends CI_Model
         $statusMsg = true;
         $record = $collection->findOne(array("cabId" => $cabArray['cabId']));
 
-        if( $record == null)
+        if( $record == null) {
+            $cabArray["state"] = "unknown";
+
             $collection->insert($cabArray);
+        }
         else $statusMsg=false;
 
         return $statusMsg;

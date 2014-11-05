@@ -37,7 +37,12 @@ var test = [{
 
             }];
 var LocationBoard = {};
-LocationBoard.zones = []
+LocationBoard.zones = [];
+
+LocationBoard.pending = [];
+LocationBoard.pob = [];
+LocationBoard.Unknown = [];
+
 var GlobalCabs = [];
 var currentDispatchOrderRefId = 12341234;
 
@@ -323,7 +328,7 @@ var currentActiveOrder = 12345678;
 
 var baseUrl = ApplicationOptions.BASE_URL;
 
-var serviceUrl = "http://fleet.local.knnect.com/index.php/";
+var serviceUrl = "http://localhost/fleet-managment-system/back-end/fleet_managment_sys/index.php/";
 function LocationBoardViewModel(){
     var self = this;
 
@@ -355,7 +360,9 @@ function LocationBoardViewModel(){
                 });
                 var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
                 if(index != -1){
-                    self.zones()[index][currentCab.state].cabs.push(currentCab);
+                    if(currentCab.state == "live"){
+                        self.zones()[index]["live"].cabs.push(currentCab);
+                    }
                 }
             }
         }).fail(function( jqXHR, textStatus ) {
@@ -383,12 +390,29 @@ function LocationBoardViewModel(){
         cabId = parseInt(zone.live.cabInput());
 
         sendingData = {};
-        sendingData.cabId = cab.id;
-        sendingData.zoneName = zone.Name;
+        sendingData.driverId = cabId;
+        sendingData.zone = zone.name;
 
         var gotResponse = null;
-        $.post("http://192.168.0.21/index.php/dispatcher/setZone",sendingData,function(response){
+        $.post(serviceUrl +"dispatcher/setZone",sendingData,function(response){
             gotResponse = response;
+
+            if(gotResponse !== null || gotResponse.driver !== null){
+
+                var currentCab = new Cab(gotResponse);
+                var zoneObject = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+                    return item.name === currentCab.zone
+                });
+                var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
+                if(index !== -1){
+                    self.zones()[index].live.cabs.push(currentCab);
+                }
+
+            }
+            else{
+                alert('Cab Id does not exist');
+            }
+
             $.UIkit.notify({
                 message: '<span style="color: dodgerblue">' + response.status + '</span><br>' + response.message,
                 status: (response.status == 'success' ? 'success' : 'danger'),
@@ -398,21 +422,7 @@ function LocationBoardViewModel(){
         });
 
 
-        if(gotResponse != null){
 
-            var currentCab = new Cab(gotResponse);
-            var zoneObject = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
-                return item.name === currentCab.zone
-            });
-            var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
-            if(index != -1){
-                self.zones[index].live.cabs.push(currentCab);
-            }
-
-        }
-        else{
-            alert('Cab Id does not exist');
-        }
 
     };
 

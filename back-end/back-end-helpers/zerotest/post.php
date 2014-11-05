@@ -4,7 +4,7 @@
     // This all was here before  ;)
 
      $entryData = array(
-'dest' => $_POST['destination']
+'destination' => $_POST['destination']
 , 'message' => 'Fucks'
 , 'from' => '0'
 , 'time' => time()

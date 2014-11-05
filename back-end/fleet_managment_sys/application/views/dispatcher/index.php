@@ -69,16 +69,15 @@
     <script src="<?= base_url() ?>assets/js/application_options.js"></script>
     <script>
         setBaseURL('<?= base_url().'index.php/' ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
-        var webSocketURL = 'ws://localhost:9764/outputwebsocket/t/carbon.super/DefaultWebsocketOutputAdaptor/geoDataEndPoint'; // TODO: Get the server IP and port and other static information from the applicationOptions object
-        ApplicationOptions.constance.WEB_SOCKET_URL = webSocketURL;
 
         function subscribe(userid) {
-            console.log("DEBUG: userid = " + userid);
-            var conn = new ab.Session('ws://192.168.0.21:8080',
+            var conn = new ab.Session(
+                'ws://127.0.0.1:8080',
                 function () {
                     conn.subscribe(userid, function (topic, data) {
                         // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
-                        console.log('New Message published to user "' + topic + '" : ' + data.message.vType);
+                        console.log('New Message published to user "' + topic + '" : ' + data.message);
+                        debugObject = data;
                     });
                 },
                 function () {
@@ -90,14 +89,6 @@
         subscribe('dispatcher1');
 
     </script>
-    <script src="<?= base_url() ?>assets/js/websocket.js"></script>
-    <script src="<?= base_url() ?>assets/js/geo_remote.js"></script>
-    <script src="<?= base_url() ?>assets/js/geo_fencing.js"></script>
-    <script src="<?= base_url() ?>assets/js/show_alert_in_map.js"></script>
-
-    <!-- Combined and compiled JS with google closure compile-->
-    <!--<script src="<?= base_url() ?>assets/js/wso2_geo/wso2_geo.min.js"></script>-->
-
     <style>
         /*
         TODO: Move this styles to separate CSS for clarity.
@@ -264,7 +255,8 @@
                 </form>
             </li>
             <li class="dropdown">
-                <form action="#" style="margin: 0px;padding-right: 5px;" class="dropdown-toggle" data-toggle="dropdown">
+                <form action="#" style="margin: 0px;padding-right: 5px;" class="dropdown-toggle"
+                      data-toggle="dropdown">
                     <a class="btn btn-sm btn btn-warning navbar-btn">Reports</a>
                 </form>
                 <ul class="dropdown-menu" role="menu">
@@ -297,135 +289,24 @@
     </div>
 </nav>
 
-
-<div id="objectInfo" style="background: darkgray;display: none;border-radius: 13px;height: 94%;padding: 0"
-     class="col-md-2 pull-right">
-    <div class="panel-heading text-center">
-        <h4> Spatial Object ID: <span id="objectInfoId" class="text-info"></span>
-            <i id="objectInfoCloseButton" class="fa fa-times pull-right"
-               onclick="$('#objectInfo').animate({width: ['toggle','swing']},200);toggled = false;spatialObject = currentOrdersList[selectedSpatialObject];spatialObject.removePath();spatialObject.marker.closePopup();selectedSpatialObject = null;">
-            </i>
-        </h4>
-    </div>
-    <div class="panel panel-default" style="max-height: 47%;overflow: auto;box-shadow: 0 0 8px 0 #635749">
-        <div class="panel-heading text-center"><h4>Speed variation</h4>
-        </div>
-        <div class="panel-body">
-            <!-- TODO:  setting `margin-left` to increase the area of the chart is a bad hack there should be a better way to do this check :P -->
-            <div style="margin: 0;border: none;margin-left: -25px" id="chart_div"></div>
-        </div>
-    </div>
-
-    <div class="panel panel-default" style="max-height: 47%;overflow: auto;box-shadow: 0px 0px 8px 0px #635749">
-        <div class="panel-heading text-center">
-            <div class="panel-title"><h4>Alerts</h4></div>
-        </div>
-        <div class="panel-body" style="padding: 0px">
-            <div id="showAlertsArea" class="list-group" style="margin-top: 15px">
-
-            </div>
-
-        </div>
-    </div>
-    <!--/panel-->
-</div>
-
-<div id="left_side_pannel" class="uk-offcanvas" ">
-    <div class="uk-offcanvas-bar" style="box-shadow: 3px 14px 13px -2px #211404;">
-        <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon" data-uk-nav>
-            <li class="uk-parent" style="box-shadow: 0 2px 12px 1px #2D1600;min-height: 50px;line-height: 25px;">
-                <a href="#" style="min-height: 50px;">
-                    Hao city cabs Dashboard
-                </a>
-                <ul class="uk-nav-sub">
-                    <li style="color: #969490">
-                        Hao city cabs
-                    </li>
-
-                </ul>
-            </li>
-            <li class="uk-nav-header">Alerts</li>
-            <li class="uk-parent">
-                <a href="#"><i class="fa fa-pencil-square-o"></i> Set alerts</a>
-                <ul class="uk-nav-sub">
-                    <!-- Set speed limit -->
-                    <li>
-                        <a style="margin-left: 20%;" data-toggle="modal" href="controllers/modals/speed_alert.jag"
-                           data-target="#commonModal"><i
-                                class="fa fa-tachometer"></i> Speed alert</a>
-                    </li>
-                    <li><a style="margin-left: 20%;" data-toggle="modal" href="controllers/modals/proximity_alert.jag"
-                           data-target="#commonModal"><i class="fa fa-link"></i> Proximity alert</a></li>
-                    <li><a style="margin-left: 20%;color: grey;cursor: not-allowed;"><i class="fa fa-chain-broken"></i>
-                            Stationary alert</a></li>
-                </ul>
-            </li>
-
-
-            <!-- Set Geo-fence -->
-            <li class="uk-parent">
-                <a href="#"><i class="fa fa-filter"></i> Geo-fencing</a>
-                <ul class="uk-nav-sub">
-                    <li><a style="margin-left: 20%;" data-toggle="modal" href="controllers/modals/within_alert.jag"
-                           data-target="#commonModal"><i class="fa fa-square-o"></i> Within</a></li>
-                    <li><a style="margin-left: 20%;color: grey;cursor: not-allowed;"><i
-                                class="fa fa-external-link-square"></i> Approaching</a></li>
-                    <li><a style="margin-left: 20%;color: grey;cursor: not-allowed;"><i class="fa fa-minus"></i>
-                            Cross</a></li>
-                </ul>
-            </li>
-
-            <!-- Settings section -->
-            <li class="uk-nav-header">Settings</li>
-            <!-- Add new tile server url -->
-            <li>
-                <a data-toggle="modal" data-target="#addTileServer"><i class="fa fa-plus"></i> Add tile server</a>
-            </li>
-            <!-- Add new WMS server url -->
-            <li>
-                <a data-toggle="modal" data-target="#addWmsUrl"><i class="fa fa-globe"></i> Add WMS end point</a>
-            </li>
-
-            <!-- Place holders need to remove or replace-->
-            <li class="uk-nav-header">
-                System Administrtion
-            </li>
-
-            <!-- TODO: <for reference> remove if not use -->
-            <!--<li class="uk-parent">-->
-            <!--<a href="site/logs"><i class="fa fa-bar-chart-o"></i> View System Status</a>-->
-            <!--</li>-->
-            <!--<li>-->
-            <!--<a href=""><i class="fa fa-users"></i> Manage Users</a>-->
-            <!--</li>-->
-        </ul>
-
-    </div>
-</div>
 <div class="row">
     <div class="col-md-3">
 
         <div id="leftSidePane">
-
-            <div style="position: relative;max-height: 90%;" id="newOrdersPane">
-                <?= $new_orders_pane ?>
-            </div>
-
+            <?= $new_orders_pane ?>
         </div>
     </div>
     <div id="locBoardWrapper" class="col-md-9">
 
         <div id="rightSidePane">
 
-            <div style="position: relative;max-height: 90%;float: right;" id="locationBoardPane">
+            <div style="position: relative;max-height: 90%;" id="locationBoardPane">
                 <?= $location_board_pane ?>
             </div>
 
         </div>
     </div>
 </div>
-
-
 
 
 <!-- Modals in use -->

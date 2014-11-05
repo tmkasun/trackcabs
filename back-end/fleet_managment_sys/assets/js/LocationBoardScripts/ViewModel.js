@@ -396,16 +396,28 @@ function LocationBoardViewModel(){
         var gotResponse = null;
         $.post(serviceUrl +"dispatcher/setZone",sendingData,function(response){
             gotResponse = response;
+            var currentCab = new Cab(gotResponse);
+
+            var lastZone = response.lastZone;
 
             if(gotResponse !== null || gotResponse.driver !== null){
 
-                var currentCab = new Cab(gotResponse);
-                var zoneObject = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+
+                //Remove from last zone
+                var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+                    return item.name === lastZone
+                });
+                var indexToRemove = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToRemove);
+                self.zones()[indexToRemove].live.cabs.remove(function(item) { return item.id = currentCab.id })
+
+
+                //Add to new zone
+                var zoneObjectToAdd = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
                     return item.name === currentCab.zone
                 });
-                var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
-                if(index !== -1){
-                    self.zones()[index].live.cabs.push(currentCab);
+                var indexToAdd = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToAdd);
+                if(indexToAdd !== -1){
+                    self.zones()[indexToAdd].live.cabs.push(currentCab);
                 }
 
             }

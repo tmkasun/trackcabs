@@ -103,8 +103,9 @@ class Dispatcher extends CI_Controller
         if($cab != null){
             $newCab = $this->cab_dao->setZone($cab['cabId'], $zone);
             $newCab['driverId'] = $driverId;
+            $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');
-            echo json_encode($cab);
+            echo json_encode($newCab);
 
         }
         else{

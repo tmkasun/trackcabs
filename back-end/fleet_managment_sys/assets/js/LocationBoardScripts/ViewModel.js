@@ -461,6 +461,7 @@ function LocationBoardViewModel(){
     };
 
     self.dispatchCab = function(zone, cab){
+        $.UIkit.notify.closeAll();
         var dispatchNotify = $.UIkit.notify({
             message: '<span style="color: dodgerblue">Dispatching order <b>'+currentDispatchOrderRefId+'</b></span>',
             status: 'warning',
@@ -478,12 +479,16 @@ function LocationBoardViewModel(){
             dispatchNotify.content("Order Dispatched successfully!");
             console.log(response);
             currentDispatchOrderRefId = null;
-            //TODO: remove order from new and add to dispatched , impliment disengage
+            var orderDOM = $('#liveOrdersList').find('#' + sendingData.orderId);
+            $(orderDOM).fadeOut();
+            orderDOM.appendTo('#dispatchedOrdersList .mCSB_container');
+            $('#liveOrdersList').find('#' + sendingData.orderId).remove();
+            setTimeout(function(){orderDOM.show()},500);
             zone.live.cabs.remove(cab);
             self.pendingCabs(cab);
         });
 
-    }
+    };
 
     self.removeCabFromPending = function(vm,cab){
 

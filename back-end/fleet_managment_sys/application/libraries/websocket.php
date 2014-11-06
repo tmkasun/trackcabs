@@ -26,11 +26,11 @@ class Websocket
 
         $this->CI =& get_instance();
 
-        ///$this->context = new ZMQContext();
-        //$this->socket = $this->context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
+        $this->context = new ZMQContext();
+        $this->socket = $this->context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
 
-        //$this->socket->connect("tcp://$ip:$port");
-        //$this->message['source'] = $sourceId;
+        $this->socket->connect("tcp://$ip:$port");
+        $this->message['source'] = $sourceId;
 
     }
 

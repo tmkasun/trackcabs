@@ -174,5 +174,17 @@ class Live_dao extends CI_Model
 
     }
 
+    function getNotDispatchedBookings(){
+        $dbName = $this->db->selectDB('track');
+        $collection = $dbName->selectCollection('live');
+
+        $cursor = $collection->find(array("status" => "START"))->sort(array('bookTime' => 1,'address.town' => 1));
+        $data= array();
+        foreach ($cursor as $doc) {
+            $data[]= $doc;
+        }
+        return $data;
+    }
+
 
 }

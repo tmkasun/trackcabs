@@ -13,7 +13,7 @@ class Dispatcher extends CI_Controller
 //			$content_data = array('computer_number' => $session_data['computer_number'], 'full_name' => $session_data['full_name']);
 //			$layout_data = array('title' => "Welcome to maps", 'content' => "maps/home", 'content_data' => $content_data);
 //			$this -> load -> view('layouts/inner_layout', $layout_data);
-            $new_orders = $this->live_dao->getAllBookings();
+            $new_orders = $this->live_dao->getNotDispatchedBookings();
             $new_orders_pane = $this->load->view("dispatcher/panels/new_orders", array('orders' => $new_orders), TRUE);
             $location_board_pane = $this->load->view("dispatcher/panels/locView", NULL, TRUE);
 
@@ -77,7 +77,7 @@ class Dispatcher extends CI_Controller
         $driverId = strlen($driverId) <= 1 ? '0' . $driverId : $driverId;
 
         $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? $custoNumber:'';
-        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] ."Customer number:".$custoNumber. " Address: " . $custoAddress;
+        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] ." Customer number:".$custoNumber. " Address: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
         $sentCusto = $sms->send($custoNumber, $custoMessage);

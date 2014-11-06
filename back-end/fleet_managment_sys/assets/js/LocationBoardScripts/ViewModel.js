@@ -223,7 +223,7 @@ function Cab(data){
     this.vehicleType                =  data.vType;
     this.info                       =  data.info;
     this.zone                       =  data.zone;
-    this.state                      =  "live";
+    this.state                      =  data.state;
 }
 
 
@@ -338,6 +338,10 @@ function LocationBoardViewModel(){
 
     self.zones = ko.observableArray(LocationBoard.zones);
 
+    self.pendingCabs = ko.observableArray([]);
+
+    self.unknownCabs = ko.observableArray([]);
+
     self.cabList = {};
     self.initializeLocationBoard = function(){
         self.responseCabs;
@@ -355,15 +359,25 @@ function LocationBoardViewModel(){
 
             for(var key in self.cabList()){
                 var currentCab = self.cabList()[key];
-                var zoneObject = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
-                    return item.name === currentCab.zone
-                });
-                var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
-                if(index != -1){
-                    if(currentCab.state == "live"){
-                        self.zones()[index]["live"].cabs.push(currentCab);
+                if (currentCab.state === undefined || currentCab.state === "unknown") {
+                    self.unknownCabs.push(currentCab);
+                }
+                else if(currentCab.state === "pending") {
+                    self.pendingCabs.push(currentCab);
+
+                }
+                else{
+                    var zoneObject = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+                        return item.name === currentCab.zone
+                    });
+                    var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
+                    if(index != -1){
+                        if(currentCab.state == "live"){
+                            self.zones()[index]["live"].cabs.push(currentCab);
+                        }
                     }
                 }
+
             }
         }).fail(function( jqXHR, textStatus ) {
             console.log( "Location Board Init failed: " + textStatus );
@@ -388,24 +402,39 @@ function LocationBoardViewModel(){
     self.addLiveCab = function(zone,event){
 
         cabId = parseInt(zone.live.cabInput());
+        zone.live.cabInput('');
+
 
         sendingData = {};
         sendingData.driverId = cabId;
         sendingData.zone = zone.name;
 
         var gotResponse = null;
-        $.post(serviceUrl +"dispatcher/setZone",sendingData,function(response){
+        $.post(serviceUrl +"dispatcher/setLiveZone",sendingData,function(response){
             gotResponse = response;
+            gotResponse.state = "live";
+            var currentCab = new Cab(gotResponse);
+
+            var lastZone = response.lastZone;
 
             if(gotResponse !== null || gotResponse.driver !== null){
 
-                var currentCab = new Cab(gotResponse);
-                var zoneObject = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+
+                //Remove from last zone
+                var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+                    return item.name === lastZone
+                });
+                var indexToRemove = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToRemove);
+                self.zones()[indexToRemove].live.cabs.remove(function(item) { return item.id = currentCab.id })
+
+
+                //Add to new zone
+                var zoneObjectToAdd = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
                     return item.name === currentCab.zone
                 });
-                var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
-                if(index !== -1){
-                    self.zones()[index].live.cabs.push(currentCab);
+                var indexToAdd = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToAdd);
+                if(indexToAdd !== -1){
+                    self.zones()[indexToAdd].live.cabs.push(currentCab);
                 }
 
             }
@@ -423,6 +452,11 @@ function LocationBoardViewModel(){
 
 
 
+
+    };
+
+    self.addPobCab = function(zone,event){
+        console.log("addPobCab NOT IMPLEMENTED!!!");
 
     };
 
@@ -446,9 +480,26 @@ function LocationBoardViewModel(){
             currentDispatchOrderRefId = null;
             //TODO: remove order from new and add to dispatched , impliment disengage
             zone.live.cabs.remove(cab);
+            self.pendingCabs(cab);
         });
 
     }
+
+    self.removeCabFromPending = function(vm,cab){
+
+
+        sendingData = {};
+        sendingData.cabId = cab.id;
+        $.post(serviceUrl +"dispatcher/setUnknown",sendingData);
+
+
+        self.pendingCabs.remove(cab);
+        cab.state = "unknown";
+        self.unknownCabs.push(cab);
+
+    }
+
+
 
 
 

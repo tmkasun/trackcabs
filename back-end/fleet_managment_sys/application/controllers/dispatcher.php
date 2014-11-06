@@ -60,6 +60,7 @@ class Dispatcher extends CI_Controller
         $dispatchingOrder = $this->live_dao->getBooking($orderId);
         $dispatchingDriver = $this->user_dao->getDriverByCabId($cabId);
         $driverId = $dispatchingDriver['userId'];
+        $this->cab_dao->setState($cabId,"pending");
 //        $this->live_dao->deleteBooking($postData['refId']);
 //        $customer = $this->customer_dao->getCustomer($dispatchingOrder['tp']); // TODO: need this when updating customer order history
 
@@ -96,18 +97,17 @@ class Dispatcher extends CI_Controller
     }
 
 
-    function setZone()
+    function setLiveZone()
     {
-
-        $postData = $this->input->post();
         $driverId = $this->input->post('driverId');
         $zone = $this->input->post('zone');
         $cab = $this->user_dao->getCabByDriverId($driverId);
         if($cab != null){
-            $newCab = $this->cab_dao->setZone($cab['cabId'], $zone);
+            $newCab = $this->cab_dao->setLiveZone($cab['cabId'], $zone);
             $newCab['driverId'] = $driverId;
+            $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');
-            echo json_encode($cab);
+            echo json_encode($newCab);
 
         }
         else{
@@ -118,10 +118,55 @@ class Dispatcher extends CI_Controller
 
     }
 
+
+    function setUnknown()
+    {
+
+        $cabId = $this->input->post('cabId');
+        $cab = $this->cab_dao->getCab($cabId);
+        if($cab != null){
+            $newCab = $this->cab_dao->setState($cab['cabId'],"unknown");
+            $newCab['lastZone'] = $cab['zone'];
+            $this->output->set_content_type('application/json');
+            echo json_encode($newCab);
+
+        }
+        else{
+            $this->output->set_content_type('application/json');
+            echo json_encode($cab);
+
+        }
+
+    }
+
+
+
     function cabsInZones(){
         $result = $this->cab_dao->getCabsInZones();
         $this->output->set_content_type('application/json');
         echo json_encode($result);
+    }
+
+    function setPobDestinationZoneTime(){
+
+        $driverId = $this->input->post('driverId');
+        $zone = $this->input->post('zone');
+        $eta = $this->input->post('eta');
+        $cab = $this->user_dao->getCabByDriverId($driverId);
+        if($cab != null){
+            $newCab = $this->cab_dao->setLiveZone($cab['cabId'], $zone, $eta);
+            $newCab['driverId'] = $driverId;
+            $newCab['lastZone'] = $cab['zone'];
+            $this->output->set_content_type('application/json');
+            echo json_encode($newCab);
+
+        }
+        else{
+            $this->output->set_content_type('application/json');
+            echo json_encode($cab);
+
+        }
+
     }
 
 }

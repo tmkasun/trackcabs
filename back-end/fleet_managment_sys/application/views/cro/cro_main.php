@@ -157,7 +157,8 @@
                 uiInit();
             }
             if(request == 'cancel'){
-                getCancelConfirmationView(url , tp , param1)
+                alert(param1);
+                getCancelConfirmationView(url ,param1)
             }
             if(request == 'confirmCancel'){
                 confirmCancel(url , tp ,param1);

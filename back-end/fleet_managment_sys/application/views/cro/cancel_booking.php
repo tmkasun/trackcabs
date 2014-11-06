@@ -1,5 +1,5 @@
 <div class="col-lg-5" >
-    <h4>Confirm Cancel For Reference ID <?php echo $refId; ?></h4>
+    <h4>Confirm Cancel For Reference ID <?= 'test'?></h4>
 
 
     <form role="form">

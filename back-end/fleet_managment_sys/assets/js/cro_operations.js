@@ -12,9 +12,9 @@ function getEditBookingView(url , objId){
     $('#newBooking').html(view.view.edit_booking_view);
 }
 
-function getCancelConfirmationView( url , tp , id ){
+function getCancelConfirmationView( url ,  bookingObjId ){
 
-    var data = {'_id' : id };
+    var data = {'_id' : bookingObjId };
     url = url +"/cro_controller/getCancelConfirmationView";
     var view = ajaxPost(data,url);
 
@@ -358,7 +358,6 @@ function changeJobInfoView(bookingObjId){
     console.log(bookingObjId);
     for(var i=0 ; i < bookingObj.length ; i++){
         index++;
-        console.log(bookingObj[i]['_id']['$id']);
         if( bookingObj[i]['_id']['$id'] === bookingObjId){
             break;
         }
@@ -370,6 +369,7 @@ function changeJobInfoView(bookingObjId){
     if(driverId == '-')  driverId = 'NOT_ASSIGNED';
     if(cabId == '-')  cabId = 'NOT_ASSIGNED';
 
+    $('#jobRefId').html(bookingObj[index]['refId']);
     $('#jobStatus').html(bookingObj[index]['status']);
     $('#jobVehicleType').html(bookingObj[index]['vType']);
     $('#jobDriverId').html(driverId);

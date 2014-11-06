@@ -22,7 +22,7 @@
     <script type="text/javascript" src="<?= base_url();?>assets/webLibs/bootstrapvalidator-dist-0.5.2/dist/js/bootstrapValidator.js" charset="UTF-8"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/webLibs/knockout/knockout-3.2.0.js"></script>
     <style>
-        input.cabInput{
+        input.locInput{
             width:65%;
             display: inline;
         }
@@ -98,7 +98,7 @@
                                 <tr>
                                     <td class="col-md-2" data-bind="text:name" ></td>
                                     <td class="col-md-3">
-                                        <input data-bind="attr:{id:id}, value:live.cabInput" class="form-control cabInput" type="text">
+                                        <input data-bind="attr:{id:id}, value:live.driverId" class="form-control driverId locInput" type="text">
                                         <button data-bind="click:$root.addLiveCab" class="form-control cabAdd">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
@@ -198,7 +198,7 @@
                                 <tr>
                                     <td class="col-md-2" data-bind="text:name" ></td>
                                     <td class="col-md-3">
-                                        <input data-bind="attr:{id:id}, value:live.cabInput" class="form-control cabInput" type="text">
+                                        <input data-bind="attr:{id:id}, value:live.driverId" class="form-control driverId locInput" type="text">
                                         <button data-bind="click:$root.addLiveCab" class="form-control cabAdd">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
@@ -474,8 +474,9 @@
                                 <tr>
                                     <td class="col-md-2" data-bind="text:name" ></td>
                                     <td class="col-md-3">
-                                        <input data-bind="attr:{id:id}, value:pob.cabInput" class="form-control cabInput" type="text">
-                                        <button data-bind="click:$root.addCab" class="form-control cabAdd">
+                                        <input data-bind="attr:{id:id}, value:pob.cabEta" class="form-control cabEta locInput" type="text" >
+                                        <input data-bind="attr:{id:id}, value:pob.driverId" class="form-control driverId locInput" type="text">
+                                        <button data-bind="click:$root.addPobCab" class="form-control cabAdd">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
                                     </td>
@@ -574,7 +575,8 @@
                                 <tr>
                                     <td class="col-md-2" data-bind="text:name" ></td>
                                     <td class="col-md-3">
-                                        <input data-bind="attr:{id:id}, value:pob.cabInput" class="form-control cabInput" type="text">
+                                        <input data-bind="attr:{id:id}, value:pob.cabEta" class="form-control cabPobEta locInput" type="text">
+                                        <input data-bind="attr:{id:id}, value:pob.driverId" class="form-control cabDriverId locInput" type="text">
                                         <button data-bind="click:$root.addPobCab" class="form-control cabAdd">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>

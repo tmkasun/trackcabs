@@ -496,18 +496,24 @@ function LocationBoardViewModel(){
     };
 
     self.dispatchCab = function(zone, cab){
+        var dispatchNotify = $.UIkit.notify({
+            message: '<span style="color: dodgerblue">Dispatching order <b>'+currentDispatchOrderRefId+'</b></span>',
+            status: 'warning',
+            timeout: 0,
+            pos: 'top-center'
+        });
+
         sendingData = {};
         sendingData.cabId = cab.id;
         sendingData.orderId = currentDispatchOrderRefId;
         $.post('dispatcher/dispatchVehicle', sendingData, function (response) {
             console.log(response);
-            $.UIkit.notify({
-                message: '<span style="color: dodgerblue">' + response.status + '</span><br>' + response.message,
-                status: (response.status == 'success' ? 'success' : 'danger'),
-                timeout: 3000,
-                pos: 'top-center'
-            });
+            setTimeout(function(){dispatchNotify.close()},3000);
+            dispatchNotify.status('success');
+            dispatchNotify.content("Order Dispatched successfully!");
+            console.log(response);
             currentDispatchOrderRefId = null;
+            //TODO: remove order from new and add to dispatched , impliment disengage
             zone.live.cabs.remove(cab);
             self.pendingCabs(cab);
         });

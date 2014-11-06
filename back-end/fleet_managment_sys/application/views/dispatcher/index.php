@@ -76,7 +76,6 @@
         }
 
         #container {
-            position: fixed;
             top: 0px;
         }
 
@@ -259,7 +258,7 @@
 
         <div id="rightSidePane">
 
-            <div style="position: relative;max-height: 90%;" id="locationBoardPane">
+            <div style="max-height: 90%;" id="locationBoardPane">
                 <?= $location_board_pane ?>
             </div>
 
@@ -631,47 +630,6 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /Modals in use -->
-
-
-<!-- Import within-GeoJson modal -->
-<div class="modal" id="editWithinGeoJSON" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header"
-                 style="cursor: move;background: #f9f9f9;-webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);-moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);">
-                <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">
-                    <!-- TODO: Trigger bootstrap tooltip $('#aboutTileUrl').tooltip(); to enable tooltip -->
-                    Edit GeoJson object of the selected area
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <div class="form-group">
-                        <label class="text-primary" for="importGeoJsonFile">Import GeoJson</label>
-                        <input id="importGeoJsonFile" type="file">
-                        <hr/>
-
-                        <label class="text-primary" for="enterGeoJson">Enter GeoJson</label>
-                        <textarea id="enterGeoJson" class="form-control" rows="10"></textarea>
-                    </div>
-                </div>
-                <div class="btn-group btn-group-justified">
-                    <div class="btn-group">
-                        <button id="updateGeoJson" class="btn btn-primary" onclick="importGeoJson()">Import</button>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn  btn-default" onclick="closeAll()">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /Modals in use -->
-
 
 <!-- ** comment out below library if using minimized wso2_geo_app.min library **  -->
 <script src="<?= base_url() ?>assets/js/app.js"></script>

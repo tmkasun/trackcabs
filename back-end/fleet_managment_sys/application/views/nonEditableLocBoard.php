@@ -27,6 +27,9 @@
     </script>
 
     <style>
+
+
+
         input.locInput{
             width:65%;
             display: inline;
@@ -63,6 +66,7 @@
         }
 
 
+
         .dropdown-menu1{
 
             left:-45%;
@@ -94,7 +98,6 @@
                 <thead>
                 <tr>
                     <th  class="col-md-2">Zone</th>
-                    <th  class="col-md-3">Add Cab</th>
                     <th  class="col-md-5">Avail. Cabs</th>
 
                 </tr>
@@ -184,7 +187,6 @@
                 <thead>
                 <tr>
                     <th  class="col-md-2">Zone</th>
-                    <th  class="col-md-3">Add Cab</th>
                     <th  class="col-md-5">Avail. Cabs</th>
 
                 </tr>
@@ -445,7 +447,6 @@
                 <thead>
                 <tr>
                     <th  class="col-md-2">Zone</th>
-                    <th  class="col-md-3">Add Cab</th>
                     <th  class="col-md-5">Avail. Cabs</th>
 
                 </tr>
@@ -536,7 +537,6 @@
                 <thead>
                 <tr>
                     <th  class="col-md-2">Zone</th>
-                    <th  class="col-md-3">Add Cab</th>
                     <th  class="col-md-5">Avail. Cabs</th>
 
                 </tr>
@@ -544,14 +544,8 @@
                 <tbody data-bind="foreach:ZonesColumn2">
                 <tr>
                     <td class="col-md-2" data-bind="text:name" ></td>
-                    <td class="col-md-3">
-                        <input data-bind="attr:{id:id}, value:pob.cabEta" class="form-control cabPobEta locInput" type="text">
-                        <input data-bind="attr:{id:id}, value:pob.driverId" class="form-control cabDriverId locInput" type="text">
-                        <button data-bind="click:$root.addPobCab" class="form-control cabAdd">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                    </td>
-                    <td class="col-md-5">
+
+                    <td class="col-md-8">
                         <ul style="display: inline" class="cabs" data-bind="foreach:pob.cabs">
                             <li style="display: inline">
                                 <div class="btn-group">
@@ -606,11 +600,6 @@
 
                                                         </tbody>
                                                     </table>
-
-                                                    <div class="row" style="float:right; margin:0">
-                                                        <!--<button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>-->
-                                                    </div>
-
                                                 </div>
                                             </div>
                                         </div>

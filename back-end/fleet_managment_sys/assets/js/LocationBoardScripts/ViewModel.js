@@ -199,16 +199,14 @@ function Zone(id, name){
     this.id = id;
     this.name           = name;
     this.live               = {};
-    this.live.cabInput      = ko.observable();
+    this.live.driverId      = ko.observable();
     this.live.cabs          = ko.observableArray([]);
-
-    this.pending            = {};
-    this.pending.cabInput   = ko.observable();
-    this.pending.cabs       = ko.observableArray([]);
 
 
     this.pob                = {};
-    this.pob.cabInput       = ko.observable();
+
+    this.pob.driverId       = ko.observable();
+    this.pob.cabEta         = ko.observable();
     this.pob.cabs           = ko.observableArray([]);
 
 
@@ -401,8 +399,8 @@ function LocationBoardViewModel(){
 
     self.addLiveCab = function(zone,event){
 
-        cabId = parseInt(zone.live.cabInput());
-        zone.live.cabInput('');
+        cabId = parseInt(zone.live.driverId());
+        zone.live.driverId('');
 
 
         sendingData = {};
@@ -420,12 +418,15 @@ function LocationBoardViewModel(){
             if(gotResponse !== null || gotResponse.driver !== null){
 
 
-                //Remove from last zone
+                //Remove from last zone and all other places
                 var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
                     return item.name === lastZone
                 });
                 var indexToRemove = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToRemove);
-                self.zones()[indexToRemove].live.cabs.remove(function(item) { return item.id = currentCab.id })
+                self.zones()[indexToRemove].live.cabs.remove(function(item) { return item.id = currentCab.id });
+                self.zones()[indexToRemove].pob.cabs.remove(function(item) { return item.id = currentCab.id });
+                self.pendingCabs.remove(function(item) { return item.id = currentCab.id });
+                self.unknownCabs.remove(function(item) { return item.id = currentCab.id });
 
 
                 //Add to new zone
@@ -456,7 +457,41 @@ function LocationBoardViewModel(){
     };
 
     self.addPobCab = function(zone,event){
-        console.log("addPobCab NOT IMPLEMENTED!!!");
+
+        sendingData = {};
+        sendingData.driverId = parseInt(zone.pob.driverId());
+        sendingData.cabEta = zone.pob.cabEta();
+        sendingData.zone = zone.name;
+
+        zone.pob.cabEta('');
+        zone.pob.driverId('');
+        $.post('dispatcher/setPobDestinationZoneTime', sendingData, function (response) {
+            gotResponse = response;
+            gotResponse.state = "pob";
+            var currentCab = new Cab(gotResponse);
+
+            //Remove from all last zones and all other places
+            var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+                return item.name === lastZone
+            });
+            var indexToRemove = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToRemove);
+            self.zones()[indexToRemove].live.cabs.remove(function(item) { return item.id = currentCab.id });
+            self.zones()[indexToRemove].pob.cabs.remove(function(item) { return item.id = currentCab.id });
+            self.pendingCabs.remove(function(item) { return item.id = currentCab.id });
+            self.unknownCabs.remove(function(item) { return item.id = currentCab.id });
+
+
+            //Add to new zone
+            var zoneObjectToAdd = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+                return item.name === currentCab.zone
+            });
+            var indexToAdd = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToAdd);
+            if(indexToAdd !== -1){
+                self.zones()[indexToAdd].pob.cabs.push(currentCab);
+            }
+
+
+        });
 
     };
 
@@ -491,16 +526,15 @@ function LocationBoardViewModel(){
     };
 
     self.removeCabFromPending = function(vm,cab){
-
-
         sendingData = {};
         sendingData.cabId = cab.id;
-        $.post(serviceUrl +"dispatcher/setUnknown",sendingData);
+        $.post(serviceUrl +"dispatcher/setUnknown",sendingData,function(response){
+            self.pendingCabs.remove(cab);
+            cab.state = "unknown";
+            self.unknownCabs.push(cab);
 
+        });
 
-        self.pendingCabs.remove(cab);
-        cab.state = "unknown";
-        self.unknownCabs.push(cab);
 
     }
 

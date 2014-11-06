@@ -47,7 +47,7 @@ class Cab_dao extends CI_Model
         $dbName = $connection->selectDB('track');
         $collection = $dbName->selectCollection('cabs');
 
-        $searchQuery= array('cabId' => $cabId);
+        $searchQuery= array('cabId' => (int)$cabId);
         return $collection->findOne($searchQuery);
     }
 

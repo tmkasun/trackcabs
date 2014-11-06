@@ -3,12 +3,12 @@
     function allowDispatchCab(refId) {
         closeAll();
 //        $("#newOrdersPane").fadeOut('slow');
-//        $.UIkit.notify({
-//            message: "Select a vehicle to dispatch....",
-//            status: 'success',
-//            timeout: 0,
-//            pos: 'top-center'
-//        });
+        $.UIkit.notify({
+            message: "Order: "+refId+" selected for dispatch!",
+            status: 'success',
+            timeout: 0,
+            pos: 'top-center'
+        });
         currentDispatchOrderRefId = refId;
     }
 </script>

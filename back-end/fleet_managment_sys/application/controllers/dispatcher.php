@@ -71,9 +71,12 @@ class Dispatcher extends CI_Controller
 
         $this->live_dao->setDriverId($orderId, $driverId);
         $this->live_dao->setCabId($orderId, $cabId);
+        $this->live_dao->updateStatus((string)$dispatchingOrder['_id'], "MSG_NOT_COPIED");
 
         $driverId = strlen($driverId) <= 1 ? '0' . $driverId : $driverId;
-        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . " Address: " . $custoAddress;
+
+        $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? $custoNumber:'';
+        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] ."Customer number:".$custoNumber. " Address: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
         $sentCusto = $sms->send($custoNumber, $custoMessage);

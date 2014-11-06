@@ -104,6 +104,11 @@
         }
         var targetElement;
         var i = 0;
+        /*
+        for optimization http://www.brpreiss.com/books/opus4/html/page190.html#progsorted1c
+        http://jsfiddle.net/2mBdL/1/
+
+        * */
         for (; i < liveOrdersList.length; i++) {
             var thisOrderUnixTimeStam = $(liveOrdersList[i]).data('booktime');
             if (newOrderUnixTimeStamp < thisOrderUnixTimeStam) {

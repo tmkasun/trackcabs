@@ -58,7 +58,7 @@ class History_dao extends CI_Model
 
     function updateBookingCharge($objId , $bookingCharge){
         $collection = $this->get_collection();
-        
+
         $searchQuery= array('_id' => new MongoId($objId));
         $collection->update($searchQuery ,array('$set' => array('bookingCharge' => $bookingCharge)));
     }

@@ -41,16 +41,23 @@
 
         <ul class="nav navbar-nav">
             <li class="active"><a href="<?= site_url('cro_controller')?>">CRO</a></li>
+
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch" autofocus>
+                </div>
+                <input type="submit" class="btn btn-default" onclick="operations('getCustomer');return false" onsubmit="operations('getCustomer');return false" value="Submit" />
+            </form>
+
+
             <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
+            <li><a href="<?= site_url('cro_controller/locationBoard')?>" >Location Board</a></li>
+            <li><a href="<?= site_url('cro_controller/pobBoard')?>" >POB Board</a></li>
+            <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a></li>
         </ul>
 
-        <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch" autofocus>
-            </div>
-            <input type="submit" class="btn btn-default" onclick="operations('getCustomer');return false" onsubmit="operations('getCustomer');return false" value="Submit" />
-        </form>
+
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">

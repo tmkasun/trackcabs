@@ -6,6 +6,7 @@
         <th>Model</th>
         <th>Info</th>
         <th>Colour</th>
+        <th>User ID</th>
     </tr>
 
     <?php foreach ($data as $item):?>
@@ -32,6 +33,7 @@
                     echo 'empty';
                 }
                 ?></td>
+            <td><?php if(array_key_exists('userId', $item)){echo $item['userId'];}else {echo 'empty';}?></td>
         </tr>
 
 

@@ -106,7 +106,7 @@ function createBooking(url , tp){
             'cabId' : '-',
             'driverId' : '-',
             'remark' : remark ,
-            'inqCall' : 0,
+            'inqCall'      : 0,
             'callUpPrice' : callUpPrice,
             'dispatchB4' : dispatchB4,
             'destination' : destination,

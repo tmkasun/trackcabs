@@ -1,4 +1,3 @@
-
 <form  class="form-inline" role="form" >
     <select class="form-control" id="title">Select a Title
         <option selected value="-">Title</option>

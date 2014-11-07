@@ -44,7 +44,7 @@ function createNewCab(url , docs_per_page , page){
     if(info == "")color = "null";
 
     /* Create a JSON object from the form values */
-    var cab = {'model' : model , 'color' : color , 'plateNo' : plateNo , 'vType' : vType ,'info' : info };
+    var cab = {'model' : model , 'color' : color , 'plateNo' : plateNo , 'vType' : vType ,'info' : info, userId : 'empty' };
 
     var baseUrl = url;
     url =baseUrl + "/cab_retriever/createCab";

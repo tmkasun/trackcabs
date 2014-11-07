@@ -11,6 +11,7 @@ class Login extends CI_Controller {
 	public function index() {
 
         $user = $this->session->userdata('user');
+        var_dump($user);
 //        var_dump($user['user_type']);
         if (is_user_logged_in()) {
             if($user['user_type']=='dispatcher')
@@ -38,7 +39,7 @@ class Login extends CI_Controller {
         $userName = $this->input->post('username');
         $pass = $this->input->post('password');
         $result = $this->user_dao->authenticate($userName,$pass);
-
+        var_dump($result);
         if($result != null ){
             $this->session->set_userdata('logged_in', true);
             $this->session->set_userdata('user', $result);

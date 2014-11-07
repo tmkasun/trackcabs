@@ -156,8 +156,8 @@ class Customer_retriever extends CI_Controller
         $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
 
         /* Send the updated booking to the dispatch view */
-        $webSocket = new Websocket($user['userId']);
-        $webSocket->send($bookingData , 'dispatcher');
+//        $webSocket = new Websocket($user['userId']);
+//        $webSocket->send($bookingData , 'dispatcher');
 
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
 

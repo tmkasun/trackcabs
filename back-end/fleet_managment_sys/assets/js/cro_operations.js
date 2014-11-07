@@ -173,7 +173,7 @@ function updateBooking(url , objId){
             'dispatchB4' : dispatchB4
         }
     };
-
+    alert(JSON.stringify(data));
     ajaxPost(data,url);
 }
 

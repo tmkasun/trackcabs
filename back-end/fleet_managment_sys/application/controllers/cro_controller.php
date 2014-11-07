@@ -5,17 +5,48 @@ class Cro_controller extends CI_Controller
 
     public function index()
     {
-        $userData = $this->session->userdata('user');
-        $this->load->view('cro/cro_main',$userData);
+        if (is_user_logged_in()) {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/cro_main',$userData);
+        }else{
+            $this -> load -> helper(array('form'));
+            $this -> load -> view('login/index');
+        }
+
     }
 
     function loadMyBookingsView(){
-        $this->load->view('cro/my_bookings/my_bookings_main');
+
+        if (is_user_logged_in()) {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/my_bookings/my_bookings_main',$userData);
+        }else{
+            $this -> load -> helper(array('form'));
+            $this -> load -> view('login/index');
+        }
+    }
+
+    function loadLocationBoardView(){
+
+        if (is_user_logged_in()) {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/non_editable_loc_board',$userData);
+        }else{
+            $this -> load -> helper(array('form'));
+            $this -> load -> view('login/index');
+        }
     }
 
 
     function loadMapView(){
-        $this->load->view('cro/map/map_main');
+
+        if (is_user_logged_in()) {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/map/map_main',$userData);
+        }else{
+            $this -> load -> helper(array('form'));
+            $this -> load -> view('login/index');
+        }
     }
 
     function getTodayMyBookings(){

@@ -17,9 +17,20 @@
         </tr>
     </table>
 </div>
-<div class="col-lg-offset-10 col-lg-2" >
+<div class="col-lg-offset-8 col-lg-4" >
     <div class="btn-group btn-group-justified">
         <div class="btn-group">
-            <button type="button" class="btn btn-success" onclick="operations('editCus', '<?= $tp;?>' )">Edit Information</button>
+            <button type="button" class="btn btn-default" onclick="operations('editCus', '<?= $tp;?>' )">Edit Info</button>
         </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" onclick="operations('editCus', '<?= $tp;?>' )">Add User</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-lg-offset-10 col-lg-2" >
+    <div class="btn-group btn-group-justified">
+
+    </div>
 </div>

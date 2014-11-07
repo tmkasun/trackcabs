@@ -6,7 +6,8 @@
 
      public function index() {
          if (is_user_logged_in()) {
-             $this -> load -> view('monitor/index');
+             $new_orders = $this->live_dao->getNotDispatchedBookings();
+             $this -> load -> view('monitor/index',array('orders' => $new_orders));
          } else {
              //If no session, redirect to login page
              $this -> load -> library('form_validation');

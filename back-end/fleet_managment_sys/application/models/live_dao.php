@@ -186,5 +186,21 @@ class Live_dao extends CI_Model
         return $data;
     }
 
+    function setDispatchedTime($orderId){
+
+        $today = date("Y-m-d 00:00:00");
+        $todayUTC = new MongoDate(strtotime($today));
+
+
+        $dbName = $this->db->selectDB('track');
+        $collection = $dbName->selectCollection('live');
+
+        $collection->update(
+            array("refId" => (int)$orderId),
+            array('$set' => array('dispatchTime' => $todayUTC))
+        );
+
+    }
+
 
 }

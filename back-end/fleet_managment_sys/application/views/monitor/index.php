@@ -35,16 +35,23 @@
 
 
     <script>
-        function subscribe(userid){
-            console.log("DEBUG: userid = "+userid);
+        function subscribe(userid) {
+            console.log("DEBUG: userid = " + userid);
             var conn = new ab.Session('ws://localhost:8080',
-                function() {
-                    conn.subscribe(userid, function(topic, data) {
+                function () {
+                    conn.subscribe(userid, function (topic, data) {
                         // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
                         console.log('New Message published to user "' + topic + '" : ' + data.message);
+
+                        var newbooking = data.message;
+                        if (newbooking.status === "START") {
+                            addToNotDispatch(newbooking);
+                        } else if (newbooking.status === "MSG_NOT_COPIED") {
+                            addToMsgNotCopied(newbooking);
+                        }
                     });
                 },
-                function() {
+                function () {
                     console.warn('WebSocket connection closed');
                 },
                 {'skipSubprotocolCheck': true}
@@ -60,182 +67,173 @@
 <div class="row text-center text-info">
     Monitor all
 </div>
-    <div class="panel panel-danger">
-        <!-- Default panel contents -->
-        <div class="panel-heading text-center">Not Dispatched</div>
+<div class="panel panel-danger">
+    <!-- Default panel contents -->
+    <div class="panel-heading text-center">Not Dispatched</div>
 
-        <!-- Table -->
-        <table class="table" id="not_dispatched">
-            <thead>
+    <!-- Table -->
+    <table class="table" id="not_dispatched">
+        <thead>
+        <tr>
+            <th>Ref #</th>
+            <th>R.Q Time</th>
+            <th>MR</th>
+            <th>Address</th>
+            <th>Agent</th>
+            <th>Inquire</th>
+            <th>With count</th>
+            <th>DIM</th>
+            <th>VIH</th>
+            <th>VIP</th>
+            <th>Cop</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php var_dump($orders) ?>
+        <? foreach ($orders as $order): ?>
             <tr>
-                <th>Ref #</th>
-                <th>R.Q Time</th>
-                <th>MR</th>
-                <th>Address</th>
-                <th>Agent</th>
-                <th>Inquire</th>
-                <th>With count</th>
-                <th>DIM</th>
-                <th>VIH</th>
-                <th>VIP</th>
-                <th>Cop</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td id="refId">123</td>
-                <td id="rqTime">2014-03-89</td>
+                <td id="refId"><?= $order['refId'] ?></td>
+                <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
                 <td id="mr">MR</td>
-                <td id="address">147/21, Ganemulla, Gampaha</td>
-                <td id="agent">cro1</td>
+                <td id="address"><?= implode(", ", $order['address']) ?></td>
+                <td id="agent"><?= $order['croId'] ?></td>
                 <td>Inquire</td>
                 <td>With count</td>
-                <td>DIM</td>
-                <td>VIH</td>
-                <td>VIP</td>
-                <td>Cop</td>
+                <td><?= getBadge(false) ?>??</td>
+                <td><?= getBadge($order['isVih']) ?></td>
+                <td><?= getBadge($order['isVip']) ?></td>
+                <td><?= getBadge(false) ?>??</td>
             </tr>
-            </tbody>
-        </table>
-    </div>
+        <? endforeach ?>
+        </tbody>
+    </table>
+</div>
 
 
+<div class="panel panel-primary">
+    <!-- Default panel contents -->
+    <div class="panel-heading text-center">Message not copied</div>
+
+    <!-- Table -->
+    <table class="table" id="MSG_NOT_COPIED">
+        <thead>
+        <tr>
+            <th>Ref #</th>
+            <th>R.Q Time</th>
+            <th>MST</th>
+            <th>SMS Time</th>
+            <th>MR</th>
+            <th>Cab #</th>
+            <th>Driver mobile</th>
+            <th>Address</th>
+            <th>Agent</th>
+            <th>Inquire</th>
+            <th>DIM</th>
+            <th>VIH</th>
+            <th>VIP</th>
+            <th>Cop</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
 
 
+<div class="panel panel-success">
+    <!-- Default panel contents -->
+    <div class="panel-heading text-center">On the Way</div>
 
-    <div class="panel panel-primary">
-        <!-- Default panel contents -->
-        <div class="panel-heading text-center">Message not copied</div>
+    <!-- Table -->
+    <table class="table" id="MSG_COPIED">
+        <thead>
+        <tr>
+            <th>Ref #</th>
+            <th>R.Q Time</th>
+            <th>MCT</th>
+            <th>Message copied time</th>
+            <th>MR</th>
+            <th>Cab #</th>
+            <th>Driver mobile</th>
+            <th>Address</th>
+            <th>Agent</th>
+            <th>Inquire</th>
+            <th>DIM</th>
+            <th>VIH</th>
+            <th>VIP</th>
+            <th>Cop</th>
+        </tr>
+        </thead>
+        <tbody>
 
-        <!-- Table -->
-        <table class="table" id="MSG_NOT_COPIED">
-            <thead>
-            <tr>
-                <th>Ref #</th>
-                <th>R.Q Time</th>
-                <th>MST</th>
-                <th>SMS Time</th>
-                <th>MR</th>
-                <th>Cab #</th>
-                <th>Driver mobile</th>
-                <th>Address</th>
-                <th>Agent</th>
-                <th>Inquire</th>
-                <th>DIM</th>
-                <th>VIH</th>
-                <th>VIP</th>
-                <th>Cop</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
-    </div>
-
+        </tbody>
+    </table>
+</div>
 
 
+<div class="panel panel-info">
+    <!-- Default panel contents -->
+    <div class="panel-heading text-center">At the Place</div>
+
+    <!-- Table -->
+    <table class="table" id="AT_THE_PLACE">
+        <thead>
+        <tr>
+            <th>Ref #</th>
+            <th>R.Q Time</th>
+            <th>MCT</th>
+            <th>Message copied time</th>
+            <th>MR</th>
+            <th>Cab #</th>
+            <th>Driver mobile</th>
+            <th>Address</th>
+            <th>Agent</th>
+            <th>Inquire</th>
+            <th>DIM</th>
+            <th>VIH</th>
+            <th>VIP</th>
+            <th>Cop</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
 
 
-    <div class="panel panel-success">
-        <!-- Default panel contents -->
-        <div class="panel-heading text-center">On the Way</div>
+<div class="panel panel-warning">
+    <!-- Default panel contents -->
+    <div class="panel-heading text-center">POB</div>
 
-        <!-- Table -->
-        <table class="table" id="MSG_COPIED">
-            <thead>
-            <tr>
-                <th>Ref #</th>
-                <th>R.Q Time</th>
-                <th>MCT</th>
-                <th>Message copied time</th>
-                <th>MR</th>
-                <th>Cab #</th>
-                <th>Driver mobile</th>
-                <th>Address</th>
-                <th>Agent</th>
-                <th>Inquire</th>
-                <th>DIM</th>
-                <th>VIH</th>
-                <th>VIP</th>
-                <th>Cop</th>
-            </tr>
-            </thead>
-            <tbody>
+    <!-- Table -->
+    <table class="table" id="POB">
+        <thead>
+        <tr>
+            <th>Ref #</th>
+            <th>R.Q Time</th>
+            <th>POB Time</th>
+            <th>On hire time</th>
+            <th>Cab #</th>
+            <th>Driver mobile</th>
+            <th>Address</th>
+            <th>Agent</th>
+            <th>Inquire</th>
+            <th>DIM</th>
+            <th>VIH</th>
+            <th>VIP</th>
+            <th>Cop</th>
 
-            </tbody>
-        </table>
-    </div>
+            <th>Location</th>
+            <th>Info Dispatcher</th>
+        </tr>
+        </thead>
+        <tbody>
 
-
-
-
-
-    <div class="panel panel-info">
-        <!-- Default panel contents -->
-        <div class="panel-heading text-center">At the Place</div>
-
-        <!-- Table -->
-        <table class="table" id="AT_THE_PLACE">
-            <thead>
-            <tr>
-                <th>Ref #</th>
-                <th>R.Q Time</th>
-                <th>MCT</th>
-                <th>Message copied time</th>
-                <th>MR</th>
-                <th>Cab #</th>
-                <th>Driver mobile</th>
-                <th>Address</th>
-                <th>Agent</th>
-                <th>Inquire</th>
-                <th>DIM</th>
-                <th>VIH</th>
-                <th>VIP</th>
-                <th>Cop</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
-    </div>
-
-
-
-
-
-    <div class="panel panel-warning">
-        <!-- Default panel contents -->
-        <div class="panel-heading text-center">POB</div>
-
-        <!-- Table -->
-        <table class="table" id="POB">
-            <thead>
-            <tr>
-                <th>Ref #</th>
-                <th>R.Q Time</th>
-                <th>POB Time</th>
-                <th>On hire time</th>
-                <th>Cab #</th>
-                <th>Driver mobile</th>
-                <th>Address</th>
-                <th>Agent</th>
-                <th>Inquire</th>
-                <th>DIM</th>
-                <th>VIH</th>
-                <th>VIP</th>
-                <th>Cop</th>
-
-                <th>Location</th>
-                <th>Info Dispatcher</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
-    </div>
+        </tbody>
+    </table>
+</div>
 
 
 <div class="panel panel-default">
@@ -260,3 +258,15 @@
 </div>
 </body>
 </html>
+<?php
+function getBadge($status)
+{
+    $status = (bool)$status;
+    if ($status) {
+        $returnBadge = '<span class="badge alert-info"><span style="color: #5cb85c" class="glyphicon glyphicon-ok"></span></span>';
+    } else {
+        $returnBadge = '<span class="badge alert-warning"><span style="color: #d9534f" class="glyphicon glyphicon-remove"></span></span>';
+    }
+    return $returnBadge;
+}
+?>

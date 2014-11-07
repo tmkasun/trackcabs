@@ -129,7 +129,7 @@
 
     <div class="panel panel-default">
         <div class="panel-heading text-center">
-            <span>Live Cabs</span>
+            <span>Free Cabs</span>
         </div>
         <div class="panel-body">
 

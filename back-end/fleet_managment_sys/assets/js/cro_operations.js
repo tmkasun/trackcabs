@@ -383,7 +383,7 @@ function uiInit(){
     });
 }
 
-function changeJobInfoView(bookingObjId){
+function changeJobInfoViewByRefId(bookingObjId){
 
     var index = -1;
     console.log(bookingObjId);

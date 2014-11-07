@@ -148,10 +148,12 @@
                 uiInit();
             }
             if(request == 'cancel'){
-                getCancelConfirmationView(url ,param1)
+                getCancelConfirmationView(url ,param1);
+                uiInit();
             }
             if(request == 'confirmCancel'){
                 confirmCancel(url , tp ,param1);
+                uiInit();
             }
             if(request == 'denyCancel'){
                 getCustomerInfoView(url, tp);
@@ -167,7 +169,7 @@
                 uiInit();
             }
             if(request == 'changeJobInfoView'){
-                changeJobInfoView(param1)
+                changeJobInfoViewByRefId(param1)
             }
         }
     </script>

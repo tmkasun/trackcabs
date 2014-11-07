@@ -114,12 +114,12 @@ class History_dao extends CI_Model
         $collection = $this->get_collection();
 
         $searchQuery= array('_id' => new MongoId($objId));
-        $collection->update($searchQuery ,array('$set' => array('bookingCharge' => $bookingCharge)));
+        $collection->update($searchQuery ,array('$set' => array('bookingCharge' => intval($bookingCharge))));
     }
 
     function updateBookingChargeByRef($refId , $bookingCharge){
         $collection = $this->get_collection();
         $searchQuery= array('refId' => new MongoInt32($refId));
-        $collection->update($searchQuery ,array('$set' => array('bookingCharge' => $bookingCharge)));
+        $collection->update($searchQuery ,array('$set' => array('bookingCharge' => intval($bookingCharge))));
     }
 }

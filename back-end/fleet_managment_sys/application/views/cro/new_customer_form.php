@@ -16,6 +16,11 @@
         <option value="Mag">Mag</option>
         <option value="Col">Col</option>
     </select>
+
+    <select id="profileType" class="form-control">
+        <option selected value="Personal">Personal</option>
+        <option value="Cooperate">Cooperate</option>
+    </select>
 </form>
 
 <form role="form" id="newCustomer" class="customerForm">

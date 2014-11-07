@@ -194,6 +194,7 @@ function createCusInfo(url){
     var org     = $('#organization').val();
     var title = $('#title').val();
     var position = $('#position').val();
+    var profileType = $('#profileType').val();
 
     var type1 = 'mobile';
     var type2 = 'mobile';
@@ -212,9 +213,23 @@ function createCusInfo(url){
     if(tp2 == ''){ tp2 = '-' };
 
     /* Added extra info to the customer object of total job and job cancellations */
-    var data = { 'tp' : tp , 'type1' : type1 , 'tp2' : tp2 , 'type2' : type2 ,'name' : cusName , 'pRemark' : pRemark ,
-                'org' : org , 'title' : title , 'position' : position, 'dis_cancel' : 0 , 'tot_cancel' : 0,
-                'tot_job' : 0 };
+    var data = {
+        'profileType' : profileType ,
+        'tp' : tp ,
+        'type1' : type1 ,
+        'tp2' : tp2 ,
+        'type2' : type2 ,
+        'name' : cusName ,
+        'pRemark' : pRemark ,
+
+        'org' : org ,
+        'title' : title ,
+        'position' : position,
+        'dis_cancel' : 0 ,
+        'tot_cancel' : 0,
+        'tot_job' : 0
+    };
+
     ajaxPost(data,url);
 
 }
@@ -230,6 +245,7 @@ function updateCustomerInfoView(url){
     var org     = $('#organization').val();
     var title = $('#title').val();
     var position = $('#position').val();
+    var profileType = $('#profileType').val();
 
     var type1 = 'mobile';
     var type2 = 'mobile';
@@ -241,8 +257,21 @@ function updateCustomerInfoView(url){
         type2='land'
     }
 
-    var data = { 'tp' : tp , 'data' : {'tp' : tp , 'type1' : type1 , 'tp2' : tp2 , 'type2' : type2 ,'name' : cusName , 'pRemark' : pRemark ,
-        'org' : org , 'title' : title , 'position' : position }};
+    var data = {
+        'profileType' : profileType,
+        'tp' : tp ,
+        'data' :
+            {   'tp' : tp ,
+                'type1' : type1 ,
+                'tp2' : tp2 ,
+                'type2' : type2 ,
+                'name' : cusName ,
+                'pRemark' : pRemark ,
+                'org' : org ,
+                'title' : title ,
+                'position' : position
+            }
+    };
     ajaxPost(data,url);
     getCustomerInfoView(siteUrl , tp);
 }

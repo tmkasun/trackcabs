@@ -23,6 +23,10 @@
         <label for="info">Information</label>
         <input type="text" class="form-control" id="info" placeholder="Enter Info" value="<?= $info;?>">
     </div>
+    <div class="form-group">
+        <label for="cabId">User ID</label>
+        <input type="text" class="form-control" id="userId"  readonly="readonly" value="<?php if(!isset($userId) || $userId === 'empty'){echo 'empty';}else {echo $userId;}?>">
+    </div>
     <button type="submit" class="btn btn-default" onclick="updateCab(url, docs_per_page , page )">Save</button>
 </form>
 

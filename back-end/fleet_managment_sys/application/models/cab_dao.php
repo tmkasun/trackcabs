@@ -7,10 +7,16 @@ class Cab_dao extends CI_Model
 
     }
 
+    
+    function get_collection($collection = 'cabs')
+    {
+        $conn = new MongoClient();
+        $collection = $conn->selectDB('track')->selectCollection($collection);
+        return $collection;
+    }
     function createCab($cabArray){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('cabs');
+        
+        $collection = $this->get_collection();
 
         $statusMsg = true;
         $record = $collection->findOne(array("cabId" => $cabArray['cabId']));
@@ -26,26 +32,25 @@ class Cab_dao extends CI_Model
     }
 
     function updateCab($cabId , $cabArray){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('cabs');
+        
+        $collection = $this->get_collection();
 
         $searchQuery= array('cabId' => $cabId);
-        $record = $collection->findOne($searchQuery);
+        //$record = $collection->findOne($searchQuery);
+        $collection->update($searchQuery,array('$set' => $cabArray));
 
-        foreach ($cabArray as $key => $value){
-            $record[$key] = $cabArray[$key];
-        }
-
-        $collection->save($record);
+//        foreach ($cabArray as $key => $value){
+//            $record[$key] = $cabArray[$key];
+//        }
+//
+//        $collection->save($record);
 
     }
 
 
     function  getCab($cabId){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('cabs');
+        
+        $collection = $this->get_collection();
 
         $searchQuery= array('cabId' => (int)$cabId);
         return $collection->findOne($searchQuery);
@@ -53,9 +58,7 @@ class Cab_dao extends CI_Model
 
     function getAllCabs(){
 
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('cabs');
+        $collection = $this->get_collection();
 
         $cursor = $collection->find();
         $data= array();
@@ -80,9 +83,7 @@ class Cab_dao extends CI_Model
 
     function getCabsByPage($limit,$skip){
 
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('cabs');
+        $collection = $this->get_collection();
 
         $cursor = $collection->find()->limit($limit)->skip($skip);
         $data= array('data' => array());
@@ -93,18 +94,16 @@ class Cab_dao extends CI_Model
     }
 
     function getCabByPlate($noPlate){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('cabs');
+        
+        $collection = $this->get_collection();
 
         $searchQuery = array('noPlate' => $noPlate);
         return $collection->findOne($searchQuery);
     }
 
     function getVehicleType($cabId){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('cabs');
+        
+        $collection = $this->get_collection();
 
         $searchQuery = array('cabId'=> $cabId);
         $record = $collection->findOne($searchQuery);
@@ -114,9 +113,9 @@ class Cab_dao extends CI_Model
 
 
     function setLiveZone($cabId , $zone){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('cabs');
+        
+        $collection = $this->get_collection();
+        
         $searchQuery= array('cabId' => (int)$cabId);
 
         $collection->update($searchQuery ,array('$set' => array('zone' => $zone)),array('new' => true));
@@ -126,9 +125,9 @@ class Cab_dao extends CI_Model
     }
 
     function setState($cabId,$state){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('cabs');
+        
+        $collection = $this->get_collection();
+        
         $searchQuery= array('cabId' => (int)$cabId);
         $collection->update($searchQuery ,array('$set' => array('state' => $state)),array('new' => true));
         return $collection->findOne($searchQuery);
@@ -137,9 +136,9 @@ class Cab_dao extends CI_Model
 
 
     function setPobDestinationZoneTime($cabId , $zone, $eta){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('cabs');
+        
+        $collection = $this->get_collection();
+        
         $searchQuery= array('cabId' => (int)$cabId);
 
         $collection->update($searchQuery ,array('$set' => array('zone' => $zone)),array('new' => true));

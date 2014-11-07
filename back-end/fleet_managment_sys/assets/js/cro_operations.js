@@ -12,7 +12,7 @@ function getEditBookingView(url , objId){
     $('#newBooking').html(view.view.edit_booking_view);
 }
 
-function getCancelConfirmationView( url ,  bookingObjId ){
+    function getCancelConfirmationView( url ,  bookingObjId ){
 
     var data = {'_id' : bookingObjId };
     url = url +"/cro_controller/getCancelConfirmationView";
@@ -267,6 +267,9 @@ function getCustomerInfoView( url , tp ){
 
     /*  Populate the job information view */
     $('#newBooking').html(view.view.new_booking_view);
+
+    /*  Populate the job information view */
+    $('#bookingHistory').html(view.view.booking_history_view);
 }
 
 function getSimilarTpNumbers(url , tp){

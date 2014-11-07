@@ -49,7 +49,7 @@
                 <button type="submit" class="btn btn-default" onclick="getCabView(url)">Submit</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Link</a></li>
+                <li><a href="<?= site_url('login/logout')?>">Log Out</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -411,7 +411,7 @@
         {
             cabId = document.getElementById("cabId").value;
             //json object for 'user_type' 'driver'
-            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' , 'blocked':'false' };
+            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' , 'blocked':'false' ,'lastLogout':'0'};
         }
         //jason object when for 'user_type's 'cro', and 'dispatcher' 
         else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type  , 'blocked':'false' };}

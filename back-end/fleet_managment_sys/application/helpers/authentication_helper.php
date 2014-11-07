@@ -10,20 +10,16 @@ if (!function_exists('is_user_logged_in')) {
         $ci =& get_instance();
         if($ci->session->userdata('blocked')){
             $ci->session->set_userdata('error', 'You account has been blocked.Please contact Admin !');
-            var_dump("Blocked Account helper");
             return FALSE;
         }else {
 
-
             if ($ci->session->userdata('logged_in')) {
-
                 $session_data = $ci->session->userdata('logged_in');
                 return $session_data;
 
             } else {
                 $ci->session->set_userdata('error', 'Invalid username or password!');
-                var_dump("Login Fail");
-                return FALSE;
+               return FALSE;
             }
         }
 

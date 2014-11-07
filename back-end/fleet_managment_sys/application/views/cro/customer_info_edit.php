@@ -16,6 +16,11 @@
         <option value="Mag" <?php if($title == 'Mag')echo 'selected';?>>Mag</option>
         <option value="Col" <?php if($title == 'Col')echo 'selected';?>>Col</option>
     </select>
+
+    <select id="profileType" class="form-control">
+        <option value="Personal"   <?php if($profileType == 'Personal')echo 'selected';?>>Personal</option>
+        <option value="Cooperate" <?php if($profileType == 'Cooperate')echo 'selected';?>>Cooperate</option>
+    </select>
 </form>
 
 <form role="form" id="editCustomer" class="customerForm">

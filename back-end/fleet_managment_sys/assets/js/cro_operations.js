@@ -3,18 +3,16 @@ $(document).ready(function(){
 });
 
 function getEditBookingView(url , objId){
-    alert('edit booking');
     var data = {'objId' : objId};
     url = url +"/cro_controller/getEditBookingView";
     var view = ajaxPost(data,url);
-    alert(view);
     /*  Populate the New Booking field with the editing form */
     $('#newBooking').html(view.view.edit_booking_view);
 }
 
-function getCancelConfirmationView( url , tp , id ){
+    function getCancelConfirmationView( url ,  bookingObjId ){
 
-    var data = {'_id' : id };
+    var data = {'_id' : bookingObjId };
     url = url +"/cro_controller/getCancelConfirmationView";
     var view = ajaxPost(data,url);
 
@@ -70,6 +68,7 @@ function createBooking(url , tp){
     var isVip               = $('#vip')[0].checked;
     var isVih               = $('#vih')[0].checked;
     var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
+    var bookingCharge = '-';
 
     if (no == ''){no = '-'}
     if (road == ''){road= '-'}
@@ -107,10 +106,11 @@ function createBooking(url , tp){
             'cabId' : '-',
             'driverId' : '-',
             'remark' : remark ,
-            'inqCall' : 0,
+            'inqCall'      : 0,
             'callUpPrice' : callUpPrice,
             'dispatchB4' : dispatchB4,
-            'destination' : destination
+            'destination' : destination,
+            'bookingCharge' : bookingCharge
         }
     };
     ajaxPost(data,url);
@@ -186,7 +186,6 @@ function editCustomerInfoEditView( url , tp ){
 
 function createCusInfo(url){
     var siteUrl = url;
-    alert('came to creat cus info');
     url = siteUrl + "/customer_retriever/createCustomer";
     var tp      = $('#tp').val();
     var tp2     = $('#tp2').val();
@@ -195,6 +194,7 @@ function createCusInfo(url){
     var org     = $('#organization').val();
     var title = $('#title').val();
     var position = $('#position').val();
+    var profileType = $('#profileType').val();
 
     var type1 = 'mobile';
     var type2 = 'mobile';
@@ -213,9 +213,23 @@ function createCusInfo(url){
     if(tp2 == ''){ tp2 = '-' };
 
     /* Added extra info to the customer object of total job and job cancellations */
-    var data = { 'tp' : tp , 'type1' : type1 , 'tp2' : tp2 , 'type2' : type2 ,'name' : cusName , 'pRemark' : pRemark ,
-                'org' : org , 'title' : title , 'position' : position, 'dis_cancel' : 0 , 'tot_cancel' : 0,
-                'tot_job' : 0 };
+    var data = {
+        'profileType' : profileType ,
+        'tp' : tp ,
+        'type1' : type1 ,
+        'tp2' : tp2 ,
+        'type2' : type2 ,
+        'name' : cusName ,
+        'pRemark' : pRemark ,
+
+        'org' : org ,
+        'title' : title ,
+        'position' : position,
+        'dis_cancel' : 0 ,
+        'tot_cancel' : 0,
+        'tot_job' : 0
+    };
+
     ajaxPost(data,url);
 
 }
@@ -231,6 +245,7 @@ function updateCustomerInfoView(url){
     var org     = $('#organization').val();
     var title = $('#title').val();
     var position = $('#position').val();
+    var profileType = $('#profileType').val();
 
     var type1 = 'mobile';
     var type2 = 'mobile';
@@ -242,8 +257,21 @@ function updateCustomerInfoView(url){
         type2='land'
     }
 
-    var data = { 'tp' : tp , 'data' : {'tp' : tp , 'type1' : type1 , 'tp2' : tp2 , 'type2' : type2 ,'name' : cusName , 'pRemark' : pRemark ,
-        'org' : org , 'title' : title , 'position' : position }};
+    var data = {
+        'profileType' : profileType,
+        'tp' : tp ,
+        'data' :
+            {   'tp' : tp ,
+                'type1' : type1 ,
+                'tp2' : tp2 ,
+                'type2' : type2 ,
+                'name' : cusName ,
+                'pRemark' : pRemark ,
+                'org' : org ,
+                'title' : title ,
+                'position' : position
+            }
+    };
     ajaxPost(data,url);
     getCustomerInfoView(siteUrl , tp);
 }
@@ -267,6 +295,9 @@ function getCustomerInfoView( url , tp ){
 
     /*  Populate the job information view */
     $('#newBooking').html(view.view.new_booking_view);
+
+    /*  Populate the job information view */
+    $('#bookingHistory').html(view.view.booking_history_view);
 }
 
 function getSimilarTpNumbers(url , tp){
@@ -352,13 +383,12 @@ function uiInit(){
     });
 }
 
-function changeJobInfoView(bookingObjId){
+function changeJobInfoViewByRefId(bookingObjId){
 
     var index = -1;
     console.log(bookingObjId);
     for(var i=0 ; i < bookingObj.length ; i++){
         index++;
-        console.log(bookingObj[i]['_id']['$id']);
         if( bookingObj[i]['_id']['$id'] === bookingObjId){
             break;
         }
@@ -370,6 +400,7 @@ function changeJobInfoView(bookingObjId){
     if(driverId == '-')  driverId = 'NOT_ASSIGNED';
     if(cabId == '-')  cabId = 'NOT_ASSIGNED';
 
+    $('#jobRefId').html(bookingObj[index]['refId']);
     $('#jobStatus').html(bookingObj[index]['status']);
     $('#jobVehicleType').html(bookingObj[index]['vType']);
     $('#jobDriverId').html(driverId);

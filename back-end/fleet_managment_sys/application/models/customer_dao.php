@@ -7,16 +7,21 @@ class Customer_dao extends CI_Model
 
     }
 
+    function get_collection($collection = 'customers')
+    {
+
+        $conn = new MongoClient();
+        $collection = $conn->selectDB('track')->selectCollection($collection);
+        return $collection;
+    }
+
    /*
    * creates a new customer record in the customers collection
    * @keys in the customerArray {"telephone" => "", type => "", "Name" => "", "title" => "", "designation" => "" }
    */
     function createCustomer($customerArray){
 
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
+        $collection = $this->get_collection();
         $statusMsg = true;
 
         if($collection->findOne(array("tp" => $customerArray["tp"]))==null)
@@ -32,19 +37,14 @@ class Customer_dao extends CI_Model
     */
     function addBooking($tp , $booking){
 
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
+        $collection = $this->get_collection();
         $searchQuery = array('tp' => $tp);
         $result = $collection->findOne($searchQuery);
 
         if($result == null){
             $searchQuery = array('tp2' => $tp);
         }
-
         $collection->update($searchQuery, array('$push' => array("history" => $booking)));
-
     }
 
 
@@ -53,10 +53,7 @@ class Customer_dao extends CI_Model
     */
     function addCanceledDispatch($tp){
 
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
+        $collection = $this->get_collection();
         $searchQuery= array('tp' => $tp);
         $record = $collection->findOne($searchQuery);
 
@@ -80,10 +77,7 @@ class Customer_dao extends CI_Model
      */
     function addCanceledTotal($tp){
 
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
+        $collection = $this->get_collection();
         $searchQuery= array('tp' => $tp);
         $record = $collection->findOne($searchQuery);
 
@@ -107,10 +101,7 @@ class Customer_dao extends CI_Model
      */
     function addTotalJob($tp){
 
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
+        $collection = $this->get_collection();
         $searchQuery= array('tp' => $tp);
         $record = $collection->findOne($searchQuery);
 
@@ -133,10 +124,8 @@ class Customer_dao extends CI_Model
      * @returns similar tp numbers that matches the input
      */
     function getSimilar($tp){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
 
+        $collection = $this->get_collection();
         $regex = new MongoRegex("/^$tp/i");
         $cursor = $collection->find(array('tp' => $regex));
         $data= array();
@@ -152,10 +141,8 @@ class Customer_dao extends CI_Model
     * @returns null if record doesn't exist , if exist sends the first record
     */
     function getCustomer($tp){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
 
+        $collection = $this->get_collection();
         $searchQuery = array('tp' => $tp);
         $result = $collection->findOne($searchQuery);
 
@@ -168,30 +155,11 @@ class Customer_dao extends CI_Model
     }
 
     /*
-     *@method return the status of a given order
-     */
-    function getStatus($tp , $refId){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
-        $searchQuery = array('tp' => $tp);
-        $record = $collection->findOne($searchQuery);
-
-        $stat=array("index" => -1 , "found" => false);
-        $stat= $this->getIndex($record , $refId, $stat);
-
-        return $record["history"][$stat["index"]]["status"];
-    }
-
-    /*
      *@Returns the status of a given order
      */
     function getBooking($tp , $refId){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
 
+        $collection = $this->get_collection();
         $searchQuery = array('tp' => $tp);
         $record = $collection->findOne($searchQuery);
 
@@ -208,10 +176,7 @@ class Customer_dao extends CI_Model
     */
     function updateCustomer($tp , $data){
 
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('customers');
-
+        $collection = $this->get_collection();
         $searchQuery= array('tp' => $tp);
         $record = $collection->findOne($searchQuery);
 
@@ -251,7 +216,6 @@ class Customer_dao extends CI_Model
         }
         return $stat;
     }
-
 }
 
 

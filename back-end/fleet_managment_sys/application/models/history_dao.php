@@ -7,21 +7,23 @@ class History_dao extends CI_Model
 
     }
 
-    function createBooking($bookingArray){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('history');
+    function get_collection($collection = 'history')
+    {
+        $conn = new MongoClient();
+        $collection = $conn->selectDB('track')->selectCollection($collection);
+        return $collection;
 
+    }
+
+    function createBooking($bookingArray){
+        $collection = $this->get_collection();
         $collection->insert($bookingArray);
         return;
     }
 
-    function getBooking($refId){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('history');
-
-        $searchQuery= array('refId' => $refId);
+    function getBooking($objId){
+        $collection = $this->get_collection();
+        $searchQuery= array('_id' => new MongoId($objId ));
 
         return $collection->findOne($searchQuery);
     }
@@ -41,12 +43,64 @@ class History_dao extends CI_Model
         return $collection->findOne($searchQuery);
     }
 
-    function updateBooking($refId , $data){
+    /**
+     * @param $id = mongoId String
+     * @return php array of booking
+     */
+    function getBookingFeeByMongoId($id){
+
         $connection = new MongoClient();
         $dbName = $connection->selectDB('track');
         $collection = $dbName->selectCollection('history');
 
-        $searchQuery= array('refId' => $refId);
+        $searchQuery= array('_id' => new MongoId($id), 'bookingCharge' => '-');
+        $cursor = $collection->find($searchQuery);
+        $bookings= array();
+        foreach ($cursor as $booking) {
+            $bookings[]= $booking;
+        }
+        return $bookings;
+    }
+
+    /**
+     * @return array
+     */
+    function getBookingFees(){
+
+        $connection = new MongoClient();
+        $dbName = $connection->selectDB('track');
+        $collection = $dbName->selectCollection('history');
+        $searchQuery= array('bookingCharge' => '-');
+        $cursor = $collection->find($searchQuery);
+        $bookings= array('data'=> array());
+        foreach ($cursor as $booking) {
+            $bookings['data'][]= $booking;
+        }
+        return $bookings;
+    }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    function getBookingFeesByDriverId($id){
+
+        $connection = new MongoClient();
+        $dbName = $connection->selectDB('track');
+        $collection = $dbName->selectCollection('history');
+        $searchQuery= array('driverId' => new MongoInt32($id), 'bookingCharge' => '-');
+        $cursor = $collection->find($searchQuery);
+        $bookings= array('data'=> array());
+        foreach ($cursor as $booking) {
+            $bookings['data'][]= $booking;
+        }
+        return $bookings;
+    }
+
+    function updateBooking($objId , $data){
+        $collection = $this->get_collection();
+
+        $searchQuery= array('_id' => new MongoId($objId));
         $record = $collection->findOne($searchQuery);
 
         foreach ($data as $key => $value){
@@ -56,13 +110,16 @@ class History_dao extends CI_Model
         $collection->save($record);
     }
 
-    function updateStatus($refId , $status){
-        $connection = new MongoClient();
-        $dbName = $connection->selectDB('track');
-        $collection = $dbName->selectCollection('history');
+    function updateBookingCharge($objId , $bookingCharge){
+        $collection = $this->get_collection();
 
-        $searchQuery= array('refId' => $refId);
+        $searchQuery= array('_id' => new MongoId($objId));
+        $collection->update($searchQuery ,array('$set' => array('bookingCharge' => intval($bookingCharge))));
+    }
 
-        $collection->update($searchQuery ,array('$set' => array('status' => $status)));
+    function updateBookingChargeByRef($refId , $bookingCharge){
+        $collection = $this->get_collection();
+        $searchQuery= array('refId' => new MongoInt32($refId));
+        $collection->update($searchQuery ,array('$set' => array('bookingCharge' => intval($bookingCharge))));
     }
 }

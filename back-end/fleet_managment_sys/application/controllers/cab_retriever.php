@@ -60,7 +60,7 @@ class Cab_retriever extends CI_Controller
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
-        $input_data['cabId'] = $this->counters_dao->getNextId("cab");
+        $input_data['cabId'] = (int)$this->counters_dao->getNextId("cab");
         $result = $this->cab_dao->createCab($input_data);
         if($result == true)
             $this->output->set_output(json_encode(array("statusMsg" => "success","data" => "customer created successfully ")));

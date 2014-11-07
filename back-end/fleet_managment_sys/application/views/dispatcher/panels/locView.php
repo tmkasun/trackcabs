@@ -23,7 +23,7 @@
     <script type="text/javascript" src="<?= base_url();?>assets/webLibs/knockout/knockout-3.2.0.js"></script>
     <style>
         input.locInput{
-            width:65%;
+            width:40%;
             display: inline;
         }
 
@@ -474,8 +474,8 @@
                                 <tr>
                                     <td class="col-md-2" data-bind="text:name" ></td>
                                     <td class="col-md-3">
-                                        <input data-bind="attr:{id:id}, value:pob.cabEta" class="form-control cabEta locInput" type="text" >
-                                        <input data-bind="attr:{id:id}, value:pob.driverId" class="form-control driverId locInput" type="text">
+                                        <input data-bind="attr:{id:id}, value:pob.cabEta" class="form-control cabEta locInput" type="text" placeholder="ETA" >
+                                        <input data-bind="attr:{id:id}, value:pob.driverId" class="form-control driverId locInput" type="text" placeholder="Driver Id">
                                         <button data-bind="click:$root.addPobCab" class="form-control cabAdd">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
@@ -542,7 +542,8 @@
                                                                     </table>
 
                                                                     <div class="row" style="float:right; margin:0">
-                                                                        <button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>
+                                                                        <button class="btn btn-success" data-bind="click:$root.setToLive.bind($data , $parent )">Set Live</button>
+                                                                        <button class="btn btn-success" data-bind="click:$root.removeCabFromPob.bind($data , $parent )">Remove</button>
                                                                     </div>
 
                                                                 </div>
@@ -575,8 +576,8 @@
                                 <tr>
                                     <td class="col-md-2" data-bind="text:name" ></td>
                                     <td class="col-md-3">
-                                        <input data-bind="attr:{id:id}, value:pob.cabEta" class="form-control cabPobEta locInput" type="text">
-                                        <input data-bind="attr:{id:id}, value:pob.driverId" class="form-control cabDriverId locInput" type="text">
+                                        <input data-bind="attr:{id:id}, value:pob.cabEta" class="form-control cabPobEta locInput" type="text" placeholder="ETA">
+                                        <input data-bind="attr:{id:id}, value:pob.driverId" class="form-control cabDriverId locInput" type="text" placeholder="driverId">
                                         <button data-bind="click:$root.addPobCab" class="form-control cabAdd">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
@@ -638,7 +639,8 @@
                                                                     </table>
 
                                                                     <div class="row" style="float:right; margin:0">
-                                                                        <!--<button class="btn btn-success" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>-->
+                                                                        <button class="btn btn-success" data-bind="click:$root.setToLive.bind($data , $parent )">Set Live</button>
+                                                                        <button class="btn btn-success" data-bind="click:$root.removeCabFromPob.bind($data , $parent )">Remove</button>
                                                                     </div>
 
                                                                 </div>

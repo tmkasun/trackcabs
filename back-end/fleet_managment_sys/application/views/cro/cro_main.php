@@ -10,9 +10,6 @@
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap-datetimepicker.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/webLibs/bootstrapvalidator-dist-0.5.2/dist/css/bootstrapValidator.css">
 
-
-
-
     <!-------------------------------- JS Files------------------------------------>
     <script type="text/javascript" src="<?= base_url();?>assets/js/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap.js"></script>
@@ -41,16 +38,23 @@
 
         <ul class="nav navbar-nav">
             <li class="active"><a href="<?= site_url('cro_controller')?>">CRO</a></li>
+
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch" autofocus>
+                </div>
+                <input type="submit" class="btn btn-default" onclick="operations('getCustomer');return false" onsubmit="operations('getCustomer');return false" value="Submit" />
+            </form>
+
+
             <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
+            <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
+            <li><a href="<?= site_url('cro_controller/loadPOBBoardView')?>" >POB Board</a></li>
+            <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a></li>
         </ul>
 
-        <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch" autofocus>
-            </div>
-            <input type="submit" class="btn btn-default" onclick="operations('getCustomer');return false" onsubmit="operations('getCustomer');return false" value="Submit" />
-        </form>
+
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -59,10 +63,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= $uName;?><b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li><a href="#">Separated link</a></li>
+                        <li><a href="<?= site_url('login/logout')?>">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -71,7 +72,7 @@
 </div>
 
 <div class="container-fluid">
-    <div class="row" style="background: #d7ddeb">
+    <div class="row" style="background: #d7ddeb; min-height: 500px">
         <div class="col-lg-12" style="margin-top: 10px">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -80,7 +81,7 @@
                 <div class="panel-body" >
 
                     <div class="col-lg-12" id="jobInfo" >
-
+                    <h3>Enter a mobile number to Search</h3>
                     </div>
                 </div>
             </div>
@@ -116,22 +117,12 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Booking History</h3>
                 </div>
-                <div class="panel-body" id="newBooking">
+                <div class="panel-body" id="bookingHistory">
 
                 </div>
             </div>
         </div>
 </div>
-
-    <script>
-        $("#tpSearch").keyup(function(event){
-            var url = '<?= site_url(); ?>';
-            var tp = $("#tpSearch").val();
-            getSimilarTpNumbers(url,tp)
-        });
-    </script>
-
-
     <script>
         function operations(request, param1){
             if(request=="editCus"){
@@ -157,10 +148,12 @@
                 uiInit();
             }
             if(request == 'cancel'){
-                getCancelConfirmationView(url , tp , param1)
+                getCancelConfirmationView(url ,param1);
+                uiInit();
             }
             if(request == 'confirmCancel'){
                 confirmCancel(url , tp ,param1);
+                uiInit();
             }
             if(request == 'denyCancel'){
                 getCustomerInfoView(url, tp);
@@ -176,7 +169,7 @@
                 uiInit();
             }
             if(request == 'changeJobInfoView'){
-                changeJobInfoView(param1)
+                changeJobInfoViewByRefId(param1)
             }
         }
     </script>

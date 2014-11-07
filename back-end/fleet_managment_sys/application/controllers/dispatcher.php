@@ -155,7 +155,7 @@ class Dispatcher extends CI_Controller
         $cabEta = $this->input->post('cabEta');
         $cab = $this->user_dao->getCabByDriverId($driverId);
         if($cab != null){
-            $newCab = $this->cab_dao->setLiveZone($cab['cabId'], $zone, $cabEta);
+            $newCab = $this->cab_dao->setPobDestinationZoneTime($cab['cabId'], $zone, $cabEta);
             $newCab['driverId'] = $driverId;
             $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');

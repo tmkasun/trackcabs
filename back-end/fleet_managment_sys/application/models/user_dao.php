@@ -125,7 +125,38 @@ class User_dao extends CI_Model
         return $user;
 
     }
+    /**
+     * Returns the time after last login in hours
+     * @param $userId
+     * @param $timeStamp
+     * @return array|null
+     */
+    function hoursAfterLastLogin($userId,$timeStamp)
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array('userId' => $userId);
+        $user = $collection->findOne($searchQuery);
+        $seconds_diff = $timeStamp - $user['lastLogout'];
+        $hour_diff = $seconds_diff/3600;
+        return $hour_diff;
 
+    }
+
+
+    /**
+     * sets The last Logout time
+     * @param $userId
+     * @param $timeStamp
+     */
+    function setLastLogout($userId,$timeStamp)
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array('userId' => $userId);
+        $user = $collection->findOne($searchQuery);
+        $user['lastLogout'] = $timeStamp;
+        $collection->save($user);
+
+    }
 
     /**
      * Returns if user is able to logout or not

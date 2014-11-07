@@ -8,6 +8,7 @@
         <th>tp</th>
         <th>Can Logout</th>
         <th>Cab ID</th>
+        <th>Blocked</th>
     </tr>
 
     <?php foreach ($data as $item):?>
@@ -27,6 +28,7 @@
                     echo $item['cabId'];
                 }
                 ?></td>
+            <td><?= $item['blocked'];?></td>
         </tr>
 
     <?php endforeach;?>

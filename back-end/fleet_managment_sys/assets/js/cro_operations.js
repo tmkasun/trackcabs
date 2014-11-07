@@ -68,6 +68,7 @@ function createBooking(url , tp){
     var isVip               = $('#vip')[0].checked;
     var isVih               = $('#vih')[0].checked;
     var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
+    var bookingCharge = '-';
 
     if (no == ''){no = '-'}
     if (road == ''){road= '-'}
@@ -108,7 +109,8 @@ function createBooking(url , tp){
             'inqCall' : 0,
             'callUpPrice' : callUpPrice,
             'dispatchB4' : dispatchB4,
-            'destination' : destination
+            'destination' : destination,
+            'bookingCharge' : bookingCharge
         }
     };
     ajaxPost(data,url);

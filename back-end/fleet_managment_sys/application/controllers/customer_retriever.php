@@ -45,7 +45,6 @@ class Customer_retriever extends CI_Controller
     }
 
     public function addBooking(){
-        // TODO CHECK FOR REDUNDANCY AND CHANGE STATUS MESSAGE
         $statusMsg = 'success';
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
@@ -123,6 +122,8 @@ class Customer_retriever extends CI_Controller
             /* Remove the record from live collection and add it to the history */
             $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
             $this->live_dao->deleteBookingByMongoId($input_data['_id']);
+            /* Add removed booking from live to the history collection */
+            $this->history_dao->createBooking($bookingData);
 
             $tpType = $this->findTelephoneType($input_data["tp"]);
 //        if($tpType != 'land') {
@@ -132,10 +133,10 @@ class Customer_retriever extends CI_Controller
 //        }
 
             /* Send the canceled booking to the dispatch view */
-            $webSocket = new Websocket($user['userId']);
-            $webSocket->send($bookingData , 'dispatcher1');
+//            $webSocket = new Websocket($user['userId']);
+//            $webSocket->send($bookingData , 'dispatcher1');
 
-            $this->history_dao->createBooking($bookingData);
+
         }
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
     }

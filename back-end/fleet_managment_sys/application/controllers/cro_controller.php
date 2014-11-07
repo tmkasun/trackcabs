@@ -72,13 +72,13 @@ class Cro_controller extends CI_Controller
             foreach($result as $key => $value){
                 if($key == 'history'){
                     foreach($value as $newKey){
-                        $data = $this->live_dao->getBookingByMongoId($newKey['_id']);
-                        if($data != null){
-                            $bookingData['live_booking'][] = $data;
+                        $liveData = $this->live_dao->getBookingByMongoId($newKey['_id']);
+                        if($liveData  != null){
+                            $bookingData['live_booking'][] = $liveData ;
                         }
-                        $data = $this->history_dao->getBookingByMongoId($newKey['_id']);
-                        if($data != null){
-                            $bookingData['history_booking'][] = $data;
+                        $historyData = $this->history_dao->getBookingByMongoId($newKey['_id']);
+                        if($historyData != null){
+                            $bookingData['history_booking'][] = $historyData ;
                         }
                     }
                 }
@@ -86,6 +86,7 @@ class Cro_controller extends CI_Controller
             $data['customer_info_view'] = $this->load->view('cro/customer_info', $result , TRUE);
             $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);
             $data['new_booking_view'] = $this->load->view('cro/new_booking', $result , TRUE);
+            $data['booking_history_view'] = $this->load->view('cro/booking_history', $bookingData , TRUE);
             $this->output->set_output(json_encode(array("statusMsg" => "success","important" => $bookingData ,"view" => $data)));
         }
     }

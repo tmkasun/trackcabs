@@ -116,22 +116,12 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Booking History</h3>
                 </div>
-                <div class="panel-body" id="newBooking">
+                <div class="panel-body" id="bookingHistory">
 
                 </div>
             </div>
         </div>
 </div>
-
-    <script>
-        $("#tpSearch").keyup(function(event){
-            var url = '<?= site_url(); ?>';
-            var tp = $("#tpSearch").val();
-            getSimilarTpNumbers(url,tp)
-        });
-    </script>
-
-
     <script>
         function operations(request, param1){
             if(request=="editCus"){

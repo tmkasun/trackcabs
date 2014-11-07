@@ -13,7 +13,7 @@ class Dispatcher extends CI_Controller
 //			$content_data = array('computer_number' => $session_data['computer_number'], 'full_name' => $session_data['full_name']);
 //			$layout_data = array('title' => "Welcome to maps", 'content' => "maps/home", 'content_data' => $content_data);
 //			$this -> load -> view('layouts/inner_layout', $layout_data);
-            $new_orders = $this->live_dao->getAllBookings();
+            $new_orders = $this->live_dao->getNotDispatchedBookings();
             $new_orders_pane = $this->load->view("dispatcher/panels/new_orders", array('orders' => $new_orders), TRUE);
             $location_board_pane = $this->load->view("dispatcher/panels/locView", NULL, TRUE);
 
@@ -60,6 +60,7 @@ class Dispatcher extends CI_Controller
         $dispatchingOrder = $this->live_dao->getBooking($orderId);
         $dispatchingDriver = $this->user_dao->getDriverByCabId($cabId);
         $driverId = $dispatchingDriver['userId'];
+        $this->cab_dao->setState($cabId,"pending");
 //        $this->live_dao->deleteBooking($postData['refId']);
 //        $customer = $this->customer_dao->getCustomer($dispatchingOrder['tp']); // TODO: need this when updating customer order history
 
@@ -71,9 +72,12 @@ class Dispatcher extends CI_Controller
 
         $this->live_dao->setDriverId($orderId, $driverId);
         $this->live_dao->setCabId($orderId, $cabId);
+        $this->live_dao->updateStatus((string)$dispatchingOrder['_id'], "MSG_NOT_COPIED");
 
         $driverId = strlen($driverId) <= 1 ? '0' . $driverId : $driverId;
-        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . " Address: " . $custoAddress;
+
+        $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? $custoNumber:'';
+        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] ." Customer number:".$custoNumber. " Address: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
         $sentCusto = $sms->send($custoNumber, $custoMessage);
@@ -93,18 +97,17 @@ class Dispatcher extends CI_Controller
     }
 
 
-    function setZone()
+    function setLiveZone()
     {
-
-        $postData = $this->input->post();
         $driverId = $this->input->post('driverId');
         $zone = $this->input->post('zone');
         $cab = $this->user_dao->getCabByDriverId($driverId);
         if($cab != null){
-            $newCab = $this->cab_dao->setZone($cab['cabId'], $zone);
+            $newCab = $this->cab_dao->setLiveZone($cab['cabId'], $zone);
             $newCab['driverId'] = $driverId;
+            $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');
-            echo json_encode($cab);
+            echo json_encode($newCab);
 
         }
         else{
@@ -115,10 +118,55 @@ class Dispatcher extends CI_Controller
 
     }
 
+
+    function setUnknown()
+    {
+
+        $cabId = $this->input->post('cabId');
+        $cab = $this->cab_dao->getCab($cabId);
+        if($cab != null){
+            $newCab = $this->cab_dao->setState($cab['cabId'],"unknown");
+            $newCab['lastZone'] = $cab['zone'];
+            $this->output->set_content_type('application/json');
+            echo json_encode($newCab);
+
+        }
+        else{
+            $this->output->set_content_type('application/json');
+            echo json_encode($cab);
+
+        }
+
+    }
+
+
+
     function cabsInZones(){
         $result = $this->cab_dao->getCabsInZones();
         $this->output->set_content_type('application/json');
         echo json_encode($result);
+    }
+
+    function setPobDestinationZoneTime(){
+
+        $driverId = $this->input->post('driverId');
+        $zone = $this->input->post('zone');
+        $cabEta = $this->input->post('cabEta');
+        $cab = $this->user_dao->getCabByDriverId($driverId);
+        if($cab != null){
+            $newCab = $this->cab_dao->setPobDestinationZoneTime($cab['cabId'], $zone, $cabEta);
+            $newCab['driverId'] = $driverId;
+            $newCab['lastZone'] = $cab['zone'];
+            $this->output->set_content_type('application/json');
+            echo json_encode($newCab);
+
+        }
+        else{
+            $this->output->set_content_type('application/json');
+            echo json_encode($cab);
+
+        }
+
     }
 
 }

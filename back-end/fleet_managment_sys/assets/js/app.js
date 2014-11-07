@@ -205,4 +205,12 @@ function clearFocus() {
     }
 }
 
+// TODO:this is not a remote call , move this to application.js
+function closeAll() {
+    $('.modal').modal('hide');
+    setTimeout(function () {
+        $.UIkit.offcanvas.hide()
+    }, 100);
+}
+
 

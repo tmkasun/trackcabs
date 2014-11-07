@@ -135,7 +135,7 @@ class User_dao extends CI_Model
     function logout($driverId)//the variable $dirverId refers to the 'userId' atrribute of a single driver(user)
     {
         $collection = $this->get_collection();
-        $searchQuery = array("userId" => $driverId , 'logout' => 'true' );
+        $searchQuery = array("userId" => new MongoInt32($driverId) , 'logout' => 'true' );
         $user = $collection->findOne($searchQuery);
         return $user;
 

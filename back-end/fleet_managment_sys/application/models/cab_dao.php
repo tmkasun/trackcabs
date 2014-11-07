@@ -47,7 +47,7 @@ class Cab_dao extends CI_Model
         $dbName = $connection->selectDB('track');
         $collection = $dbName->selectCollection('cabs');
 
-        $searchQuery= array('cabId' => $cabId);
+        $searchQuery= array('cabId' => (int)$cabId);
         return $collection->findOne($searchQuery);
     }
 
@@ -113,14 +113,41 @@ class Cab_dao extends CI_Model
     }
 
 
-    function setZone($cabId , $zone){
+    function setLiveZone($cabId , $zone){
         $connection = new MongoClient();
         $dbName = $connection->selectDB('track');
         $collection = $dbName->selectCollection('cabs');
         $searchQuery= array('cabId' => (int)$cabId);
 
         $collection->update($searchQuery ,array('$set' => array('zone' => $zone)),array('new' => true));
+        $collection->update($searchQuery ,array('$set' => array('state' => 'live')),array('new' => true));
         return $collection->findOne($searchQuery);
 
     }
+
+    function setState($cabId,$state){
+        $connection = new MongoClient();
+        $dbName = $connection->selectDB('track');
+        $collection = $dbName->selectCollection('cabs');
+        $searchQuery= array('cabId' => (int)$cabId);
+        $collection->update($searchQuery ,array('$set' => array('state' => $state)),array('new' => true));
+        return $collection->findOne($searchQuery);
+
+    }
+
+
+    function setPobDestinationZoneTime($cabId , $zone, $eta){
+        $connection = new MongoClient();
+        $dbName = $connection->selectDB('track');
+        $collection = $dbName->selectCollection('cabs');
+        $searchQuery= array('cabId' => (int)$cabId);
+
+        $collection->update($searchQuery ,array('$set' => array('zone' => $zone)),array('new' => true));
+        $collection->update($searchQuery ,array('$set' => array('state' => 'pob')),array('new' => true));
+        $collection->update($searchQuery ,array('$set' => array('eta' => $eta)),array('new' => true));
+        return $collection->findOne($searchQuery);
+
+    }
+
+
 }

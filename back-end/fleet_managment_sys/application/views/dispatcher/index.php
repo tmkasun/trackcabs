@@ -18,44 +18,22 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/app.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css">
-    <!-- Leaflet styles -->
-    <link rel="stylesheet" href="<?= base_url() ?>assets/css/leaflet.css"/>
-    <link rel="stylesheet" href="<?= base_url() ?>assets/css/L.Control.Locate.css"/>
-    <link rel="stylesheet" href="<?= base_url() ?>assets/css/MarkerCluster.Default.css"/>
-    <link rel="stylesheet" href="<?= base_url() ?>assets/css/leaflet_fullscreen/leaflet.fullscreen.css"/>
-    <link rel="stylesheet" href="<?= base_url() ?>assets/css/leaflet/leaflet.draw.css"/>
 
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/uikit/uikit.min.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/uikit/addons/uikit.addons.min.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/jquery-ui.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/jquery-ui.theme.min.css">
 
-    <!-- C3 chart library styles-->
-    <link rel="stylesheet" href="<?= base_url() ?>assets/css/d3/c3.css">
 
     <script src="<?= base_url() ?>assets/js/jquery-2.1.1.min.js"></script>
     <script src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
     <script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
-
-    <!-- Leaflet plugins libries -->
-    <script src="<?= base_url() ?>assets/js/leaflet/leaflet.js"></script>
-    <script src="<?= base_url() ?>assets/js/leaflet/leaflet.markercluster.js"></script>
-    <script src="<?= base_url() ?>assets/js/leaflet/L.Control.Locate.js"></script>
-    <script src="<?= base_url() ?>assets/js/leaflet/leaflet.groupedlayercontrol.js"></script>
-    <script src="<?= base_url() ?>assets/js/leaflet/Leaflet.fullscreen.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/leaflet/Marker.Rotate.js"></script>
-    <script src="<?= base_url() ?>assets/js/leaflet/leaflet.draw.js"></script>
 
     <!-- TODO: for reference <Update lib or remove if not in use>: This `R`(RaphaelLayer: https://github.com/dynmeth/RaphaelLayer) library is dam buggy can't use it reliably -->
     <!--<script src="<?= base_url() ?>assets/js/leaflet/rlayer.js"></script>-->
     <!--<script src="<?= base_url() ?>assets/js/leaflet/raphael-min.js"></script>-->
 
     <script src="<?= base_url() ?>assets/js/typeahead.bundle.min.js"></script>
-
-
-    <!-- C3 charting library using D3 core -->
-    <script src="<?= base_url() ?>assets/js/d3/d3.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/d3/c3.min.js"></script>
 
     <!-- UIkit libraries -->
     <script src="<?= base_url() ?>assets/js/uikit/uikit.min.js"></script>
@@ -69,25 +47,6 @@
     <script src="<?= base_url() ?>assets/js/application_options.js"></script>
     <script>
         setBaseURL('<?= base_url().'index.php/' ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
-
-        function subscribe(userid) {
-            var conn = new ab.Session(
-                'ws://127.0.0.1:8080',
-                function () {
-                    conn.subscribe(userid, function (topic, data) {
-                        // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
-                        console.log('New Message published to user "' + topic + '" : ' + data.message);
-                        debugObject = data;
-                    });
-                },
-                function () {
-                    console.warn('WebSocket connection closed');
-                },
-                {'skipSubprotocolCheck': true}
-            );
-        }
-        subscribe('dispatcher1');
-
     </script>
     <style>
         /*
@@ -117,7 +76,6 @@
         }
 
         #container {
-            position: fixed;
             top: 0px;
         }
 
@@ -300,7 +258,7 @@
 
         <div id="rightSidePane">
 
-            <div style="position: relative;max-height: 90%;" id="locationBoardPane">
+            <div style="max-height: 90%;" id="locationBoardPane">
                 <?= $location_board_pane ?>
             </div>
 
@@ -672,47 +630,6 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /Modals in use -->
-
-
-<!-- Import within-GeoJson modal -->
-<div class="modal" id="editWithinGeoJSON" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header"
-                 style="cursor: move;background: #f9f9f9;-webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);-moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);">
-                <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">
-                    <!-- TODO: Trigger bootstrap tooltip $('#aboutTileUrl').tooltip(); to enable tooltip -->
-                    Edit GeoJson object of the selected area
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <div class="form-group">
-                        <label class="text-primary" for="importGeoJsonFile">Import GeoJson</label>
-                        <input id="importGeoJsonFile" type="file">
-                        <hr/>
-
-                        <label class="text-primary" for="enterGeoJson">Enter GeoJson</label>
-                        <textarea id="enterGeoJson" class="form-control" rows="10"></textarea>
-                    </div>
-                </div>
-                <div class="btn-group btn-group-justified">
-                    <div class="btn-group">
-                        <button id="updateGeoJson" class="btn btn-primary" onclick="importGeoJson()">Import</button>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn  btn-default" onclick="closeAll()">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /Modals in use -->
-
 
 <!-- ** comment out below library if using minimized wso2_geo_app.min library **  -->
 <script src="<?= base_url() ?>assets/js/app.js"></script>

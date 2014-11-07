@@ -39,15 +39,16 @@ class Login extends CI_Controller {
         $userName = $this->input->post('username');
         $pass = $this->input->post('password');
         $result = $this->user_dao->authenticate($userName,$pass);
-        var_dump($result);
         if($result != null ){
-            if($result['blocked'] != 'true'){
+            if($result["blocked"] == 'true'){
+                $this->session->set_userdata('blocked', true);
+              }else{
                 $this->session->set_userdata('logged_in', true);
                 $this->session->set_userdata('user', $result);
-              }else{
-                $this->session->set_userdata('blocked', true);
-            }
+              }
 
+        }else{
+            $this->session->set_userdata('blocked', false);
         }
 
         $this->index();

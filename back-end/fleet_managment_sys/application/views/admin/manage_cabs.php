@@ -38,6 +38,7 @@
 <!--            <li><a href="#" id="dispatcher" onclick="getDispatchersView(this.id)">Dispatcher</a></li>-->
             <li><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>
             <li><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
+            <li><a href="#" id="accounts" onclick="getAccountsView(this.id)">Accounts</a></li>
         </ul>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -381,6 +382,40 @@
         div.innerHTML =  result.view.table_content;
 
         getAllCROsView(id);
+    }
+
+    function getAccountsView(id){
+
+            url =url + "/accounts_controller/getAllAccountsView";
+            var skip = docs_per_page * (page-1);
+            var data = {"skip" : skip , "limit" : docs_per_page};
+            var view = ajaxPost(data,url);
+            var div = document.getElementById('dataFiled');
+            div.innerHTML = "";
+            div.innerHTML = view.view.table_content;
+
+
+    }
+
+    function getAccountViewFromDriverId(){
+
+        url =url + "/accounts_controller/getAccountsViewByDriverId";
+        var driverId = document.getElementById("driverIdSearch").value;
+        /* Create a JSON object from the form values */
+        var driver = { 'driverId' : driverId };
+        var result = ajaxPost(driver,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.table_content;
+
+    }
+    function updateAccounts(id,bookingChargeId){
+
+        var bookingCharge = document.getElementById(bookingChargeId).value;
+        var refId = document.getElementById(id).innerHTML;
+        var account = {'refId': refId , 'bookingCharge' : bookingCharge};
+        var url = '<?php echo site_url("accounts_controller/updateFee") ?>';
+        ajaxPost(account,url);
+        getAccountsView();
     }
 
     function getNewCROView(id){//alert("in getNewCROView");

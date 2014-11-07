@@ -6,6 +6,7 @@
         <th>Pass</th>
         <th>NIC</th>
         <th>tp</th>
+        <th>Blocked</th>
     </tr>
 
 
@@ -18,7 +19,7 @@
             <td><?= $item['pass'];?></td>
             <td><?= $item['nic'];?></td>
             <td><?= $item['tp'];?></td>
-
+            <td><?= $item['blocked'];?></td>
         </tr>
 
     <?php endforeach;?>

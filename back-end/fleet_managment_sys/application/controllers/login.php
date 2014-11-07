@@ -29,7 +29,7 @@ class Login extends CI_Controller {
 
 	public function logout() {
 		$this -> session -> unset_userdata('logged_in');
-		session_destroy();
+        session_destroy();
 		redirect(base_url(), 'refresh');
 	}
 
@@ -40,8 +40,13 @@ class Login extends CI_Controller {
         $result = $this->user_dao->authenticate($userName,$pass);
 
         if($result != null ){
-            $this->session->set_userdata('logged_in', true);
-            $this->session->set_userdata('user', $result);
+            if($result['blocked'] != 'true'){
+                $this->session->set_userdata('logged_in', true);
+                $this->session->set_userdata('user', $result);
+              }else{
+                $this->session->set_userdata('blocked', true);
+            }
+
         }
 
         $this->index();

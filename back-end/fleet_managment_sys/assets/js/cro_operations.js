@@ -3,11 +3,9 @@ $(document).ready(function(){
 });
 
 function getEditBookingView(url , objId){
-    alert('edit booking');
     var data = {'objId' : objId};
     url = url +"/cro_controller/getEditBookingView";
     var view = ajaxPost(data,url);
-    alert(view);
     /*  Populate the New Booking field with the editing form */
     $('#newBooking').html(view.view.edit_booking_view);
 }
@@ -186,7 +184,6 @@ function editCustomerInfoEditView( url , tp ){
 
 function createCusInfo(url){
     var siteUrl = url;
-    alert('came to creat cus info');
     url = siteUrl + "/customer_retriever/createCustomer";
     var tp      = $('#tp').val();
     var tp2     = $('#tp2').val();

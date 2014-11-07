@@ -10,9 +10,6 @@
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap-datetimepicker.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/webLibs/bootstrapvalidator-dist-0.5.2/dist/css/bootstrapValidator.css">
 
-
-
-
     <!-------------------------------- JS Files------------------------------------>
     <script type="text/javascript" src="<?= base_url();?>assets/js/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap.js"></script>
@@ -52,8 +49,8 @@
 
             <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
-            <li><a href="<?= site_url('cro_controller/locationBoard')?>" >Location Board</a></li>
-            <li><a href="<?= site_url('cro_controller/pobBoard')?>" >POB Board</a></li>
+            <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
+            <li><a href="<?= site_url('cro_controller/loadPOBBoardView')?>" >POB Board</a></li>
             <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a></li>
         </ul>
 
@@ -66,10 +63,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= $uName;?><b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li><a href="#">Separated link</a></li>
+                        <li><a href="<?= site_url('login/logout')?>">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -78,7 +72,7 @@
 </div>
 
 <div class="container-fluid">
-    <div class="row" style="background: #d7ddeb">
+    <div class="row" style="background: #d7ddeb; min-height: 500px">
         <div class="col-lg-12" style="margin-top: 10px">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -154,7 +148,6 @@
                 uiInit();
             }
             if(request == 'cancel'){
-                alert(param1);
                 getCancelConfirmationView(url ,param1)
             }
             if(request == 'confirmCancel'){

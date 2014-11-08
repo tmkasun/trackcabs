@@ -31,16 +31,14 @@
                     </div>
                     <?php if($profileType == 'Cooperate'):?>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default" onclick="operations('editCus', '<?= $tp;?>' )">Add User</button>
+                            <button type="button" class="btn btn-default" onclick="operations('addCustomer', '<?= $tp;?>' )">Add User</button>
                         </div>
                     <?php endif;?>
                 </div>
             </div>
 
-            <div class="col-lg-offset-10 col-lg-2" >
-                <div class="btn-group btn-group-justified">
-
-                </div>
+            <div class="col-lg-12">
+                
             </div>
         </div>
 </div>

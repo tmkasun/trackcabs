@@ -135,6 +135,7 @@
 
             }
             if(request == 'changeJobInfoView'){
+                alert(param1);
                 changeJobInfoViewByRefId(param1)
             }
             uiInit();

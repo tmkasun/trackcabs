@@ -69,6 +69,12 @@ function createBooking(url , tp){
     var isVih               = $('#vih')[0].checked;
     var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
     var bookingCharge = '-';
+    var bookingType = 'Personal';
+
+    if($('#personalProfileTp').length != 0){
+        bookingType = 'Cooperate';
+        var personalProfileTp = $('#personalProfileTp').val();
+    }
 
     if (no == ''){no = '-'}
     if (road == ''){road= '-'}

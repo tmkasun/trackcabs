@@ -70,8 +70,9 @@ class History_dao extends CI_Model
         $connection = new MongoClient();
         $dbName = $connection->selectDB('track');
         $collection = $dbName->selectCollection('history');
-        $searchQuery= array('bookingCharge' => '-');
-        $cursor = $collection->find($searchQuery);
+        $searchQuery= array('vType' => array('$nin'=>array('nano')),'status' => 'END','bookingCharge' => '-');//'vType' => array('$not'=>'nano'),'vType' => array('$nin'=>array('nano')),
+        //$searchQuery= array('$nin'=>array('bookingCharge'=>'-'));
+        $cursor = $collection->find($searchQuery);//var_dump($cursor);
         $bookings= array('data'=> array());
         foreach ($cursor as $booking) {
             $bookings['data'][]= $booking;
@@ -88,7 +89,7 @@ class History_dao extends CI_Model
         $connection = new MongoClient();
         $dbName = $connection->selectDB('track');
         $collection = $dbName->selectCollection('history');
-        $searchQuery= array('driverId' => new MongoInt32($id), 'bookingCharge' => '-');
+        $searchQuery= array('vType' => array('$nin'=>array('nano')),'status' => 'END','driverId' => new MongoInt32($id), 'bookingCharge' => '-');
         $cursor = $collection->find($searchQuery);
         $bookings= array('data'=> array());
         foreach ($cursor as $booking) {

@@ -61,5 +61,10 @@ class Test_controller extends CI_Controller
 //        $data['table_content'] = $this->load->view('admin/'.$user_type.'/new_'.$user_type.'_view', array('cab_ids' => $cab_ids), TRUE);
 //        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
+    function getFees()
+    {
+        $data = $this->history_dao->getBookingFees();
+        var_dump($data);
+    }
 }
 

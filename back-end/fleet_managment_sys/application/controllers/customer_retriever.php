@@ -81,8 +81,10 @@ class Customer_retriever extends CI_Controller
 //        }
 
         /* Send the newly added booking to the dispatch view */
-//        $webSocket = new Websocket('localhost', '5555', $user['userId']);
-//        $webSocket->send($bookingCreated, 'dispatcher1');
+        
+        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+        $webSocket->send($bookingCreated, 'dispatcher1');
+        $webSocket->send($bookingCreated, 'monitor1');
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
     }
@@ -133,9 +135,10 @@ class Customer_retriever extends CI_Controller
 //        }
 
             /* Send the canceled booking to the dispatch view */
-//            $webSocket = new Websocket($user['userId']);
-//            $webSocket->send($bookingData , 'dispatcher1');
 
+            $webSocket = new Websocket($user['userId']);
+            $webSocket->send($bookingData , 'dispatcher1');
+            $webSocket->send($bookingData, 'monitor1');
 
         }
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
@@ -156,8 +159,8 @@ class Customer_retriever extends CI_Controller
         $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
 
         /* Send the updated booking to the dispatch view */
-        $webSocket = new Websocket($user['userId']);
-        $webSocket->send($bookingData , 'dispatcher');
+//        $webSocket = new Websocket($user['userId']);
+//        $webSocket->send($bookingData , 'dispatcher');
 
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
 

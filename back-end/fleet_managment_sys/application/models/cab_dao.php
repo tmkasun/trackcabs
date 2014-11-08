@@ -47,7 +47,13 @@ class Cab_dao extends CI_Model
 
     }
 
-
+    function get_unassigned_cabs()
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array('userId' => -1);
+        $unassigned_cabs = $collection->find($searchQuery,array('cabId' => true,'plateNo' => true, 'vType' => true));
+        return $unassigned_cabs;
+    }
     function  getCab($cabId){
         
         $collection = $this->get_collection();

@@ -307,7 +307,7 @@
 
 </script>
 
-<!-- CRO javascript-->
+<!-- User javascript-->
 <script>
     function getCRO(){//alert("in getCRO");
 
@@ -382,41 +382,8 @@
         div.innerHTML =  result.view.table_content;
 
         getAllCROsView(id);
-    }
-
-    function getAccountsView(id){
-
-            url =url + "/accounts_controller/getAllAccountsView";
-            var skip = docs_per_page * (page-1);
-            var data = {"skip" : skip , "limit" : docs_per_page};
-            var view = ajaxPost(data,url);
-            var div = document.getElementById('dataFiled');
-            div.innerHTML = "";
-            div.innerHTML = view.view.table_content;
-
-
-    }
-
-    function getAccountViewFromDriverId(){
-
-        url =url + "/accounts_controller/getAccountsViewByDriverId";
-        var driverId = document.getElementById("driverIdSearch").value;
-        /* Create a JSON object from the form values */
-        var driver = { 'driverId' : driverId };
-        var result = ajaxPost(driver,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.table_content;
-
-    }
-    function updateAccounts(id,bookingChargeId){
-
-        var bookingCharge = document.getElementById(bookingChargeId).value;
-        var refId = document.getElementById(id).innerHTML;
-        var account = {'refId': refId , 'bookingCharge' : bookingCharge};
-        var url = '<?php echo site_url("accounts_controller/updateFee") ?>';
-        ajaxPost(account,url);
-        getAccountsView();
-    }
+    }    
+    
 
     function getNewCROView(id){//alert("in getNewCROView");
 
@@ -469,7 +436,55 @@
 
     }
 </script>
+<!-- Account javascript-->
+<script>
+    function getAccountViewFromDriverId(){
 
+        url ='<?php echo site_url("/accounts_controller/getAccountsViewByDriverId") ?>';
+        var driverId = document.getElementById("driverIdSearch").value;
+        /* Create a JSON object from the form values */
+        var driver = { 'driverId' : driverId };
+        var result = ajaxPost(driver,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.table_content;
+
+    }
+    
+    function getAccountsView(){
+
+            var url = '<?php echo site_url("accounts_controller/getAccountsNavBarView") ?>';            
+            var result = ajaxPost(null,url);//alert("before call");
+            /* Append the values for the div tag field */
+            var div = document.getElementById('navBarField');//alert("CRO NavBar ok");
+            div.innerHTML = "";
+            div.innerHTML = result.view.table_content;//alert("ok");
+
+            url = '<?php echo site_url("accounts_controller/getSidePanelView") ?>';
+            result = ajaxPost(null,url);//alert("CRO SideBar ok");
+            div = document.getElementById('operation');
+            div.innerHTML =  result.view.table_content;
+            
+            url ='<?php echo site_url("accounts_controller/getAllAccountsView") ?>'//url + "/accounts_controller/getAllAccountsView";
+            var skip = docs_per_page * (page-1);
+            var data = {"skip" : skip , "limit" : docs_per_page};
+            var view = ajaxPost(data,url);
+            var div = document.getElementById('dataFiled');
+            div.innerHTML = "";
+            div.innerHTML = view.view.table_content;//alert("ok2");
+
+
+    }
+    
+    function updateAccounts(id,bookingChargeId){
+
+        var bookingCharge = document.getElementById(bookingChargeId).value;
+        var refId = document.getElementById(id).innerHTML;
+        var account = {'refId': refId , 'bookingCharge' : bookingCharge};
+        var url = '<?php echo site_url("accounts_controller/updateFee") ?>';
+        ajaxPost(account,url);
+        getAccountsView();
+    }
+</script>>
 <script>
     function validate(plateNo , model , vType , color , info ){
         var status = false;

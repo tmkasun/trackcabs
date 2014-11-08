@@ -16,7 +16,7 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <form class="navbar-form navbar-left" role="search" id="getAccount">
             <div class="form-group">
-                <input class="form-control" placeholder="Driver ID" type="text" id="DriverIdSearch">
+                <input class="form-control" placeholder="Driver ID" type="text" id="driverIdSearch">
             </div>
             <button type="submit" class="btn btn-default" onclick="getAccountViewFromDriverId()">Submit</button>
         </form>

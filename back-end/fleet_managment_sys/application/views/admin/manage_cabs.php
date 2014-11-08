@@ -307,7 +307,7 @@
 
 </script>
 
-<!-- CRO javascript-->
+<!-- User javascript-->
 <script>
     function getCRO(){//alert("in getCRO");
 

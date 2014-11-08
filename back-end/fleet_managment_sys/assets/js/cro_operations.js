@@ -443,6 +443,8 @@ function changeJobInfoViewByRefId(bookingObjId){
 }
 
 function addUserToCooperateProfile(url,tp){
+
+    var siteUrl = url;
     url = url + "/customer_retriever/addCustomerToCooperateProfile";
     var userTp = $('#cooperateUserTp').val();
     var data = {"tp" : tp , "userTp" : userTp};
@@ -450,5 +452,7 @@ function addUserToCooperateProfile(url,tp){
     alert(JSON.stringify(result));
     if(result.statusMsg == 'fail'){
         alert('Number Entered Dosent Exists');
+        return false;
     }
+    getCustomerInfoView(siteUrl , tp);
 }

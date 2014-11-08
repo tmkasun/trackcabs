@@ -129,7 +129,7 @@ class Cro_controller extends CI_Controller
 
             $data['customer_info_view'] = $this->load->view('cro/customer_info', $result , TRUE);
             $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);
-            $data['new_booking_view'] = $this->load->view('cro/new_booking', '1' , TRUE);
+            $data['new_booking_view'] = $this->load->view('cro/new_booking', $result , TRUE);
             $data['booking_history_view'] = $this->load->view('cro/booking_history', $bookingData , TRUE);
             $this->output->set_output(json_encode(array("statusMsg" => "success","important" => $bookingData ,"view" => $data)));
         }

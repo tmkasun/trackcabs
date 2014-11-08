@@ -47,30 +47,31 @@
             <div class="col-lg-12" >
                 <h4>Personal Profiles</h4>
                 <?php if(isset($userInfo)):?>
+                    <div class="col-lg-12" style="max-height: 200px ; overflow: auto">
+                        <table class="table table-striped" >
+                            <tr>
+                                <th>Title</th>
+                                <th>Position</th>
+                                <th>Name</th>
+                                <th>tp1</th>
+                                <th>tp2</th>
+                                <th>Permanent Remarks</th>
+                                <th>Organization</th>
+                            </tr>
 
-                    <table class="table table-striped" >
-                        <tr>
-                            <th>Title</th>
-                            <th>Position</th>
-                            <th>Name</th>
-                            <th>tp1</th>
-                            <th>tp2</th>
-                            <th>Permanent Remarks</th>
-                            <th>Organization</th>
-                        </tr>
-
-                        <?php foreach($userInfo as $item):?>
-                        <tr>
-                            <td><?= $item['title'];?></td>
-                            <td><?= $item['position'];?></td>
-                            <td><?= $item['name'];?></td>
-                            <td><?= $item['tp'];?></td>
-                            <td><?= $item['tp2'];?></td>
-                            <td><?= $item['pRemark'];?></td>
-                            <td><?= $item['org'];?></td>
-                        </tr>
-                        <?php endforeach;?>
-                    </table>
+                            <?php foreach($userInfo as $item):?>
+                            <tr>
+                                <td><?= $item['title'];?></td>
+                                <td><?= $item['position'];?></td>
+                                <td><?= $item['name'];?></td>
+                                <td><?= $item['tp'];?></td>
+                                <td><?= $item['tp2'];?></td>
+                                <td><?= $item['pRemark'];?></td>
+                                <td><?= $item['org'];?></td>
+                            </tr>
+                            <?php endforeach;?>
+                        </table>
+                    </div>
                 <?php endif;?>
             </div>
         </div>

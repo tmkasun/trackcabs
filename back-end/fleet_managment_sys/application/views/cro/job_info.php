@@ -226,7 +226,7 @@
                     </tr>
                     <?php foreach(array_reverse($live_booking) as $item):?>
                         <tr>
-                            <td><a href="#" onclick="changeJobInfoView('<?= $item['_id']?>')"><?= $item['status'];?></td>
+                            <td><a href="#" onclick="changeJobInfoViewByRefId('<?= $item['_id']?>')"><?= $item['status'];?></a></td>
                             <td><?= $item['refId'];?></td>
                             <td><?=  date('H:i:s Y-m-d ', $item['callTime']->sec);?></td>
                             <td><?=  date('H:i:s Y-m-d ', $item['bookTime']->sec);?></td>

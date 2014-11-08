@@ -32,7 +32,9 @@
             <?php endif?>
 
             <?php if(!isset($history_booking)):?>
-                <h4>Previous History is Empty</h4>
+                <div class="col-lg-offset-5 col-lg-5">
+                    <h4>No previous bookings made</h4>
+                </div>
             <?php endif;?>
         </div>
     </div>

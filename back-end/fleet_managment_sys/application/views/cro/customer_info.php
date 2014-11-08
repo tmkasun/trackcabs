@@ -49,7 +49,7 @@
 
                     <table class="table table-striped" >
                         <tr>
-                            <th>Title</th>
+                                        <th>Title</th>
                             <th>Position</th>
                             <th>Name</th>
                             <th>Permanent Remarks</th>

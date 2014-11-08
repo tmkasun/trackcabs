@@ -60,7 +60,9 @@ class Dispatcher extends CI_Controller
         $dispatchingOrder = $this->live_dao->getBooking($orderId);
         $dispatchingDriver = $this->user_dao->getDriverByCabId($cabId);
         $driverId = $dispatchingDriver['userId'];
-        $this->cab_dao->setState($cabId,"pending");
+        $dispatchingCab = $this->cab_dao->setState($cabId,"MSG_NOT_COPIED");
+        $dispatchingCab = $this->cab_dao->setZone($cabId,"None");
+        $dispatchingCab['driverId'] = $driverId;
 //        $this->live_dao->deleteBooking($postData['refId']);
 //        $customer = $this->customer_dao->getCustomer($dispatchingOrder['tp']); // TODO: need this when updating customer order history
 
@@ -93,17 +95,19 @@ class Dispatcher extends CI_Controller
 //        $response = array('status'=> 'success', 'message' => 'Reference Id '.$postData['refId'].'Dispatched to '.$dispatchingOrder['address']);
         $this->output->set_content_type('application/json');
 //        echo json_encode($response);
-        echo json_encode($dispatchingDriver);
+        echo json_encode($dispatchingCab);
     }
 
 
-    function setLiveZone()
+    function setIdleZone()
     {
         $driverId = $this->input->post('driverId');
         $zone = $this->input->post('zone');
         $cab = $this->user_dao->getCabByDriverId($driverId);
         if($cab != null){
-            $newCab = $this->cab_dao->setLiveZone($cab['cabId'], $zone);
+
+            $newCab = $this->cab_dao->setState($cab['cabId'], "IDLE");
+            $newCab = $this->cab_dao->setZone($cab['cabId'], $zone);
             $newCab['driverId'] = $driverId;
             $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');
@@ -119,13 +123,14 @@ class Dispatcher extends CI_Controller
     }
 
 
-    function setUnknown()
+    function setInactive()
     {
 
         $cabId = $this->input->post('cabId');
         $cab = $this->cab_dao->getCab($cabId);
         if($cab != null){
-            $newCab = $this->cab_dao->setState($cab['cabId'],"unknown");
+            $newCab = $this->cab_dao->setState($cab['cabId'],"IDLE");
+            $newCab = $this->cab_dao->setZone($cab['cabId'],"None");
             $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');
             echo json_encode($newCab);

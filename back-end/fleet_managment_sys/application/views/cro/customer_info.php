@@ -59,7 +59,7 @@
                             <th>Organization</th>
                         </tr>
 
-                        <?php foreach($userInfo as $item)?>
+                        <?php foreach($userInfo as $item):?>
                         <tr>
                             <td><?= $item['title'];?></td>
                             <td><?= $item['position'];?></td>
@@ -69,6 +69,7 @@
                             <td><?= $item['pRemark'];?></td>
                             <td><?= $item['org'];?></td>
                         </tr>
+                        <?php endforeach;?>
                     </table>
                 <?php endif;?>
             </div>

@@ -32,7 +32,6 @@
                             <input type="text" class="form-control" id="landMark" name="landMark" placeholder="Land Mark">
                         </div>
                     </div>
-
                 </div>
 
                 <div class="panel panel-success" style="margin-top:2%">
@@ -77,6 +76,12 @@
                     </div>
 
                     <div class="panel-body">
+                        <?php if()?>
+                        <div class="form-group">
+                            <select class="form-control">
+                            <option value="">1</option>
+                            </select>
+                        </div>
 
                         <div class="form-group">
                             <label class="control-label" style="font-weight:bold">Vehicle Type</label></br>

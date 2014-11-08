@@ -155,6 +155,16 @@ class Customer_dao extends CI_Model
     }
 
     /*
+* @returns null if record doesn't exist , if exist sends the first record
+*/
+    function getCustomerByObjId($objId){
+
+        $collection = $this->get_collection();
+        $searchQuery= array('_id' => new MongoId($objId));
+        return $collection->findOne($searchQuery);
+    }
+
+    /*
      *@Returns the status of a given order
      */
     function getBooking($tp , $refId){

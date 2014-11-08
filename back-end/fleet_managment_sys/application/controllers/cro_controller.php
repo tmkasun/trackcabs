@@ -119,7 +119,7 @@ class Cro_controller extends CI_Controller
             if($result['profileType'] == 'Cooperate'){
                 if(isset($result['personalProfiles'])){
                     foreach($result['personalProfiles'] as $personalProfileTp){
-                        $userInfo = $this->customer_dao->getCustomer($personalProfileTp);
+                        $userInfo = $this->customer_dao->getCustomerByObjId($personalProfileTp['_id']);
                         unset($userInfo['history']);
                         if($userInfo != null)
                         $result['userInfo'][] =$userInfo;

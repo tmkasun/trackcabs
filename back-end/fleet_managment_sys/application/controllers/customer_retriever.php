@@ -191,7 +191,9 @@ class Customer_retriever extends CI_Controller
 
         if($personalProfile != null){
             $statusMsg = 'success';
-            $cooperateProfile['personalProfiles'][]=$personalProfile['tp'];
+            $customerObjId = array('_id' => $personalProfile['_id'] );
+
+            $cooperateProfile['personalProfiles'][]= $customerObjId ;
         }
         $this->customer_dao->updateCustomer($input_data["tp"] , $cooperateProfile);
 

@@ -116,10 +116,11 @@ class Cro_controller extends CI_Controller
                 }
             }
 
-            if($result['profileType'] == 'cooperate'){
-                if(isset($result['users'])){
-                    foreach($result['users'] as $userValue){
-                        $userInfo = $this->customer_dao->getCustomer($userValue);
+            if($result['profileType'] == 'Cooperate'){
+                if(isset($result['personalProfiles'])){
+                    foreach($result['personalProfiles'] as $personalProfileTp){
+                        $userInfo = $this->customer_dao->getCustomer($personalProfileTp);
+                        unset($userInfo['history']);
                         if($userInfo != null)
                         $result['userInfo'][] =$userInfo;
                     }

@@ -94,49 +94,44 @@
             if(request=="editCus"){
                 editCustomerInfoEditView( url , param1 );
             }
-
             if(request == 'updateCusInfo'){
                 updateCustomerInfoView( url );
             }
             if(request == 'getCustomer'){
                 tp      = document.getElementById("tpSearch").value;
                 getCustomerInfoView( url , tp);
-
             }
             if(request == 'createCusInfo'){
                 createCusInfo( url );
                 getCustomerInfoView(url , tp , customerObj,bookingObj);
-
             }
             if(request == 'createBooking'){
                 createBooking(url , tp);
                 getCustomerInfoView(url , tp );
-
             }
             if(request == 'cancel'){
                 getCancelConfirmationView(url ,param1);
-
             }
             if(request == 'confirmCancel'){
                 confirmCancel(url , tp ,param1);
-
             }
             if(request == 'denyCancel'){
                 getCustomerInfoView(url, tp);
-
             }
             if(request == 'editBooking'){
                 getEditBookingView(url,param1);
-
             }
             if(request == 'updateBooking'){
                 updateBooking(url,param1);
                 getCustomerInfoView(url , tp);
-
             }
             if(request == 'changeJobInfoView'){
                 alert(param1);
                 changeJobInfoViewByRefId(param1)
+            }
+            if(request == 'addUser'){
+                console.log('readched the cro main method');
+                addUserToCooperateProfile(url , tp );
             }
             uiInit();
         }

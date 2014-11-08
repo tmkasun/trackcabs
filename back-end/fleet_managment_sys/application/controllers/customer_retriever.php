@@ -182,4 +182,19 @@ class Customer_retriever extends CI_Controller
         /* TODO INFORM THROUGH WEB SOCKETS CHANGE HAS HAPPENED */
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
     }
+
+    public function addCustomerToCooperateProfile(){
+        $statusMsg = 'fail';
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $cooperateProfile = $this->customer_dao->getCustomer($input_data["tp"]);
+        $personalProfile  = $this->customer_dao->getCustomer($input_data["userTp"]);
+
+        if($personalProfile != null){
+            $statusMsg = 'success';
+            $cooperateProfile['personalProfiles'][]=$personalProfile['tp'];
+        }
+        $this->customer_dao->updateCustomer($input_data["tp"] , $cooperateProfile);
+
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg )));
+    }
 }

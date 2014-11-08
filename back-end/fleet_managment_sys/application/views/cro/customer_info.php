@@ -10,7 +10,8 @@
                         <th>Position</th>
                         <th>Name</th>
                         <th>Permanent Remarks</th>
-                        <th>Organization</th
+                        <th>Organization</th>
+                        <th>Profile Type</th>
                     </tr>
 
                     <tr>
@@ -19,6 +20,7 @@
                         <td><?= $name?></td>
                         <td><?= $pRemark?></td>
                         <td><?= $org?></td>
+                        <td><?= $profileType?></td>
                     </tr>
                 </table>
             </div>
@@ -27,9 +29,11 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" onclick="operations('editCus', '<?= $tp;?>' )">Edit Info</button>
                     </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default" onclick="operations('editCus', '<?= $tp;?>' )">Add User</button>
-                    </div>
+                    <?php if($profileType == 'Cooperate'):?>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" onclick="operations('editCus', '<?= $tp;?>' )">Add User</button>
+                        </div>
+                    <?php endif;?>
                 </div>
             </div>
 

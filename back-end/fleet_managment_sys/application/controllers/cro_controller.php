@@ -96,6 +96,7 @@ class Cro_controller extends CI_Controller
             /* Customer is new so send empty to to the JOB Info View */
             $data['job_info_view'] = '';
             $data['new_booking_view'] = '';
+            $data['booking_history_view']= '';
             $this->output->set_output(json_encode(array("statusMsg" => "fail","view" => $data)));
         }else{
 

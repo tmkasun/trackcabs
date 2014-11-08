@@ -75,6 +75,7 @@ class Dispatcher extends CI_Controller
         $this->live_dao->setDriverId($orderId, $driverId);
         $this->live_dao->setCabId($orderId, $cabId);
         $this->live_dao->updateStatus((string)$dispatchingOrder['_id'], "MSG_NOT_COPIED");
+        $this->live_dao->setDispatchedTime($orderId);
 
         $driverId = strlen($driverId) <= 1 ? '0' . $driverId : $driverId;
 

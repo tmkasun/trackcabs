@@ -35,7 +35,7 @@
                         &times;
                     </button>
                     <?=
-                    print($this->session->flashdata('error'));
+                    print($this->session->userdata('error'));
                     ?>
                 </div>
             <?php } ?>

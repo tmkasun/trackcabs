@@ -21,7 +21,13 @@
     </div>
     <div class="form-group">
         <label for="cabIdAssigned">Cab ID</label>
-        <input type="text" class="form-control" id="cabId" placeholder="Enter Cab ID">
+        <select class="form-control" id="cabId" >
+            <option value="-1" selected="">Assign Later</option>
+            <?php            
+            foreach($cab_ids as $cabId){echo '<option value="'.$cabId['cabId'].'">'.$cabId['cabId'].'</option>';$i++;}
+            ?>
+            
+        </select>
     </div>
     <button type="submit" id="driver" class="btn btn-default" onclick="createNewCRO(this.id)">Save</button>
 </form>

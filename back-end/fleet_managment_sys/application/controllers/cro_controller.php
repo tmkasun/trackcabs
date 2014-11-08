@@ -5,23 +5,55 @@ class Cro_controller extends CI_Controller
 
     public function index()
     {
-        $userData = $this->session->userdata('user');
-        $this->load->view('cro/cro_main',$userData);
+        if (is_user_logged_in()) {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/cro_main',$userData);
+        }else{
+            $this -> load -> helper(array('form'));
+            $this -> load -> view('login/index');
+        }
+
     }
 
     function loadMyBookingsView(){
-        $this->load->view('cro/my_bookings/my_bookings_main');
+
+        if (is_user_logged_in()) {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/my_bookings/my_bookings_main',$userData);
+        }else{
+            $this -> load -> helper(array('form'));
+            $this -> load -> view('login/index');
+        }
+    }
+
+    function loadLocationBoardView(){
+
+        if (is_user_logged_in()) {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/non_editable_loc_board',$userData);
+        }else{
+            $this -> load -> helper(array('form'));
+            $this -> load -> view('login/index');
+        }
     }
 
 
     function loadMapView(){
-        $this->load->view('cro/map/map_main');
+
+        if (is_user_logged_in()) {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/map/map_main',$userData);
+        }else{
+            $this -> load -> helper(array('form'));
+            $this -> load -> view('login/index');
+        }
     }
 
     function getTodayMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         // TODO SET THE SESSION USERID AS PARAMETER
-        $data = $this->live_dao->getCroBookingsToday('niro');
+        $user = $this->session->userdata('user');
+        $data = $this->live_dao->getCroBookingsToday($user['userId']);
 
         $data['booking_summary'] = $this->load->view('cro/my_bookings/booking_summary', $data , TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
@@ -64,6 +96,7 @@ class Cro_controller extends CI_Controller
             /* Customer is new so send empty to to the JOB Info View */
             $data['job_info_view'] = '';
             $data['new_booking_view'] = '';
+            $data['booking_history_view']= '';
             $this->output->set_output(json_encode(array("statusMsg" => "fail","view" => $data)));
         }else{
 
@@ -71,20 +104,32 @@ class Cro_controller extends CI_Controller
             foreach($result as $key => $value){
                 if($key == 'history'){
                     foreach($value as $newKey){
-                        $data = $this->live_dao->getBookingByMongoId($newKey['_id']);
-                        if($data != null){
-                            $bookingData['live_booking'][] = $data;
+                        $liveData = $this->live_dao->getBookingByMongoId($newKey['_id']);
+                        if($liveData  != null){
+                            $bookingData['live_booking'][] = $liveData ;
                         }
-                        $data = $this->history_dao->getBookingByMongoId($newKey['_id']);
-                        if($data != null){
-                            $bookingData['history_booking'][] = $data;
+                        $historyData = $this->history_dao->getBookingByMongoId($newKey['_id']);
+                        if($historyData != null){
+                            $bookingData['history_booking'][] = $historyData ;
                         }
                     }
                 }
             }
+
+            if($result['profileType'] == 'cooperate'){
+                if(isset($result['users'])){
+                    foreach($result['users'] as $userValue){
+                        $userInfo = $this->customer_dao->getCustomer($userValue);
+                        if($userInfo != null)
+                        $result['userInfo'][] =$userInfo;
+                    }
+                }
+            }
+
             $data['customer_info_view'] = $this->load->view('cro/customer_info', $result , TRUE);
             $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);
-            $data['new_booking_view'] = $this->load->view('cro/new_booking', $result , TRUE);
+            $data['new_booking_view'] = $this->load->view('cro/new_booking', '1' , TRUE);
+            $data['booking_history_view'] = $this->load->view('cro/booking_history', $bookingData , TRUE);
             $this->output->set_output(json_encode(array("statusMsg" => "success","important" => $bookingData ,"view" => $data)));
         }
     }

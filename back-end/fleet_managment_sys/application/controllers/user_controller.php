@@ -6,6 +6,10 @@ class User_controller extends CI_Controller
     }
 
     function getUserNavBarView(){
+        
+        
+        
+        
         $table_data['x'] = 1;
         
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
@@ -20,8 +24,14 @@ class User_controller extends CI_Controller
         
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $user_type = $input_data['user_type'];
-        
-        $data['table_content'] = $this->load->view('admin/'.$user_type.'/new_'.$user_type.'_view', $table_data, TRUE);
+        if($user_type === 'driver')
+            {
+                $cab_ids = array();
+                $cursor= $this->cab_dao->get_unassigned_cabs();
+                foreach($cursor as $cab_id){$cab_ids[] = $cab_id;}
+                $data['table_content'] = $this->load->view('admin/'.$user_type.'/new_'.$user_type.'_view',array('cab_ids' => $cab_ids),TRUE);
+            }
+         else{$data['table_content'] = $this->load->view('admin/'.$user_type.'/new_'.$user_type.'_view',$table_data,TRUE );}
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
@@ -96,7 +106,11 @@ class User_controller extends CI_Controller
         if(key_exists('cabId',$input_data))
                 {
                     if($input_data['cabId'] === ""){$input_data['cabId']= (int)-1;}
-                    else{$input_data['cabId']= (int)$input_data['cabId'];}
+                    else
+                        {
+                            $input_data['cabId']= (int)$input_data['cabId'];
+                            $this->cab_dao->updateCab($input_data['cabId'],array('userId' => $input_data["userId"] ));
+                        }
                     $input_data['status'] = 'out';
                     $input_data['lastLogout'] = new MongoDate();
                     $input_data['lastLogin'] = new MongoDate();
@@ -118,7 +132,11 @@ class User_controller extends CI_Controller
         if(array_key_exists('cabId',$input_data['details']))
                 {
                     if($input_data['details']['cabId'] === "" || $input_data['details']['cabId'] == -1){$input_data['details']['cabId']= (int)-1;}
-                    else{$input_data['details']['cabId']= (int)$input_data['details']['cabId'];}
+                    else
+                        {
+                            $input_data['details']['cabId']= (int)$input_data['details']['cabId'];
+                            $this->cab_dao->updateCab($input_data['details']['cabId'],array('userId' => $input_data["userId"] ));
+                        }
                 }
         $this->user_dao->updateUser($input_data['userId'],$input_data['details']);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));

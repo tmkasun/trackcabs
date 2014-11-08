@@ -60,12 +60,13 @@ class Cab_retriever extends CI_Controller
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
-        $input_data['cabId'] = $this->counters_dao->getNextId("cab");
+        $input_data['cabId'] = (int)$this->counters_dao->getNextId("cab");
+        $input_data['userId'] = (int)$input_data['userId'];
         $result = $this->cab_dao->createCab($input_data);
         if($result == true)
-            $this->output->set_output(json_encode(array("statusMsg" => "success","data" => "customer created successfully ")));
+            $this->output->set_output(json_encode(array("statusMsg" => "success","data" => "Cab Created Successfully ")));
         else
-            $this->output->set_output(json_encode(array("statusMsg" => "fail","data" => "customer already exists")));
+            $this->output->set_output(json_encode(array("statusMsg" => "fail","data" => "Cab Already Exists")));
 
     }
 
@@ -92,6 +93,8 @@ class Cab_retriever extends CI_Controller
 
     function updateCab(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        
+        if((array_key_exists('userId', $input_data['details']) && $input_data['details']['userId'] === 'empty') || !(array_key_exists('userId', $input_data['details']))){$input_data['details']['userId'] = -1;}
         $this->cab_dao->updateCab($input_data['cabId'],$input_data['details']);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
     }

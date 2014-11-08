@@ -34,5 +34,12 @@
         <label for="cabIdAssigned">Cab ID</label>
         <input type="text" class="form-control" id="cabId" placeholder="Enter Cab ID" value="<?= $cabId;?>">
     </div>
+    <div class="form-group">
+        <label for="blocked">Blocked</label>
+        <select class="form-control" id="blocked" placeholder="Blocked ?" >
+            <option <?php if($blocked=='true')echo "selected";?> value="true">Yes</option>
+            <option <?php if($blocked=='false')echo "selected";?> value="false">No</option>
+        </select>
+    </div>
     <button type="submit" class="btn btn-default" onclick="updateCRO('<?php echo $user_type?>')">Save</button>
 </form>

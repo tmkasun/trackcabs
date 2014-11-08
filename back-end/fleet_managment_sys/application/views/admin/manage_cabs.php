@@ -38,6 +38,7 @@
 <!--            <li><a href="#" id="dispatcher" onclick="getDispatchersView(this.id)">Dispatcher</a></li>-->
             <li><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>
             <li><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
+            <li><a href="#" id="accounts" onclick="getAccountsView(this.id)">Accounts</a></li>
         </ul>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -49,7 +50,7 @@
                 <button type="submit" class="btn btn-default" onclick="getCabView(url)">Submit</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Link</a></li>
+                <li><a href="<?= site_url('login/logout')?>">Log Out</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -306,7 +307,7 @@
 
 </script>
 
-<!-- CRO javascript-->
+<!-- User javascript-->
 <script>
     function getCRO(){//alert("in getCRO");
 
@@ -346,6 +347,7 @@
         var pass = document.getElementById("pass").value;
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
+        var blocked = document.getElementById("blocked").value;
         var cabId = "";
         var logout = "false";
         if(id.toString() === "driver" )
@@ -353,10 +355,10 @@
             cabId = document.getElementById("cabId").value;
             logout = document.getElementById("logout").value;
             //json object for 'user_type' 'driver'....when driver edited, 'logout' alwys set to false
-            var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId, 'logout': logout}};
+            var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId, 'logout': logout , 'blocked':blocked}};
         }
         //jason object when for 'user_type's 'cro', and 'dispatcher' 
-        else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};}
+        else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp , 'blocked':blocked}};}
         //else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId}};}
         
         var url = '<?php echo site_url("user_controller/updateUser") ?>';
@@ -380,7 +382,8 @@
         div.innerHTML =  result.view.table_content;
 
         getAllCROsView(id);
-    }
+    }    
+    
 
     function getNewCROView(id){//alert("in getNewCROView");
 
@@ -410,10 +413,10 @@
         {
             cabId = document.getElementById("cabId").value;
             //json object for 'user_type' 'driver'
-            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' };
+            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' , 'blocked':'false' ,'lastLogout':'0'};
         }
         //jason object when for 'user_type's 'cro', and 'dispatcher' 
-        else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type };}
+        else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type  , 'blocked':'false' };}
         //else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId };}
         var url = '<?php echo site_url("user_controller/createUser") ?>';
         alert(JSON.stringify(user));
@@ -433,7 +436,55 @@
 
     }
 </script>
+<!-- Account javascript-->
+<script>
+    function getAccountViewFromDriverId(){
 
+        url ='<?php echo site_url("/accounts_controller/getAccountsViewByDriverId") ?>';
+        var driverId = document.getElementById("driverIdSearch").value;
+        /* Create a JSON object from the form values */
+        var driver = { 'driverId' : driverId };
+        var result = ajaxPost(driver,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.table_content;
+
+    }
+    
+    function getAccountsView(){
+
+            var url = '<?php echo site_url("accounts_controller/getAccountsNavBarView") ?>';            
+            var result = ajaxPost(null,url);//alert("before call");
+            /* Append the values for the div tag field */
+            var div = document.getElementById('navBarField');//alert("CRO NavBar ok");
+            div.innerHTML = "";
+            div.innerHTML = result.view.table_content;//alert("ok");
+
+            url = '<?php echo site_url("accounts_controller/getSidePanelView") ?>';
+            result = ajaxPost(null,url);//alert("CRO SideBar ok");
+            div = document.getElementById('operation');
+            div.innerHTML =  result.view.table_content;
+            
+            url ='<?php echo site_url("accounts_controller/getAllAccountsView") ?>'//url + "/accounts_controller/getAllAccountsView";
+            var skip = docs_per_page * (page-1);
+            var data = {"skip" : skip , "limit" : docs_per_page};
+            var view = ajaxPost(data,url);
+            var div = document.getElementById('dataFiled');
+            div.innerHTML = "";
+            div.innerHTML = view.view.table_content;//alert("ok2");
+
+
+    }
+    
+    function updateAccounts(id,bookingChargeId){
+
+        var bookingCharge = document.getElementById(bookingChargeId).value;
+        var refId = document.getElementById(id).innerHTML;
+        var account = {'refId': refId , 'bookingCharge' : bookingCharge};
+        var url = '<?php echo site_url("accounts_controller/updateFee") ?>';
+        ajaxPost(account,url);
+        getAccountsView();
+    }
+</script>>
 <script>
     function validate(plateNo , model , vType , color , info ){
         var status = false;

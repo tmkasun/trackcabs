@@ -34,19 +34,18 @@
             <li><a href="<?= site_url('cro_controller')?>" >CRO</a></li>
             <li class="active"><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
+            <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
+            <li><a href="<?= site_url('cro_controller/loadPOBBoardView')?>" >POB Board</a></li>
+            <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a></li>
         </ul>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Link</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li><a href="#">Separated link</a></li>
+                        <li><a href="<?= site_url('login/logout')?>">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -56,42 +55,6 @@
 
 <div class="container-fluid">
     <div class="row" style="background: #d7ddeb">
-        <div class="col-lg-12" style="margin-top: 10px">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h5 class="panel-title">Job Information</h5>
-                </div>
-                <div class="panel-body" id="">
-
-                    <div class="col-lg-2">
-                        <a href="#" onclick="getTodayMyBookings()">Today's Bookings</a>
-                    </div>
-
-                    <div class="col-lg-5">
-
-                        <div class="form-group">
-                            <label for="dtp_input2" class="control-label">Booking Start Date</label>
-                            <div id="form_date" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                <input id="startDate" class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="work()"></span></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dtp_input2" class="control-label">Booking End Date</label>
-                            <div id="form_date_end" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                <input id="endDate" class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="work()"></span></span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="col-lg-12" style="margin-top: 10px">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -109,7 +72,7 @@
 </div>
 
 <script>
-    function getTodayMyBookings(){
+
 
         var data = {};
         url = url +"/cro_controller/getTodayMyBookings";
@@ -117,7 +80,7 @@
         /*  Populate the New Booking field with the editing form */
         var bookingsDiv = document.getElementById('bookings');
         bookingsDiv.innerHTML = view.view.booking_summary;
-    }
+
 </script>
 
     <script>
@@ -147,29 +110,6 @@
                 }
             });
             return result;
-        }
-
-        function work(){
-            $('#form_date').datetimepicker({
-                //language:  'fr',
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0
-            });
-            $('#form_date_end').datetimepicker({
-                //language:  'fr',
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0
-            });
         }
     </script>
 </body>

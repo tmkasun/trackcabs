@@ -5,14 +5,22 @@ class Cro_controller extends CI_Controller
 
     public function index()
     {
-        if (is_user_logged_in()) {
+        if (is_user_logged_in() && $this->isUserRoleCRO()) {
             $userData = $this->session->userdata('user');
             $this->load->view('cro/cro_main',$userData);
         }else{
-            $this -> load -> helper(array('form'));
-            $this -> load -> view('login/index');
+            redirect('login', 'refresh');
         }
 
+    }
+
+    function isUserRoleCRO(){
+        $userData = $this->session->userdata('user');
+        if($userData['user_type'] == 'cro'){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     function loadMyBookingsView(){

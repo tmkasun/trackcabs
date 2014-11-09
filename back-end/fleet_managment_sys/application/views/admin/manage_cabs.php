@@ -71,20 +71,18 @@
 
         <div class="col-lg-12" style="margin-top: 10px">
             <div class="panel panel-default">
-                <div class="panel-heading" style="margin-top: 10px; border-left: 1px solid #a6a6a6" >
-                    <h3 class="panel-title">Info</h3>
-                </div>
-                <div class="panel-body" id="information">
+                    <div class="panel-heading" style="margin-top: 10px; border-left: 1px solid #a6a6a6" >
+                        <h3 class="panel-title">Info</h3>
+                    </div>
+                    <div class="panel-body" id="information">
 
-                <div class="col-lg-2" id="operation" style="margin-top: 10px">
-                    <h5><a href="#" onclick="getNewCabView(url)">New Cab</a></h5></br>
-                    <h5><a href="#" onclick="getAllCabs(docs_per_page , page, url)">View All Cabs</a></h5>
-                </div>
+                    <div class="col-lg-2" id="operation" style="margin-top: 10px">
+                        <h5><a href="#" onclick="getNewCabView(url)">New Cab</a></h5></br>
+                        <h5><a href="#" onclick="getAllCabs(docs_per_page , page, url)">View All Cabs</a></h5>
+                    </div>
 
-                <div class="col-lg-10" id="dataFiled" style="margin-top: 10px; border-left: 1px solid #a6a6a6;">
-                </div>
-
-
+                    <div class="col-lg-10" id="dataFiled" style="margin-top: 10px; border-left: 1px solid #a6a6a6;">
+                    </div>
                 </div>
             </div>
         </div>

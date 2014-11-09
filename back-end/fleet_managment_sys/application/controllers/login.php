@@ -11,8 +11,6 @@ class Login extends CI_Controller {
 	public function index() {
 
         $user = $this->session->userdata('user');
-        var_dump($user);
-//        var_dump($user['user_type']);
         if (is_user_logged_in()) {
             if($user['user_type']=='dispatcher')
                 redirect('dispatcher', 'refresh');
@@ -21,6 +19,9 @@ class Login extends CI_Controller {
             }
             if($user['user_type'] == 'cro'){
                 redirect('cro_controller', 'refresh');
+            }
+            if($user['user_type'] == 'admin'){
+                redirect('admin', 'refresh');
             }
 		} else {
             $this -> load -> helper(array('form'));
@@ -39,7 +40,7 @@ class Login extends CI_Controller {
         $userName = $this->input->post('username');
         $pass = $this->input->post('password');
         if($userName=='admin' && $pass=='admin'){
-            $result='admin';
+            $result = array('user_type' => 'admin' , 'uName' => 'admin');
         }else{
             $result = $this->user_dao->authenticate($userName,$pass);
         }

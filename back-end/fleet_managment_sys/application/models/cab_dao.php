@@ -22,7 +22,8 @@ class Cab_dao extends CI_Model
         $record = $collection->findOne(array("cabId" => $cabArray['cabId']));
 
         if( $record == null) {
-            $cabArray["state"] = "unknown";
+            $cabArray["state"] = "IDLE";
+            $cabArray["zone"] = "null";
 
             $collection->insert($cabArray);
         }
@@ -80,7 +81,7 @@ class Cab_dao extends CI_Model
         $data = array();
         foreach ($allCabs as $cab) {
             $driver = $this->user_dao->getDriverByCabId((int)$cab['cabId']);
-            $cab['driver'] = $driver;
+            $cab['driverId'] = $driver['userId'];
             array_push($data,$cab);
         }
         return $data;
@@ -118,14 +119,13 @@ class Cab_dao extends CI_Model
     }
 
 
-    function setLiveZone($cabId , $zone){
+    function setZone($cabId , $zone){
         
         $collection = $this->get_collection();
         
         $searchQuery= array('cabId' => (int)$cabId);
 
         $collection->update($searchQuery ,array('$set' => array('zone' => $zone)),array('new' => true));
-        $collection->update($searchQuery ,array('$set' => array('state' => 'live')),array('new' => true));
         return $collection->findOne($searchQuery);
 
     }
@@ -146,9 +146,8 @@ class Cab_dao extends CI_Model
         $collection = $this->get_collection();
         
         $searchQuery= array('cabId' => (int)$cabId);
-
-        $collection->update($searchQuery ,array('$set' => array('zone' => $zone)),array('new' => true));
-        $collection->update($searchQuery ,array('$set' => array('state' => 'pob')),array('new' => true));
+        $this->setState($cabId,'POB');
+        $this->setZone($cabId,$zone);
         $collection->update($searchQuery ,array('$set' => array('eta' => $eta)),array('new' => true));
         return $collection->findOne($searchQuery);
 

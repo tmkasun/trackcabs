@@ -63,8 +63,16 @@ class Customer_retriever extends CI_Controller
 
 
         $input_data["data"]["tp"] = $input_data["tp"];
-        $this->live_dao->createBooking($input_data["data"]);
+        $customerProfile = $this->customer_dao->getCustomer($input_data['tp']);
+        $input_data['data']['profileLinks'][] =  $customerProfile['_id'] ;
 
+        /* If it is a cooperate booking a personal profile also will be sent */
+        if($input_data['data']['personalProfileTp'] != '-'){
+            $customerProfile2 = $this->customer_dao->getCustomer($input_data['data']['personalProfileTp']);
+            $input_data['data']['profileLinks'][] =  $customerProfile2['_id'] ;
+        }
+
+        $this->live_dao->createBooking($input_data["data"]);
         $this->customer_dao->addTotalJob($input_data["tp"]);
 
         $bookingCreated = $this->live_dao->getBooking($input_data['data']['refId']);
@@ -72,16 +80,10 @@ class Customer_retriever extends CI_Controller
         /* Add the booking array to the customer collection */
         $this->customer_dao->addBooking($input_data["tp"], $bookingObjId);
 
-
-        $tpType = $this->findTelephoneType($input_data["tp"]);
-//        if($tpType != 'land') {
-//            $sms = new Sms();
-//            $message = 'Your order has been confirmed. The booking number is ' . $input_data['data']['refId'] . '. Have a nice day';
-//            $sms->send($input_data["tp"], $message);
-//        }
+        $message = 'Your order has been confirmed. The booking number is ' . $input_data['data']['refId'] . '. Have a nice day';
+//        $this->sendSms($bookingCreated , $message );
 
         /* Send the newly added booking to the dispatch view */
-        
 //        $webSocket = new Websocket('localhost', '5555', $user['userId']);
 //        $webSocket->send($bookingCreated, 'dispatcher1');
 //        $webSocket->send($bookingCreated, 'monitor1');
@@ -89,13 +91,16 @@ class Customer_retriever extends CI_Controller
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
     }
 
-    function findTelephoneType($tp){
-        $customerRecord = $this->customer_dao->getCustomer($tp);
-        if($customerRecord['tp'] == $tp){
-            return $customerRecord['type1'];
-        }
-        if($customerRecord['tp2'] == $tp){
-            return $customerRecord['type2'];
+    function sendSms($bookingCreated , $message){
+        $sms = new Sms();
+        foreach($bookingCreated['profileLinks'] as $item){
+            $customerProfile = $this->customer_dao->getCustomerByMongoObjId($item);
+            if($customerProfile['tp'] != '-') {
+                $sms->send($customerProfile['tp'], $message);
+            }
+            if($customerProfile['tp2'] != '-') {
+                $sms->send($customerProfile['tp2'], $message);
+            }
         }
     }
 

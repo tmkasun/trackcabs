@@ -317,7 +317,6 @@ function addToMsgNotCopied(order) {
         timeout: waitTime,
         pos: 'top-center'
     });
-    notDispatchedOrders[newOrder.id] = newOrder;
 
 }
 
@@ -402,9 +401,10 @@ Order.prototype.createOrderDOM = function () {
         case "MSG_NOT_COPIED":
             return ("<tr id=\"" + this.id + "\">" +
             '<td>' + this.id + '</td>' +
-            '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' +
+            '<td>' + moment.unix(this.orderJson.callTime.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
             '<td>' + 'N/A' + '</td>' +
             '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' +
+            '<td>' + 'N/A' + '</td>' +
             '<td>' + this.orderJson.driverTp + '</td>' +
             '<td>' + this.addressToString() + '</td>' +
             '<td>' + this.croName + '</td>' +

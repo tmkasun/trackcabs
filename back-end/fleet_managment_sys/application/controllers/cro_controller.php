@@ -5,14 +5,22 @@ class Cro_controller extends CI_Controller
 
     public function index()
     {
-        if (is_user_logged_in()) {
+        if (is_user_logged_in() && $this->isUserRoleCRO()) {
             $userData = $this->session->userdata('user');
             $this->load->view('cro/cro_main',$userData);
         }else{
-            $this -> load -> helper(array('form'));
-            $this -> load -> view('login/index');
+            redirect('login', 'refresh');
         }
 
+    }
+
+    function isUserRoleCRO(){
+        $userData = $this->session->userdata('user');
+        if($userData['user_type'] == 'cro'){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     function loadMyBookingsView(){
@@ -116,10 +124,11 @@ class Cro_controller extends CI_Controller
                 }
             }
 
-            if($result['profileType'] == 'cooperate'){
-                if(isset($result['users'])){
-                    foreach($result['users'] as $userValue){
-                        $userInfo = $this->customer_dao->getCustomer($userValue);
+            if($result['profileType'] == 'Cooperate'){
+                if(isset($result['personalProfiles'])){
+                    foreach($result['personalProfiles'] as $personalProfileTp){
+                        $userInfo = $this->customer_dao->getCustomerByObjId($personalProfileTp['_id']);
+                        unset($userInfo['history']);
                         if($userInfo != null)
                         $result['userInfo'][] =$userInfo;
                     }
@@ -128,7 +137,7 @@ class Cro_controller extends CI_Controller
 
             $data['customer_info_view'] = $this->load->view('cro/customer_info', $result , TRUE);
             $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);
-            $data['new_booking_view'] = $this->load->view('cro/new_booking', '1' , TRUE);
+            $data['new_booking_view'] = $this->load->view('cro/new_booking', $result , TRUE);
             $data['booking_history_view'] = $this->load->view('cro/booking_history', $bookingData , TRUE);
             $this->output->set_output(json_encode(array("statusMsg" => "success","important" => $bookingData ,"view" => $data)));
         }

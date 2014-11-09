@@ -69,6 +69,12 @@ function createBooking(url , tp){
     var isVih               = $('#vih')[0].checked;
     var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
     var bookingCharge = '-';
+    var bookingType = 'Personal';
+
+    if($('#personalProfileTp').length != 0){
+        bookingType = 'Cooperate';
+        var personalProfileTp = $('#personalProfileTp').val();
+    }
 
     if (no == ''){no = '-'}
     if (road == ''){road= '-'}
@@ -110,7 +116,9 @@ function createBooking(url , tp){
             'callUpPrice' : callUpPrice,
             'dispatchB4' : dispatchB4,
             'destination' : destination,
-            'bookingCharge' : bookingCharge
+            'bookingCharge' : bookingCharge,
+            'bookingType' : bookingType,
+            'personalProfileTp' : personalProfileTp
         }
     };
     ajaxPost(data,url);
@@ -173,7 +181,6 @@ function updateBooking(url , objId){
             'dispatchB4' : dispatchB4
         }
     };
-    alert(JSON.stringify(data));
     ajaxPost(data,url);
 }
 
@@ -386,7 +393,6 @@ function uiInit(){
 function changeJobInfoViewByRefId(bookingObjId){
 
     var index = -1;
-    console.log(bookingObjId);
     for(var i=0 ; i < bookingObj.length ; i++){
         index++;
         if( bookingObj[i]['_id']['$id'] === bookingObjId){
@@ -441,4 +447,19 @@ function changeJobInfoViewByRefId(bookingObjId){
     if( status == 'START' ||  status == 'MSG_COPIED' || status == 'MSG_NOT_COPIED' || status == 'AT_THE_PLACE') {
         $('#jobCancelButton').html('<div class="btn-group"> <button type="button" class="btn btn-danger" onclick="operations(\'cancel\', \'' + bookingObj[index]['_id']['$id']   +  '\')">Cancel</button></div>');
     }
+}
+
+function addUserToCooperateProfile(url,tp){
+
+    var siteUrl = url;
+    url = url + "/customer_retriever/addCustomerToCooperateProfile";
+    var userTp = $('#cooperateUserTp').val();
+    var data = {"tp" : tp , "userTp" : userTp};
+    var result = ajaxPost(data,url);
+    alert(JSON.stringify(result));
+    if(result.statusMsg == 'fail'){
+        alert('Number Entered Dosent Exists');
+        return false;
+    }
+    getCustomerInfoView(siteUrl , tp);
 }

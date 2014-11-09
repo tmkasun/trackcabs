@@ -116,7 +116,9 @@ function createBooking(url , tp){
             'callUpPrice' : callUpPrice,
             'dispatchB4' : dispatchB4,
             'destination' : destination,
-            'bookingCharge' : bookingCharge
+            'bookingCharge' : bookingCharge,
+            'bookingType' : bookingType,
+            'personalProfileTp' : personalProfileTp
         }
     };
     ajaxPost(data,url);
@@ -179,7 +181,6 @@ function updateBooking(url , objId){
             'dispatchB4' : dispatchB4
         }
     };
-    alert(JSON.stringify(data));
     ajaxPost(data,url);
 }
 

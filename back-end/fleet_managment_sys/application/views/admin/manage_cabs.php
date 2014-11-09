@@ -484,7 +484,8 @@
         //console.log(Math.floor(((bookingCharge/17)*100)));
         //getAccountsView();
     }
-</script>>
+</script>
+
 <script>
     function validate(plateNo , model , vType , color , info ){
         var status = false;

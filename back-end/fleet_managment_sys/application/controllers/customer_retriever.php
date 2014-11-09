@@ -61,7 +61,6 @@ class Customer_retriever extends CI_Controller
         unset($input_data['data']['bTime']);
         unset($input_data['data']['bDate']);
 
-
         $input_data["data"]["tp"] = $input_data["tp"];
         $customerProfile = $this->customer_dao->getCustomer($input_data['tp']);
         $input_data['data']['profileLinks'][] =  $customerProfile['_id'] ;
@@ -79,6 +78,9 @@ class Customer_retriever extends CI_Controller
         $bookingObjId = array('_id' => $bookingCreated['_id'] );
         /* Add the booking array to the customer collection */
         $this->customer_dao->addBooking($input_data["tp"], $bookingObjId);
+        if(isset($customerProfile2)){
+            $this->customer_dao->addBooking($customerProfile2['tp'],$bookingObjId);
+        }
 
         $message = 'Your order has been confirmed. The booking number is ' . $input_data['data']['refId'] . '. Have a nice day';
 //        $this->sendSms($bookingCreated , $message );

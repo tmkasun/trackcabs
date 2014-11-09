@@ -477,7 +477,7 @@
     
     function updateAccounts(id,bookingChargeId){
 
-        var bookingCharge = document.getElementById(bookingChargeId).value;
+        var bookingCharge = document.getElementById(bookingChargeId).value;//console.log(bookingCharge);
         var refId = document.getElementById(id).innerHTML;
         var account = {'refId': refId , 'bookingCharge' : bookingCharge};
         //var url = '<?php //echo site_url("accounts_controller/updateFee") ?>';

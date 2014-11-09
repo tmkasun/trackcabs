@@ -26,7 +26,7 @@
             <td><?= $item['croId'];?></td>
             <td><input type="text" id="bookingCharge<?= $item['refId'];?>" value="<?= $item['bookingCharge'];?>"/></td>
             <td><button type="submit" class="btn btn-default" onclick="updateAccounts('<?= $item['refId'];?>','<?php echo "bookingCharge".$item['refId'];?>')">Save</button></td>
-            <td id="amount_percentage_of_<?php echo $item['refId']?>"></td>
+            <td><font id="amount_percentage_of_<?php echo $item['refId']?>" color="<?php if($item['payType'] === 'cash'){echo '3300CC';}else{echo 'D80000 ';}?>"></font></td>
             <td><button type="submit" class="btn btn-default" onclick="">Paid</button></td>
         </tr>
 

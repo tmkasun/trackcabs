@@ -32,7 +32,6 @@
                             <input type="text" class="form-control" id="landMark" name="landMark" placeholder="Land Mark">
                         </div>
                     </div>
-
                 </div>
 
                 <div class="panel panel-success" style="margin-top:2%">
@@ -77,6 +76,17 @@
                     </div>
 
                     <div class="panel-body">
+                        <?php if(isset($userInfo) && sizeof($userInfo) !=0 ):?>
+                        <div class="form-group">
+                            <select class="form-control" id="personalProfileTp">
+                                <option value="-">Select a Personal Profile</option>
+                                <?php foreach($userInfo as $item):?>
+                                    <?php if($item['tp'] != '-') echo "<option value='". $item['tp'] ."'>". $item['tp'] . "</option>";
+                                        elseif($item['tp2'] != '-')echo "<option value='". $item['tp2'] ."'>". $item['tp2'] . "</option>";?>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                        <?php endif;?>
 
                         <div class="form-group">
                             <label class="control-label" style="font-weight:bold">Vehicle Type</label></br>

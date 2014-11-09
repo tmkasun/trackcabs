@@ -28,7 +28,7 @@
     <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0px">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Cao Cabs Admin Panel</a>
+            <a class="navbar-brand" href="#">Hao Cabs Admin Panel</a>
         </div>
 
         <ul class="nav navbar-nav">
@@ -51,15 +51,6 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="<?= site_url('login/logout')?>">Log Out</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                </li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </nav>
@@ -71,20 +62,18 @@
 
         <div class="col-lg-12" style="margin-top: 10px">
             <div class="panel panel-default">
-                <div class="panel-heading" style="margin-top: 10px; border-left: 1px solid #a6a6a6" >
-                    <h3 class="panel-title">Info</h3>
-                </div>
-                <div class="panel-body" id="information">
+                    <div class="panel-heading" style="margin-top: 10px; border-left: 1px solid #a6a6a6" >
+                        <h3 class="panel-title">Info</h3>
+                    </div>
+                    <div class="panel-body" id="information">
 
-                <div class="col-lg-2" id="operation" style="margin-top: 10px">
-                    <h5><a href="#" onclick="getNewCabView(url)">New Cab</a></h5></br>
-                    <h5><a href="#" onclick="getAllCabs(docs_per_page , page, url)">View All Cabs</a></h5>
-                </div>
+                    <div class="col-lg-2" id="operation" style="margin-top: 10px">
+                        <h5><a href="#" onclick="getNewCabView(url)">New Cab</a></h5></br>
+                        <h5><a href="#" onclick="getAllCabs(docs_per_page , page, url)">View All Cabs</a></h5>
+                    </div>
 
-                <div class="col-lg-10" id="dataFiled" style="margin-top: 10px; border-left: 1px solid #a6a6a6;">
-                </div>
-
-
+                    <div class="col-lg-10" id="dataFiled" style="margin-top: 10px; border-left: 1px solid #a6a6a6;">
+                    </div>
                 </div>
             </div>
         </div>
@@ -480,11 +469,14 @@
         var bookingCharge = document.getElementById(bookingChargeId).value;
         var refId = document.getElementById(id).innerHTML;
         var account = {'refId': refId , 'bookingCharge' : bookingCharge};
-        var url = '<?php echo site_url("accounts_controller/updateFee") ?>';
-        ajaxPost(account,url);
-        getAccountsView();
+        //var url = '<?php //echo site_url("accounts_controller/updateFee") ?>';
+        //ajaxPost(account,url);
+        document.getElementById("amount_percentage").innerHTML = Math.floor(((bookingCharge/100)*17));//parseInt(bookingCharge)
+        //console.log(Math.floor(((bookingCharge/17)*100)));
+        //getAccountsView();
     }
-</script>>
+</script>
+
 <script>
     function validate(plateNo , model , vType , color , info ){
         var status = false;

@@ -9,6 +9,7 @@
         <th>CRO Id</th>
         <th>Booking Charge</th>
         <th>Action</th>
+        <th>Amount Receivable</th>
 
     </tr>
 
@@ -25,6 +26,8 @@
             <td><?= $item['croId'];?></td>
             <td><input type="text" id="bookingCharge<?= $item['refId'];?>" value="<?= $item['bookingCharge'];?>"/></td>
             <td><button type="submit" class="btn btn-default" onclick="updateAccounts('<?= $item['refId'];?>','<?php echo "bookingCharge".$item['refId'];?>')">Save</button></td>
+            <td id="amount_percentage"></td>>
+            <td><button type="submit" class="btn btn-default" onclick="">Paid</button></td>
         </tr>
 
     <?php endforeach;?>

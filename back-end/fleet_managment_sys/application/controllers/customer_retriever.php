@@ -63,16 +63,23 @@ class Customer_retriever extends CI_Controller
 
 
         $input_data["data"]["tp"] = $input_data["tp"];
-        $this->live_dao->createBooking($input_data["data"]);
+        $customerProfile = $this->customer_dao->getCustomer($input_data['tp']);
+        $input_data['data']['profileLinks'][] =  $customerProfile['_id'] ;
 
+        /* If it is a cooperate booking a personal profile also will be sent */
+        if($input_data['data']['personalProfileTp'] != '-'){
+            $customerProfile2 = $this->customer_dao->getCustomer($input_data['data']['personalProfileTp']);
+            $input_data['data']['profileLinks'][] =  $customerProfile2['_id'] ;
+        }
+
+        $this->live_dao->createBooking($input_data["data"]);
         $this->customer_dao->addTotalJob($input_data["tp"]);
 
         $bookingCreated = $this->live_dao->getBooking($input_data['data']['refId']);
         $bookingObjId = array('_id' => $bookingCreated['_id'] );
         /* Add the booking array to the customer collection */
         $this->customer_dao->addBooking($input_data["tp"], $bookingObjId);
-
-
+        
         $tpType = $this->findTelephoneType($input_data["tp"]);
         if($tpType != 'land') {
             $sms = new Sms();
@@ -89,13 +96,16 @@ class Customer_retriever extends CI_Controller
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
     }
 
-    function findTelephoneType($tp){
-        $customerRecord = $this->customer_dao->getCustomer($tp);
-        if($customerRecord['tp'] == $tp){
-            return $customerRecord['type1'];
-        }
-        if($customerRecord['tp2'] == $tp){
-            return $customerRecord['type2'];
+    function sendSms($bookingCreated , $message){
+        $sms = new Sms();
+        foreach($bookingCreated['profileLinks'] as $item){
+            $customerProfile = $this->customer_dao->getCustomerByMongoObjId($item);
+            if($customerProfile['tp'] != '-') {
+                $sms->send($customerProfile['tp'], $message);
+            }
+            if($customerProfile['tp2'] != '-') {
+                $sms->send($customerProfile['tp2'], $message);
+            }
         }
     }
 
@@ -108,7 +118,7 @@ class Customer_retriever extends CI_Controller
         $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
         $result = $bookingData['status'];
 
-        if($result != null) {
+        if($bookingData != null) {
             if ($result == ("MSG_COPIED") || $result == ("MSG_NOT_COPIED") || $result == ("AT_THE_PLACE") || $result == ("POB") || $result == ("POB")) {
 
                 /* Adds +1 to the dis_cancel in customers collection */
@@ -182,5 +192,22 @@ class Customer_retriever extends CI_Controller
         
         /* TODO INFORM THROUGH WEB SOCKETS CHANGE HAS HAPPENED */
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
+    }
+
+    public function addCustomerToCooperateProfile(){
+        $statusMsg = 'fail';
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $cooperateProfile = $this->customer_dao->getCustomer($input_data["tp"]);
+        $personalProfile  = $this->customer_dao->getCustomer($input_data["userTp"]);
+
+        if($personalProfile != null){
+            $statusMsg = 'success';
+            $customerObjId = array('_id' => $personalProfile['_id'] );
+
+            $cooperateProfile['personalProfiles'][]= $customerObjId ;
+        }
+        $this->customer_dao->updateCustomer($input_data["tp"] , $cooperateProfile);
+
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg )));
     }
 }

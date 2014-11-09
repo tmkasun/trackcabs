@@ -86,6 +86,14 @@ class Dispatcher extends CI_Controller
         $sentCusto = $sms->send($custoNumber, $custoMessage);
         $sentDriver = $sms->send($driverNumber, $driverMessage);
 
+        $user = $this->session->userdata('user');
+        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+        $dispatchingOrder = $this->live_dao->getBooking($orderId); // Get the updated order
+        $dispatchingOrder['driverTp'] = $driverNumber;
+        $orderCro = $this->user_dao->getUser($dispatchingOrder['croId']);
+        $dispatchingOrder['cro'] = $orderCro;
+
+        $webSocket->send($dispatchingOrder , 'monitor1');
         /*
          * get cust no from refid
          * get driver no from cab

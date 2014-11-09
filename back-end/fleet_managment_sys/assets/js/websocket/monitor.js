@@ -154,16 +154,7 @@ Cab.prototype.stateRow = function () {
             '</td>' +
             "</tr>"
             );
-        case "MSG_NOT_COPIED":
-            return (
-            "<tr id='" + this.id + "'>" +
-            '<td>' +
-            this.geoJson.properties.orderId +
-            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' + '<td>' + 'N/A' + '</td>' +
-            '<td>' + this.geoJson.properties.cabId + '</td>' + '<td>' + 'N/A' + '</td>' + /*Address*/'<td>' + 'N/A' + '</td>' + /*agent*/'<td>' + 'N/A' + '</td>' +
-                /*Inquire*/'<td>' + 'N/A' + '</td>' + /*DIM*/'<td>' + 'N/A' + '</td>' + /*VIH*/'<td>' + 'N/A' + '</td>' + /*VIP*/'<td>' + 'N/A' +
-            '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
-            );
+
         case "MSG_COPIED":
             return (
             "<tr id='" + this.id + "'>" +
@@ -195,7 +186,7 @@ Cab.prototype.stateRow = function () {
             '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
             );
         default:
-            return defaultIcon;
+            return "No case matched for status";
     }
 };
 
@@ -304,6 +295,12 @@ function addToNotDispatch(order) {
         console.log("DEBUG: order.refId not in =" + order.refId);
         var newOrder = new Order(order);
         newOrder.addToMonitorBoard();
+        $.UIkit.notify({
+            message: "new order " + order.refId + " added.",
+            status: 'success',
+            timeout: waitTime,
+            pos: 'top-center'
+        });
         notDispatchedOrders[newOrder.id] = newOrder;
     }
 
@@ -311,10 +308,26 @@ function addToNotDispatch(order) {
 
 
 function addToMsgNotCopied(order) {
-    alert('addToMsgNotCopied');
+    removeOrderFromMonitor(order);
+    var newOrder = new Order(order);
+    newOrder.addToMonitorBoard();
+    $.UIkit.notify({
+        message: "new order " + order.refId + " added.",
+        status: 'success',
+        timeout: waitTime,
+        pos: 'top-center'
+    });
+    notDispatchedOrders[newOrder.id] = newOrder;
+
 }
 
 function removeOrderFromMonitor(order){
+    $.UIkit.notify({
+        message: "Order " + order.refId + " canceled by the customer",
+        status: 'danger',
+        timeout: waitTime,
+        pos: 'top-center'
+    });
     delete notDispatchedOrders[order.refId];
     $('#START > tbody').find('#'+order.refId).fadeOut().remove();
 }
@@ -331,6 +344,10 @@ function Order(orderJson) {
     this.address = orderJson.address;
     this.bookTime = orderJson.bookTime;
     this.croId = orderJson.croId;
+    if(typeof orderJson.cro != 'undefined'){
+        this.croName = orderJson.cro.name;
+    }
+    this.cabId = orderJson.cabId;
     this.isTinted = orderJson.isTinted;
     this.isUnmarked = orderJson.isUnmarked;
     this.isVip = orderJson.isVip;
@@ -363,24 +380,45 @@ Order.prototype.getBadge = function (status) {
 
 Order.prototype.createOrderDOM = function () {
     var currentTime = moment();
-    var row = "<tr id=\"" + this.id + "\">" +
-        '<td>' +this.id +'</td>' +
-        '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' +
-        '<td>' + 'N/A' + '</td>' +
-        '<td>' + this.addressToString() + '</td>' +
-        '<td>' + this.croId + '</td>' +
-        '<td>' + 'N/A' + '</td>' +
-        '<td>' + 'N/A' + '</td>' +
-            /*DIM*/
-        '<td>' + this.getBadge(false) + '</td>' +
-            /*VIH*/
-        '<td>' + this.getBadge(this.isVih) + '</td>' +
-            /*VIP*/
-        '<td>' + this.getBadge(this.isVip) + '</td>' +
-            /*COP*/
-        '<td>' + this.getBadge(false) + '</td>'+
-        '</tr>';
-    return row;
+    switch (this.status) {
+        case "START":
+            return ("<tr id=\"" + this.id + "\">" +
+                '<td>' + this.id + '</td>' +
+                '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' +
+                '<td>' + 'N/A' + '</td>' +
+                '<td>' + this.addressToString() + '</td>' +
+                '<td>' + this.croId + '</td>' +
+                '<td>' + 'N/A' + '</td>' +
+                '<td>' + 'N/A' + '</td>' +
+                    /*DIM*/
+                '<td>' + this.getBadge(false) + '</td>' +
+                    /*VIH*/
+                '<td>' + this.getBadge(this.isVih) + '</td>' +
+                    /*VIP*/
+                '<td>' + this.getBadge(this.isVip) + '</td>' +
+                    /*COP*/
+                '<td>' + this.getBadge(false) + '</td>' +
+                '</tr>');
+        case "MSG_NOT_COPIED":
+            return ("<tr id=\"" + this.id + "\">" +
+            '<td>' + this.id + '</td>' +
+            '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' +
+            '<td>' + 'N/A' + '</td>' +
+            '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' +
+            '<td>' + this.orderJson.driverTp + '</td>' +
+            '<td>' + this.addressToString() + '</td>' +
+            '<td>' + this.croName + '</td>' +
+            '<td>' + 'N/A' + '</td>' +
+                /*DIM*/
+            '<td>' + this.getBadge(false) + '</td>' +
+                /*VIH*/
+            '<td>' + this.getBadge(this.isVih) + '</td>' +
+                /*VIP*/
+            '<td>' + this.getBadge(this.isVip) + '</td>' +
+                /*COP*/
+            '<td>' + this.getBadge(false) + '</td>' +
+            '</tr>');
+    }
 };
 
 

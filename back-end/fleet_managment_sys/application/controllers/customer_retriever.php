@@ -74,17 +74,17 @@ class Customer_retriever extends CI_Controller
 
 
         $tpType = $this->findTelephoneType($input_data["tp"]);
-//        if($tpType != 'land') {
-//            $sms = new Sms();
-//            $message = 'Your order has been confirmed. The booking number is ' . $input_data['data']['refId'] . '. Have a nice day';
-//            $sms->send($input_data["tp"], $message);
-//        }
+        if($tpType != 'land') {
+            $sms = new Sms();
+            $message = 'Your order has been confirmed. The booking number is ' . $input_data['data']['refId'] . '. Have a nice day';
+            $sms->send($input_data["tp"], $message);
+        }
 
         /* Send the newly added booking to the dispatch view */
         
-//        $webSocket = new Websocket('localhost', '5555', $user['userId']);
-//        $webSocket->send($bookingCreated, 'dispatcher1');
-//        $webSocket->send($bookingCreated, 'monitor1');
+        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+        $webSocket->send($bookingCreated, 'dispatcher1');
+        $webSocket->send($bookingCreated, 'monitor1');
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
     }
@@ -128,17 +128,18 @@ class Customer_retriever extends CI_Controller
             $this->history_dao->createBooking($bookingData);
 
             $tpType = $this->findTelephoneType($input_data["tp"]);
-//        if($tpType != 'land') {
-//            $sms = new Sms();
-//            $message = 'Your booking ' . $input_data['data']['refId'] . '. has been canceled. Have a nice day';
-//            $sms->send($input_data["tp"], $message);
-//        }
+        if($tpType != 'land') {
+            $sms = new Sms();
+            $message = 'Your booking ' . $input_data['data']['refId'] . '. has been canceled. Have a nice day';
+            $sms->send($input_data["tp"], $message);
+        }
 
             /* Send the canceled booking to the dispatch view */
 
-//            $webSocket = new Websocket($user['userId']);
-//            $webSocket->send($bookingData , 'dispatcher1');
-//            $webSocket->send($bookingData, 'monitor1');
+            $webSocket = new Websocket('localhost', '5555', $user['userId']);
+            $webSocket->send($bookingData, 'monitor1');
+            $webSocket->send($bookingData , 'dispatcher1');
+
 
         }
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
@@ -159,8 +160,8 @@ class Customer_retriever extends CI_Controller
         $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
 
         /* Send the updated booking to the dispatch view */
-//        $webSocket = new Websocket($user['userId']);
-//        $webSocket->send($bookingData , 'dispatcher');
+        $webSocket = new Websocket($user['userId']);
+        $webSocket->send($bookingData , 'dispatcher');
 
         $this->output->set_output(json_encode(array("statusMsg" => "success" )));
 

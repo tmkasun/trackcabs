@@ -74,7 +74,6 @@
     }
 
     function addNewOrder(newOrder) {
-        debugObject = newOrder;
         var newOrderUnixTimeStamp = newOrder.bookTime.sec;
         var orderBookingTime = moment.unix(newOrderUnixTimeStamp);
 

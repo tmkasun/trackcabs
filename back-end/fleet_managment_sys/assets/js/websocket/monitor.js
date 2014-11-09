@@ -107,7 +107,7 @@ function initializeWebSocket() {
     websocket.onopen = webSocketOnOpen;
 }
 
-initializeWebSocket();
+//initializeWebSocket(); //TODO: uncomment to work websockets
 
 /*----------------------- Cab Object Definition -----------------------*/
 
@@ -138,7 +138,7 @@ Cab.prototype.setSpeed = function (speed) {
 
 Cab.prototype.stateRow = function () {
     // Performance of if-else, switch or map based conditioning http://stackoverflow.com/questions/8624939/performance-of-if-else-switch-or-map-based-conditioning
-    var currentTime = new Date();
+    var currentTime = moment();
     switch (this.state) {
         case "IDLE":
             return (
@@ -147,7 +147,7 @@ Cab.prototype.stateRow = function () {
             this.driver.id +
             '</td>' +
             '<td>' +
-            currentTime.toLocaleString() +
+            currentTime.format('Do-MMM-YY  hh:mm a') +
             '</td>' +
             '<td class = "locationName">' +
             setLocationName(this.locationCoordinates, '#' + this.id) +
@@ -159,7 +159,7 @@ Cab.prototype.stateRow = function () {
             "<tr id='" + this.id + "'>" +
             '<td>' +
             this.geoJson.properties.orderId +
-            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.toLocaleString() + '</td>' + '<td>' + 'N/A' + '</td>' +
+            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' + '<td>' + 'N/A' + '</td>' +
             '<td>' + this.geoJson.properties.cabId + '</td>' + '<td>' + 'N/A' + '</td>' + /*Address*/'<td>' + 'N/A' + '</td>' + /*agent*/'<td>' + 'N/A' + '</td>' +
                 /*Inquire*/'<td>' + 'N/A' + '</td>' + /*DIM*/'<td>' + 'N/A' + '</td>' + /*VIH*/'<td>' + 'N/A' + '</td>' + /*VIP*/'<td>' + 'N/A' +
             '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
@@ -169,7 +169,7 @@ Cab.prototype.stateRow = function () {
             "<tr id='" + this.id + "'>" +
             '<td>' +
             this.geoJson.properties.orderId +
-            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.toLocaleString() + '</td>' + '<td>' + 'N/A' + '</td>' +
+            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' + '<td>' + 'N/A' + '</td>' +
             '<td>' + this.geoJson.properties.cabId + '</td>' + '<td>' + 'N/A' + '</td>' + /*Address*/'<td>' + 'N/A' + '</td>' + /*agent*/'<td>' + 'N/A' + '</td>' +
                 /*Inquire*/'<td>' + 'N/A' + '</td>' + /*DIM*/'<td>' + 'N/A' + '</td>' + /*VIH*/'<td>' + 'N/A' + '</td>' + /*VIP*/'<td>' + 'N/A' +
             '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
@@ -179,7 +179,7 @@ Cab.prototype.stateRow = function () {
             "<tr id='" + this.id + "'>" +
             '<td>' +
             this.geoJson.properties.orderId +
-            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.toLocaleString() + '</td>' + '<td>' + 'N/A' + '</td>' +
+            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' + '<td>' + 'N/A' + '</td>' +
             '<td>' + this.geoJson.properties.cabId + '</td>' + '<td>' + 'N/A' + '</td>' + /*Address*/'<td>' + 'N/A' + '</td>' + /*agent*/'<td>' + 'N/A' + '</td>' +
                 /*Inquire*/'<td>' + 'N/A' + '</td>' + /*DIM*/'<td>' + 'N/A' + '</td>' + /*VIH*/'<td>' + 'N/A' + '</td>' + /*VIP*/'<td>' + 'N/A' +
             '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
@@ -189,7 +189,7 @@ Cab.prototype.stateRow = function () {
             "<tr id='" + this.id + "'>" +
             '<td>' +
             this.geoJson.properties.orderId +
-            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.toLocaleString() + '</td>' + '<td>' + this.geoJson.properties.cabId + '</td>' +
+            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' + '<td>' + this.geoJson.properties.cabId + '</td>' +
             '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + /*Address*/'<td>' + 'N/A' + '</td>' + /*agent*/'<td>' + 'N/A' + '</td>' +
                 /*Inquire*/'<td>' + 'N/A' + '</td>' + /*DIM*/'<td>' + 'N/A' + '</td>' + /*VIH*/'<td>' + 'N/A' + '</td>' + /*VIP*/'<td>' + 'N/A' +
             '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
@@ -200,20 +200,14 @@ Cab.prototype.stateRow = function () {
 };
 
 Cab.prototype.update = function (geoJSON) {
-    console.log("DEBUG: updating geoJSON = " + geoJSON);
     this.geoJson = geoJSON;
     this.locationCoordinates = geoJSON.geometry.coordinates;
     this.setSpeed(geoJSON.properties.speed);
     this.state = geoJSON.properties.state;
     this.heading = geoJSON.properties.heading;
-    console.log("DEBUG: this.id = " + this.id);
     this.orderDOM = $('#' + this.id);
-    debugObject = this.orderDOM;
-    console.log("DEBUG: this.orderDOM.lenght = " + this.orderDOM.lenght);
     if (this.orderDOM.length) {
-        console.log("DEBUG: this.orderDOM.lenght = " + this.orderDOM.lenght);
         this.orderDOM.fadeOut().remove();
-        console.log("DEBUG: Removed");
     }
     this.orderDOM = this.stateRow();
     $('#' + this.state + ' > tbody:last').append(this.orderDOM);
@@ -223,7 +217,6 @@ Cab.prototype.update = function (geoJSON) {
 function setLocationName(latLng, domId) {
     $.post('testing/geoCode', {longitude: latLng[0], latitude: latLng[1]}, function (response) {
         //console.log(response[0].name);
-        debugObject = response;
         $(domId).find('.locationName').html(response[0].name);
     });
 }
@@ -295,13 +288,103 @@ function LocalStorageArray(id) {
         // TODO: should return spliced section as array
     };
 }
+/*------------------------------ Helper methods --end ------------------------------*/
 
-
+/*------------------------------ Order dispatch view manipulations ------------------------------*/
+var notDispatchedOrders = [];
 function addToNotDispatch(order) {
-    alert('addToNotDispatch');
+
+
+    if (order.refId in notDispatchedOrders) { // TODO: actual value properties.cabId
+        console.log("DEBUG: order.refId in +" + order.refId);
+        var excitingOrder = notDispatchedOrders[order.refId];
+        console.log("DEBUG: Need to handle this seperately");
+    }
+    else {
+        console.log("DEBUG: order.refId not in =" + order.refId);
+        var newOrder = new Order(order);
+        newOrder.addToMonitorBoard();
+        notDispatchedOrders[newOrder.id] = newOrder;
+    }
+
 }
 
 
 function addToMsgNotCopied(order) {
     alert('addToMsgNotCopied');
 }
+
+function removeOrderFromMonitor(order){
+    delete notDispatchedOrders[order.refId];
+    $('#START > tbody').find('#'+order.refId).fadeOut().remove();
+}
+
+/*----------------------- Order Object Definition -----------------------*/
+
+function Order(orderJson) {
+    this.orderJson = orderJson; // For reference
+
+    this.refId = orderJson.refId; // actual ID is this.id
+    this.id = this.refId;
+    this.driver = {id: orderJson.driverId};
+    this.status = orderJson.status;
+    this.address = orderJson.address;
+    this.bookTime = orderJson.bookTime;
+    this.croId = orderJson.croId;
+    this.isTinted = orderJson.isTinted;
+    this.isUnmarked = orderJson.isUnmarked;
+    this.isVip = orderJson.isVip;
+    this.isVih = orderJson.isVih;
+
+    return this;
+}
+
+
+/*----- Override JSON method toString() -----*/
+Order.prototype.addressToString = function(){
+    var addressString = "";
+    for(var addressComponent in this.address){
+        if(this.address.hasOwnProperty(addressComponent)){
+            addressString += this.address[addressComponent]+', ';
+        }
+    }
+    return addressString;
+};
+
+Order.prototype.getBadge = function (status) {
+    var returnBadge;
+    if (status) {
+        returnBadge = '<span class="badge alert-info"><span style="color: #5cb85c" class="glyphicon glyphicon-ok"></span></span>';
+    } else {
+        returnBadge = '<span class="badge alert-warning"><span style="color: #d9534f" class="glyphicon glyphicon-remove"></span></span>';
+    }
+    return returnBadge;
+};
+
+Order.prototype.createOrderDOM = function () {
+    var currentTime = moment();
+    var row = "<tr id=\"" + this.id + "\">" +
+        '<td>' +this.id +'</td>' +
+        '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' +
+        '<td>' + 'N/A' + '</td>' +
+        '<td>' + this.addressToString() + '</td>' +
+        '<td>' + this.croId + '</td>' +
+        '<td>' + 'N/A' + '</td>' +
+        '<td>' + 'N/A' + '</td>' +
+            /*DIM*/
+        '<td>' + this.getBadge(false) + '</td>' +
+            /*VIH*/
+        '<td>' + this.getBadge(this.isVih) + '</td>' +
+            /*VIP*/
+        '<td>' + this.getBadge(this.isVip) + '</td>' +
+            /*COP*/
+        '<td>' + this.getBadge(false) + '</td>'+
+        '</tr>';
+    return row;
+};
+
+
+Order.prototype.addToMonitorBoard = function () {
+    this.orderDOM = this.createOrderDOM();
+    $('#' + this.status + ' > tbody:last').append(this.orderDOM);
+};

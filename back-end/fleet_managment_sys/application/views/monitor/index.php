@@ -22,8 +22,8 @@
     <!-- autobahn websocket and WAMP -->
     <script src="<?= base_url() ?>assets/js/autobahn/autobahn.min.js"></script>
 
-    <!-- autobahn websocket and WAMP -->
-    <script src="<?= base_url() ?>assets/js/websocket/monitor.js"></script>
+    <!-- Moment libraries -->
+    <script src="<?= base_url() ?>assets/js/moment/moment.js"></script>
 
     <!-- UIkit libraries -->
     <script src="<?= base_url() ?>assets/js/uikit/uikit.min.js"></script>
@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/uikit/uikit.min.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/uikit/addons/uikit.addons.min.css"/>
 
+    <!-- autobahn websocket and WAMP -->
+    <script src="<?= base_url() ?>assets/js/websocket/monitor.js"></script>
 
     <script>
         function subscribe(userid) {
@@ -42,13 +44,16 @@
                     conn.subscribe(userid, function (topic, data) {
                         // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
                         console.log('New Message published to user "' + topic + '" : ' + data.message);
-
-                        var newbooking = data.message;
-                        if (newbooking.status === "START") {
-                            addToNotDispatch(newbooking);
-                        } else if (newbooking.status === "MSG_NOT_COPIED") {
-                            addToMsgNotCopied(newbooking);
+                        var order = data.message;
+                        debugObject = order;
+                        if (order.status === "START") {
+                            addToNotDispatch(order);
+                        } else if (order.status === "MSG_NOT_COPIED") {
+                            addToMsgNotCopied(order);
+                        } else if (order.status === "CANCEL") {
+                            removeOrderFromMonitor(order);
                         }
+
                     });
                 },
                 function () {
@@ -72,7 +77,7 @@
     <div class="panel-heading text-center">Not Dispatched</div>
 
     <!-- Table -->
-    <table class="table" id="not_dispatched">
+    <table class="table" id="START">
         <thead>
         <tr>
             <th>Ref #</th>
@@ -89,9 +94,8 @@
         </tr>
         </thead>
         <tbody>
-        <?php var_dump($orders) ?>
-        <? foreach ($orders as $order): ?>
-            <tr>
+        <?php foreach ($orders as $order): ?>
+            <tr id="<?= $order['refId'] ?>">
                 <td id="refId"><?= $order['refId'] ?></td>
                 <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
                 <td id="mr">MR</td>
@@ -104,7 +108,7 @@
                 <td><?= getBadge($order['isVip']) ?></td>
                 <td><?= getBadge(false) ?>??</td>
             </tr>
-        <? endforeach ?>
+        <?php endforeach ?>
         </tbody>
     </table>
 </div>

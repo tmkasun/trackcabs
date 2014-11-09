@@ -70,10 +70,11 @@ function createBooking(url , tp){
     var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
     var bookingCharge = '-';
     var bookingType = 'Personal';
+    var personalProfileTp = '-';
 
     if($('#personalProfileTp').length != 0){
         bookingType = 'Cooperate';
-        var personalProfileTp = $('#personalProfileTp').val();
+        personalProfileTp = $('#personalProfileTp').val();
     }
 
     if (no == ''){no = '-'}

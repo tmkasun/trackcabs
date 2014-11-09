@@ -26,13 +26,12 @@
 
     <div class="row">
         <div class="col-md-6 well well-sm">
-
-            <? foreach ($newOrder['address'] as $key => $addressComponents) : ?>
+            <?php foreach ($newOrder['address'] as $key => $addressComponents) : ?>
                 <div class="input-group input-group-sm" style="margin-bottom: 5px;">
                     <span style="width: 30%" class="input-group-addon"><?= $key ?></span>
                     <input class="form-control text-center" disabled type="text" value="<?= $addressComponents ?>"/>
                 </div>
-            <? endforeach ?>
+            <?php endforeach ?>
 
         </div>
         <div class="col-md-6">

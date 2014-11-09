@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0px">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-        <a class="navbar-brand" href="#">Hao Cabs</a>
+        <a class="navbar-brand" href="#">Hao Cabs Admin Panel</a>
     </div>
 
     <ul class="nav navbar-nav">

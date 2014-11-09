@@ -164,6 +164,17 @@ class Customer_dao extends CI_Model
         return $collection->findOne($searchQuery);
     }
 
+
+/*
+* @returns null if record doesn't exist , if exist sends the first record
+*/
+    function getCustomerByMongoObjId($mongoObjId){
+
+        $collection = $this->get_collection();
+        $searchQuery= array('_id' => $mongoObjId);
+        return $collection->findOne($searchQuery);
+    }
+
     /*
      *@Returns the status of a given order
      */

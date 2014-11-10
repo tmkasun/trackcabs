@@ -466,12 +466,12 @@
     
     function updateAccounts(id,bookingChargeId){
 
-        var bookingCharge = document.getElementById(bookingChargeId).value;
+        var bookingCharge = document.getElementById(bookingChargeId).value;//console.log(bookingCharge);
         var refId = document.getElementById(id).innerHTML;
         var account = {'refId': refId , 'bookingCharge' : bookingCharge};
         //var url = '<?php //echo site_url("accounts_controller/updateFee") ?>';
         //ajaxPost(account,url);
-        document.getElementById("amount_percentage").innerHTML = Math.floor(((bookingCharge/100)*17));//parseInt(bookingCharge)
+        document.getElementById("amount_percentage_of_"+id).innerHTML = Math.floor(((bookingCharge/100)*17));//parseInt(bookingCharge)
         //console.log(Math.floor(((bookingCharge/17)*100)));
         //getAccountsView();
     }

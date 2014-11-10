@@ -15,8 +15,8 @@
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 
     <script>
-        var docs_per_page= 100 ;
-        var page = 1 ;
+        var docs_per_page = 100;
+        var page = 1;
         var obj = null;
         var tp;
         var url = '<?= site_url(); ?>';
@@ -33,7 +33,7 @@
         <ul class="nav navbar-nav">
             <li><a href="<?= site_url('cro_controller')?>" >CRO</a></li>
             <li class="active"><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
-            <li class="active"><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >Search Bookings</a></li>
+            <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >Search Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
             <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
             <li><a href="<?= site_url('cro_controller/loadPOBBoardView')?>" >POB Board</a></li>
@@ -44,7 +44,7 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= $uName;?><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="<?= site_url('login/logout')?>">Logout</a></li>
                     </ul>

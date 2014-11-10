@@ -44,9 +44,9 @@
                 </div>
             </div>
 
+            <?php if(isset($userInfo)):?>
             <div class="col-lg-12" >
                 <h4>Personal Profiles</h4>
-                <?php if(isset($userInfo)):?>
                     <div class="col-lg-12" style="max-height: 200px ; overflow: auto">
                         <table class="table table-striped" >
                             <tr>

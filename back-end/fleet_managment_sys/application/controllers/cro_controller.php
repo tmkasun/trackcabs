@@ -114,10 +114,49 @@ class Cro_controller extends CI_Controller
                     foreach($value as $newKey){
                         $liveData = $this->live_dao->getBookingByMongoId($newKey['_id']);
                         if($liveData  != null){
+                            /* Get Driver Details For the Booking */
+                            if($liveData['driverId'] != '-'){
+                                $user = $this->user_dao->getUserById($liveData['driverId']);
+                                $liveData['driverTp'] = $user['tp'];
+                            }else{
+                                $liveData['driverTp']= '-';
+                            }
+
+                            /* Get Cab Details For the Booking */
+                            if($liveData['cabId'] != '-'){
+                                $cab = $this->cab_dao->getCab($liveData['cabId']);
+                                $liveData['cabColor'] = $cab['color'];
+                                $liveData['cabPlateNo'] = $cab['plateNo'];
+                                $liveData['cabModel'] = $cab['model'];
+                            }else{
+                                $liveData['cabColor'] = '-';
+                                $liveData['cabPlateNo'] = '-';
+                                $liveData['cabModel'] = '-';
+                            }
                             $bookingData['live_booking'][] = $liveData ;
                         }
                         $historyData = $this->history_dao->getBookingByMongoId($newKey['_id']);
                         if($historyData != null){
+
+                            if($historyData ['driverId'] != '-'){
+                                $user = $this->user_dao->getUserById($historyData ['driverId']);
+                                $historyData ['driverTp'] = $user['tp'];
+                            }else{
+                                $historyData ['driverTp']= '-';
+                            }
+
+                            /* Get Cab Details For the Booking */
+                            if($historyData['cabId'] != '-'){
+                                $cab = $this->cab_dao->getCab($historyData['cabId']);
+                                $historyData['cabColor'] = $cab['color'];
+                                $historyData['cabPlateNo'] = $cab['plateNo'];
+                                $historyData['cabModel'] = $cab['model'];
+                            }else{
+                                $historyData['cabColor'] = '-';
+                                $historyData['cabPlateNo'] = '-';
+                                $historyData['cabModel'] = '-';
+                            }
+
                             $bookingData['history_booking'][] = $historyData ;
                         }
                     }

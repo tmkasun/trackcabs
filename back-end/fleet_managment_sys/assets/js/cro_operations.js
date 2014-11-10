@@ -440,6 +440,10 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobCallTime').html(callDate.toDateString()+'</br>'+callDate.toTimeString());
     $('#jobDispatchB4').html(bookingObj[index]['dispatchB4']);
 
+    $('#jobDriverTp').html(bookingObj[index]['driverTp']);
+    $('#jobCabColor').html(bookingObj[index]['cabColor']);
+    $('#jobCabPlateNo').html(bookingObj[index]['cabPlateNo']);
+
     var status = bookingObj[index]['status'];
     if( status == 'START' ||  status == 'MSG_COPIED' || status == 'MSG_NOT_COPIED' || status == 'AT_THE_PLACE') {
         $('#jobEditButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'editBooking\', \''+ bookingObj[index]['_id']['$id']  +'\')">Edit Booking</button></div>');

@@ -92,11 +92,11 @@
                         <div class="col-lg-3">
 
                             <h5>Driver Mobile</h5>
-                            0779823445
+                            <span id="jobDriverTp"><?= $history_booking[$index]['driverTp'];?></span>
                             <h5>Cab Color</h5>
-                            Blue
+                            <span id="jobCabColor"><?= $history_booking[$index]['cabColor'];?></span>
                             <h5>Plate No</h5>
-                            uv-123
+                            <span id="jobCabPlateNo"><?= $history_booking[$index]['cabPlateNo'];?></span>
                         </div>
                     </div>
                 </div>
@@ -176,11 +176,11 @@
                         <div class="col-lg-3">
 
                             <h5>Driver Mobile</h5>
-                            0779823445
+                            <span id="jobDriverTp"><?= $live_booking[$index]['driverTp'];?></span>
                             <h5>Cab Color</h5>
-                            Blue
+                            <span id="jobCabColor"><?= $live_booking[$index]['cabColor'];?></span>
                             <h5>Plate No</h5>
-                            uv-123
+                            <span id="jobCabPlateNo"><?= $live_booking[$index]['cabPlateNo'];?></span>
                         </div>
 
                         <div class="col-lg-2">
@@ -211,9 +211,9 @@
         </div>
     <?php endif;?>
     </div>
-        <div class="col-lg-12">
+        <div class="col-lg-12" style="max-height: 200px ; overflow: auto">
             <?php if(isset($live_booking) && sizeof($live_booking) != 1):?>
-                <table class="table table-striped" style="max-height: 50px;overflow: scroll;margin-top: 3%;">
+                <table class="table table-striped" style="margin-top: 3%;">
                     <tr>
                         <th>Status</th>
                         <th>Ref ID</th>

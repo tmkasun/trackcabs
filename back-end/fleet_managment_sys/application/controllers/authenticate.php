@@ -47,7 +47,7 @@ class Authenticate extends CI_Controller {
         $userId = $inputArray['uName'];
         $timeStamp = new MongoDate();
         $authenticationResult = $this->user_dao->driverAuthenticate($userId,$inputArray['pass']);
-        $hoursAfterLastLogin = $this->user_dao->hoursAfterLastLogin($authenticationResult['userId'],$timeStamp);
+        $hoursAfterLastLogin = $this->user_dao->hoursAfterLastLogin($authenticationResult['userId'],$timeStamp->sec);
         if (!$authenticationResult && $hoursAfterLastLogin<5) {
             $authentication = array('isAuthorized' => false);
         }else {

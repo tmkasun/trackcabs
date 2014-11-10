@@ -136,7 +136,7 @@ class User_dao extends CI_Model
         $collection = $this->get_collection();
         $searchQuery = array('userId' => $userId);
         $user = $collection->findOne($searchQuery);
-        $seconds_diff = $timeStamp - $user['lastLogout'];
+        $seconds_diff = $timeStamp - (float) $user['lastLogout']->sec;
         $hour_diff = $seconds_diff/3600;
         return $hour_diff;
 

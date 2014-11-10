@@ -107,7 +107,7 @@ function initializeWebSocket() {
     websocket.onopen = webSocketOnOpen;
 }
 
-//initializeWebSocket(); //TODO: uncomment to work websockets
+initializeWebSocket(); //TODO: uncomment to work websockets
 
 /*----------------------- Cab Object Definition -----------------------*/
 

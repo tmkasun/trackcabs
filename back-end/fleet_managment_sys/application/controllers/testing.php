@@ -144,4 +144,11 @@ class Testing extends CI_Controller
         $this->output->set_content_type('application/json');
         echo json_encode($result);
     }
+
+    function cancelOrder(){
+        $refId = $this->input->post('refId');
+        $order = $this->live_dao->getBooking($refId);
+        $this->live_dao->updateStatus((string)$order['_id'], "CANCEL");
+
+    }
 }

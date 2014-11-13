@@ -186,6 +186,18 @@ class Live_dao extends CI_Model
         return $data;
     }
 
+    function getDispatchedBookings(){
+        $dbName = $this->db->selectDB('track');
+        $collection = $dbName->selectCollection('live');
+
+        $cursor = $collection->find(array("status" => array('$in' => array("MSG_COPIED","MSG_NOT_COPIED","ON_THE_WAY","AT_THE_PLACEa"))))->sort(array('bookTime' => 1,'address.town' => 1));
+        $data= array();
+        foreach ($cursor as $doc) {
+            $data[]= $doc;
+        }
+        return $data;
+    }
+
     function setDispatchedTime($orderId){
 
         $today = date("Y-m-d 00:00:00");

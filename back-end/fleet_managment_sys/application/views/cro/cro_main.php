@@ -130,7 +130,6 @@
                 changeJobInfoViewByRefId(param1)
             }
             if(request == 'addUser'){
-                console.log('readched the cro main method');
                 addUserToCooperateProfile(url , tp );
             }
             uiInit();

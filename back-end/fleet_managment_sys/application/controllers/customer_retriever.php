@@ -199,19 +199,32 @@ class Customer_retriever extends CI_Controller
 
     public function addCustomerToCooperateProfile()
     {
-        $statusMsg = 'fail';
+        $status = 'fail';
+        $message = "Number Entered Doesn't Exists";
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $cooperateProfile = $this->customer_dao->getCustomer($input_data["tp"]);
         $personalProfile = $this->customer_dao->getCustomer($input_data["userTp"]);
 
         if ($personalProfile != null) {
-            $statusMsg = 'success';
+            $status = 'success';
+            $message = 'Record Inserted';
             $customerObjId = array('_id' => $personalProfile['_id']);
+
+            if(isset($cooperateProfile['personalProfiles'])){
+                foreach($cooperateProfile['personalProfiles'] as $item){
+                    if($item == $customerObjId ){
+                        $status = 'fail';
+                        $message = 'Number Already Exists';
+                        break;
+                    }
+                }
+            }
+
 
             $cooperateProfile['personalProfiles'][] = $customerObjId;
         }
         $this->customer_dao->updateCustomer($input_data["tp"], $cooperateProfile);
 
-        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
+        $this->output->set_output(json_encode(array("status" => $status , "message" => $message)));
     }
 }

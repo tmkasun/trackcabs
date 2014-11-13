@@ -122,7 +122,7 @@ function createBooking(url , tp){
             'personalProfileTp' : personalProfileTp
         }
     };
-    ajaxPost(data,url,true);
+    ajaxPost(data,url,false);
 }
 
 

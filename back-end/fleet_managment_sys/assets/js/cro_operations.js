@@ -122,7 +122,7 @@ function createBooking(url , tp){
             'personalProfileTp' : personalProfileTp
         }
     };
-    ajaxPost(data,url);
+    ajaxPost(data,url,false);
 }
 
 
@@ -315,13 +315,13 @@ function getSimilarTpNumbers(url , tp){
     return result['data'];
 }
 
-function ajaxPost(data,urlLoc)    {
+function ajaxPost(data,urlLoc, asynchronicity)    {
     var result=null;
     $.ajax({
         type: 'POST', url: urlLoc,
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data),
-        async: false,
+        async: asynchronicity ? true : false,
         success: function(data, textStatus, jqXHR) {
             result = JSON.parse(jqXHR.responseText);
         },

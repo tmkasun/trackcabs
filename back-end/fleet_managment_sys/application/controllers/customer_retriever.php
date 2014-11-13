@@ -199,19 +199,33 @@ class Customer_retriever extends CI_Controller
 
     public function addCustomerToCooperateProfile()
     {
-        $statusMsg = 'fail';
+        $status = true;
+        $message = "Number Inserted";
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $cooperateProfile = $this->customer_dao->getCustomer($input_data["tp"]);
         $personalProfile = $this->customer_dao->getCustomer($input_data["userTp"]);
 
         if ($personalProfile != null) {
-            $statusMsg = 'success';
             $customerObjId = array('_id' => $personalProfile['_id']);
 
-            $cooperateProfile['personalProfiles'][] = $customerObjId;
-        }
-        $this->customer_dao->updateCustomer($input_data["tp"], $cooperateProfile);
+            if(isset($cooperateProfile['personalProfiles'])){
+                foreach($cooperateProfile['personalProfiles'] as $item){
+                    if($item == $customerObjId ){
+                        $status = false;
+                        $message = 'Number Already Exists';
+                        break;
+                    }
+                }
+            }
 
-        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
+            if($status){
+                $cooperateProfile['personalProfiles'][] = $customerObjId;
+                $this->customer_dao->updateCustomer($input_data["tp"], $cooperateProfile);
+            }
+        }else{
+            $status = false;
+            $message = "Number Does Not Exist";
+        }
+        $this->output->set_output(json_encode(array("status" => $status , "message" => $message)));
     }
 }

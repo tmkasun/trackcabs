@@ -178,7 +178,7 @@ class Customer_dao extends CI_Model
     /*
      *@Returns the status of a given order
      */
-    function getBooking($tp , $refId){
+    function getBooking( $tp , $refId){
 
         $collection = $this->get_collection();
         $searchQuery = array('tp' => $tp);

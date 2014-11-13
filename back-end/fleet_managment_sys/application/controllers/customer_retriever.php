@@ -182,7 +182,10 @@ class Customer_retriever extends CI_Controller
     {
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $result = $this->customer_dao->getBooking($input_data["tp"], $input_data["refId"]);
+        $result = $this->live_dao->getBooking($input_data["refId"]);
+        if($result != null){
+
+        }
         $this->output->set_output(json_encode(array("statusMsg" => "success", "data" => $result)));
 
     }

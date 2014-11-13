@@ -23,6 +23,17 @@ class Cro_controller extends CI_Controller
         }
     }
 
+    function loadBookingsView(){
+
+        if (is_user_logged_in()) {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/bookings/bookings_main',$userData);
+        }else{
+            $this -> load -> helper(array('form'));
+            $this -> load -> view('login/index');
+        }
+    }
+
     function loadMyBookingsView(){
 
         if (is_user_logged_in()) {
@@ -181,5 +192,4 @@ class Cro_controller extends CI_Controller
             $this->output->set_output(json_encode(array("statusMsg" => "success","important" => $bookingData ,"view" => $data)));
         }
     }
-
 }

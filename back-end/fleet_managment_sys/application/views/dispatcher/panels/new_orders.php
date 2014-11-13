@@ -58,7 +58,7 @@
 
     function subscribe(userid) {
         var conn = new ab.Session(
-            'ws://127.0.0.1:8080',
+            'ws://'+ApplicationOptions.constance.WEBSOCKET_URL+':'+ApplicationOptions.constance.WEBSOCKET_PORT,
             function () {
                 conn.subscribe(userid, function (topic, data) {
                     // This is where you would add the new article to the DOM (beyond the scope of this tutorial)

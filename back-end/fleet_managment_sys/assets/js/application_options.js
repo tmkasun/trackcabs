@@ -47,8 +47,10 @@ function initApplicationOptions() {
         },
         constance: {
             BASE_URL: getBaseURL(),
+            WEBSOCKET_URL: '192.168.0.2',
+            WEBSOCKET_PORT: '8080',
+
             SPEED_HISTORY_COUNT: 20,
-            WEB_SOCKET_URL: null,// Need to update when page load according to the login tenant
             NOTIFY_INFO_TIMEOUT: 1000,
             NOTIFY_SUCCESS_TIMEOUT: 1000,
             NOTIFY_WARNING_TIMEOUT: 3000,

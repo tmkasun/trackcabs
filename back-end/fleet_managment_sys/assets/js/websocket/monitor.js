@@ -19,7 +19,7 @@
 var debugObject; // assign object and debug from browser console, this is for debugging purpose , unless this var is unused
 var currentCabsList = {};
 var selectedSpatialObject; // This is set when user search for an object from the search box
-var webSocketURL = "ws://localhost:9763/outputwebsocket/t/carbon.super/DefaultWebsocketOutputAdaptor/alertsGeoJson";
+var webSocketURL = "ws://"+ApplicationOptions.constance.WEBSOCKET_URL+":9763/outputwebsocket/t/carbon.super/DefaultWebsocketOutputAdaptor/alertsGeoJson";
 var websocket;
 
 // Make the function wait until the connection is made...

@@ -20,7 +20,7 @@ var debugObject; // assign object and debug from browser console, this is for de
 var showPathFlag = false; // Flag to hold the status of draw objects path
 var currentSpatialObjects = {};
 var selectedSpatialObject; // This is set when user search for an object from the search box
-var websocket = new WebSocket('ws://localhost:9764/outputwebsocket/DefaultWebsocketOutputAdaptor/geoDataEndPoint');
+var websocket = new WebSocket('ws://'+ApplicationOptions.constance.WEBSOCKET_URL+':9764/outputwebsocket/DefaultWebsocketOutputAdaptor/geoDataEndPoint');
 
 websocket.onopen = function () {
     $.UIkit.notify({

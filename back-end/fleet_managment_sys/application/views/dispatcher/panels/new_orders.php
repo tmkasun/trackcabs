@@ -51,9 +51,14 @@
         currentDispatchOrderRefId = orderId;
     }
 
+    function disengageOrder(orderId) {
+        $("#commonModal").modal('toggle').find(".modal-content").load('dispatcher/disengageOrder/' + orderId);
+        currentDispatchOrderRefId = orderId;
+    }
+
     function subscribe(userid) {
         var conn = new ab.Session(
-            'ws://127.0.0.1:8080',
+            'ws://'+ApplicationOptions.constance.WEBSOCKET_URL+':'+ApplicationOptions.constance.WEBSOCKET_PORT,
             function () {
                 conn.subscribe(userid, function (topic, data) {
                     // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
@@ -160,7 +165,14 @@
         </a>
 
         <div id="dispatchedOrdersList" class="mscroll" style="overflow-y: auto;height: 90%;">
-
+            <?php foreach ($dispatchedOrders as $order) { ?>
+                <a id="<?= $order['refId'] ?>" onclick="disengageOrder(this.id);return false"
+                   class="list-group-item" data-bookTime="<?= $order['bookTime']->sec ?>">
+                    <?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?>
+                    <span class="text-warning fromNow"></span>
+                    <span class="label label-info" style="float: right"><?= $order['refId'] ?></span>
+                </a>
+            <?php } ?>
         </div>
     </div>
 </div>

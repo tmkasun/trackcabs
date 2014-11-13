@@ -1,40 +1,25 @@
 <script>
     //TODO: move this scripts to separate file like dispatcher.js in assets file
-    function allowDispatchCab(refId) {
-        closeAll();
-//        $("#newOrdersPane").fadeOut('slow');
-        $.UIkit.notify({
-            message: "Order: " + refId + " selected for dispatch!",
-            status: 'success',
-            timeout: 0,
-            pos: 'top-center'
-        });
-        currentDispatchOrderRefId = refId;
-    }
 
-    function cancelOrder(orderRefId) {
-        var confirmation = confirm("Are you sure you want to cancel this order!");
+    function disengageCab(orderRefId) {
+        var confirmation = confirm("Are you sure you want to disengage this order!");
         if(!confirmation){
             $.UIkit.notify({
-                message: "Order not cancelled.",
+                message: "Order not disengaged.",
                 status: 'success',
                 timeout: 3000,
                 pos: 'top-center'
             });
             return false;
         }
-        $.post('dispatcher/cancelOrder', {refId: orderRefId}).done(
+        $.post('dispatcher/disengageCab', {refId: orderRefId}).done(
         function () {
-            var orderDOM = $('#liveOrdersList').find('#' + orderRefId);
+            var orderDOM = $('#dispatchedOrdersList').find('#' + orderRefId);
             $(orderDOM).fadeOut();
-            orderDOM.appendTo('#dispatchedOrdersList .mCSB_container');
-            $('#liveOrdersList').find('#' + orderRefId).remove();
-            setTimeout(function () {
-                orderDOM.show()
-            }, 500);
+            $('#dispatchedOrdersList').find('#' + orderRefId).remove();
             $.UIkit.notify({
-                message: "Order: <b>" + orderRefId + "</b> has been canceled!",
-                status: 'success',
+                message: "Order: <b>" + orderRefId + "</b> has been disengaged!",
+                status: 'warning',
                 timeout: 3000,
                 pos: 'top-center'
             });
@@ -146,13 +131,8 @@
 
         <div style="margin-bottom: -15px" class="btn-group btn-group-justified">
             <div class="btn-group">
-                <button style="background-color: #f4f4f4;" type="button" class="btn btn-default"
-                        onclick="allowDispatchCab(<?= $newOrder['refId'] ?>)">Assign cab
-                </button>
-            </div>
-            <div class="btn-group">
-                <button style="background-color: #f4f4f4;" type="button" class="btn  btn-default"
-                        onclick="cancelOrder(<?= $newOrder['refId'] ?>);">Cancel
+                <button style="background-color: #f0ad4e;" type="button" class="btn btn-default"
+                        onclick="disengageCab(<?= $newOrder['refId'] ?>)">Disengage cab
                 </button>
             </div>
             <!--<div class="btn-group">-->

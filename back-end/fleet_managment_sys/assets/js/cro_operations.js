@@ -461,9 +461,8 @@ function addUserToCooperateProfile(url,tp){
     var userTp = $('#cooperateUserTp').val();
     var data = {"tp" : tp , "userTp" : userTp};
     var result = ajaxPost(data,url);
-    alert(JSON.stringify(result));
-    if(result.statusMsg == 'fail'){
-        alert('Number Entered Dosent Exists');
+    if( result.status == false ){
+        alert(result.message);
         return false;
     }
     getCustomerInfoView(siteUrl , tp);

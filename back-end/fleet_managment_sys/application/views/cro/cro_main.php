@@ -73,7 +73,9 @@
 <div class="container-fluid">
     <div class="row" style="background: #d7ddeb; min-height: 1000px">
         <div class="col-lg-12" style="margin-top: 10px;" id="jobInfo" >
-
+            <div class="col-lg-offset-3 col-lg-7" style="margin-top: 10%">
+                <img style="width: 80%" src="<?= base_url() ?>assets/img/hao-logo-small.png">
+            </div>
         </div>
 
         <div class="col-lg-12" style="margin-top: 10px" id="customerInformation">

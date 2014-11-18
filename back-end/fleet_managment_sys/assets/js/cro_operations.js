@@ -40,9 +40,11 @@ function confirmCancel(url , tp , bookingObjId ){
     }
 
     var data = {'_id' : bookingObjId , 'cancelReason' : cancelReason, 'tp' : tp};
-
-    ajaxPost(data,url);
-    getCustomerInfoView(siteUrl , tp);
+    alert(JSON.stringify(data));
+    result1=ajaxPost(data,url);
+    alert(JSON.stringify(result1));
+    result2=getCustomerInfoView(siteUrl , tp);
+    alert(JSON.stringify(result2));
 }
 
 

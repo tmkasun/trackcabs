@@ -123,7 +123,7 @@ class Customer_retriever extends CI_Controller
         $result = $bookingData['status'];
 
         if ($bookingData != null) {
-            if ($result == ("MSG_COPIED") || $result == ("MSG_NOT_COPIED") || $result == ("AT_THE_PLACE") || $result == ("POB") || $result == ("POB")) {
+            if ($result == ("MSG_COPIED") || $result == ("MSG_NOT_COPIED") || $result == ("AT_THE_PLACE") || $result == ("POB")) {
 
                 /* Adds +1 to the dis_cancel in customers collection */
                 $this->customer_dao->addCanceledDispatch($input_data["tp"]);
@@ -141,7 +141,7 @@ class Customer_retriever extends CI_Controller
             /* Add removed booking from live to the history collection */
             $this->history_dao->createBooking($bookingData);
 
-            $message = 'Your booking ' . $input_data['data']['refId'] . '. has been canceled. Have a nice day';
+            $message = 'Your booking ' . $bookingData['refId'] . '. has been canceled. Have a nice day';
 //            $this->sendSms($bookingData, $message);
 
             /* Send the canceled booking to the dispatch view */

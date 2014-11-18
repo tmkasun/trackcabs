@@ -115,6 +115,7 @@
                 getCancelConfirmationView(url ,param1);
             }
             if(request == 'confirmCancel'){
+                alert(url + tp +param1);
                 confirmCancel(url , tp ,param1);
             }
             if(request == 'denyCancel'){

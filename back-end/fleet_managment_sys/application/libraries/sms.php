@@ -17,7 +17,7 @@ class Sms
      * @param string $serviceUri : End point of the SMS REST service, currently using python service , in default port 3000
      * You may obtain a copy of python script in $self repo
      */
-    function Sms($serviceUri = 'http://localhost:3000')
+    function Sms($serviceUri = 'http://localhost:3000/sms_service')
     {
 
         $this->CI =& get_instance();

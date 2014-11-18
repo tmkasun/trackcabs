@@ -18,6 +18,7 @@
     <script src="<?= base_url() ?>assets/js/jquery-2.1.1.min.js"></script>
     <script src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
     <script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/application_options.js"></script>
 
     <!-- autobahn websocket and WAMP -->
     <script src="<?= base_url() ?>assets/js/autobahn/autobahn.min.js"></script>

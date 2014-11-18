@@ -78,10 +78,10 @@
                     <div class="col-lg-4">
                         <form class="form-inline" role="form">
                             <div class="form-group">
-                                <label for="inputPassword2" class="sr-only">Password</label>
-                                <input type="text" class="form-control" id="inputPassword2" placeholder="REF ID">
+                                <label for="refIdSearch" class="sr-only">Reference ID</label>
+                                <input type="text" class="form-control" id="refIdSearch" placeholder="REF ID">
                             </div>
-                            <button type="submit" class="btn btn-default" onsubmit="bookingsOperations('getBookingById');return false;" onclick="operations()">Search</button>
+                            <button type="submit" class="btn btn-default" onsubmit="bookingsOperations('getBookingById');return false;" onclick="bookingsOperations('getBookingById');return false;">Search</button>
                         </form>
                     </div>
 
@@ -98,10 +98,10 @@
                     <div class="col-lg-4">
                         <form class="form-inline" role="form">
                             <div class="form-group">
-                                <label for="inputPassword2" class="sr-only">Password</label>
-                                <input type="text" class="form-control" id="inputPassword2" placeholder="Address">
+                                <label for="townSearch" class="sr-only">Address[Town]</label>
+                                <input type="text" class="form-control" id="townSearch" placeholder="Address[Town]">
                             </div>
-                            <button type="submit" class="btn btn-default">Search</button>
+                            <button type="submit" class="btn btn-default" onsubmit="bookingsOperations('getBookingByTown');return false;" onclick="bookingsOperations('getBookingByTown');return false;">Search</button>
                         </form>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
             </div>
         </div>
 
-        <div class="col-lg-12" style="margin-top: 10px" id="customerInformation">
+        <div class="col-lg-12" style="margin-top: 10px" id="searchDetails">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h5 class="panel-title">Search Details</h5>
@@ -131,17 +131,23 @@
         function bookingsOperations(request){
 
             if(request == 'getBookingById'){
-                var data;
-                url = '/customer_retriever/getSimilarTpNumbers';
-                ajaxPost(data , url , false);
-
-
-
-
+                url = url + '/customer_retriever/getBookingByRefId';
+                alert(url);
+                var refId= $('#refIdSearch').val();
+                var  data={'refId' : refId}
+                var result = ajaxPost(data , url , false);
+                alert(JSON.stringify(result));
             }
-            if(request == 'getBookingByAddress'){
 
+            if(request == 'getBookingByTown'){
+                url = url + '/customer_retriever/getBookingByRefTown';
+                alert(url);
+                var town= $('#townSearch').val();
+                var  data={'town' : town}
+                var result = ajaxPost(data , url , false);
+                alert(JSON.stringify(result));
             }
+
             if(request == 'getBookingByCustomer'){
 
             }

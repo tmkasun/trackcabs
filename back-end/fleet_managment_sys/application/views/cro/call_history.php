@@ -4,36 +4,25 @@
     </div>
     <div class="panel-body" >
         <div class="col-lg-12" style="max-height: 200px ; overflow: auto">
-            <?php if(isset($history_booking) && sizeof($history_booking) != 0):?>
+            <?php if(isset($call_history) && sizeof($call_history) != 0):?>
                 <table class="table table-striped" ><tr>
-                        <th>Status</th>
-                        <th>Ref ID</th>
                         <th>Call Time</th>
-                        <th>Book Time</th>
-                        <th>Address</th>
-                        <th>Driver Id</th>
-                        <th>Cab Id</th>
-                        <th>Remark</th>
+                        <th>CRO</th>
                     </tr>
-                    <?php foreach (array_reverse($history_booking) as $item):?>
+                    <?php foreach (array_reverse($call_history) as $item):?>
                         <tr>
-                            <td><?= $item['status'];?></td>
-                            <td><?= $item['refId'];?></td>
                             <td><?=  date('H:i:s Y-m-d ', $item['callTime']->sec);?></td>
-                            <td><?=  date('H:i:s Y-m-d ', $item['bookTime']->sec);?></td>
-                            <td><?= $item['address']['no'] ." ". $item['address']['road'] ." ". $item['address']['city'] ." ". $item['address']['town'];?></td>
-                            <td><?= $item['driverId'];?></td>
-                            <td><?= $item['cabId'];?></td>
-                            <td><?= $item['remark'];?></td>
+                            <td><?=  $item['croId'];?></td>
+
                         </tr>
                     <?php endforeach;?>
 
                 </table>
             <?php endif?>
 
-            <?php if(!isset($history_booking)):?>
+            <?php if(!isset($call_history)):?>
                 <div class="col-lg-offset-5 col-lg-5">
-                    <h4>No previous bookings made</h4>
+                    <h4>EMPTY</h4>
                 </div>
             <?php endif;?>
         </div>

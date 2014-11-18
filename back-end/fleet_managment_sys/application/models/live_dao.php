@@ -48,6 +48,15 @@ class Live_dao extends CI_Model
         return $collection->findOne($searchQuery);
     }
 
+    function getBookingByTown($town){
+        $dbName = $this->db->selectDB('track');
+        $collection = $dbName->selectCollection('live');
+
+        $searchQuery= array('address.town' => $town);
+
+        return $collection->findOne($searchQuery);
+    }
+
 
     /**
      * @param $objId = mongoId String

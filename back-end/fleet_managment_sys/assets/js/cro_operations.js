@@ -8,6 +8,22 @@ function getEditBookingView(url , objId){
     var view = ajaxPost(data,url);
     /*  Populate the New Booking field with the editing form */
     $('#newBooking').html(view.view.edit_booking_view);
+    uiInit();
+    /* The ui bug with only can select the vehicle type */
+    var index = -1;
+    for(var i=0 ; i < bookingObj.length ; i++){
+        index++;
+        if( bookingObj[i]['_id']['$id'] === bookingObjId){
+            break;
+        }
+    }
+
+    var payType = bookingObj[index]['payType'];
+    if(payType == 'cash')
+    $('#payTypeCash').addClass(' active');
+
+    if(payType == 'credit')
+        $('#payTypeCredit').addClass(' active');
 }
 
     function getCancelConfirmationView( url ,  bookingObjId ){
@@ -40,11 +56,8 @@ function confirmCancel(url , tp , bookingObjId ){
     }
 
     var data = {'_id' : bookingObjId , 'cancelReason' : cancelReason, 'tp' : tp};
-    alert(JSON.stringify(data));
-    result1=ajaxPost(data,url);
-    alert(JSON.stringify(result1));
-    result2=getCustomerInfoView(siteUrl , tp);
-    alert(JSON.stringify(result2));
+    ajaxPost(data,url);
+    getCustomerInfoView(siteUrl , tp);
 }
 
 
@@ -61,6 +74,7 @@ function createBooking(url , tp){
     var callUpPrice = $('#callUpPrice').val();
     var dispatchB4  = $('#dispatchB4').val();
     var destination = $('#destination').val();
+    var pagingBoard = $('#pagingBoard').val();
     var bDate      = $('#bDate').val();
     var bTime      = $('#bTime').val();
     var vType               = $('#vehicleType').val();
@@ -88,6 +102,7 @@ function createBooking(url , tp){
     if (callUpPrice== ''){callUpPrice= 0}
     if (dispatchB4== ''){dispatchB4= 30}
     if (destination== ''){destination= '-'}
+    if (pagingBoard== ''){pagingBoard= '-'}
 
     var address = {
         'no':no ,
@@ -118,6 +133,7 @@ function createBooking(url , tp){
             'inqCall'      : 0,
             'callUpPrice' : callUpPrice,
             'dispatchB4' : dispatchB4,
+            'pagingBoard' : pagingBoard,
             'destination' : destination,
             'bookingCharge' : bookingCharge,
             'bookingType' : bookingType,
@@ -142,6 +158,7 @@ function updateBooking(url , objId){
     var callUpPrice = $('#callUpPrice').val();
     var destination = $('#destination').val();
     var dispatchB4  = $('#dispatchB4').val();
+    var pagingBoard = $('#pagingBoard').val();
     var bDate      = $('#bDate').val();
     var bTime      = $('#bTime').val();
     var vType               = $('#vehicleType').val();
@@ -181,7 +198,8 @@ function updateBooking(url , objId){
             'remark' : remark ,
             'inqCall' : 0,
             'callUpPrice' : callUpPrice,
-            'dispatchB4' : dispatchB4
+            'dispatchB4' : dispatchB4,
+            'pagingBoard' : pagingBoard
         }
     };
     ajaxPost(data,url);
@@ -445,10 +463,14 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobBookTime').html(bookDate.toDateString()+'</br>'+bookDate.toTimeString());
     $('#jobCallTime').html(callDate.toDateString()+'</br>'+callDate.toTimeString());
     $('#jobDispatchB4').html(bookingObj[index]['dispatchB4']);
+    $('#jobPayType').html(bookingObj[index]['jobPayType']);
 
     $('#jobDriverTp').html(bookingObj[index]['driverTp']);
     $('#jobCabColor').html(bookingObj[index]['cabColor']);
     $('#jobCabPlateNo').html(bookingObj[index]['cabPlateNo']);
+    $('#jobPagingBoard').html(bookingObj[index]['pagingBoard']);
+
+
 
     var status = bookingObj[index]['status'];
     if( status == 'START' ||  status == 'MSG_COPIED' || status == 'MSG_NOT_COPIED' || status == 'AT_THE_PLACE') {
@@ -472,4 +494,22 @@ function addUserToCooperateProfile(url,tp){
         return false;
     }
     getCustomerInfoView(siteUrl , tp);
+}
+
+function fillAddressToBooking(bookingObjId){
+
+    var index = -1;
+    for(var i=0 ; i < bookingObj.length ; i++){
+        index++;
+        if( bookingObj[i]['_id']['$id'] === bookingObjId){
+            break;
+        }
+    }
+
+    $('#no').val(bookingObj[index]['address']['no']);
+    $('#road').val(bookingObj[index]['address']['road']);
+    $('#city').val(bookingObj[index]['address']['city']);
+    $('#town').val(bookingObj[index]['address']['town']);
+    $('#landMark').val(bookingObj[index]['address']['landmark']);
+
 }

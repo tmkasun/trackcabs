@@ -180,26 +180,26 @@ class Customer_retriever extends CI_Controller
 
     public function getBookingByRefId()
     {
-
+        $statusMsg = 'success';
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $result = $this->live_dao->getBooking($input_data["refId"]);
         if($result != null){
-
+            $statusMsg = 'fail';
         }
-        $this->output->set_output(json_encode(array("statusMsg" => "success", "data" => $result)));
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , "data" => $result)));
 
     }
 
     public function getBookingByRefTown()
     {
-
+        $statusMsg = 'success';
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $result = $this->live_dao->getBookingByTown($input_data["town"]);
-        if($result != null){
-
+        $bookings_town = $this->live_dao->getBookingByTown($input_data["town"]);
+        if($bookings_town != null){
+            $statusMsg = 'fail';
         }
-        $this->output->set_output(json_encode(array("statusMsg" => "success", "data" => $result)));
-
+        $data['edit_booking_view'] = $this->load->view('cro/edit_booking', $bookings_town, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , "view" => $data)));
     }
 
     public function addInquireCall()

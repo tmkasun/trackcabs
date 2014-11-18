@@ -54,7 +54,13 @@ class Live_dao extends CI_Model
 
         $searchQuery= array('address.town' => $town);
 
-        return $collection->findOne($searchQuery);
+        $cursor = $collection->find($searchQuery);
+
+        $data= array();
+        foreach ($cursor as $doc) {
+            $data[]= $doc;
+        }
+        return $data;
     }
 
 

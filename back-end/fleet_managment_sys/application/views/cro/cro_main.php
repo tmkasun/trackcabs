@@ -104,7 +104,7 @@
                 updateCustomerInfoView( url );
             }
             if(request == 'getCustomer'){
-                var tp = $('#tpSearch').val();
+                tp = $('#tpSearch').val();
                 getCustomerInfoView( url , tp);
             }
             if(request == 'createCusInfo'){

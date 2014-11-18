@@ -1,6 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Booking History</h3>
+        <h3 class="panel-title">Call History</h3>
     </div>
     <div class="panel-body" >
         <div class="col-lg-12" style="max-height: 200px ; overflow: auto">

@@ -87,10 +87,14 @@
 
         </div>
 
-        <div class="col-lg-12" style="margin-top: 10px" id="bookingHistory">
+        <div class="col-lg-8" style="margin-top: 10px" id="bookingHistory">
 
         </div>
-</div>
+
+        <div class="col-lg-4" style="margin-top: 10px" id="callHistory">
+
+        </div>
+    </div>
     <script>
         function operations(request, param1){
             if(request=="editCus"){

@@ -308,6 +308,9 @@ function getCustomerInfoView( url , tp ){
 
     /*  Populate the job information view */
     $('#bookingHistory').html(view.view.booking_history_view);
+
+    /*  Populate the job information view */
+    $('#callHistory').html(view.view.call_history_view);
 }
 
 function getSimilarTpNumbers(url , tp){
@@ -418,6 +421,7 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobAddress').html(bookingObj[index]['address']['no'] + ' , ' + bookingObj[index]['address']['road'] + ' , ' +
                         bookingObj[index]['address']['city'] + ' , ' + bookingObj[index]['address']['town'] + ' ,'  +
                         bookingObj[index]['address']['landmark']);
+    $('#jobDestination').html(bookingObj[index]['destination']);
     $('#jobRemark').html(bookingObj[index]['remark']);
 
     var specifications = "";

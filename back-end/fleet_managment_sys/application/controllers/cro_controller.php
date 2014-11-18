@@ -120,6 +120,12 @@ class Cro_controller extends CI_Controller
         }else{
 
             $bookingData=array('customerInfo' => $result);
+
+            /* TODO ADD PABX DATA TO CALL TIME */
+            $user = $this->session->userdata('user');
+            $bookingData['callHistory'][] = array('callTime' => new MongoDate() , 'croId' => $user['userId']);
+            $this->customer_dao->updateCustomer($input_data["tp"], $bookingData);
+
             foreach($result as $key => $value){
                 if($key == 'history'){
                     foreach($value as $newKey){

@@ -86,14 +86,14 @@ class Customer_retriever extends CI_Controller
             $this->customer_dao->addBooking($customerProfile2['tp'],$bookingObjId);
         }
 
-        $message = 'Your order has been confirmed. The booking number is ' . $input_data['data']['refId'] . '. Have a nice day';
+        //$message = 'Your order has been confirmed. The booking number is ' . $input_data['data']['refId'] . '. Have a nice day';
 //        $this->sendSms($bookingCreated, $message);
 
         /* Send the newly added booking to the dispatch view */
 
-//        $webSocket = new Websocket('localhost', '5555', $user['userId']);
-//        $webSocket->send($bookingCreated, 'dispatcher1');
-//        $webSocket->send($bookingCreated, 'monitor1');
+          $webSocket = new Websocket('localhost', '5555', $user['userId']);
+          $webSocket->send($bookingCreated, 'dispatcher1');
+          $webSocket->send($bookingCreated, 'monitor1');
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
     }

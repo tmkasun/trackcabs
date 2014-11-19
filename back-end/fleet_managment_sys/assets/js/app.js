@@ -16,7 +16,6 @@
  * under the License.
  */
 
-/*Application configurations*/
 
 $(".modal").draggable({
     handle: ".modal-header"
@@ -67,15 +66,33 @@ $("#searchbox").click(function () {
 });
 
 /* TypeAhead search functionality */
+function getSearchKey(order){
+    var searchKey;
+    var leftSidePane = $("#leftSidePane");
+    if(leftSidePane.find('#searchByRefId').hasClass('active')){
+        searchKey = order.refId;
+    }
+    else if(leftSidePane.find('#searchByTown')){
+        searchKey = order.address.town;
+    }
+    return searchKey;
+}
 
 var substringMatcher = function () {
     return function findMatches(q, cb) {
+        //console.log("q = "+q+" cb = "+cb);
+
         var matches, substrRegex;
         matches = [];
         substrRegex = new RegExp(q, 'i');
-        $.each(currentOrdersList, function (i, str) {
-            if (substrRegex.test(i)) {
-                matches.push({ value: i });
+        $.each(unDispatchedOrders, function (i, order) {
+            console.log("i = "+i+" order = "+order);
+            debugObject = order;
+            var searchKey = getSearchKey(order);
+            console.log("searchKey = "+searchKey);
+
+            if (substrRegex.test(searchKey)) {
+                matches.push({ value: searchKey });
             }
         });
 
@@ -83,33 +100,7 @@ var substringMatcher = function () {
     };
 };
 
-var chart;
-function createChart() {
-    chart = c3.generate({
-        bindto: '#chart_div',
-        data: {
-            columns: [
-                ['speed']
-            ]
-        },
-        subchart: {
-            show: true
-        },
-        axis: {
-            y: {
-                label: {
-                    text: 'Speed',
-                    position: 'outer-middle'
-                }
-            }
-        },
-        legend: {
-            show: false
-        }
-    });
-}
-
-$('#searchbox').typeahead({
+$('#orderSearch').typeahead({
         hint: true,
         highlight: true,
         minLength: 1
@@ -120,7 +111,7 @@ $('#searchbox').typeahead({
         source: substringMatcher()
     }).on('typeahead:selected', function ($e, datum) {
         objectId = datum['value'];
-        focusOnSpatialObject(objectId)
+        console.log(datum['value']);
     });
 
 var locations = new Bloodhound({

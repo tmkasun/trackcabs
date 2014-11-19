@@ -242,14 +242,13 @@
     <div class="col-md-3">
         <div id="leftSidePane">
             <div class="input-group input-group">
-
                 <span class="input-group-addon" style="padding: 0px;margin: 0px;width: 130px;">
                 <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
-                    <button type="button" class="btn btn-default active">Ref#</button>
-                    <button type="button" class="btn btn-default">Town</button>
-                    <button type="button" class="btn btn-default">Cab#</button>
+                    <button id="searchByRefId" type="button" class="btn btn-default active">Ref#</button>
+                    <button id="searchByTown" type="button" class="btn btn-default">Town</button>
+<!--                    <button id="searchByCabId" type="button" class="btn btn-default">Cab#</button>-->
                 </div></span>
-                <input type="text" class="form-control" placeholder="Search here">
+                <input autofocus="true" id="orderSearch" type="text" class="form-control" placeholder="Search here">
             </div>
             <?= $new_orders_pane ?>
         </div>

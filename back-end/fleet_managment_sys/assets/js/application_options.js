@@ -17,6 +17,10 @@
  */
 var BASE_URL;
 
+
+/*Application configurations*/
+var unDispatchedOrders = {};
+
 function getBaseURL() {
     if (BASE_URL === 'undefined') {
         return null;

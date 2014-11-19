@@ -142,6 +142,10 @@
             if(request == 'fillAddressToBooking'){
                 fillAddressToBooking(param1);
             }
+            if(request == 'addInquireCall'){
+                addInquireCall(url ,param1);
+                getCustomerInfoView(url , tp);
+            }
             uiInit();
         }
     </script>

@@ -197,9 +197,16 @@
 
                                 <?php endif;?>
                             </div>
-                            <hr>
 
-                            <div id="jobCancelButton" class="col-lg-12">
+                            <div class="col-lg-12" style="margin-top: 2px">
+                                <div class="btn-group">
+                                    <button class="btn btn-default" type="button" onclick="operations('addInquireCall', '<?= $live_booking[$index]['_id'];?>')">
+                                        Inquire <span class="badge" id="jobInquireButton"><?= $live_booking[$index]['inqCall'];?></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="jobCancelButton" class="col-lg-12" style="margin-top: 2px">
                                 <?php if( ($status == "START") || ($status == 'MSG_COPIED') || ($status =='MSG_NOT_COPIED') || ($status =='AT_THE_PLACE')):?>
 
                                     <div class="btn-group">
@@ -208,6 +215,7 @@
 
                                 <?php endif;?>
                             </div>
+
                         </div>
                     </div>
                 </div>

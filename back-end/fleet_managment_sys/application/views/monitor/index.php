@@ -46,7 +46,6 @@
                         // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
                         console.log('New Message published to user "' + topic + '" : ' + data.message);
                         var order = data.message;
-                        debugObject = order;
                         if (order.status === "START") {
                             addToNotDispatch(order);
                         } else if (order.status === "MSG_NOT_COPIED") {

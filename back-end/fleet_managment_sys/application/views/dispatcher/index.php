@@ -142,15 +142,6 @@
         <a class="navbar-brand" href="#"><img style="max-width:50px; margin-top: -7px;"
                                               src="<?= base_url() ?>assets/img/hao-logo-small.png"/></a>
 
-        <!-- TODO: for reference, remove if not use
-        <div class="navbar-icon-container">
-            <a href="#left_side_pannel" data-uk-offcanvas class="navbar-icon pull-right visible-xs"
-                    ><i class="fa fa-bars fa-lg" style="color: #FF9900"></i></a>
-            <a href="#" class="navbar-icon pull-right visible-xs"
-               onclick="$('.navbar-collapse').collapse('toggle');return false;"><i class="fa fa-search fa-lg"
-                                                                                   style="color: #FF9900"></i></a>
-        </div>
-        -->
     </div>
     <div class="navbar-collapse collapse">
         <!-- TODO: for reference, remove if not use
@@ -240,7 +231,7 @@
                     </li>
                     <li><a href="#">Doc</a></li>
                     <li class="divider"></li>
-                    <li><a href="controllers/logout.jag">Logout</a></li>
+                    <li><a href="<?= site_url('login/logout') ?>">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -249,15 +240,22 @@
 
 <div class="row">
     <div class="col-md-3">
-
         <div id="leftSidePane">
+            <div class="input-group input-group">
+
+                <span class="input-group-addon" style="padding: 0px;margin: 0px;width: 130px;">
+                <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
+                    <button type="button" class="btn btn-default active">Ref#</button>
+                    <button type="button" class="btn btn-default">Town</button>
+                    <button type="button" class="btn btn-default">Cab#</button>
+                </div></span>
+                <input type="text" class="form-control" placeholder="Search here">
+            </div>
             <?= $new_orders_pane ?>
         </div>
     </div>
     <div id="locBoardWrapper" class="col-md-9">
-
         <div id="rightSidePane">
-
             <div style="max-height: 90%;" id="locationBoardPane">
                 <?= $location_board_pane ?>
             </div>

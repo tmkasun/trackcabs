@@ -66,5 +66,25 @@ class Test_controller extends CI_Controller
         $data = $this->history_dao->getBookingFees();
         var_dump($data);
     }
+    function get_free_cabs()
+    {
+        $cab_ids = array();
+        $userId = $_GET['id'];$userId = 3;
+        $cursor= $this->cab_dao->get_unassigned_cabs();
+        foreach($cursor as $cab_id){$cab_ids[] = $cab_id;}//print_r($cab_ids);
+        $data = $this->user_dao->getUser($userId);//print_r($data); 
+        //$data = array_merge($data,$cab_ids);
+        $data['cab_ids'] = $cab_ids;//array_fill_keys(array('cab_ids'), $cab_ids);
+        var_dump($data);
+        print_r($data);$i=0;
+        foreach($data['cab_ids'] as $cabId){echo '<br>'.$cabId['cabId'];$i++;}
+        echo '<br>'.$data['cab_ids'][1]['cabId'];
+        //$data[$user_type.'_edit_view'] = $this->load->view('admin/'.$user_type.'/edit_'.$user_type, $data, TRUE);
+    }
+    function updateCab()
+    {
+        var_dump($this->test_dao->updateCab(1,array('userId' => 3)));
+    }
+    
 }
 

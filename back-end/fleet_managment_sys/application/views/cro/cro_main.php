@@ -127,6 +127,7 @@
             }
             if(request == 'editBooking'){
                 getEditBookingView(url,param1);
+                getCustomerInfoView(url, tp);
             }
             if(request == 'updateBooking'){
                 updateBooking(url,param1);

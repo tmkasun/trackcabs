@@ -32,7 +32,15 @@
     </div>
     <div class="form-group">
         <label for="cabIdAssigned">Cab ID</label>
-        <input type="text" class="form-control" id="cabId" placeholder="Enter Cab ID" value="<?= $cabId;?>">
+<!--        <input type="text" class="form-control" id="cabId" placeholder="Enter Cab ID" value="<? //$cabId;?>">-->
+        <select class="form-control" id="cabId" >
+            <option value="-1" selected=""><?php if($cabId == -1){echo "Assign Later";}else{echo "Remove Cab";}?></option>            
+            <?php
+            if($cabId != -1){echo '<option value="'.$cabId.'" selected>'.$cabId.'</option>';}
+            $i = 0;            
+            foreach($cab_ids as $cabId_uu){echo '<option value="'.$cabId_uu['cabId'].'">'.$cabId_uu['cabId'].'</option>';$i++;}
+            ?>
+        </select>    
     </div>
     <div class="form-group">
         <label for="blocked">Blocked</label>

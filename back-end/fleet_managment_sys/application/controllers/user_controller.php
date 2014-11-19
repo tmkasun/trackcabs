@@ -31,7 +31,7 @@ class User_controller extends CI_Controller
                 foreach($cursor as $cab_id){$cab_ids[] = $cab_id;}
                 $data['table_content'] = $this->load->view('admin/'.$user_type.'/new_'.$user_type.'_view',array('cab_ids' => $cab_ids),TRUE);
             }
-         else{$data['table_content'] = $this->load->view('admin/'.$user_type.'/new_'.$user_type.'_view',$table_data,TRUE );}
+        else{$data['table_content'] = $this->load->view('admin/'.$user_type.'/new_'.$user_type.'_view',$table_data,TRUE );}
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
@@ -77,9 +77,21 @@ class User_controller extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $userId = $input_data['userId'];
         $user_type = $input_data['user_type'];
-        
-        $data = $this->user_dao->getUser($userId);
-        $data[$user_type.'_edit_view'] = $this->load->view('admin/'.$user_type.'/edit_'.$user_type, $data, TRUE);
+        $cab_ids = array();
+        if($user_type === 'driver')
+            {                
+                $cursor= $this->cab_dao->get_unassigned_cabs();
+                foreach($cursor as $cab_id){$cab_ids[] = $cab_id;}
+                $data = $this->user_dao->getUser($userId); 
+                $data['cab_ids'] = $cab_ids;//array('cab_ids' => $cab_ids);//array_merge($data,$cab_ids);
+                $data[$user_type.'_edit_view'] = $this->load->view('admin/'.$user_type.'/edit_'.$user_type, $data, TRUE);
+                //$data['table_content'] = $this->load->view('admin/'.$user_type.'/new_'.$user_type.'_view',array('cab_ids' => $cab_ids),TRUE);
+            }
+        else
+            {
+                $data = $this->user_dao->getUser($userId);                
+                $data[$user_type.'_edit_view'] = $this->load->view('admin/'.$user_type.'/edit_'.$user_type, $data, TRUE);
+            }        
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
@@ -131,15 +143,27 @@ class User_controller extends CI_Controller
         $input_data['userId'] = (int)$input_data['userId'];
         if(array_key_exists('cabId',$input_data['details']))
                 {
-                    if($input_data['details']['cabId'] === "" || $input_data['details']['cabId'] == -1){$input_data['details']['cabId']= (int)-1;}
-                    else
+                    if($input_data['details']['cabId'] === "" || $input_data['details']['cabId'] == -1)
                         {
-                            $input_data['details']['cabId']= (int)$input_data['details']['cabId'];
-                            $this->cab_dao->updateCab($input_data['details']['cabId'],array('userId' => $input_data["userId"] ));
+                            $input_data['details']['cabId']= (int)-1;
+                            
                         }
+                        $input_data['details']['cabId']= (int)$input_data['details']['cabId'];
+                        $this->cab_dao->updateCab($input_data['details']['cabId'],array('userId' => $input_data["userId"] ));
+//                    else
+//                        {
+//                            $input_data['details']['cabId']= (int)$input_data['details']['cabId'];
+//                            $this->cab_dao->updateCab($input_data['details']['cabId'],array('userId' => $input_data["userId"] ));
+//                        }
+                        //add relese_cab() here
                 }
         $this->user_dao->updateUser($input_data['userId'],$input_data['details']);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
+    }
+    
+    function releaseCab($cabId)
+    {
+        
     }
 
     function getUser(){

@@ -76,7 +76,7 @@
 
 
         var data = {};
-        url = url +"/cro_controller/getTodayMyBookings";
+        url = url +"/cro_controller/getMyBookings";
         var view = ajaxPost(data,url);
         /*  Populate the New Booking field with the editing form */
         var bookingsDiv = document.getElementById('bookings');

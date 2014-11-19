@@ -58,7 +58,7 @@
 
     function subscribe(userid) {
         var conn = new ab.Session(
-            'ws://'+ApplicationOptions.constance.WEBSOCKET_URL+':'+ApplicationOptions.constance.WEBSOCKET_PORT,
+            'ws://' + ApplicationOptions.constance.WEBSOCKET_URL + ':' + ApplicationOptions.constance.WEBSOCKET_PORT,
             function () {
                 conn.subscribe(userid, function (topic, data) {
                     // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
@@ -66,7 +66,9 @@
                     var newOrder = data.message;
                     if (newOrder.status === "CANCEL") {
                         removeOrder(newOrder);
+                        delete unDispatchedOrders[newOrder.refId];
                     } else {
+                        unDispatchedOrders[newOrder.refId] = newOrder;
                         addNewOrder(newOrder);
                     }
                 });
@@ -102,22 +104,22 @@
             pos: 'top-center'
         });
 
-        if(liveOrdersList.length == 0){
+        if (liveOrdersList.length == 0) {
             $($order).appendTo('#liveOrdersList .mCSB_container');
             return;
         }
         var targetElement;
         var i = 0;
         /*
-        for optimization http://www.brpreiss.com/books/opus4/html/page190.html#progsorted1c
-        http://jsfiddle.net/2mBdL/1/
+         for optimization http://www.brpreiss.com/books/opus4/html/page190.html#progsorted1c
+         http://jsfiddle.net/2mBdL/1/
 
-        * */
+         * */
         for (; i < liveOrdersList.length; i++) {
             var thisOrderUnixTimeStam = $(liveOrdersList[i]).data('booktime');
             if (newOrderUnixTimeStamp < thisOrderUnixTimeStam) {
                 targetElement = liveOrdersList[i].id;
-                $($order).insertBefore('#liveOrdersList #'+targetElement);
+                $($order).insertBefore('#liveOrdersList #' + targetElement);
                 return;
             }
         }
@@ -139,12 +141,11 @@
 
 </script>
 
-<div id="newOrdersPane" class="panel panel-default boxElement " style="height: 50%;">
+<div id="newOrdersPane" class="panel panel-default boxElement " style="height: 50%;margin-bottom: 0px">
     <div class="list-group">
         <a href="#" class="list-group-item active text-center">
             New Orders
         </a>
-
         <div id="liveOrdersList" class="mscroll" style="overflow-y: auto;height: 90%;">
             <?php foreach ($orders as $order) { ?>
                 <a id="<?= $order['refId'] ?>" onclick="dispatchOrder(this.id);return false"
@@ -153,6 +154,10 @@
                     <span class="text-warning fromNow"></span>
                     <span class="label label-info" style="float: right"><?= $order['refId'] ?></span>
                 </a>
+                <script>
+                    var order = JSON.parse('<?= json_encode($order) ?>');
+                    unDispatchedOrders[order.refId] = order;
+                </script>
             <?php } ?>
         </div>
     </div>

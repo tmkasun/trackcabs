@@ -40,7 +40,7 @@ class Sms
             'message' => $message,
             CURLOPT_USERAGENT => true
         );
-        $response = $this->CI->curl->simple_post('http://localhost:3000', $POSTData);
+        $response = $this->CI->curl->simple_post('http://localhost:3000/sms_service', $POSTData);
 
 //        return json_decode($response); // TODO: return status rather than string received from python daemon, change python code accordingly to return JSON string
         return $response;

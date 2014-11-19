@@ -70,13 +70,21 @@ class Cro_controller extends CI_Controller
 
     function getTodayMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        // TODO SET THE SESSION USERID AS PARAMETER
         $user = $this->session->userdata('user');
         $data = $this->live_dao->getCroBookingsToday($user['userId']);
 
         $data['booking_summary'] = $this->load->view('cro/my_bookings/booking_summary', $data , TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
 
+    }
+
+    function  getMyBookings(){
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $user = $this->session->userdata('user');
+        $data = $this->live_dao->getCroBookings($user['userId']);
+
+        $data['booking_summary'] = $this->load->view('cro/my_bookings/booking_summary', $data , TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
     function getCustomerInfoEditView(){
@@ -116,10 +124,17 @@ class Cro_controller extends CI_Controller
             $data['job_info_view'] = '';
             $data['new_booking_view'] = '';
             $data['booking_history_view']= '';
+            $data['call_history_view']= '';
             $this->output->set_output(json_encode(array("statusMsg" => "fail","view" => $data)));
         }else{
 
             $bookingData=array('customerInfo' => $result);
+
+            /* TODO ADD PABX DATA TO CALL TIME */
+            $user = $this->session->userdata('user');
+            $result['call_history'][] = array('callTime' => new MongoDate() , 'croId' => $user['userId'] , 'croUname' => $user['uName']);
+            $this->customer_dao->updateCustomer($input_data["tp"], $result);
+
             foreach($result as $key => $value){
                 if($key == 'history'){
                     foreach($value as $newKey){
@@ -189,7 +204,7 @@ class Cro_controller extends CI_Controller
             $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);
             $data['new_booking_view'] = $this->load->view('cro/new_booking', $result , TRUE);
             $data['booking_history_view'] = $this->load->view('cro/booking_history', $bookingData , TRUE);
-            $data['call_history_view'] = $this->load->view('cro/call_history', $bookingData , TRUE);
+            $data['call_history_view'] = $this->load->view('cro/call_history', $result , TRUE);
             $this->output->set_output(json_encode(array("statusMsg" => "success","important" => $bookingData ,"view" => $data)));
         }
     }

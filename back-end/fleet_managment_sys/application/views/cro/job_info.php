@@ -62,10 +62,7 @@
                             <?php $status =$history_booking[$index]['status']; ?>
                             <h5>Address </h5>
                         <span id="jobAddress">
-                            <?= $history_booking[$index]['address']['no'] ." ".
-                            $history_booking[$index]['address']['road'] ." ".
-                            $history_booking[$index]['address']['city'] ." ".
-                            $history_booking[$index]['address']['town'];?>
+                            <?= implode(", ", $history_booking[$index]['address']);?>
                         </span>
                             <h5>Remark </h5>
                             <span id="jobRemark"><?= $history_booking[$index]['remark']?></span>
@@ -86,7 +83,9 @@
                             <span id="jobCallTime"><?php echo date('H:i Y-m-d ', $history_booking[$index]['callTime']->sec);?></span>
                             </br>
                             <h5>Dispatch Before </h5>
-                        <span id="jobDispatchB4"><?= $history_booking[$index]['dispatchB4'];?> min
+                            <span id="jobDispatchB4"><?= $history_booking[$index]['dispatchB4'];?> min
+                            <h5>Pay Type</h5>
+                            <span id="jobPayType"><?= $live_booking[$index]['payType'];?>
                         </div>
 
                         <div class="col-lg-3">
@@ -97,6 +96,9 @@
                             <span id="jobCabColor"><?= $history_booking[$index]['cabColor'];?></span>
                             <h5>Plate No</h5>
                             <span id="jobCabPlateNo"><?= $history_booking[$index]['cabPlateNo'];?></span>
+                            <h5>Paging Board</h5>
+                            <span id="jobPagingBoard"><?php echo $history_booking[$index]['pagingBoard'];?>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -144,10 +146,7 @@
 
                             <h5>Address </h5>
                         <span id="jobAddress">
-                            <?= $live_booking[$index]['address']['no'] ." ".
-                            $live_booking[$index]['address']['road'] ." ".
-                            $live_booking[$index]['address']['city'] ." ".
-                            $live_booking[$index]['address']['town'];?>
+                            <?= implode(", ", $live_booking[$index]['address']);?>
                         </span>
                             <h5>Destination</h5>
                             <span id="jobRemark"><?= $live_booking[$index]['destination']?></span>
@@ -170,7 +169,9 @@
                             <span id="jobCallTime"><?php echo date('H:i Y-m-d ', $live_booking[$index]['callTime']->sec);?></span>
                             </br>
                             <h5>Dispatch Before </h5>
-                        <span id="jobDispatchB4"><?= $live_booking[$index]['dispatchB4'];?> min
+                            <span id="jobDispatchB4"><?= $live_booking[$index]['dispatchB4'];?> min
+                            <h5>Pay Type</h5>
+                            <span id="jobPayType"><?= $live_booking[$index]['payType'];?>
                         </div>
 
                         <div class="col-lg-3">
@@ -181,6 +182,9 @@
                             <span id="jobCabColor"><?= $live_booking[$index]['cabColor'];?></span>
                             <h5>Plate No</h5>
                             <span id="jobCabPlateNo"><?= $live_booking[$index]['cabPlateNo'];?></span>
+                            <h5>Paging Board</h5>
+                            <span id="jobPagingBoard"><?php echo $live_booking[$index]['pagingBoard'];?>
+                            </span>
                         </div>
 
                         <div class="col-lg-2">
@@ -230,7 +234,11 @@
                             <td><?= $item['refId'];?></td>
                             <td><?=  date('H:i:s Y-m-d ', $item['callTime']->sec);?></td>
                             <td><?=  date('H:i:s Y-m-d ', $item['bookTime']->sec);?></td>
-                            <td><?= $item['address']['no'] ." ". $item['address']['road'] ." ". $item['address']['city'] ." ". $item['address']['town'];?></td>
+                            <td>
+                                <a href="#" onclick="operations('fillAddressToBooking', '<?= $item['_id']?>')">
+                                <?= implode(", ", $item['address']);?>
+                                </a>
+                            </td>
                             <td><?= $item['driverId'];?></td>
                             <td><?= $item['cabId'];?></td>
                             <td><?= $item['remark'];?></td>

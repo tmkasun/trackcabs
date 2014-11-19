@@ -87,13 +87,13 @@ class Customer_retriever extends CI_Controller
         }
 
         $message = 'Your order has been confirmed. The booking number is ' . $input_data['data']['refId'] . '. Have a nice day';
-//        $this->sendSms($bookingCreated, $message);
+        $this->sendSms($bookingCreated, $message);
 
         /* Send the newly added booking to the dispatch view */
 
-//        $webSocket = new Websocket('localhost', '5555', $user['userId']);
-//        $webSocket->send($bookingCreated, 'dispatcher1');
-//        $webSocket->send($bookingCreated, 'monitor1');
+        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+        $webSocket->send($bookingCreated, 'dispatcher1');
+        $webSocket->send($bookingCreated, 'monitor1');
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
     }
@@ -142,13 +142,13 @@ class Customer_retriever extends CI_Controller
             $this->history_dao->createBooking($bookingData);
 
             $message = 'Your booking ' . $bookingData['refId'] . '. has been canceled. Have a nice day';
-//            $this->sendSms($bookingData, $message);
+            $this->sendSms($bookingData, $message);
 
             /* Send the canceled booking to the dispatch view */
 
-//            $webSocket = new Websocket('localhost', '5555', $user['userId']);
-//            $webSocket->send($bookingData, 'monitor1');
-//            $webSocket->send($bookingData, 'dispatcher1');
+            $webSocket = new Websocket('localhost', '5555', $user['userId']);
+            $webSocket->send($bookingData, 'monitor1');
+            $webSocket->send($bookingData, 'dispatcher1');
 
 
         }
@@ -171,23 +171,35 @@ class Customer_retriever extends CI_Controller
         $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
 
         /* Send the updated booking to the dispatch view */
-//        $webSocket = new Websocket('localhost', '5555', $user['userId']);
-//        $webSocket->send($bookingData, 'monitor1');
-//        $webSocket->send($bookingData, 'dispatcher1');
+        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+        $webSocket->send($bookingData, 'monitor1');
+        $webSocket->send($bookingData, 'dispatcher1');
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
 
     }
 
-    public function getBooking()
+    public function getBookingByRefId()
     {
-
+        $statusMsg = 'success';
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $result = $this->live_dao->getBooking($input_data["refId"]);
         if($result != null){
-
+            $statusMsg = 'fail';
         }
-        $this->output->set_output(json_encode(array("statusMsg" => "success", "data" => $result)));
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , "data" => $result)));
 
+    }
+
+    public function getBookingByRefTown()
+    {
+        $statusMsg = 'success';
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $bookings_town = $this->live_dao->getBookingByTown($input_data["town"]);
+        if($bookings_town != null){
+            $statusMsg = 'fail';
+        }
+        $data['edit_booking_view'] = $this->load->view('cro/edit_booking', $bookings_town, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , "view" => $data)));
     }
 
     public function addInquireCall()

@@ -104,7 +104,7 @@
                 updateCustomerInfoView( url );
             }
             if(request == 'getCustomer'){
-                tp      = document.getElementById("tpSearch").value;
+                tp = $('#tpSearch').val();
                 getCustomerInfoView( url , tp);
             }
             if(request == 'createCusInfo'){
@@ -138,6 +138,9 @@
             }
             if(request == 'addUser'){
                 addUserToCooperateProfile(url , tp );
+            }
+            if(request == 'fillAddressToBooking'){
+                fillAddressToBooking(param1);
             }
             uiInit();
         }

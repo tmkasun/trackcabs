@@ -66,6 +66,14 @@
                                 <input type="text" class="form-control checkBoxElementAppearing" id="destination" name="destination" placeholder="Given Destination" style="display:none">
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label style="font-weight: bold"><input type="checkbox" name="pagingBoardName"  id="pagingBoardName" class="checkBoxMakeAppear"> Paging Board
+                                </label>
+                                <input type="text" class="form-control checkBoxElementAppearing" id="pagingBoard" name="pagingBoard" placeholder="Paging Board Name" style="display:none">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -102,7 +110,7 @@
                         <div class="form-group">
                             <label class="control-label" style="font-weight:bold">Payment Type</label></br>
                             <div class="btn-group">
-                                <button type="button" data-set="payment" value="cash " class="btn btn-default customRadio">Cash</button>
+                                <button type="button" data-set="payment" value="cash" class="btn btn-default customRadio">Cash</button>
                                 <button type="button" data-set="payment" value="credit" class="btn btn-default customRadio">Credit Card</button>
                             </div>
                             <input style="display: none" class="customRadio" name="paymentType" id="paymentType">

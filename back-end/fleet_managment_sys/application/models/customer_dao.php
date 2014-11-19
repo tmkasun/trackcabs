@@ -120,6 +120,27 @@ class Customer_dao extends CI_Model
         $collection->save($record);
     }
 
+    function addCallTime($tp){
+
+        $collection = $this->get_collection();
+        $searchQuery= array('tp' => $tp);
+        $record = $collection->findOne($searchQuery);
+
+        if($record == null){
+            $searchQuery = array('tp2' => $tp);
+            $record = $collection->findOne($searchQuery);
+        }
+
+        /* If a record doesn't exist create new else update*/
+        if(!isset($record['callTime'])){
+            $record["tot_job"] = 1;
+        }
+        else {
+            $record["tot_job"]++;
+        }
+        $collection->save($record);
+    }
+
     /*
      * @returns similar tp numbers that matches the input
      */
@@ -178,7 +199,7 @@ class Customer_dao extends CI_Model
     /*
      *@Returns the status of a given order
      */
-    function getBooking($tp , $refId){
+    function getBooking( $tp , $refId){
 
         $collection = $this->get_collection();
         $searchQuery = array('tp' => $tp);

@@ -3,7 +3,7 @@
         <h3 class="panel-title">Booking History</h3>
     </div>
     <div class="panel-body" >
-        <div class="col-lg-12">
+        <div class="col-lg-12" style="max-height: 200px ; overflow: auto">
             <?php if(isset($history_booking) && sizeof($history_booking) != 0):?>
                 <table class="table table-striped" ><tr>
                         <th>Status</th>
@@ -21,7 +21,11 @@
                             <td><?= $item['refId'];?></td>
                             <td><?=  date('H:i:s Y-m-d ', $item['callTime']->sec);?></td>
                             <td><?=  date('H:i:s Y-m-d ', $item['bookTime']->sec);?></td>
-                            <td><?= $item['address']['no'] ." ". $item['address']['road'] ." ". $item['address']['city'] ." ". $item['address']['town'];?></td>
+                            <td>
+                                <a href="#" onclick="operations('fillAddressToBooking', '<?= $item['_id']?>')">
+                                    <?= $item['address']['no'] ." ". $item['address']['road'] ." ". $item['address']['city'] ." ". $item['address']['town'];?>
+                                </a>
+                            </td>
                             <td><?= $item['driverId'];?></td>
                             <td><?= $item['cabId'];?></td>
                             <td><?= $item['remark'];?></td>

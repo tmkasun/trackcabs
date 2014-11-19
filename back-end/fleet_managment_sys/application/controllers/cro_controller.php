@@ -23,6 +23,17 @@ class Cro_controller extends CI_Controller
         }
     }
 
+    function loadBookingsView(){
+
+        if (is_user_logged_in()) {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/bookings/bookings_main',$userData);
+        }else{
+            $this -> load -> helper(array('form'));
+            $this -> load -> view('login/index');
+        }
+    }
+
     function loadMyBookingsView(){
 
         if (is_user_logged_in()) {
@@ -105,10 +116,17 @@ class Cro_controller extends CI_Controller
             $data['job_info_view'] = '';
             $data['new_booking_view'] = '';
             $data['booking_history_view']= '';
+            $data['call_history_view']= '';
             $this->output->set_output(json_encode(array("statusMsg" => "fail","view" => $data)));
         }else{
 
             $bookingData=array('customerInfo' => $result);
+
+            /* TODO ADD PABX DATA TO CALL TIME */
+            $user = $this->session->userdata('user');
+            $result['call_history'][] = array('callTime' => new MongoDate() , 'croId' => $user['userId'] , 'croUname' => $user['uName']);
+            $this->customer_dao->updateCustomer($input_data["tp"], $result);
+
             foreach($result as $key => $value){
                 if($key == 'history'){
                     foreach($value as $newKey){
@@ -178,8 +196,8 @@ class Cro_controller extends CI_Controller
             $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);
             $data['new_booking_view'] = $this->load->view('cro/new_booking', $result , TRUE);
             $data['booking_history_view'] = $this->load->view('cro/booking_history', $bookingData , TRUE);
+            $data['call_history_view'] = $this->load->view('cro/call_history', $result , TRUE);
             $this->output->set_output(json_encode(array("statusMsg" => "success","important" => $bookingData ,"view" => $data)));
         }
     }
-
 }

@@ -62,10 +62,7 @@
                             <?php $status =$history_booking[$index]['status']; ?>
                             <h5>Address </h5>
                         <span id="jobAddress">
-                            <?= $history_booking[$index]['address']['no'] ." ".
-                            $history_booking[$index]['address']['road'] ." ".
-                            $history_booking[$index]['address']['city'] ." ".
-                            $history_booking[$index]['address']['town'];?>
+                            <?= implode(", ", $history_booking[$index]['address']);?>
                         </span>
                             <h5>Remark </h5>
                             <span id="jobRemark"><?= $history_booking[$index]['remark']?></span>
@@ -149,10 +146,7 @@
 
                             <h5>Address </h5>
                         <span id="jobAddress">
-                            <?= $live_booking[$index]['address']['no'] ." ".
-                            $live_booking[$index]['address']['road'] ." ".
-                            $live_booking[$index]['address']['city'] ." ".
-                            $live_booking[$index]['address']['town'];?>
+                            <?= implode(", ", $live_booking[$index]['address']);?>
                         </span>
                             <h5>Destination</h5>
                             <span id="jobRemark"><?= $live_booking[$index]['destination']?></span>
@@ -242,7 +236,7 @@
                             <td><?=  date('H:i:s Y-m-d ', $item['bookTime']->sec);?></td>
                             <td>
                                 <a href="#" onclick="operations('fillAddressToBooking', '<?= $item['_id']?>')">
-                                <?= $item['address']['no'] ." ". $item['address']['road'] ." ". $item['address']['city'] ." ". $item['address']['town'];?>
+                                <?= implode(", ", $item['address']);?>
                                 </a>
                             </td>
                             <td><?= $item['driverId'];?></td>

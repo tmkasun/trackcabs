@@ -5,7 +5,6 @@ class Live_dao extends CI_Model
     function __construct()
     {
         $this->db  = new MongoClient();
-        //$this.db
     }
 
     /**
@@ -31,50 +30,50 @@ class Live_dao extends CI_Model
      */
 
     function createBooking($bookingArray){
-
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
-
+        $collection = $this->get_collection();
         $collection->insert($bookingArray);
         return;
     }
 
+    function get_collection($collection = 'live')
+    {
+        $conn = new MongoClient();
+        $collection = $conn->selectDB('track')->selectCollection($collection);
+        return $collection;
+
+    }
+
     function getBooking($refId){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
-
+        $collection = $this->get_collection();
         $searchQuery= array('refId' => (int)$refId);
-
         return $collection->findOne($searchQuery);
     }
 
     function getBookingByTown($town){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
-
+        $collection = $this->get_collection();
         $searchQuery= array('address.town' => $town);
+        $cursor = $collection->find($searchQuery);
 
-        return $collection->findOne($searchQuery);
+        $data= array();
+        foreach ($cursor as $doc) {
+            $data[]= $doc;
+        }
+        return $data;
     }
-
 
     /**
      * @param $objId = mongoId String
      * @return php array of booking
      */
     function getBookingByMongoId($objId){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
-
+        $collection = $this->get_collection();
         $searchQuery= array('_id' => new MongoId($objId));
 
         return $collection->findOne($searchQuery);
     }
 
     function updateBooking($objId , $data){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
-
+        $collection = $this->get_collection();
         $searchQuery= array('_id' => new MongoId($objId));
         $record = $collection->findOne($searchQuery);
 
@@ -86,44 +85,35 @@ class Live_dao extends CI_Model
     }
 
     function updateStatus($id , $status){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
-
+        $collection = $this->get_collection();
         $searchQuery= array('_id' => new MongoId($id));
 
         $collection->update($searchQuery ,array('$set' => array('status' => $status)));
     }
 
     function setDriverId($orderId, $driverId){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
-
+        $collection = $this->get_collection();
         $searchQuery= array('refId' => (int)$orderId);
 
         $collection->update($searchQuery ,array('$set' => array('driverId' => $driverId)));
     }
 
     function setCabId($orderId,$cabId){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
-
+        $collection = $this->get_collection();
         $searchQuery= array('refId' => (int)$orderId);
 
         $collection->update($searchQuery ,array('$set' => array('cabId' => (int)$cabId)));
     }
 
     function deleteBookingByMongoId($objId){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
+        $collection = $this->get_collection();
 
         $searchQuery= array('_id' => new MongoId($objId));
         $collection->remove( $searchQuery);
     }
 
     function addInquireCall($refId){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
-
+        $collection = $this->get_collection();
         $searchQuery= array('refId' => $refId);
         $record = $collection->findOne($searchQuery);
 
@@ -132,9 +122,7 @@ class Live_dao extends CI_Model
     }
 
     function getAllBookings(){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
-
+        $collection = $this->get_collection();
         $cursor = $collection->find()->sort(array('bookTime' => 1,'address.town' => 1));
         $data= array();
         foreach ($cursor as $doc) {
@@ -144,9 +132,7 @@ class Live_dao extends CI_Model
     }
 
     function getDayBookings($date){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
-
+        $collection = $this->get_collection();
         $searchQuery = array('callTime' => array('$gte'=>$date) );
 
         $cursor = $collection->find($searchQuery);
@@ -183,9 +169,21 @@ class Live_dao extends CI_Model
 
     }
 
+
+    function getCroBookings($croId){
+        $collection = $this->get_collection();
+        $cursor =$collection->find(array('croId' => (int)$croId));
+
+        $data= array('data' => array());
+        foreach($cursor as $doc){
+            $data['data'][]= $doc;
+        }
+        return $data;
+
+    }
+
     function getNotDispatchedBookings(){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
+        $collection = $this->get_collection();
 
         $cursor = $collection->find(array("status" => "START"))->sort(array('bookTime' => 1,'address.town' => 1));
         $data= array();
@@ -196,8 +194,7 @@ class Live_dao extends CI_Model
     }
 
     function getDispatchedBookings(){
-        $dbName = $this->db->selectDB('track');
-        $collection = $dbName->selectCollection('live');
+        $collection = $this->get_collection();
 
         $cursor = $collection->find(array("status" => array('$in' => array("MSG_COPIED","MSG_NOT_COPIED","ON_THE_WAY","AT_THE_PLACEa"))))->sort(array('bookTime' => 1,'address.town' => 1));
         $data= array();

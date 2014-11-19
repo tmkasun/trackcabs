@@ -69,7 +69,7 @@
                         delete unDispatchedOrders[newOrder.refId];
                     } else {
                         unDispatchedOrders[newOrder.refId] = newOrder;
-                        addNewOrder(newOrder);
+                        addNewOrder(newOrder,true);
                     }
                 });
             },
@@ -80,7 +80,7 @@
         );
     }
 
-    function addNewOrder(newOrder) {
+    function addNewOrder(newOrder, alertMessage) {
         var newOrderUnixTimeStamp = newOrder.bookTime.sec;
         var orderBookingTime = moment.unix(newOrderUnixTimeStamp);
 
@@ -97,13 +97,14 @@
         /* Find element ref id which new element need to be insert after*/
         var liveOrdersList = $('#liveOrdersList').find('a');
 
-        $.UIkit.notify({
-            message: '<span style="color: dodgerblue">New Order <b>#' + newOrder.refId + ' added.</b></span><br>',
-            status: 'success',
-            timeout: 3000,
-            pos: 'top-center'
-        });
-
+        if(alertMessage){
+            $.UIkit.notify({
+                message: '<span style="color: dodgerblue">New Order <b>#' + newOrder.refId + ' added.</b></span><br>',
+                status: 'success',
+                timeout: 3000,
+                pos: 'top-center'
+            });
+        }
         if (liveOrdersList.length == 0) {
             $($order).appendTo('#liveOrdersList .mCSB_container');
             return;

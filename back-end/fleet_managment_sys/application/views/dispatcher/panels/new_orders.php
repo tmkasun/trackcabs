@@ -66,7 +66,9 @@
                     var newOrder = data.message;
                     if (newOrder.status === "CANCEL") {
                         removeOrder(newOrder);
+                        delete unDispatchedOrders[newOrder.refId];
                     } else {
+                        unDispatchedOrders[newOrder.refId] = newOrder;
                         addNewOrder(newOrder);
                     }
                 });
@@ -144,7 +146,6 @@
         <a href="#" class="list-group-item active text-center">
             New Orders
         </a>
-
         <div id="liveOrdersList" class="mscroll" style="overflow-y: auto;height: 90%;">
             <?php foreach ($orders as $order) { ?>
                 <a id="<?= $order['refId'] ?>" onclick="dispatchOrder(this.id);return false"
@@ -153,6 +154,10 @@
                     <span class="text-warning fromNow"></span>
                     <span class="label label-info" style="float: right"><?= $order['refId'] ?></span>
                 </a>
+                <script>
+                    var order = JSON.parse('<?= json_encode($order) ?>');
+                    unDispatchedOrders[order.refId] = order;
+                </script>
             <?php } ?>
         </div>
     </div>

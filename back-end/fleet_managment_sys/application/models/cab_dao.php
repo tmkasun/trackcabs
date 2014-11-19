@@ -34,9 +34,11 @@ class Cab_dao extends CI_Model
 
     function updateCab($cabId , $cabArray){
         
+        $driverId = $cabArray['userId'];
         $collection = $this->get_collection();
-
+        
         $searchQuery= array('cabId' => $cabId);
+        $this->find_and_release_cab_by_driverId($driverId, $collection);
         //$record = $collection->findOne($searchQuery);
         $collection->update($searchQuery,array('$set' => $cabArray));
 
@@ -47,6 +49,27 @@ class Cab_dao extends CI_Model
 //        $collection->save($record);
 
     }
+    
+    function find_and_release_cab_by_driverId($driverId,$collection)
+    {//$this->debug_to_console("in function : find_and_release_cab_by_driverId() ");
+        $searchQuery = array('userId' => $driverId );
+        $record = $collection->findOne($searchQuery);
+        if($record != null)
+            {
+                $details_to_be_edited = array('$set' => array('userId' => -1));
+                $collection->update($searchQuery,$details_to_be_edited);
+            }
+    }
+    
+    function debug_to_console( $data ) {
+
+    if ( is_array( $data ) )
+        $output = "<script>console.log( 'Debug Objects: " . implode( ',', $data) . "' );</script>";
+    else
+        $output = "<script>console.log( 'Debug Objects: " . $data . "' );</script>";
+
+    echo $output;
+}
 
     function get_unassigned_cabs()
     {

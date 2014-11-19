@@ -17,6 +17,10 @@
  */
 var BASE_URL;
 
+
+/*Application configurations*/
+var unDispatchedOrders = {};
+
 function getBaseURL() {
     if (BASE_URL === 'undefined') {
         return null;
@@ -47,7 +51,7 @@ function initApplicationOptions() {
         },
         constance: {
             BASE_URL: getBaseURL(),
-            WEBSOCKET_URL: '192.168.0.2',
+            WEBSOCKET_URL: 'localhost',
             WEBSOCKET_PORT: '8080',
 
             SPEED_HISTORY_COUNT: 20,

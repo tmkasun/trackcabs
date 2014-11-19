@@ -90,11 +90,13 @@ class Dispatcher extends CI_Controller
 
         $driverId = strlen($driverId) <= 1 ? '0' . $driverId : $driverId;
 
+        $sentCusto = $sms->send($custoNumber, $custoMessage);
+
         $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? '' : " Customer number: $custoNumber";
         $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] .$custoNumber. " Address: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
-        $sentCusto = $sms->send($custoNumber, $custoMessage);
+
         $sentDriver = $sms->send($driverNumber, $driverMessage);
 
         $user = $this->session->userdata('user');

@@ -433,7 +433,7 @@
                                             <span class="add-on"><i class="glyphicon glyphicon-time"></i></span>
                                         </div>
 
-                                        <input data-bind="attr:{id:id}, value:pob.cabId" class="form-control cabId locPobInput" type="text" placeholder="`">
+                                        <input data-bind="attr:{id:id}, value:pob.cabId" class="form-control cabId locPobInput" type="text" placeholder="Cab Id">
                                         <button data-bind="click:$root.addPobCab" class="form-control cabAdd">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
@@ -546,7 +546,7 @@
                                             <input data-bind="attr:{id:id}, value:pob.cabEta" class="form-control cabEta locPobInput timePicker input-small" type="text" placeholder="ETA" >
                                             <span class="add-on"><i class="glyphicon glyphicon-time"></i></span>
                                         </div>
-                                        <input data-bind="attr:{id:id}, value:pob.cabId" class="form-control cabDriverId locPobInput" type="text" placeholder="Driver id">
+                                        <input data-bind="attr:{id:id}, value:pob.cabId" class="form-control cabDriverId locPobInput" type="text" placeholder="Cab Id">
                                         <button data-bind="click:$root.addPobCab" class="form-control cabAdd">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
@@ -800,15 +800,6 @@
                                                                         </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                        <tr>
-                                                                            <td><span>State</span></td>
-                                                                            <td><span data-bind="text:state"></span></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td><span>ETA</span></td>
-                                                                            <td><span data-bind="text:eta"></span></td>
-                                                                        </tr>
-                                                                        <tr>
                                                                             <td><span>Vehicle Type</span></td>
                                                                             <td><span data-bind="text:vehicleType"></span></td>
                                                                         </tr>

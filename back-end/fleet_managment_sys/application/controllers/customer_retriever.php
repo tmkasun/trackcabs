@@ -150,7 +150,6 @@ class Customer_retriever extends CI_Controller
             $webSocket->send($bookingData, 'monitor1');
             $webSocket->send($bookingData, 'dispatcher1');
 
-
         }
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
     }

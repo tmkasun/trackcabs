@@ -119,14 +119,15 @@
 
 
 
-
+                <div class="col-lg-6">
                     <div class="col-lg-12" style="border: 2px solid #a6a6a6;padding-left: 2px; padding-right: 2px">
+
                         <div class="col-lg-12" style="padding-left: 2px; padding-right: 2px ">
                             <div class="col-lg-4">
                                 Status
                             </div>
                             <div class="col-lg-8">
-                                <span id="jobStatus"><?= $live_booking[$index]['status']; ?></span>
+                                <span id="jobStatus">START</span>
                             </div>
                         </div>
 
@@ -135,7 +136,7 @@
                                 Reference ID
                             </div>
                             <div class="col-lg-8">
-                                <span id="jobRefId"><?= $live_booking[$index]['refId']; ?></span>
+                                <span id="jobRefId">12</span>
                             </div>
                         </div>
 
@@ -144,7 +145,7 @@
                                 Driver ID
                             </div>
                             <div class="col-lg-8">
-                                <span id="jobDriverId"><?php if($live_booking[$index]['driverId'] == '-' )echo 'NOT_ASSIGNED';else echo $live_booking[$index]['driverId'];?></span>
+                                <span id="jobDriverId">NOT_ASSIGNED</span>
                             </div>
                         </div>
 
@@ -153,7 +154,7 @@
                                 Cab ID
                             </div>
                             <div class="col-lg-8">
-                                <span id="jobCabId"><?php if($live_booking[$index]['cabId'] == '-' )echo 'NOT_ASSIGNED';else $live_booking[$index]['cabId']; ?></span>
+                                <span id="jobCabId">NOT_ASSIGNED</span>
                             </div>
                         </div>
 
@@ -162,14 +163,8 @@
                                 Vehicle Type
                             </div>
                             <div class="col-lg-8">
-                                <span id="jobVehicleType"><?= $live_booking[$index]['vType']; ?></span>
+                                <span id="jobVehicleType">CAR</span>
                             </div>
-                        </div>
-
-                        <div class="col-lg-offset-8 col-lg-5">
-                            <button type="button" class="btn btn-primary " onclick="operations('editBooking', '<?= $live_booking[$index]['_id'];?>')">Update</button>
-                            <button type="button" class="btn btn-default" onclick="operations('cancel', '<?= $live_booking[$index]['_id'];?>')">Cancel</button>
-
                         </div>
 
                     </div>
@@ -181,10 +176,7 @@
                             </div>
                             <div class="col-lg-8">
                                     <span id="jobAddress">
-                                        <?= $live_booking[$index]['address']['no'] ." ".
-                                        $live_booking[$index]['address']['road'] ." ".
-                                        $live_booking[$index]['address']['city'] ." ".
-                                        $live_booking[$index]['address']['town'];?>
+                                        8/2 , Viahara Road , Mount Lavania
                                     </span>
                             </div>
                         </div>
@@ -194,7 +186,7 @@
                                 Destination
                             </div>
                             <div class="col-lg-8">
-                                <span id="jobDestination"><?= $live_booking[$index]['destination']?></span>
+                                <span id="jobDestination">Wellawatta</span>
                             </div>
                         </div>
 
@@ -203,7 +195,7 @@
                                 Remark
                             </div>
                             <div class="col-lg-8">
-                                <span id="jobRemark"><?= $live_booking[$index]['remark']?></span>
+                                <span id="jobRemark">english speaking driver</span>
                             </div>
                         </div>
 
@@ -212,10 +204,8 @@
                                 Specifications
                             </div>
                             <div class="col-lg-8">
-                                    <span id="jobSpecifications"> <?php if($live_booking[$index]['isVip'])echo 'VIP | ';?>
-                                        <?php if($live_booking[$index]['isVih'])echo  'VIH | ';?>
-                                        <?php if($live_booking[$index]['isUnmarked']) echo 'UNMARK |'?>
-                                        <?php if($live_booking[$index]['isTinted']) echo 'Tinted'?>
+                                    <span id="jobSpecifications">
+                                        VIP , VIH , VIA
                                     </span>
                             </div>
                         </div>
@@ -229,7 +219,7 @@
                                 Book Time
                             </div>
                             <div class="col-lg-8">
-                                <span id="jobBookTime"><?php echo date('H:i Y-m-d ', $live_booking[$index]['bookTime']->sec);?></span>
+                                <span id="jobBookTime">12/10/2014</span>
                             </div>
                         </div>
 
@@ -238,7 +228,7 @@
                                 Call Time
                             </div>
                             <div class="col-lg-8">
-                                <span id="jobCallTime"><?php echo date('H:i Y-m-d ', $live_booking[$index]['callTime']->sec);?></span>
+                                <span id="jobCallTime">52/89/2014</span>
                             </div>
                         </div>
 
@@ -247,7 +237,7 @@
                                 Dispatch Before
                             </div>
                             <div class="col-lg-8">
-                                    <span id="jobDispatchB4"><?= $live_booking[$index]['dispatchB4'];?> min
+                                    <span id="jobDispatchB4">30 min
                             </div>
                         </div>
 
@@ -259,7 +249,7 @@
                                 Driver Mobile
                             </div>
                             <div class="col-lg-8">
-                                <span id="jobDriverTp"><?= $live_booking[$index]['driverTp'];?></span>
+                                <span id="jobDriverTp">123</span>
                             </div>
                         </div>
 
@@ -268,7 +258,7 @@
                                 Cab Color
                             </div>
                             <div class="col-lg-8">
-                                <span id="jobCabColor"><?= $live_booking[$index]['cabColor'];?></span>
+                                <span id="jobCabColor">456</span>
                             </div>
                         </div>
 
@@ -277,10 +267,44 @@
                                 Plate No
                             </div>
                             <div class="col-lg-8">
-                                <span id="jobCabPlateNo"><?= $live_booking[$index]['cabPlateNo'];?></span>
+                                <span id="jobCabPlateNo">879</span>
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="col-lg-offset-7 col-lg-5" style="margin-top: 5px">
+                        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Update
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-lg-6" >
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Customer Details</h3>
+                        </div>
+                        <div class="panel-body" id="bookingStatus">
+                            <p>Name : Mr.Nirojan Selvanathan</p>
+                            <p>Telephone 1 : 0779823445</p>
+                            <p>Telephone 2 : 0112732270</p>
+                            <p>Permenant Remark: English Speaking Driver</p>
+                            <p>Organizatiuon: WSO2</p>
+                        </div>
+                    </div>
+                </div>
 
 
 

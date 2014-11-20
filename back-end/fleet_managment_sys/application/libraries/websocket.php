@@ -23,7 +23,6 @@ class Websocket
      */
     function __construct($ip = 'localhost' ,$port = '5555',$sourceId = NULL)
     {
-<<<<<<< HEAD
         $this->CI =& get_instance();
 
 

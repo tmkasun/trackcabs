@@ -82,21 +82,22 @@ var webSocketOnClose = function (e) {
 
 var webSocketOnMessage = function processMessage(message) {
     var geoJsonFeature = $.parseJSON(message.data);
-    console.log(geoJsonFeature);
-    notifyAlert(geoJsonFeature);
-
-    if (geoJsonFeature.id in currentCabsList) { // TODO: actual value properties.cabId
-        console.log("DEBUG: geoJsonFeature.id in +" + geoJsonFeature.id);
-        var excitingCab = currentCabsList[geoJsonFeature.id];
-        excitingCab.update(geoJsonFeature);
-    }
-    else {
-        console.log("DEBUG: geoJsonFeature.id not in =" + geoJsonFeature.id);
-        var newCab = new Cab(geoJsonFeature);
-        newCab.update(geoJsonFeature);
-        currentCabsList[newCab.id] = newCab;
-        //currentCabsList[newCab.id].addTo(map);// TODO: This should be add to monitor view
-    }
+    debugObject = geoJsonFeature;
+    notifyAlert(geoJsonFeature.properties.orderId);
+    $.getJSON("monitor/getOrder/"+geoJsonFeature.properties.orderId, function (order) {
+        if (order.refId in currentCabsList) { // TODO: actual value properties.cabId
+            console.log("DEBUG: geoJsonFeature.id in +" + geoJsonFeature.refId);
+            var excitingCab = currentCabsList[order.refId];
+            excitingCab.update(order);
+        }
+        else {
+            console.log("DEBUG: geoJsonFeature.id not in =" + geoJsonFeature.id);
+            var newCab = new Cab(order);
+            newCab.update(geoJsonFeature);
+            currentCabsList[newCab.id] = newCab;
+            //currentCabsList[newCab.id].addTo(map);// TODO: This should be add to monitor view
+        }
+    });
 };
 
 function initializeWebSocket() {
@@ -186,7 +187,7 @@ Cab.prototype.stateRow = function () {
             '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
             );
         default:
-            return "No case matched for status";
+            return null;
     }
 };
 
@@ -201,7 +202,9 @@ Cab.prototype.update = function (geoJSON) {
         this.orderDOM.fadeOut().remove();
     }
     this.orderDOM = this.stateRow();
-    $('#' + this.state + ' > tbody:last').append(this.orderDOM);
+    if(this.state != "MSG_NOT_COPIED"){
+        $('#' + this.state + ' > tbody:last').append(this.orderDOM);
+    }
 };
 
 /*------------------------------ Helper methods ------------------------------*/
@@ -402,13 +405,11 @@ Order.prototype.createOrderDOM = function () {
             return ("<tr id=\"" + this.id + "\">" +
             '<td>' + this.id + '</td>' +
             '<td>' + moment.unix(this.orderJson.callTime.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
-            '<td>' + 'N/A' + '</td>' +
             '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' +
-            '<td>' + 'N/A' + '</td>' +
+            '<td>' + this.cabId + '</td>' +
             '<td>' + this.orderJson.driverTp + '</td>' +
             '<td>' + this.addressToString() + '</td>' +
-            '<td>' + this.croName + '</td>' +
-            '<td>' + 'N/A' + '</td>' +
+            '<td>' + this.croName +'('+this.croId+')'+ '</td>' +
                 /*DIM*/
             '<td>' + this.getBadge(false) + '</td>' +
                 /*VIH*/

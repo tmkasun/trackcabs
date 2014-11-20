@@ -27,6 +27,17 @@ function getEditBookingView(url , objId){
     }
 
     var payType = bookingObj[index]['payType'];
+    var vType = bookingObj[index]['vType'];
+    if(vType == 'car'){
+        $('#carRadio').addClass(' active');
+    }
+    if(vType == 'van'){
+        $('#vanRadio').addClass(' active');
+    }
+    if(vType == 'nano'){
+        $('#nanoRadio').addClass(' active');
+    }
+
     if(payType == 'cash')
     $('#payTypeCash').addClass(' active');
 
@@ -210,7 +221,8 @@ function updateBooking(url , objId){
             'pagingBoard' : pagingBoard
         }
     };
-    ajaxPost(data,url);
+    alert(JSON.stringify(data));
+    //ajaxPost(data,url);
 }
 
 function editCustomerInfoEditView( url , tp ){

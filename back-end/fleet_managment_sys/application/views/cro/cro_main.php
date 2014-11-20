@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/css/bootstrap-datetimepicker.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url();?>assets/webLibs/bootstrapvalidator-dist-0.5.2/dist/css/bootstrapValidator.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/uikit/uikit.min.css"/>
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/uikit/addons/uikit.addons.min.css"/>
 
     <!-------------------------------- JS Files------------------------------------>
     <script type="text/javascript" src="<?= base_url();?>assets/js/jquery-1.10.2.js"></script>
@@ -17,8 +19,18 @@
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/webLibs/bootstrapvalidator-dist-0.5.2/dist/js/bootstrapValidator.js" charset="UTF-8"></script>
 
+    <!-- UIkit libraries -->
+    <script src="<?= base_url() ?>assets/js/uikit/uikit.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/uikit/addons/notify.min.js"></script>
 
-        <script>
+
+    <script src="<?= base_url() ?>assets/js/application_options.js"></script>
+
+    <!-- autobahn websocket and WAMP -->
+    <script src="<?= base_url() ?>assets/js/autobahn/autobahn.min.js"></script>
+
+
+    <script>
         var docs_per_page= 100 ;
         var page = 1 ;
         var obj = null;
@@ -26,6 +38,31 @@
         var url = '<?= site_url(); ?>';
         var bookingObj = null;
         var customerObj = null;
+
+        function subscribe(userid) {
+            var conn = new ab.Session(
+                'ws://' + ApplicationOptions.constance.WEBSOCKET_URL + ':' + ApplicationOptions.constance.WEBSOCKET_PORT,
+                function () {
+                    conn.subscribe(userid, function (topic, data) {
+                        // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                        console.log('New Message published to user "' + topic + '" : ' + data.message);
+                        var messageData = data.message;
+                        debugObject = $.UIkit.notify({
+                            message: "Order # = <span onclick='$(\"#tpSearch\").val(\""+messageData.tp+"\")' style='cursor: pointer;color: red'>"+messageData.refId+"</span> request to delay in <span style='color: #0000FF'>"+ messageData.delay_minutes+" minutes</span> from cro(ID): "+messageData.croId,
+                            status: 'warning',
+                            timeout: 0,
+                            pos: 'top-center'
+                        });
+                    });
+                },
+                function () {
+                    console.warn('WebSocket connection closed');
+                },
+                {'skipSubprotocolCheck': true}
+            );
+        }
+
+        subscribe('cro1');
         </script>
 </head>
 <body>
@@ -41,7 +78,7 @@
 
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch" autofocus>
+                    <input type="tel" class="form-control" placeholder="Mobile / LandLine" id="tpSearch" autofocus>
                 </div>
                 <input type="submit" class="btn btn-default" onclick="operations('getCustomer');return false" onsubmit="operations('getCustomer');return false" value="Submit" />
             </form>

@@ -71,8 +71,8 @@ class Dispatcher extends CI_Controller
         $dispatchingOrder = $this->live_dao->getBooking($orderId);
         $dispatchingDriver = $this->user_dao->getDriverByCabId($cabId);
         $driverId = $dispatchingDriver['userId'];
-        $dispatchingCab = $this->cab_dao->setState($cabId,"MSG_NOT_COPIED");
-        $dispatchingCab = $this->cab_dao->setZone($cabId,"None");
+        $dispatchingCab = $this->cab_dao->setState($cabId, "MSG_NOT_COPIED");
+        $dispatchingCab = $this->cab_dao->setZone($cabId, "None");
         $dispatchingCab['driverId'] = $driverId;
 //        $this->live_dao->deleteBooking($postData['refId']);
 //        $customer = $this->customer_dao->getCustomer($dispatchingOrder['tp']); // TODO: need this when updating customer order history
@@ -93,7 +93,7 @@ class Dispatcher extends CI_Controller
         $sentCusto = $sms->send($custoNumber, $custoMessage);
 
         $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? '' : " Customer number: $custoNumber";
-        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] .$custoNumber. " Address: " . $custoAddress;
+        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . $custoNumber . " Address: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
 
@@ -106,7 +106,7 @@ class Dispatcher extends CI_Controller
         $orderCro = $this->user_dao->getUser($dispatchingOrder['croId']);
         $dispatchingOrder['cro'] = $orderCro;
 
-        $webSocket->send($dispatchingOrder , 'monitor1');
+        $webSocket->send($dispatchingOrder, 'monitor1');
         /*
          * get cust no from refid
          * get driver no from cab
@@ -120,11 +120,12 @@ class Dispatcher extends CI_Controller
         echo json_encode($dispatchingCab);
     }
 
-    function cancelOrder(){
+    function cancelOrder()
+    {
         $refId = $this->input->post('refId');
         $order = $this->live_dao->getBooking($refId);
-        if(empty($order)){
-            $this->output->set_status_header(404,"Can't find refId".$refId);
+        if (empty($order)) {
+            $this->output->set_status_header(404, "Can't find refId" . $refId);
             return;
         }
         $this->live_dao->updateStatus((string)$order['_id'], "FAIL");
@@ -137,15 +138,16 @@ class Dispatcher extends CI_Controller
 
         $user = $this->session->userdata('user');
         $webSocket = new Websocket('localhost', '5555', $user['userId']);
-        $webSocket->send($order , 'monitor1');
+        $webSocket->send($order, 'monitor1');
     }
 
 
-    function disengageCab(){
+    function disengageCab()
+    {
         $refId = $this->input->post('refId');
         $order = $this->live_dao->getBooking($refId);
-        if(empty($order)){
-            $this->output->set_status_header(404,"Can't find refId".$refId);
+        if (empty($order)) {
+            $this->output->set_status_header(404, "Can't find refId" . $refId);
             return;
         }
         $this->live_dao->updateStatus((string)$order['_id'], "DISENGAGE");
@@ -159,13 +161,14 @@ class Dispatcher extends CI_Controller
 
         $user = $this->session->userdata('user');
         $webSocket = new Websocket('localhost', '5555', $user['userId']);
-        $webSocket->send($order , 'monitor1');
+        $webSocket->send($order, 'monitor1');
     }
 
     function setIdleZone()
     {
         $cabId = $this->input->post('cabId');
         $zone = $this->input->post('zone');
+
         $cab = $this->cab_dao->getCab($cabId);
         $driver = $this->user_dao->getDriverByCabId($cabId);
         if($cab != null){
@@ -194,6 +197,7 @@ class Dispatcher extends CI_Controller
 
         $cabId = $this->input->post('cabId');
         $cab = $this->cab_dao->getCab($cabId);
+
         if($cab != null){
             $newCab = $this->cab_dao->setState($cabId,"IDLE");
             $newCab = $this->cab_dao->setZone($cabId,"None");
@@ -201,8 +205,7 @@ class Dispatcher extends CI_Controller
             $this->output->set_content_type('application/json');
             echo json_encode($newCab);
 
-        }
-        else{
+        } else {
             $this->output->set_content_type('application/json');
             echo json_encode($cab);
 
@@ -211,23 +214,26 @@ class Dispatcher extends CI_Controller
     }
 
 
-
-    function cabsInZones(){
+    function cabsInZones()
+    {
         $result = $this->cab_dao->getCabsInZones();
         $this->output->set_content_type('application/json');
         echo json_encode($result);
     }
 
-    function setPobDestinationZoneTime(){
+    function setPobDestinationZoneTime()
+    {
 
         $cabId = $this->input->post('cabId');
         $zone = $this->input->post('zone');
         $cab = $this->cab_dao->getCab($cabId);
         $cabEta = $this->input->post('cabEta');
+
         $driver = $this->user_dao->getDriverByCabId($cabId);
         if($cab != null){
             $newCab = $this->cab_dao->setPobDestinationZoneTime($cabId, $zone, $cabEta);
             $newCab['userId'] = $driver['userId'];
+
             $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');
             echo json_encode($newCab);
@@ -235,6 +241,7 @@ class Dispatcher extends CI_Controller
         else{
             $this->output->set_content_type('application/json');
             echo json_encode($cab);
+
 
         }
 
@@ -261,6 +268,19 @@ class Dispatcher extends CI_Controller
             echo json_encode($cab);
 
         }
+
+    }
+
+    function delayInform()
+    {
+        $minutes = $this->input->post('minutes');
+        $refId = $this->input->post('refId');
+
+        $user = $this->session->userdata('user');
+        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+        $delayInformOrder = $this->live_dao->getBooking($refId); // Get the updated order
+        $delayInformOrder['delay_minutes'] = $minutes;
+        $webSocket->send($delayInformOrder, 'cro1');
 
     }
 

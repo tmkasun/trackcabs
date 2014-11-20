@@ -1,4 +1,7 @@
 <?php
+/**
+ *  @property Cab_dao $Cab_dao
+ */
 class Cab_dao extends CI_Model
 {
 

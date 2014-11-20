@@ -90,11 +90,13 @@ class Dispatcher extends CI_Controller
 
         $driverId = strlen($driverId) <= 1 ? '0' . $driverId : $driverId;
 
+        $sentCusto = $sms->send($custoNumber, $custoMessage);
+
         $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? '' : " Customer number: $custoNumber";
         $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . $custoNumber . " Address: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
-        $sentCusto = $sms->send($custoNumber, $custoMessage);
+
         $sentDriver = $sms->send($driverNumber, $driverMessage);
 
         $user = $this->session->userdata('user');
@@ -164,19 +166,24 @@ class Dispatcher extends CI_Controller
 
     function setIdleZone()
     {
-        $driverId = $this->input->post('driverId');
+        $cabId = $this->input->post('cabId');
         $zone = $this->input->post('zone');
-        $cab = $this->user_dao->getCabByDriverId($driverId);
-        if ($cab != null) {
 
-            $newCab = $this->cab_dao->setState($cab['cabId'], "IDLE");
-            $newCab = $this->cab_dao->setZone($cab['cabId'], $zone);
-            $newCab['driverId'] = $driverId;
+        $cab = $this->cab_dao->getCab($cabId);
+        $driver = $this->user_dao->getDriverByCabId($cabId);
+        if($cab != null){
+
+
+            $newCab = $this->cab_dao->setState($cabId, "IDLE");
+            $newCab = $this->cab_dao->setZone($cabId, $zone);
+            $newCab['userId'] = $driver['userId'];
             $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');
             echo json_encode($newCab);
 
-        } else {
+
+        }
+        else{
             $this->output->set_content_type('application/json');
             echo json_encode($cab);
 
@@ -190,9 +197,10 @@ class Dispatcher extends CI_Controller
 
         $cabId = $this->input->post('cabId');
         $cab = $this->cab_dao->getCab($cabId);
-        if ($cab != null) {
-            $newCab = $this->cab_dao->setState($cab['cabId'], "IDLE");
-            $newCab = $this->cab_dao->setZone($cab['cabId'], "None");
+
+        if($cab != null){
+            $newCab = $this->cab_dao->setState($cabId,"IDLE");
+            $newCab = $this->cab_dao->setZone($cabId,"None");
             $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');
             echo json_encode($newCab);
@@ -216,18 +224,46 @@ class Dispatcher extends CI_Controller
     function setPobDestinationZoneTime()
     {
 
-        $driverId = $this->input->post('driverId');
+        $cabId = $this->input->post('cabId');
         $zone = $this->input->post('zone');
+        $cab = $this->cab_dao->getCab($cabId);
         $cabEta = $this->input->post('cabEta');
-        $cab = $this->user_dao->getCabByDriverId($driverId);
-        if ($cab != null) {
-            $newCab = $this->cab_dao->setPobDestinationZoneTime($cab['cabId'], $zone, $cabEta);
-            $newCab['driverId'] = $driverId;
+
+        $driver = $this->user_dao->getDriverByCabId($cabId);
+        if($cab != null){
+            $newCab = $this->cab_dao->setPobDestinationZoneTime($cabId, $zone, $cabEta);
+            $newCab['userId'] = $driver['userId'];
+
             $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');
             echo json_encode($newCab);
+        }
+        else{
+            $this->output->set_content_type('application/json');
+            echo json_encode($cab);
 
-        } else {
+
+        }
+
+    }
+
+    function setOtherState(){
+
+        $cabId = $this->input->post('cabId');
+        $zone = $this->input->post('zone');
+        $cab = $this->cab_dao->getCab($cabId);
+        $driver = $this->user_dao->getDriverByCabId($cabId);
+        if($cab != null){
+
+            $newCab = $this->cab_dao->setState($cabId, "OTHER");
+            $newCab = $this->cab_dao->setZone($cabId, $zone);
+
+            $newCab['userId'] = $driver['userId'];
+            $newCab['lastZone'] = $cab['zone'];
+            $this->output->set_content_type('application/json');
+            echo json_encode($newCab);
+        }
+        else{
             $this->output->set_content_type('application/json');
             echo json_encode($cab);
 

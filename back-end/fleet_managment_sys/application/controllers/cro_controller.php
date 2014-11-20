@@ -8,6 +8,7 @@ class Cro_controller extends CI_Controller
         if (is_user_logged_in() && $this->isUserRoleCRO()) {
             $userData = $this->session->userdata('user');
             $this->load->view('cro/cro_main',$userData);
+            $location_board_pane = $this->load->view("dispatcher/panels/locView", NULL, TRUE);
         }else{
             redirect('login', 'refresh');
         }
@@ -49,7 +50,13 @@ class Cro_controller extends CI_Controller
 
         if (is_user_logged_in()) {
             $userData = $this->session->userdata('user');
-            $this->load->view('cro/non_editable_loc_board',$userData);
+            $location_board_pane = $this->load->view("dispatcher/panels/locView", NULL, TRUE);
+            $data = array(
+                'userData'=> $userData,
+                'location_board_pane' => $location_board_pane
+            );
+            $this->load->view('cro/non_editable_loc_board',$data);
+
         }else{
             $this -> load -> helper(array('form'));
             $this -> load -> view('login/index');

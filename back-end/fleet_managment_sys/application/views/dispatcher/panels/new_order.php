@@ -14,7 +14,7 @@
 
     function cancelOrder(orderRefId) {
         var confirmation = confirm("Are you sure you want to cancel this order!");
-        if(!confirmation){
+        if (!confirmation) {
             $.UIkit.notify({
                 message: "Order not cancelled.",
                 status: 'success',
@@ -24,24 +24,23 @@
             return false;
         }
         $.post('dispatcher/cancelOrder', {refId: orderRefId}).done(
-        function () {
-            var orderDOM = $('#liveOrdersList').find('#' + orderRefId);
-            $(orderDOM).fadeOut();
-            orderDOM.appendTo('#dispatchedOrdersList .mCSB_container');
-            $('#liveOrdersList').find('#' + orderRefId).remove();
-            setTimeout(function () {
-                orderDOM.show()
-            }, 500);
-            $.UIkit.notify({
-                message: "Order: <b>" + orderRefId + "</b> has been canceled!",
-                status: 'success',
-                timeout: 3000,
-                pos: 'top-center'
-            });
-        }
-
-    ).
-        fail(
+            function () {
+                var orderDOM = $('#liveOrdersList').find('#' + orderRefId);
+                $(orderDOM).fadeOut();
+                orderDOM.appendTo('#dispatchedOrdersList .mCSB_container');
+                $('#liveOrdersList').find('#' + orderRefId).remove();
+                setTimeout(function () {
+                    orderDOM.show()
+                }, 500);
+                $.UIkit.notify({
+                    message: "Order: <b>" + orderRefId + "</b> has been canceled!",
+                    status: 'success',
+                    timeout: 3000,
+                    pos: 'top-center'
+                });
+            }
+        ).
+            fail(
             function () {
                 $.UIkit.notify({
                     message: "Can't cancel Order: <b>" + orderRefId + "</b> Something went wrong!",
@@ -52,6 +51,20 @@
             }
         );
 
+    }
+
+    function delayInform(refId){
+//        console.log("refId = "+refId);
+        closeAll();
+        var minutes = $('#delayInforMinutes').val();
+        $.post('dispatcher/delayInform', {refId: refId,minutes: minutes}, function (response) {
+            $.UIkit.notify({
+                message: "Delay informed to all CROs",
+                status: 'success',
+                timeout: 3000,
+                pos: 'top-center'
+            });
+        });
     }
 </script>
 <div class="modal-header"
@@ -142,6 +155,13 @@
             </div>
             <br>
 
+            <div class="input-group input-group-sm">
+                <span class="input-group-addon" style="padding: 0px;margin: 0px;width: 90px;">
+                    <button class="btn btn-warning btn-xs" type="button" onclick="delayInform(<?= $newOrder['refId'] ?>)">Delay inform</button>
+                </span>
+                <input id="delayInforMinutes" autocomplete="off" type="text" class="form-control" style="text-align: right" placeholder="Request minutes"/>
+                <span class="input-group-addon">min</span>
+            </div>
         </div>
 
         <div style="margin-bottom: -15px" class="btn-group btn-group-justified">

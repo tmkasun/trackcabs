@@ -123,4 +123,12 @@ class History_dao extends CI_Model
         $searchQuery= array('refId' => new MongoInt32($refId));
         $collection->update($searchQuery ,array('$set' => array('bookingCharge' => intval($bookingCharge))));
     }
+    
+    function get_driver_and_cro_by_refId($refId)
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array('refId' => $refId);
+        $driver_cro = $collection->findOne($searchQuery,array('driverId' => true, 'croId' => true));
+        return $driver_cro;
+    }
 }

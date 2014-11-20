@@ -6,7 +6,7 @@
 
      public function index() {
          if (is_user_logged_in()) {
-             $new_orders = $this->live_dao->getNotDispatchedBookings();
+             $new_orders = $this->live_dao->getAllBookings();
              $this -> load -> view('monitor/index',array('orders' => $new_orders));
          } else {
              //If no session, redirect to login page
@@ -14,5 +14,11 @@
              $this -> form_validation -> set_message('check_database', 'Invalid username or password');
              redirect('login', 'refresh');
          }
+     }
+
+     public function getOrder($orderRefId){
+         $order = $this->live_dao->getBooking($orderRefId);
+         $this->output->set_content_type('application/json');
+         echo json_encode($order);
      }
  }

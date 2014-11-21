@@ -21,18 +21,18 @@ class Websocket
      * @param $port
      * @param null $sourceId
      */
-//    function __construct($ip = 'localhost' ,$port = '5555',$sourceId = NULL)
-//    {
-//
-//        $this->CI =& get_instance();
-//
-//        $this->context = new ZMQContext();
-//        $this->socket = $this->context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
-//
-//        $this->socket->connect("tcp://$ip:$port");
-//        $this->message['source'] = $sourceId;
-//
-//    }
+    function __construct($ip = 'localhost' ,$port = '5555',$sourceId = NULL)
+    {
+
+        $this->CI =& get_instance();
+
+        $this->context = new ZMQContext();
+        $this->socket = $this->context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
+
+        $this->socket->connect("tcp://$ip:$port");
+        $this->message['source'] = $sourceId;
+
+    }
 
     /**
      * @param $message

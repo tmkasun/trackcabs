@@ -111,8 +111,7 @@ $('#orderSearch').typeahead({
         source: substringMatcher()
     }).on('typeahead:selected', function ($e, datum) {
         objectId = datum['value'];
-        debugObject = datum;
-        dispatchOrder(order.refId);
+        dispatchOrder(datum.order.refId);
     });
 
 var locations = new Bloodhound({

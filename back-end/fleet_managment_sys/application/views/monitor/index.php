@@ -7,7 +7,7 @@
     <meta name="author"
           content="H&aacute;o City Cabs System"/>
     <meta name="description"
-          content="Geo-Dashboard"/>
+          content="City cabs"/>
     <meta charset="UTF-8"/>
     <meta name="keywords"
           content="H&aacute;o City Cabs System,vehicle tracking system"/>
@@ -40,12 +40,13 @@
     <script>
         function subscribe(userid) {
             console.log("DEBUG: userid = " + userid);
-            var conn = new ab.Session('ws://'+ApplicationOptions.constance.WEBSOCKET_URL+':'+ApplicationOptions.constance.WEBSOCKET_PORT,
+            var conn = new ab.Session('ws://' + ApplicationOptions.constance.WEBSOCKET_URL + ':' + ApplicationOptions.constance.WEBSOCKET_PORT,
                 function () {
                     conn.subscribe(userid, function (topic, data) {
                         // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
                         console.log('New Message published to user "' + topic + '" : ' + data.message);
                         var order = data.message;
+                        debubObject = order;
                         if (order.status === "START") {
                             addToNotDispatch(order);
                         } else if (order.status === "MSG_NOT_COPIED") {
@@ -85,8 +86,7 @@
             <th>MR</th>
             <th>Address</th>
             <th>Agent</th>
-            <th>Inquire</th>
-            <th>With count</th>
+            <th>Inquiries</th>
             <th>DIM</th>
             <th>VIH</th>
             <th>VIP</th>
@@ -94,19 +94,46 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($orders as $order): ?>
+        <?php
+        $orders_list = array();
+        foreach ($orders as $order) {
+
+            switch ($order['status']) {
+                case "START":
+                    empty($orders_list['START']) ? $orders_list['START'] = array($order) : array_push($orders_list['START'], $order);
+                    break;
+                case "MSG_NOT_COPIED":
+                    empty($orders_list['MSG_NOT_COPIED']) ? $orders_list['MSG_NOT_COPIED'] = array($order) : array_push($orders_list['MSG_NOT_COPIED'], $order);
+                    break;
+                case "MSG_COPIED":
+                    empty($orders_list['MSG_COPIED']) ? $orders_list['MSG_COPIED'] = array($order) : array_push($orders_list['MSG_COPIED'], $order);
+                    break;
+                case "AT_THE_PLACE":
+                    empty($orders_list['AT_THE_PLACE']) ? $orders_list['AT_THE_PLACE'] = array($order) : array_push($orders_list['AT_THE_PLACE'], $order);
+                    break;
+                case "POB":
+                    empty($orders_list['POB']) ? $orders_list['POB'] = array($order) : array_push($orders_list['POB'], $order);
+                    break;
+                case "IDLE":
+                    empty($orders_list['IDLE']) ? $orders_list['IDLE'] = array($order) : array_push($orders_list['IDLE'], $order);
+                    break;
+                default:
+                    echo "Your favorite color is neither red, blue, or green!";
+            }
+
+        }
+        foreach ($orders_list['START'] as $order): ?>
             <tr id="<?= $order['refId'] ?>">
                 <td id="refId"><?= $order['refId'] ?></td>
                 <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
                 <td id="mr">MR</td>
                 <td id="address"><?= implode(", ", $order['address']) ?></td>
                 <td id="agent"><?= $order['croId'] ?></td>
-                <td>Inquire</td>
-                <td>With count</td>
-                <td><?= getBadge(false) ?>??</td>
+                <td>Inquiries</td>
+                <td><?= getBadge(false) ?></td>
                 <td><?= getBadge($order['isVih']) ?></td>
                 <td><?= getBadge($order['isVip']) ?></td>
-                <td><?= getBadge(false) ?>??</td>
+                <td><?= getBadge(false) ?></td>
             </tr>
         <?php endforeach ?>
         </tbody>
@@ -125,13 +152,11 @@
             <th>Ref #</th>
             <th>R.Q Time</th>
             <th>MST</th>
-            <th>SMS Time</th>
-            <th>MR</th>
             <th>Cab #</th>
             <th>Driver mobile</th>
             <th>Address</th>
             <th>Agent</th>
-            <th>Inquire</th>
+            <th>Inquiries</th>
             <th>DIM</th>
             <th>VIH</th>
             <th>VIP</th>
@@ -139,7 +164,22 @@
         </tr>
         </thead>
         <tbody>
-
+        <?php foreach ($orders_list['MSG_NOT_COPIED'] as $order): ?>
+            <tr id="<?= $order['refId'] ?>">
+                <td id="refId"><?= $order['refId'] ?></td>
+                <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
+                <td id="mst"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                <td id="cabId"><?= $order['cabId'] ?></td>
+                <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId']); echo($driver['tp']) ?></td>
+                <td id="address"><?= implode(", ", $order['address']) ?></td>
+                <td id="agent"><?= $order['croId'] ?></td>
+                <td>Inquiries</td>
+                <td><?= getBadge(false) ?></td>
+                <td><?= getBadge($order['isVih']) ?></td>
+                <td><?= getBadge($order['isVip']) ?></td>
+                <td><?= getBadge(false) ?></td>
+            </tr>
+        <?php endforeach ?>
         </tbody>
     </table>
 </div>
@@ -162,7 +202,7 @@
             <th>Driver mobile</th>
             <th>Address</th>
             <th>Agent</th>
-            <th>Inquire</th>
+            <th>Inquiries</th>
             <th>DIM</th>
             <th>VIH</th>
             <th>VIP</th>
@@ -193,7 +233,7 @@
             <th>Driver mobile</th>
             <th>Address</th>
             <th>Agent</th>
-            <th>Inquire</th>
+            <th>Inquiries</th>
             <th>DIM</th>
             <th>VIH</th>
             <th>VIP</th>
@@ -223,7 +263,7 @@
             <th>Driver mobile</th>
             <th>Address</th>
             <th>Agent</th>
-            <th>Inquire</th>
+            <th>Inquiries</th>
             <th>DIM</th>
             <th>VIH</th>
             <th>VIP</th>
@@ -273,4 +313,5 @@ function getBadge($status)
     }
     return $returnBadge;
 }
+
 ?>

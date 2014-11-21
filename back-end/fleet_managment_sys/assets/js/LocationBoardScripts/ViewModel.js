@@ -558,7 +558,7 @@ function LocationBoardViewModel(){
             if(gotResponse !== null || gotResponse.driver !== null){
 
 
-                self.removeCabFromAllBoards(lastZone,currentCab.id)
+                self.removeCabFromAllBoards(lastZone,currentCab.id);
 
                 //Add to new Idle zone
                 var zoneObjectToAdd = ko.utils.arrayFirst(LocationBoard.zones, function(item) {

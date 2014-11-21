@@ -9,7 +9,12 @@
     </div>
     <div class="form-group">
         <label for="vType">Vehicle Type</label>
-        <input type="text" class="form-control" id="vType" placeholder="Enter Vehicle Type">
+        <select class="form-control" id="vType">
+            <option value="">*Please Select a Vahicle Type from the List</option>
+            <option value="car">Car</option>
+            <option value="van">Van</option>
+            <option value="nano">Buddy</option>
+        </select>
     </div>
     <div class="form-group">
         <label for="color">Color</label>

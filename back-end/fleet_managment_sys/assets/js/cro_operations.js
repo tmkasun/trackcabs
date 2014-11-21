@@ -1,3 +1,6 @@
+
+
+
 $(document).ready(function(){
     uiInit();
 });
@@ -54,7 +57,7 @@ function getEditBookingView(url , bookingObjId){
 
 }
 
-    function getCancelConfirmationView( url ,  bookingObjId ){
+function getCancelConfirmationView( url ,  bookingObjId ){
 
     var data = {'_id' : bookingObjId };
     url = url +"/cro_controller/getCancelConfirmationView";

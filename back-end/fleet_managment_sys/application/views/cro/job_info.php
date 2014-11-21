@@ -190,27 +190,31 @@
                         <div class="col-lg-2">
                             <div class="col-lg-12">
                                 <div class="btn-group ">
-                                    <button id="jobEditButton" type="button" style="width: 112px" class="btn btn-warning" onclick="operations('editBooking', '<?= $live_booking[$index]['_id'];?>')">Edit Booking</button>
+                                    <button id="jobEditButton" type="button" style="width: 112px" class="btn btn-default"
+                                        onclick="operations('editBooking', '<?= $live_booking[$index]['_id'];?>')">Edit Booking</button>
                                 </div>
                             </div>
 
                             <div class="col-lg-12" style="margin-top: 2px">
                                 <div class="btn-group">
-                                    <button style="width: 112px" class="btn btn-default" type="button" onclick="operations('addInquireCall', '<?= $live_booking[$index]['_id'];?>')">
-                                        Inquire <span class="badge" id="jobInquireButtonCount"><?= $live_booking[$index]['inqCall'];?></span>
+                                    <button id="jobInquireButton" style="width: 112px" class="btn btn-default" type="button"
+                                        onclick="operations('addInquireCall', '<?= $live_booking[$index]['_id'];?>')">
+                                    Inquire <span class="badge" id="jobInquireButtonCount"><?= $live_booking[$index]['inqCall'];?></span>
                                     </button>
                                 </div>
                             </div>
 
-                            <div id="jobComplaintButton" class="col-lg-12" style="margin-top: 2px">
+                            <div  class="col-lg-12" style="margin-top: 2px">
                                 <div class="btn-group">
-                                    <button style="width: 112px" type="button" class="btn btn-danger" onclick="operations('addComplaint', '<?= $live_booking[$index]['refId'];?>')">Complaint</button>
+                                    <button id="jobComplaintButton" style="width: 112px" type="button" class="btn btn-default"
+                                        onclick="operations('addComplaint', '<?= $live_booking[$index]['refId'];?>')">Complaint</button>
                                 </div>
                             </div>
 
-                            <div id="jobCancelButton" class="col-lg-12" style="margin-top: 2px">
+                            <div  class="col-lg-12" style="margin-top: 2px">
                                 <div class="btn-group">
-                                    <button style="width: 112px" type="button" class="btn btn-danger" onclick="operations('cancel', '<?= $live_booking[$index]['_id'];?>')">Cancel</button>
+                                    <button id="jobCancelButton" style="width: 112px" type="button" class="btn btn-danger"
+                                        onclick="operations('cancel', '<?= $live_booking[$index]['_id'];?>')">Cancel</button>
                                 </div>
                             </div>
 

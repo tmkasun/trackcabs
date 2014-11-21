@@ -70,22 +70,8 @@ function getCancelConfirmationView( url ,  bookingObjId ){
 
 function confirmCancel(url , tp , bookingObjId ){
     var siteUrl = url;
-    var cancelReason="";
     url = siteUrl +"/customer_retriever/canceled";
-
-    if(document.getElementById('cancel1Radio').checked) {
-        cancelReason = 1;
-    }
-    if(document.getElementById('cancel2Radio').checked) {
-        cancelReason = 2;
-    }
-    if(document.getElementById('cancel3Radio').checked) {
-        cancelReason = 3;
-    }
-    if(document.getElementById('cancel4Radio').checked) {
-        cancelReason = 4;
-    }
-
+    var cancelReason =$('input[name=cancelReason]:checked').val();
     var data = {'_id' : bookingObjId , 'cancelReason' : cancelReason, 'tp' : tp};
     ajaxPost(data,url);
     getCustomerInfoView(siteUrl , tp);
@@ -368,9 +354,10 @@ function addComplaint(url,refId){
     if (complaint != "") {
         url = url + "/complaint_controller/record_complaint";
         var data={
-
-        }
-
+            'refId' : refId,
+            'complaint' : complaint
+        };
+        ajaxPost(data,url,false);
     }
 }
 
@@ -511,12 +498,13 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobCabColor').html(bookingObj[index]['cabColor']);
     $('#jobCabPlateNo').html(bookingObj[index]['cabPlateNo']);
     $('#jobPagingBoard').html(bookingObj[index]['pagingBoard']);
-    $('#jobInquireButtonCount').html(bookingObj[index]['inqCall']);
 
 
     $('#jobEditButton').attr("onclick", "operations('editBooking',"+bookingObj[index]['_id']['$id']+")");
-    //$('#jobEditButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'editBooking\', \''+ bookingObj[index]['_id']['$id']  +'\')">Edit Booking</button></div>');
-    $('#jobCancelButton').html('<div class="btn-group"> <button type="button" class="btn btn-danger" onclick="operations(\'cancel\', \'' + bookingObj[index]['_id']['$id']   +  '\')">Cancel</button></div>');
+    $('#jobInquireButton').attr("onclick", "operations('addInquireCall',"+bookingObj[index]['_id']['$id']+")");
+    $('#jobInquireButtonCount').html(bookingObj[index]['inqCall']);
+    $('#jobComplaintButton').attr("onclick", "operations('addComplaint',"+bookingObj[index]['refId']+")");
+    $('#jobCancelButton').attr("onclick", "operations('cancel',"+bookingObj[index]['_id']['$id']+")");
 
 }
 

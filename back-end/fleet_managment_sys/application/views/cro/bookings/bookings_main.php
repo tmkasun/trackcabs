@@ -116,8 +116,6 @@
 
                 <div class="panel-body" >
 
-
-
                 <div class="col-lg-6">
                     <div class="col-lg-12" style="border: 2px solid #a6a6a6;padding-left: 2px; padding-right: 2px">
 
@@ -288,8 +286,6 @@
                     </div>
                 </div>
 
-
-
                 <div class="col-lg-6" >
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -304,10 +300,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
 
                 </div>
             </div>

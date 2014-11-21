@@ -87,19 +87,19 @@ class Customer_retriever extends CI_Controller
         }
 
 
-//        if(!isset($customerProfile['history'])){
-//            $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .
-//                                'a privilege to serve you. Hao City Cabs : 2 888 888';
-//            $this->sendWelcomeMessage($bookingCreated, $welcomeMessage);
-//        }
-//        $message = 'Your order has been confirmed. The booking number is ' . $input_data['data']['refId'] . '. Have a nice day';
-//        $this->sendSms($bookingCreated, $message);
-
-        /* Send the newly added booking to the dispatch view */
-
-//        $webSocket = new Websocket('localhost', '5555', $user['userId']);
-//        $webSocket->send($bookingCreated, 'dispatcher1');
-//        $webSocket->send($bookingCreated, 'monitor1');
+        if(!isset($customerProfile['history'])){
+            $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .
+                                'a privilege to serve you. Hao City Cabs : 2 888 888';
+            $this->sendWelcomeMessage($bookingCreated, $welcomeMessage);
+        }
+        $message = 'Your order has been confirmed. The booking number is ' . $input_data['data']['refId'] . '. Have a nice day';
+        $this->sendSms($bookingCreated, $message);
+//
+//        /* Send the newly added booking to the dispatch view */
+//
+        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+        $webSocket->send($bookingCreated, 'dispatcher1');
+        $webSocket->send($bookingCreated, 'monitor1');
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
     }
@@ -157,14 +157,14 @@ class Customer_retriever extends CI_Controller
             /* Add removed booking from live to the history collection */
             $this->history_dao->createBooking($bookingData);
 
-//            $message = 'Your booking ' . $bookingData['refId'] . '. has been canceled. Have a nice day';
-//            $this->sendSms($bookingData, $message);
-
-            /* Send the canceled booking to the dispatch view */
-
-//            $webSocket = new Websocket('localhost', '5555', $user['userId']);
-//            $webSocket->send($bookingData, 'monitor1');
-//            $webSocket->send($bookingData, 'dispatcher1');
+            $message = 'Your booking ' . $bookingData['refId'] . '. has been canceled. Have a nice day';
+            $this->sendSms($bookingData, $message);
+//
+//            /* Send the canceled booking to the dispatch view */
+//
+            $webSocket = new Websocket('localhost', '5555', $user['userId']);
+            $webSocket->send($bookingData, 'monitor1');
+            $webSocket->send($bookingData, 'dispatcher1');
 
         }
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
@@ -186,9 +186,9 @@ class Customer_retriever extends CI_Controller
         $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
 
         /* Send the updated booking to the dispatch view */
-//        $webSocket = new Websocket('localhost', '5555', $user['userId']);
-//        $webSocket->send($bookingData, 'monitor1');
-//        $webSocket->send($bookingData, 'dispatcher1');
+        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+        $webSocket->send($bookingData, 'monitor1');
+        $webSocket->send($bookingData, 'dispatcher1');
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
 
     }
@@ -225,9 +225,9 @@ class Customer_retriever extends CI_Controller
 
         $user = $this->session->userdata('user');
 
-//        $webSocket = new Websocket('localhost', '5555', $user['userId']);
-//        $webSocket->send($bookingCreated, 'dispatcher1');
-//        $webSocket->send($bookingCreated, 'monitor1');
+        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+        $webSocket->send($bookingCreated, 'dispatcher1');
+        $webSocket->send($bookingCreated, 'monitor1');
 
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
     }

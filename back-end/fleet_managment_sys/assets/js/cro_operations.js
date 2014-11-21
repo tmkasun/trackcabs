@@ -31,19 +31,27 @@ function getEditBookingView(url , bookingObjId){
     alert(vType);
     if(vType == 'car'){
         $('#carRadio').addClass(' active');
+        $('#vehicleType').val('car');
     }
     if(vType == 'van'){
         $('#vanRadio').addClass(' active');
+        $('#vehicleType').val('van');
     }
     if(vType == 'nano'){
         $('#nanoRadio').addClass(' active');
+        $('#vehicleType').val('nano');
     }
 
-    if(payType == 'cash')
+    if(payType == 'cash') {
         $('#payTypeCash').addClass(' active');
+        $('#paymentType').val('cash');
+    }
 
-    if(payType == 'credit')
+    if(payType == 'credit'){
         $('#payTypeCredit').addClass(' active');
+        $('#paymentType').val('credit');
+    }
+
 }
 
     function getCancelConfirmationView( url ,  bookingObjId ){

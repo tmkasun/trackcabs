@@ -112,9 +112,9 @@ class Live_dao extends CI_Model
         $collection->remove( $searchQuery);
     }
 
-    function addInquireCall($refId){
+    function addInquireCall($objId){
         $collection = $this->get_collection();
-        $searchQuery= array('refId' => $refId);
+        $searchQuery= array('_id' => new MongoId($objId));
         $record = $collection->findOne($searchQuery);
 
         $record["inqCall"]++;
@@ -141,10 +141,6 @@ class Live_dao extends CI_Model
             $data[]= $doc;
         }
         return $data;
-    }
-
-    function getPeriodBookings($startDate,$endDate){
-
     }
 
     function getCroBookingsToday($croId){
@@ -208,7 +204,6 @@ class Live_dao extends CI_Model
 
         $today = date("Y-m-d 00:00:00");
         $todayUTC = new MongoDate(strtotime($today));
-
 
         $dbName = $this->db->selectDB('track');
         $collection = $dbName->selectCollection('live');

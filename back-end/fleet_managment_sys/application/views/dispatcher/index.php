@@ -103,6 +103,12 @@
             stroke-dasharray: 3, 20;
         }
 
+        #resetSearch:hover {
+            transition: 0.9s;
+            transform: rotate(180deg);
+            color: #5d0012;
+        }
+
     </style>
 
     <script>
@@ -222,7 +228,7 @@
 
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                        style="color: #f9fdff;cursor: pointer;">Dispatcher </span><i
+                        style="color: #f9fdff;cursor: pointer;">Dispatcher </span></i>
                         class="fa fa-angle-double-down fa-lg"></i></a>
                 <ul class="dropdown-menu" role="menu">
                     <li>
@@ -242,13 +248,16 @@
     <div class="col-md-3">
         <div id="leftSidePane">
             <div class="input-group input-group">
-                <span class="input-group-addon" style="padding: 0px;margin: 0px;width: 130px;">
+                <span class="input-group-addon" style="padding: 0px;margin: 0px;width: 90px;">
                 <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
                     <button id="searchByRefId" type="button" class="btn btn-default active">Ref#</button>
                     <button id="searchByTown" type="button" class="btn btn-default">Town</button>
 <!--                    <button id="searchByCabId" type="button" class="btn btn-default">Cab#</button>-->
                 </div></span>
-                <input autofocus="true" id="orderSearch" type="text" class="form-control" placeholder="Search here">
+                <input autofocus="true" id="orderSearch" type="text" class="form-control" placeholder="Search here"/>
+                <span class="input-group-addon">
+                <i id="resetSearch" onclick="$('#liveOrdersList .mCSB_container').empty();$.each(unDispatchedOrders, function (i, order) {addNewOrder(order);});$('#orderSearch').val('');" style="cursor: pointer;" class="fa fa-repeat"></i>
+                </span>
             </div>
             <?= $new_orders_pane ?>
         </div>

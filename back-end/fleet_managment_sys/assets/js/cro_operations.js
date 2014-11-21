@@ -1,6 +1,17 @@
+
+
+
 $(document).ready(function(){
     uiInit();
 });
+
+function addInquireCall(url , objId){
+
+    var data = {'objId' : objId};
+    url = url +"/customer_retriever/addInquireCall";
+    var view = ajaxPost(data,url);
+
+}
 
 function getEditBookingView(url , objId){
     var data = {'objId' : objId};
@@ -26,7 +37,7 @@ function getEditBookingView(url , objId){
         $('#payTypeCredit').addClass(' active');
 }
 
-    function getCancelConfirmationView( url ,  bookingObjId ){
+function getCancelConfirmationView( url ,  bookingObjId ){
 
     var data = {'_id' : bookingObjId };
     url = url +"/cro_controller/getCancelConfirmationView";
@@ -469,6 +480,7 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobCabColor').html(bookingObj[index]['cabColor']);
     $('#jobCabPlateNo').html(bookingObj[index]['cabPlateNo']);
     $('#jobPagingBoard').html(bookingObj[index]['pagingBoard']);
+    $('#jobInquireButton').html(bookingObj[index]['inqCall']);
 
 
 

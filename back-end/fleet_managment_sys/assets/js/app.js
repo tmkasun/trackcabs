@@ -85,17 +85,17 @@ var substringMatcher = function () {
         var matches, substrRegex;
         matches = [];
         substrRegex = new RegExp(q, 'i');
+        $('#liveOrdersList .mCSB_container').empty();
         $.each(unDispatchedOrders, function (i, order) {
-            console.log("i = "+i+" order = "+order);
-            debugObject = order;
+            //console.log("i = "+i+" order = "+order);
             var searchKey = getSearchKey(order);
-            console.log("searchKey = "+searchKey);
+            //console.log("searchKey = "+searchKey);
 
             if (substrRegex.test(searchKey)) {
-                matches.push({ value: searchKey });
+                addNewOrder(order);
+                matches.push({ value: searchKey , order: order});
             }
         });
-
         cb(matches);
     };
 };
@@ -111,7 +111,7 @@ $('#orderSearch').typeahead({
         source: substringMatcher()
     }).on('typeahead:selected', function ($e, datum) {
         objectId = datum['value'];
-        console.log(datum['value']);
+        dispatchOrder(datum.order.refId);
     });
 
 var locations = new Bloodhound({

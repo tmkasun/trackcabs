@@ -26,6 +26,7 @@ class Websocket
 
         $this->CI =& get_instance();
 
+
         $this->context = new ZMQContext();
         $this->socket = $this->context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
 

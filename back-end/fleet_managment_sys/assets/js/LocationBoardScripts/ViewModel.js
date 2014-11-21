@@ -2,222 +2,46 @@
  * Created by dehan on 11/1/14.
  */
 //Models
-var test2=[
-    {"cab":{"_id":{"$id":"544915126b648683578b4569"},"model":"nano","color":"red","plateNo":"GA-45852","vType":"Nano","info":"Other","cabId":1,"zone":"Nawaloka"}},
-    {"cab":{"_id":{"$id":"5455c0746b6486251ae31e24"},"model":"toyota","color":"red","plateNo":"km-46569","vType":"car","info":"dam cab","cabId":2,"zone":"Nawala"}},
-    {"cab":{"_id":{"$id":"5455fb40e1074dcd0d377af4"},"model":"Honda","color":"green","plateNo":"km-48964","vType":"car","info":"Testing cab","cabId":12,"zone":"Rajagiriya"}}];
-var test = [{
-                "model":"nano",
-                "color":"red",
-                "plateNo":"GA-45852",
-                "vType":"vehicle_type_demo",
-                "info":"Other",
-                "cabId":1,
-                "zone":"Fort"
 
-
-            },
-            {
-                "model":"toyota",
-                "color":"red",
-                "plateNo":"km-46569",
-                "vType":"car",
-                "info":"dam cab",
-                "cabId":2,
-                "zone":"Nawaloka"
-            },
-            {
-                "model":"Honda",
-                "color":"green",
-                "plateNo":"km-48964",
-                "vType":"car",
-                "info":"Testing cab",
-                "cabId":12,
-                "zone":"Nawaloka"
-
-            }];
 var LocationBoard = {};
 LocationBoard.zones = [];
+LocationBoard.other = [];
 
 LocationBoard.pending = [];
 LocationBoard.pob = [];
-LocationBoard.Unknown = [];
 
-var GlobalCabs = [];
-var currentDispatchOrderRefId = 12341234;
-
-var user1 = {};
-user1.id = 9900;
-user1.Name = "Chithral Somapala";
-user1.userName =  "Chitty";
-
-var user2 = {};
-user2.id = 9901;
-user2.Name = "Kasun Kalhara";
-user2.userName =  "Chitty";
-
-var user3 = {};
-user3.id = 9902;
-user3.Name = "Sunil Edirisinge";
-user3.userName =  "Chitty";
-
-var user4 = {};
-user4.id = 9903;
-user4.Name = "Namal Rajapakse";
-user4.userName =  "Chitty";
-
-var user5 = {};
-user5.id = 9904;
-user5.Name = "Chithral Somapala";
-user5.userName =  "Chitty";
-
-var user6 = {};
-user6.id = 9905;
-user6.Name = "Kasun Kalhara";
-user6.userName =  "Chitty";
-
-var user7 = {};
-user7.id = 9906;
-user7.Name = "Sunil Edirisinge";
-user7.userName =  "Chitty";
-
-var user8 = {};
-user8.id = 9907;
-user8.Name = "Namal Rajapakse";
-user8.userName =  "Chitty";
-
-var cab1 ={};
-cab1.id = 1001;
-cab1.attributes = {};
-cab1.currentDriver = user1;
-cab1.vehicleType = "Van";
-cab1.attributes.vehicleColor = "Black";
-cab1.attributes.isTinted = "Yes";
-cab1.attributes.isMarked = "Yes";
-cab1.attributes.model = "Toyota Corolla";
-cab1.isDriverIdle = "false";
-cab1.currentLocation = "23,Kotta Road, Borella";
-
-var cab2 ={};
-cab2.id = 1002;
-cab2.attributes = {};
-cab2.currentDriver = user2;
-cab2.vehicleType = "Car";
-cab2.attributes.vehicleColor = "Black";
-cab2.attributes.isTinted = "Yes";
-cab2.attributes.isMarked = "Yes";
-cab2.attributes.model = "Toyota Corolla";
-cab2.isDriverIdle = "false";
-cab2.currentLocation = "23,Kotta Road, Borella";
-
-
-var cab3 ={};
-cab3.id = 1003;
-cab3.attributes = {};
-cab3.currentDriver = user3;
-cab3. vehicleType = "Car";
-cab3.attributes.vehicleColor = "Black";
-cab3.attributes.isTinted = "Yes";
-cab3.attributes.isMarked = "Yes";
-cab3.attributes.model = "Toyota Corolla";
-cab3.isDriverIdle = "false";
-cab3.currentLocation = "23,Kotta Road, Borella";
-
-var cab4 ={};
-cab4.id = 1004;
-cab4.attributes = {};
-cab4.currentDriver = user4;
-cab4. vehicleType = "Van";
-cab4.attributes.vehicleColor = "Black";
-cab4.attributes.isTinted = "Yes";
-cab4.attributes.isMarked = "Yes";
-cab4.attributes.model = "Toyota Corolla";
-cab4.isDriverIdle = "false";
-cab4.currentLocation = "23,Kotta Road, Borella";
-
-var cab5 ={};
-cab5.id                         = 1005;
-cab5.attributes                 = {};
-cab5.currentDriver              = user5;
-cab5. vehicleType               = "Nano";
-cab5.attributes.vehicleColor    = "Black";
-cab5.attributes.isTinted        = "Yes";
-cab5.attributes.isMarked        = "Yes";
-cab5.attributes.model           = "Toyota Corolla";
-cab5.isDriverIdle               = "false";
-cab5.currentLocation            = "23,Kotta Road, Borella";
-
-cab6 ={};
-cab6.id = 1006;
-cab6.attributes = {};
-cab6.currentDriver = user6;
-cab6.vehicleType = "Van";
-cab6.attributes.vehicleColor = "Black";
-cab6.attributes.isTinted = "Yes";
-cab6.attributes.isMarked = "Yes";
-cab6.attributes.model = "Toyota Corolla";
-cab6.isDriverIdle = "false";
-cab6.currentLocation = "23,Kotta Road, Borella";
-
-var cab7 ={};
-cab7.id = 1007;
-cab7.attributes = {};
-cab7.currentDriver = user7;
-cab7.vehicleType = "Nano";
-cab7.attributes.vehicleColor = "Black";
-cab7.attributes.isTinted = "Yes";
-cab7.attributes.isMarked = "Yes";
-cab7.attributes.model = "Toyota Corolla";
-cab7.isDriverIdle = "false";
-cab7.currentLocation = "23,Kotta Road, Borella";
-
-var cab8 ={};
-cab8.id = 1008;
-cab8.attributes = {};
-cab8.currentDriver = user8;
-cab8.vehicleType = "Nano";
-cab8.attributes.vehicleColor = "Black";
-cab8.attributes.isTinted = "Yes";
-cab8.attributes.isMarked = "Yes";
-cab8.attributes.model = "Toyota Corolla";
-cab8.isDriverIdle = "No";
-cab8.currentLocation = "23,Kotta Road, Borella";
-
-
-GlobalCabs.push(cab1);
-GlobalCabs.push(cab2);
-GlobalCabs.push(cab3);
-GlobalCabs.push(cab4);
-GlobalCabs.push(cab5);
-GlobalCabs.push(cab6);
-GlobalCabs.push(cab7);
-GlobalCabs.push(cab8);
 
 
 
 function Zone(id, name){
-    this.id = id;
-    this.name           = name;
+    this.id                 = id;
+    this.name               = name;
     this.idle               = {};
-    this.idle.driverId      = ko.observable();
+    this.idle.cabId         = ko.observable();
     this.idle.cabs          = ko.observableArray([]);
 
 
     this.pob                = {};
-
-    this.pob.driverId       = ko.observable();
+    this.pob.cabId          = ko.observable();
     this.pob.cabEta         = ko.observable();
     this.pob.cabs           = ko.observableArray([]);
+}
 
+function Other(id, name){
+    this.id     = id;
+    this.name   = name;
 
+    this.cabId  = ko.observable();
+    this.cabEta = ko.observable();
+    this.cabs   = ko.observableArray([]);
 }
 
 function Cab(data){
     this.id                         =  data.cabId;
     this.attributes                 =  {};
-    this.driverId                   =  data.driverId;
-    this.attributes.model           =  data.model;
-    this.attributes.vehicleColor    =  data.color;
+    this.userId                     =  data.userId;
+    this.model                      =  data.model;
+    this.vehicleColor               =  data.color;
     this.vehicleType                =  data.vType;
     this.info                       =  data.info;
     this.zone                       =  data.zone;
@@ -232,42 +56,54 @@ var zone3   = new Zone( 3,"Colombo 03");
 var zone4   = new Zone( 4,"Marinedrive 03");
 var zone5   = new Zone( 5,"Colombo 04");
 var zone6   = new Zone( 6,"Marinedrive 04");
-var zone7   = new Zone( 7,"T'Malla/COLOS");
+var zone7   = new Zone( 7,"T'Mulla/Thimbiri");
 var zone8   = new Zone( 8,"Vilasitha(Kirulapona)");
-var zone9   = new Zone( 9,"Colombo 04");
+var zone9   = new Zone( 9,"Colombo 06");
 var zone10  = new Zone(10,"Marinedrive 04");
 
-var zone11  = new Zone(11,"T'Malla/COLOS");
-var zone12  = new Zone(12,"Vilasitha(Kirulapona)");
-var zone13  = new Zone(13,"Colombo 06");
-var zone14  = new Zone(14,"Marinedrive 06");
-var zone15  = new Zone(15,"Alex");
-var zone16  = new Zone(16,"Rupavahing");
-var zone17  = new Zone(17,"Borella");
-var zone18  = new Zone(18,"Narahenpita");
-var zone19  = new Zone(19,"Nawala");
-var zone20  = new Zone(20,"Rajagiriya");
+var zone11  = new Zone(11,"Alex"                    );
+var zone12  = new Zone(12,"Rupavahing"              );
+var zone13  = new Zone(13,"Borella"                 );
+var zone14  = new Zone(14,"Narahenpita"             );
+var zone15  = new Zone(15,"Nawala"                  );
+var zone16  = new Zone(16,"Rajagiriya"              );
+var zone17  = new Zone(17,"Kotte"                   );
+var zone18  = new Zone(18,"Battaramulla"            );
+var zone19  = new Zone(19,"Malabe"                  );
+var zone20  = new Zone(20,"Kottawa"                 );
+var zone21  = new Zone(21,"Maharagama"              );
+var zone22  = new Zone(22,"Nugegoda"                );
+var zone23  = new Zone(23,"Piliyandala"             );
+var zone24  = new Zone(24,"Boralesgamuwa"           );
+var zone25  = new Zone(25,"Kohuvala"                );
+var zone26  = new Zone(26,"Kalubovila"              );
+var zone27  = new Zone(27,"Dehivala"                );
+var zone28  = new Zone(28,"Mount Lavinia"           );
 
-var zone21  = new Zone(21,"Kotte");
-var zone22  = new Zone(22,"Battaramulla");
-var zone23  = new Zone(23,"Malabe");
-var zone24  = new Zone(24,"Kottawa");
-var zone25  = new Zone(25,"Maharagama");
-var zone26  = new Zone(26,"Nugegoda");
-var zone27  = new Zone(27,"Piliyandala");
-var zone28  = new Zone(28,"Boralesgamuwa");
-var zone29  = new Zone(29,"Kohuvala");
-var zone30  = new Zone(30,"Kalubovila");
-
-var zone31  = new Zone(31,"Dehivala");
-var zone32  = new Zone(32,"Mount Lavinia");
-
+var zone29  = new Zone(29,"Rathmalana"                  );
+var zone30  = new Zone(30,"Moratuwa"              );
+var zone31  = new Zone(31,"Panadura"                   );
+var zone32  = new Zone(32,"Dematagoda"            );
+var zone33  = new Zone(33,"Piliyandala"                  );
+var zone34  = new Zone(34,"Wattala"                 );
+var zone35  = new Zone(35,"Kiribathgoda"              );
+var zone36  = new Zone(36,"Ja-Ela"                );
+var zone37  = new Zone(37,"Kadawatha"             );
+var zone38  = new Zone(38,"Seeduwa"           );
+var zone39  = new Zone(39,"KIA"                );
+var zone40  = new Zone(40,"Negombo"              );
 
 
-
-
-
-//zone1.idle.cabs.push(cab1);
+var other1  = new Other(41,"Outstation"               );
+var other2  = new Other(42,"Writing Hire"              );
+var other3  = new Other(43,"Package"                   );
+var other4  = new Other(44,"Corporate"            );
+var other5  = new Other(45,"Lunch and Tea"                  );
+var other6  = new Other(46,"Break Down"                 );
+var other7  = new Other(47,"Not Reported"              );
+var other8  = new Other(48,"Leave"                );
+var other9  = new Other(48,"None"                );
+//zone1.idle.cabs.push(cb1)
 //zone1.idle.cabs.push(cab4);
 //zone1.idle.cabs.push(cab5);
 //zone1.idle.cabs.push(cab6);
@@ -313,10 +149,29 @@ LocationBoard.zones.push(zone31);
 LocationBoard.zones.push(zone32);
 
 
+//====================================//
+
+LocationBoard.zones.push(zone33);
+LocationBoard.zones.push(zone34);
+LocationBoard.zones.push(zone35);
+LocationBoard.zones.push(zone36);
+LocationBoard.zones.push(zone37);
+LocationBoard.zones.push(zone38);
+LocationBoard.zones.push(zone39);
+LocationBoard.zones.push(zone40);
 
 
+//Other Zones
 
-
+LocationBoard.other.push(other1);
+LocationBoard.other.push(other2);
+LocationBoard.other.push(other3);
+LocationBoard.other.push(other4);
+LocationBoard.other.push(other5);
+LocationBoard.other.push(other6);
+LocationBoard.other.push(other7);
+LocationBoard.other.push(other8);
+LocationBoard.other.push(other9);
 
 //=================End Of Models======================//
 
@@ -332,16 +187,20 @@ function LocationBoardViewModel(){
     var self = this;
 
     var zonesLength = LocationBoard.zones.length;
+    var otherLength = LocationBoard.other.length;
 
 
 
     self.zones = ko.observableArray(LocationBoard.zones);
 
+    self.other = ko.observableArray(LocationBoard.other);
+
     self.pendingCabs = ko.observableArray([]);
 
-    self.inactiveCabs = ko.observableArray([]);
+    self.otherCabs = ko.observableArray([]);
 
     self.cabList = {};
+
     self.initializeLocationBoard = function(){
         self.responseCabs;
         $.ajax({
@@ -356,10 +215,36 @@ function LocationBoardViewModel(){
 
             self.cabList = ko.observableArray(self.cabListBuffer);
 
+            //Push Cabs to 4 seperate collections....
+            // zone.pob...
+            // zone.idle...
+            // pendingCabs...
+            // other....
             for(var key in self.cabList()){
                 var currentCab = self.cabList()[key];
-                if (currentCab.state === "IDLE" && currentCab.zone === "None") {
-                    self.inactiveCabs.push(currentCab);
+
+                /*if (currentCab.state === "IDLE" && currentCab.zone === "None") {
+                    var otherObject = ko.utils.arrayFirst(LocationBoard.other, function(item) {
+                        return item.name === "Unknown"
+                    });
+                    var index = ko.utils.arrayIndexOf(LocationBoard.other,otherObject);
+                    if(index != -1){
+                        self.other()[index].cabs.push(currentCab);
+
+                    }
+                }
+                else */
+
+                //OTHER State and Idle|None Combinations belong to the OTHER Panel
+                if(currentCab.state === "OTHER" || currentCab.state === "IDLE" && currentCab.zone === "None"){
+                    var otherObject = ko.utils.arrayFirst(LocationBoard.other, function(item) {
+                        return item.name === currentCab.zone
+                    });
+                    var index = ko.utils.arrayIndexOf(LocationBoard.other,otherObject);
+                    if(index != -1){
+                        self.other()[index].cabs.push(currentCab);
+
+                    }
                 }
                 else if(currentCab.state === "MSG_NOT_COPIED" || currentCab.state === "MSG_COPIED"|| currentCab.state === "AT_THE_PLACE") {
                     self.pendingCabs.push(currentCab);
@@ -391,24 +276,50 @@ function LocationBoardViewModel(){
 
     self.ZonesColumn1 = ko.computed(function() {
         var zoneList = LocationBoard.zones.slice(0,Math.round(zonesLength/2));
-        return zoneList
+        return zoneList;
     });
 
     self.ZonesColumn2 = ko.computed(function() {
         var zoneList = LocationBoard.zones.slice(Math.round(zonesLength/2),zonesLength);
-        return zoneList
+        return zoneList;
+    });
+
+
+
+
+    self.PobZonesColumn1 = ko.computed(function() {
+        var zoneList = LocationBoard.zones.slice(0,Math.round(zonesLength/2));
+        return zoneList;
+    });
+
+    self.PobZonesColumn2 = ko.computed(function() {
+        var zoneList = LocationBoard.zones.slice(Math.round(zonesLength/2),zonesLength);
+        return zoneList;
+    });
+
+
+
+
+    self.OtherColumn1 = ko.computed(function() {
+        var zoneList = LocationBoard.other.slice(0,Math.round(otherLength/2));
+        return zoneList;
+    });
+
+    self.OtherColumn2 = ko.computed(function() {
+        var zoneList = LocationBoard.other.slice(Math.round(otherLength/2),otherLength);
+        return zoneList;
     });
 
 
 
     self.addIdleCab = function(zone,event){
 
-        cabId = parseInt(zone.idle.driverId());
-        zone.idle.driverId('');
+        cabId = parseInt(zone.idle.cabId());
+        zone.idle.cabId('');
 
 
         sendingData = {};
-        sendingData.driverId = cabId;
+        sendingData.cabId = cabId;
         sendingData.zone = zone.name;
 
         var gotResponse = null;
@@ -427,13 +338,20 @@ function LocationBoardViewModel(){
                     return item.name === lastZone
                 });
                 var indexToRemove = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToRemove);
-                //If cab was not inactive [when inactive, state = IDLE, zone = null]
+                //If cab was not other [when other, state = IDLE, zone = null]
                 if(indexToRemove != -1){
                     self.zones()[indexToRemove].idle.cabs.remove(function(item) { return item.id === currentCab.id });
                     self.zones()[indexToRemove].pob.cabs.remove(function(item) { return item.id === currentCab.id });
                 }
                 self.pendingCabs.remove(function(item) { return item.id === currentCab.id });
-                self.inactiveCabs.remove(function(item) { return item.id === currentCab.id });
+                //Remove from other
+                var otherObject = ko.utils.arrayFirst(LocationBoard.other, function(item) {
+                    return item.name === lastZone
+                });
+                var otherIndexToRemove = ko.utils.arrayIndexOf(LocationBoard.other,otherObject);
+                if(otherIndexToRemove != -1){
+                    self.other()[otherIndexToRemove].cabs.remove(function(item) { return item.id === currentCab.id });
+                }
 
 
                 //Add to new zone
@@ -468,31 +386,25 @@ function LocationBoardViewModel(){
 
     self.addPobCab = function(zone,event){
 
+        if(zone.pob.cabId() === undefined){
+            alert("Enter a Cab Id");
+            return;
+
+        }
         sendingData = {};
-        sendingData.driverId = parseInt(zone.pob.driverId());
+        sendingData.cabId = parseInt(zone.pob.cabId());
         sendingData.cabEta = zone.pob.cabEta();
         sendingData.zone = zone.name;
 
         zone.pob.cabEta('');
-        zone.pob.driverId('');
+        zone.pob.cabId('');
         $.post('dispatcher/setPobDestinationZoneTime', sendingData, function (response) {
             gotResponse = response;
             gotResponse.state = "POB";
             var lastZone = response.lastZone;
             var currentCab = new Cab(gotResponse);
 
-            //Remove from all last zones and all other places
-            var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
-                return item.name === lastZone
-            });
-            var indexToRemove = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToRemove);
-            //If cab was not inactive [when inactive, state = IDLE, zone = null]
-            if(indexToRemove != -1){
-                self.zones()[indexToRemove].idle.cabs.remove(function(item) { return item.id === currentCab.id });
-                self.zones()[indexToRemove].pob.cabs.remove(function(item) { return item.id === currentCab.id });
-            }
-            self.pendingCabs.remove(function(item) { return item.id === currentCab.id });
-            self.inactiveCabs.remove(function(item) { return item.id === currentCab.id });
+            self.removeCabFromAllBoards(lastZone,currentCab.id);
 
 
             //Add to new zone
@@ -502,6 +414,46 @@ function LocationBoardViewModel(){
             var indexToAdd = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToAdd);
             if(indexToAdd !== -1){
                 self.zones()[indexToAdd].pob.cabs.push(currentCab);
+            }
+
+
+        });
+
+
+    };
+
+    self.addOtherCab = function(other,event){
+
+        sendingData = {};
+        sendingData.cabId = parseInt(other.cabId());
+        sendingData.zone = other.name;
+
+        other.cabId('');
+        $.post('dispatcher/setOtherState', sendingData, function (response) {
+            gotResponse = response;
+            gotResponse.state = "OTHER";
+            var lastZone = response.lastZone;
+            var currentCab = new Cab(gotResponse);
+
+            self.removeCabFromAllBoards(lastZone,currentCab.id)
+
+            //Remove from other
+            var otherObject = ko.utils.arrayFirst(LocationBoard.other, function(item) {
+                return item.name === lastZone
+            });
+            var otherIndexToRemove = ko.utils.arrayIndexOf(LocationBoard.other,otherObject);
+            if(otherIndexToRemove != -1){
+                self.other()[otherIndexToRemove].cabs.remove(function(item) { return item.id === currentCab.id });
+            }
+
+
+            //Add to new inactive zone
+            var otherObjectToAdd = ko.utils.arrayFirst(LocationBoard.other, function(item) {
+                return item.name === currentCab.zone
+            });
+            var indexToAdd = ko.utils.arrayIndexOf(LocationBoard.other,otherObjectToAdd);
+            if(indexToAdd !== -1){
+                self.other()[indexToAdd].cabs.push(currentCab);
             }
 
 
@@ -545,9 +497,20 @@ function LocationBoardViewModel(){
         sendingData.cabId = cab.id;
         $.post(serviceUrl +"dispatcher/setInactive",sendingData,function(response){
             self.pendingCabs.remove(cab);
-            cab.state = "IDLE";
-            cab.zone = "None";
-            self.inactiveCabs.push(cab);
+            gotResponse = response;
+            gotResponse.state = "OTHER";
+            var lastZone = response.lastZone;
+            var currentCab = new Cab(gotResponse);
+
+            var otherObject = ko.utils.arrayFirst(LocationBoard.other, function(item) {
+                return item.name === currentCab.zone
+            });
+
+            var otherIndexToAdd = ko.utils.arrayIndexOf(LocationBoard.other,otherObject);
+            if(otherIndexToAdd != -1){
+                self.other()[otherIndexToAdd].cabs.push(currentCab);
+            }
+
         });
 
 
@@ -558,9 +521,20 @@ function LocationBoardViewModel(){
         sendingData.cabId = cab.id;
         $.post(serviceUrl +"dispatcher/setInactive",sendingData,function(response){
             zone.pob.cabs.remove(cab);
-            cab.state = "IDLE";
-            cab.zone = "None";
-            self.inactiveCabs.push(cab);
+            gotResponse = response;
+            gotResponse.state = "OTHER";
+            var lastZone = response.lastZone;
+            var currentCab = new Cab(gotResponse);
+            //ADD TO OTHER
+            var otherObject = ko.utils.arrayFirst(LocationBoard.other, function(item) {
+                return item.name === currentCab.zone
+            });
+
+            var otherIndexToAdd = ko.utils.arrayIndexOf(LocationBoard.other,otherObject);
+            if(otherIndexToAdd != -1){
+                self.other()[otherIndexToAdd].cabs.push(currentCab);
+            }
+
 
         });
 
@@ -571,7 +545,7 @@ function LocationBoardViewModel(){
     self.setToIdleFromPob = function(zone,cab){
 
         sendingData = {};
-        sendingData.driverId = cab.driverId;
+        sendingData.cabId = cab.cabId;
         sendingData.zone = zone.name;
         $.post(serviceUrl +"dispatcher/setIdleZone",sendingData,function(response){
             zone.pob.cabs.remove(cab);
@@ -584,19 +558,7 @@ function LocationBoardViewModel(){
             if(gotResponse !== null || gotResponse.driver !== null){
 
 
-                //Remove from last zone and all other places
-                var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
-                    return item.name === lastZone
-                });
-                var indexToRemove = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToRemove);
-                //If cab was not inactive [when inactive, state = IDLE, zone = null]
-                if(indexToRemove != -1){
-                    self.zones()[indexToRemove].idle.cabs.remove(function(item) { return item.id === currentCab.id });
-                    self.zones()[indexToRemove].pob.cabs.remove(function(item) { return item.id === currentCab.id });
-                }
-                self.pendingCabs.remove(function(item) { return item.id === currentCab.id });
-                self.inactiveCabs.remove(function(item) { return item.id === currentCab.id });
-
+                self.removeCabFromAllBoards(lastZone,currentCab.id);
 
                 //Add to new Idle zone
                 var zoneObjectToAdd = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
@@ -622,11 +584,37 @@ function LocationBoardViewModel(){
                 pos: 'top-center'
             });
         });
-        console.log("Setting to Idle not fully implemented");
-        
+
+
         
 
     }
+
+    self.removeCabFromAllBoards = function(lastZone, cabId) {
+        //Remove from Idle and Pob
+        var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+            return item.name === lastZone
+        });
+        var indexToRemove = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToRemove);
+        if(indexToRemove != -1){
+            self.zones()[indexToRemove].idle.cabs.remove(function(item) { return item.id === cabId });
+            self.zones()[indexToRemove].pob.cabs.remove(function(item) { return item.id === cabId });
+        }
+        //Remove From Pending
+        self.pendingCabs.remove(function(item) { return item.id === cabId});
+        //Remove from Other
+        var otherObject = ko.utils.arrayFirst(LocationBoard.other, function(item) {
+            return item.name === lastZone
+        });
+        var otherIndexToRemove = ko.utils.arrayIndexOf(LocationBoard.other,otherObject);
+        if(otherIndexToRemove != -1){
+            self.other()[otherIndexToRemove].cabs.remove(function(item) { return item.id === cabId});
+        }
+
+    };
+
+
+
     self.disableInputs = function () {
         $('button.cabAdd').css('display','none');
         $('button.cabManipulate').css('display','none');
@@ -644,3 +632,25 @@ var locVM = new LocationBoardViewModel();
 locVM.initializeLocationBoard();
 ko.applyBindings(locVM);
 
+
+//UI Plugins
+$(document).ready(function()
+{
+    $('.RowToClick').click(function ()
+    {
+        $(this).nextAll('tr').each( function()
+        {
+            if ($(this).is('.RowToClick'))
+            {
+                return false;
+            }
+            $(this).toggle(350);
+        });
+    });
+});
+
+$("input.cabId").keyup(function(event){
+    if(event.keyCode == 13){
+        $(this).siblings("button").click();
+    }
+});

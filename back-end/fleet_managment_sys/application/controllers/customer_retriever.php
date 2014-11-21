@@ -150,7 +150,6 @@ class Customer_retriever extends CI_Controller
             $webSocket->send($bookingData, 'monitor1');
             $webSocket->send($bookingData, 'dispatcher1');
 
-
         }
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
     }
@@ -205,10 +204,15 @@ class Customer_retriever extends CI_Controller
     public function addInquireCall()
     {
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $this->customer_dao->addInquireCall($input_data["tp"], $input_data["refId"]);
-        $this->live_dao->addInquireCall($input_data["refId"]);
+        $this->live_dao->addInquireCall($input_data["objId"]);
+        $bookingCreated = $this->live_dao->getBookingByMongoId($input_data["objId"]);
 
-        /* TODO INFORM THROUGH WEB SOCKETS CHANGE HAS HAPPENED */
+        $user = $this->session->userdata('user');
+
+        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+        $webSocket->send($bookingCreated, 'dispatcher1');
+        $webSocket->send($bookingCreated, 'monitor1');
+
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
     }
 

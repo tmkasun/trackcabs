@@ -65,11 +65,23 @@
                     console.log('New Message published to user "' + topic + '" : ' + data.message);
                     var newOrder = data.message;
                     if (newOrder.status === "CANCEL") {
-                        removeOrder(newOrder);
+                        removeOrder(newOrder, true);
                         delete unDispatchedOrders[newOrder.refId];
                     } else {
-                        unDispatchedOrders[newOrder.refId] = newOrder;
-                        addNewOrder(newOrder);
+                        if(newOrder.refId in unDispatchedOrders){
+                            removeOrder(newOrder);
+                            addNewOrder(newOrder);
+                            $.UIkit.notify({
+                                message: '<span style="color: dodgerblue">Order <b>' + newOrder.refId + '</b> has been updated!</span><br>',
+                                status: 'warning',
+                                timeout: 3000,
+                                pos: 'top-center'
+                            });
+
+                        }else{
+                            unDispatchedOrders[newOrder.refId] = newOrder;
+                            addNewOrder(newOrder,true);
+                        }
                     }
                 });
             },
@@ -80,7 +92,7 @@
         );
     }
 
-    function addNewOrder(newOrder) {
+    function addNewOrder(newOrder, alertMessage) {
         var newOrderUnixTimeStamp = newOrder.bookTime.sec;
         var orderBookingTime = moment.unix(newOrderUnixTimeStamp);
 
@@ -97,13 +109,14 @@
         /* Find element ref id which new element need to be insert after*/
         var liveOrdersList = $('#liveOrdersList').find('a');
 
-        $.UIkit.notify({
-            message: '<span style="color: dodgerblue">New Order <b>#' + newOrder.refId + ' added.</b></span><br>',
-            status: 'success',
-            timeout: 3000,
-            pos: 'top-center'
-        });
-
+        if(alertMessage){
+            $.UIkit.notify({
+                message: '<span style="color: dodgerblue">New Order <b>#' + newOrder.refId + ' added.</b></span><br>',
+                status: 'success',
+                timeout: 3000,
+                pos: 'top-center'
+            });
+        }
         if (liveOrdersList.length == 0) {
             $($order).appendTo('#liveOrdersList .mCSB_container');
             return;
@@ -126,16 +139,18 @@
         $($order).insertAfter('#liveOrdersList a:last');
     }
 
-    function removeOrder(newOrder) {
+    function removeOrder(newOrder, alertMessage) {
         console.log("DEBUG: remove order : " + newOrder);
         var orderRefId = newOrder.refId;
         var orderDOM = $('#liveOrdersList').find('#' + orderRefId);
-        $.UIkit.notify({
-            message: '<span style="color: dodgerblue">Order <b>' + orderRefId + '</b> has been canceled!</span><br>',
-            status: 'danger',
-            timeout: 3000,
-            pos: 'top-center'
-        });
+        if(alertMessage){
+            $.UIkit.notify({
+                message: '<span style="color: dodgerblue">Order <b>' + orderRefId + '</b> has been canceled!</span><br>',
+                status: 'danger',
+                timeout: 3000,
+                pos: 'top-center'
+            });
+        }
         $(orderDOM).fadeOut();
     }
 

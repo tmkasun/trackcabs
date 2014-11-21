@@ -33,10 +33,9 @@
         <ul class="nav navbar-nav">
             <li><a href="<?= site_url('cro_controller')?>" >CRO</a></li>
             <li class="active"><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
-            <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >Search Bookings</a></li>
+            <li><a href="<?= site_url('cro_controller/loadBookingsView')?>" >Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
             <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
-            <li><a href="<?= site_url('cro_controller/loadPOBBoardView')?>" >POB Board</a></li>
             <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a></li>
         </ul>
 

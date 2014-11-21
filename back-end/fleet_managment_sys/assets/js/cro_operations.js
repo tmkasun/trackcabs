@@ -10,8 +10,8 @@ function addInquireCall(url , objId){
 
 }
 
-function getEditBookingView(url , objId){
-    var data = {'objId' : objId};
+function getEditBookingView(url , bookingObjId){
+    var data = {'objId' : bookingObjId};
     url = url +"/cro_controller/getEditBookingView";
     var view = ajaxPost(data,url);
     /*  Populate the New Booking field with the editing form */
@@ -28,6 +28,7 @@ function getEditBookingView(url , objId){
 
     var payType = bookingObj[index]['payType'];
     var vType = bookingObj[index]['vType'];
+    alert(vType);
     if(vType == 'car'){
         $('#carRadio').addClass(' active');
     }
@@ -39,7 +40,7 @@ function getEditBookingView(url , objId){
     }
 
     if(payType == 'cash')
-    $('#payTypeCash').addClass(' active');
+        $('#payTypeCash').addClass(' active');
 
     if(payType == 'credit')
         $('#payTypeCredit').addClass(' active');

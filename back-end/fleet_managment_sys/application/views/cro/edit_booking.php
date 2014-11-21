@@ -99,8 +99,8 @@
                         <div class="form-group">
                             <label class="control-label" style="font-weight:bold">Payment Type</label></br>
                             <div class="btn-group">
-                                <button id="payTypeCash" type="button" data-set="payment" value="cash" class="btn btn-default customRadio <?php if($payType == 'cash')echo 'active';?>" >Cash</button>
-                                <button id="payTypeCredit" type="button" data-set="payment" value="credit" class="btn btn-default customRadio <?php if($payType  == 'credit')echo 'active';?>" >Credit Card</button>
+                                <button id="payTypeCash" type="button" data-set="payment" value="cash" class="btn btn-default customRadio" >Cash</button>
+                                <button id="payTypeCredit" type="button" data-set="payment" value="credit" class="btn btn-default customRadio" >Credit Card</button>
                             </div>
                             <input style="display: none" class="customRadio" name="paymentType" id="paymentType">
                         </div>

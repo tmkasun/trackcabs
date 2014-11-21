@@ -363,6 +363,17 @@ function getCustomerInfoView( url , tp ){
     $('#callHistory').html(view.view.call_history_view);
 }
 
+function addComplaint(url,refId){
+    var complaint = prompt("Please enter your complaint", "");
+    if (complaint != "") {
+        url = url + "/complaint_controller/record_complaint";
+        var data={
+
+        }
+
+    }
+}
+
 function getSimilarTpNumbers(url , tp){
     url = url + "/customer_retriever/getSimilarTpNumbers";
     var data = {"tp" : tp};
@@ -447,7 +458,6 @@ function uiInit(){
 }
 
 function changeJobInfoViewByRefId(bookingObjId){
-
     var index = -1;
     for(var i=0 ; i < bookingObj.length ; i++){
         index++;
@@ -495,24 +505,19 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobBookTime').html(bookDate.toDateString()+'</br>'+bookDate.toTimeString());
     $('#jobCallTime').html(callDate.toDateString()+'</br>'+callDate.toTimeString());
     $('#jobDispatchB4').html(bookingObj[index]['dispatchB4']);
-    $('#jobPayType').html(bookingObj[index]['jobPayType']);
+    $('#jobPayType').html(bookingObj[index]['payType']);
 
     $('#jobDriverTp').html(bookingObj[index]['driverTp']);
     $('#jobCabColor').html(bookingObj[index]['cabColor']);
     $('#jobCabPlateNo').html(bookingObj[index]['cabPlateNo']);
     $('#jobPagingBoard').html(bookingObj[index]['pagingBoard']);
-    $('#jobInquireButton').html(bookingObj[index]['inqCall']);
+    $('#jobInquireButtonCount').html(bookingObj[index]['inqCall']);
 
 
+    $('#jobEditButton').attr("onclick", "operations('editBooking',"+bookingObj[index]['_id']['$id']+")");
+    //$('#jobEditButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'editBooking\', \''+ bookingObj[index]['_id']['$id']  +'\')">Edit Booking</button></div>');
+    $('#jobCancelButton').html('<div class="btn-group"> <button type="button" class="btn btn-danger" onclick="operations(\'cancel\', \'' + bookingObj[index]['_id']['$id']   +  '\')">Cancel</button></div>');
 
-    var status = bookingObj[index]['status'];
-    if( status == 'START' ||  status == 'MSG_COPIED' || status == 'MSG_NOT_COPIED' || status == 'AT_THE_PLACE') {
-        $('#jobEditButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'editBooking\', \''+ bookingObj[index]['_id']['$id']  +'\')">Edit Booking</button></div>');
-    }
-
-    if( status == 'START' ||  status == 'MSG_COPIED' || status == 'MSG_NOT_COPIED' || status == 'AT_THE_PLACE') {
-        $('#jobCancelButton').html('<div class="btn-group"> <button type="button" class="btn btn-danger" onclick="operations(\'cancel\', \'' + bookingObj[index]['_id']['$id']   +  '\')">Cancel</button></div>');
-    }
 }
 
 function addUserToCooperateProfile(url,tp){

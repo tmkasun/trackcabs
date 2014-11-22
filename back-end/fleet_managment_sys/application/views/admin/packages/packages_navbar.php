@@ -9,7 +9,7 @@
         <li><a href="#" id="driver" onclick="getCROsView(this.id)">Drivers</a></li>
         <li><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>
         <li><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
-        <li><a href="#" id="accounts" onclick="getAccountsView(this.id)">Accounts</a></li>
+        <li><a href="#" id="reports" onclick="getReportsView(this.id)">Reports</a></li>
         <li  class="active"><a href="#" id="packages" onclick="getPackagesView(this.id)">Packages</a></li>
     </ul>
 

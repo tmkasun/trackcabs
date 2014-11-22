@@ -6,9 +6,7 @@
 
     <ul class="nav navbar-nav">
         <li><a href="#" onclick="getCabsDefaultView(url, docs_per_page , page)">Cabs</a></li>
-<!--        <li><a href="#" onclick="getDriversView()">Drivers</a></li>-->
         <li><a href="#" id="driver" onclick="getCROsView(this.id)">Drivers</a></li>
-<!--        <li class="active"><a href="#" onclick="getDispatchersView()">Dispatcher</a></li>-->
         <li ><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>
         <li class="active"><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
         <li><a href="#" id="reports" onclick="getReportsView(this.id)">Reports</a></li>

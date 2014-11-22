@@ -164,7 +164,8 @@ class Customer_retriever extends CI_Controller
             $bookingData['cancelReason'] = $input_data['cancelReason'];
             $this->history_dao->createBooking($bookingData);
 
-            $message = 'Your booking ' . $bookingData['refId'] . '. has been canceled. Have a nice day';
+            $message = 'Your booking has been canceled. Sorry for the inconvenience. Ref.No : ' . $bookingData['refId'] .
+                        '.Cancel Reason : ' .$bookingData['cancelReason']. '. Thank You for calling Hao City Cabs : 2 888 888';
             $this->sendSms($bookingData, $message);
 //
 //            /* Send the canceled booking to the dispatch view */

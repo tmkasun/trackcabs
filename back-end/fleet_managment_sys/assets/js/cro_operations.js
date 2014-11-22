@@ -584,5 +584,4 @@ function fillAddressToBookingFromHistory(bookingObjId){
     $('#city').val(historyBookingObj[index]['address']['city']);
     $('#town').val(historyBookingObj[index]['address']['town']);
     $('#landMark').val(historyBookingObj[index]['address']['landmark']);
-    $('#newBooking').scrollIntoView();
 }

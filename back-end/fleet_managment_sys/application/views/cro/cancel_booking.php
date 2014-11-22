@@ -5,31 +5,31 @@
 
         <div class="form-group">
             <label class="radio-inline">
-                <input type="radio" id="cancel1Radio" name="cancelReason" value="1"> Appointment Cancelled
+                <input type="radio" id="cancel1Radio" name="cancelReason" value="Appointment Cancelled"> Appointment Cancelled
             </label> </br>
             <label class="radio-inline">
-                <input type="radio" id="cancel2Radio" name="cancelReason" value="2"> Cancelled By Customer
+                <input type="radio" id="cancel2Radio" name="cancelReason" value="Cancelled By Customer"> Cancelled By Customer
             </label> </br>
             <label class="radio-inline">
-                <input type="radio" id="cancel3Radio" name="cancelReason" value="3"> Got a Lift
+                <input type="radio" id="cancel3Radio" name="cancelReason" value="Got a Lift"> Got a Lift
             </label> </br>
             <label class="radio-inline">
-                <input type="radio" id="cancel4Radio" name="cancelReason" value="4"> Delayed By Base
+                <input type="radio" id="cancel4Radio" name="cancelReason" value="Delayed By Base"> Delayed By Base
             </label> </br>
             <label class="radio-inline">
-                <input type="radio" id="cancel4Radio" name="cancelReason" value="5"> No Response
+                <input type="radio" id="cancel4Radio" name="cancelReason" value="No Response"> No Response
             </label> </br>
             <label class="radio-inline">
-                <input type="radio" id="cancel4Radio" name="cancelReason" value="6"> Unavoidable Circumstances
+                <input type="radio" id="cancel4Radio" name="cancelReason" value="Unavoidable Circumstances"> Unavoidable Circumstances
             </label> </br>
             <label class="radio-inline">
-                <input type="radio" id="cancel4Radio" name="cancelReason" value="7"> Duplicate Booking
+                <input type="radio" id="cancel4Radio" name="cancelReason" value="Duplicate Booking"> Duplicate Booking
             </label> </br>
             <label class="radio-inline">
-                <input type="radio" id="cancel4Radio" name="cancelReason" value="8"> Picked By another company car
+                <input type="radio" id="cancel4Radio" name="cancelReason" value="Picked By another company car"> Picked By another company car
             </label> </br>
             <label class="radio-inline">
-                <input type="radio" id="cancel4Radio" name="cancelReason" value="9"> No vehicles at location
+                <input type="radio" id="cancel4Radio" name="cancelReason" value="No vehicles at location"> No vehicles at location
             </label> </br>
         </div>
 

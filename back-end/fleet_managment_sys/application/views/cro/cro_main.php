@@ -226,6 +226,10 @@
                 addInquireCall(url ,param1);
                 getCustomerInfoView(url , tp);
             }
+            if(request == 'addComplaint'){
+                addComplaint(url,param1);
+                getCustomerInfoView(url , tp);
+            }
             uiInit();
         }
     </script>

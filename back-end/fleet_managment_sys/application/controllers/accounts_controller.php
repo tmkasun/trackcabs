@@ -47,4 +47,31 @@ class Accounts_controller extends CI_Controller
         $data['table_content'] = $this->load->view('admin/accounts/accounts_sidepanel', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
+
+    function getBookingsByDateRange(){
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $startDate = new MongoDate(strtotime($input_data['startDate']));
+        $endDate = new MongoDate(strtotime($input_data['endDate']));
+        $userId = $input_data['userId'];
+        $historyCursor = $this->history_dao->getBookingsByDateRange($startDate,$endDate,$userId);
+        $liveCursor = $this->live_dao->getBookingsByDateRange($startDate,$endDate,$userId);
+        $data= array('data'=> array());
+        foreach ($liveCursor as $booking) {
+            $data['data'][]= $booking;
+        }
+        foreach ($historyCursor as $booking) {
+            $data['data'][]= $booking;
+        }
+
+        $data['table_content'] = $this->load->view('admin/accounts/summary_table', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
+    }
+
+    function getSummaryView(){
+        $driverIds = $this->user_dao->getUserIds_by_type('driver');
+        $data['driverIds'] = $driverIds;
+        $data['table_content'] = $this->load->view('admin/accounts/summary_view', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
+
+    }
 }

@@ -64,6 +64,7 @@ class Testing extends CI_Controller
 //        db.lk_test.find(    {location:
 //            { $near :{$geometry: { type: "Point",  coordinates: [ 79.861979,7.190108  ] },$minDistance: 0,
 //              $maxDistance: 2000 }}} )
+
         $geo_names = $this->geo_name->geoCode(
             array(
                 'location' => array(
@@ -79,7 +80,7 @@ class Testing extends CI_Controller
             )
         );
         $this->output->set_content_type('Content-Type: application/json');
-        echo $geo_names;
+        echo json_encode($geo_names);
     }
 
     function new_orders()
@@ -150,5 +151,11 @@ class Testing extends CI_Controller
         $order = $this->live_dao->getBooking($refId);
         $this->live_dao->updateStatus((string)$order['_id'], "CANCEL");
 
+    }
+
+    function pabxData(){
+        $refId = $this->input->post();
+        log_message('info',$refId);
+        echo "ok";
     }
 }

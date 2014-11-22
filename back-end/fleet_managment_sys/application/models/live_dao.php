@@ -49,6 +49,17 @@ class Live_dao extends CI_Model
         return $collection->findOne($searchQuery);
     }
 
+    function getBookingsByDateRange($startDate,$endDate,$userId){
+        $collection = $this->get_collection();
+        if($userId == "0") {
+            $searchQuery = array('bookTime' => array('$gt' => $startDate, '$lte' => $endDate));
+        }else{
+            $searchQuery = array('bookTime' => array('$gt' => $startDate, '$lte' => $endDate),'driverId' => new MongoInt32($userId));
+        }
+        return $collection->find($searchQuery);//var_dump($cursor);
+
+    }
+
     function getBookingByTown($town){
         $collection = $this->get_collection();
         $searchQuery= array('address.town' => $town);

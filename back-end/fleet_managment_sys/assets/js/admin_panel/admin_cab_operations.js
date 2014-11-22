@@ -110,6 +110,16 @@ function updateCab(url , docs_per_page , page ){
     getAllCabs(docs_per_page , page ,baseUrl);
 }
 
+function deleteCab(cabId){
+    // Confirm Msg Box
+    var data = {'cabId' : parseInt(cabId) };
+    var url = '<?php echo site_url("cab_retriever/deleteCab") ?>';
+    var result = ajaxPost(data,url);
+    var div = document.getElementById('dataFiled');
+    div.innerHTML = "";
+
+}
+
 function cabAjaxPost(data,urlLoc)    {
     var result=null;
     $.ajax({

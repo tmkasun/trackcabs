@@ -13,6 +13,8 @@
             <th>Blocked</th>
             <th>Action</th>
         </tr>
+        <?php if(isset($userId)){ ?>
+
         <tr>
             <td><?= $userId; ?></td>
             <td><?= $name ?></td>
@@ -29,7 +31,7 @@
                 </div>
             </td>
         </tr>
-
+        <?php } ?>
     </table>
 
     </br>

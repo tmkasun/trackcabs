@@ -92,7 +92,8 @@ class Customer_retriever extends CI_Controller
                                 'a privilege to serve you. Hao City Cabs : 2 888 888';
             $this->sendWelcomeMessage($bookingCreated, $welcomeMessage);
         }
-        $message = 'Your order has been confirmed. The booking number is ' . $input_data['data']['refId'] . '. Have a nice day';
+        $message = 'Your order has been confirmed. Date : '. $input_data['bDate']. ' Time :'. $input_data['bTime'].' Ref . No :' . $input_data['data']['refId'] .
+                    '. ThankYou for calling Hao City Cabs : 2 888 888.';
         $this->sendSms($bookingCreated, $message);
 //
 //        /* Send the newly added booking to the dispatch view */
@@ -155,6 +156,7 @@ class Customer_retriever extends CI_Controller
             $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
             $this->live_dao->deleteBookingByMongoId($input_data['_id']);
             /* Add removed booking from live to the history collection */
+            $bookingData['cancelReason'] = $input_data['cancelReason'];
             $this->history_dao->createBooking($bookingData);
 
             $message = 'Your booking ' . $bookingData['refId'] . '. has been canceled. Have a nice day';

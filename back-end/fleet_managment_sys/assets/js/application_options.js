@@ -51,7 +51,7 @@ function initApplicationOptions() {
         },
         constance: {
             BASE_URL: getBaseURL(),
-            WEBSOCKET_URL: 'localhost',
+            WEBSOCKET_URL: '192.168.0.2',
             WEBSOCKET_PORT: '8080',
 
             SPEED_HISTORY_COUNT: 20,

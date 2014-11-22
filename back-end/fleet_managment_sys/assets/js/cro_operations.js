@@ -249,8 +249,7 @@ function updateBooking(url , objId){
             'pagingBoard' : pagingBoard
         }
     };
-    alert(JSON.stringify(data));
-    //ajaxPost(data,url);
+    ajaxPost(data,url);
 }
 
 function editCustomerInfoEditView( url , tp ){

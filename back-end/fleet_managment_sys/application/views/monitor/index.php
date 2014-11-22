@@ -201,7 +201,9 @@
                 <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
                 <td id="mst"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
                 <td id="cabId"><?= $order['cabId'] ?></td>
-ww                <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId']); echo($driver['tp']) ?></td>
+
+                <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'],'driver'); echo($driver['tp']) ?></td>
+
                 <td id="address"><?= implode(", ", $order['address']) ?></td>
                 <td id="agent"><?= $order['croId'] ?></td>
                 <td>Inquiries</td>

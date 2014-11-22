@@ -85,6 +85,7 @@ var webSocketOnMessage = function processMessage(message) {
     notifyAlert(geoJsonFeature.properties.orderId);
     $.getJSON("monitor/getOrder/" + geoJsonFeature.properties.orderId, function (order) {
         geoJsonFeature.properties.order = order;
+        debugObject = geoJsonFeature.properties.order;
         if (geoJsonFeature.id in currentCabsList) { // TODO: actual value properties.cabId
             console.log("DEBUG: geoJsonFeature.id in +" + geoJsonFeature.id);
             var excitingCab = currentCabsList[geoJsonFeature.id];

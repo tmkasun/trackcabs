@@ -60,10 +60,13 @@
                     <div class="col-lg-9">
                         <div class="col-lg-4">
                             <?php $status =$history_booking[$index]['status']; ?>
+
                             <h5>Address </h5>
                         <span id="jobAddress">
                             <?= implode(", ", $history_booking[$index]['address']);?>
                         </span>
+                            <h5>Destination</h5>
+                            <span id="jobRemark"><?= $history_booking[$index]['destination']?></span>
                             <h5>Remark </h5>
                             <span id="jobRemark"><?= $history_booking[$index]['remark']?></span>
                             <h5>Specifications</h5>
@@ -85,7 +88,7 @@
                             <h5>Dispatch Before </h5>
                             <span id="jobDispatchB4"><?= $history_booking[$index]['dispatchB4'];?> min
                             <h5>Pay Type</h5>
-                            <span id="jobPayType"><?= $live_booking[$index]['payType'];?>
+                            <span id="jobPayType"><?= $history_booking[$index]['payType'];?>
                         </div>
 
                         <div class="col-lg-3">
@@ -100,8 +103,42 @@
                             <span id="jobPagingBoard"><?php echo $history_booking[$index]['pagingBoard'];?>
                             </span>
                         </div>
+
+                        <div class="col-lg-2">
+                            <div class="col-lg-12">
+                                <div class="btn-group ">
+                                    <button id="jobEditButton" type="button" style="width: 112px" class="btn btn-default"
+                                            onclick="operations('editBooking', '<?= $history_booking[$index]['_id'];?>')">Edit Booking</button>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12" style="margin-top: 2px">
+                                <div class="btn-group">
+                                    <button id="jobInquireButton" style="width: 112px" class="btn btn-default" type="button"
+                                            onclick="operations('addInquireCall', '<?= $history_booking[$index]['_id'];?>')">
+                                        Inquire <span class="badge" id="jobInquireButtonCount"><?= $history_booking[$index]['inqCall'];?></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div  class="col-lg-12" style="margin-top: 2px">
+                                <div class="btn-group">
+                                    <button id="jobComplaintButton" style="width: 112px" type="button" class="btn btn-default"
+                                            onclick="operations('addComplaint', '<?= $history_booking[$index]['refId'];?>')">Complaint</button>
+                                </div>
+                            </div>
+
+                            <div  class="col-lg-12" style="margin-top: 2px">
+                                <div class="btn-group">
+                                    <button id="jobCancelButton" style="width: 112px" type="button" class="btn btn-danger"
+                                            onclick="operations('cancel', '<?= $history_booking[$index]['_id'];?>')">Cancel</button>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     <?php endif;?>

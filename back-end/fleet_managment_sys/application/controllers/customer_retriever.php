@@ -62,8 +62,8 @@ class Customer_retriever extends CI_Controller
         $input_data["data"]["bookTime"] = new MongoDate(strtotime($input_data['data']['bDate'] . " " . $input_data["data"]['bTime']));
 
         /* Unset the values of bDate and bTime */
-        unset($input_data['data']['bTime']);
-        unset($input_data['data']['bDate']);
+        //unset($input_data['data']['bTime']);
+        //unset($input_data['data']['bDate']);
 
         $input_data["data"]["tp"] = $input_data["tp"];
         $customerProfile = $this->customer_dao->getCustomer($input_data['tp']);
@@ -92,8 +92,13 @@ class Customer_retriever extends CI_Controller
                                 'a privilege to serve you. Hao City Cabs : 2 888 888';
             $this->sendWelcomeMessage($bookingCreated, $welcomeMessage);
         }
-        $message = 'Your order has been confirmed. Date : '. $input_data['bDate']. ' Time :'. $input_data['bTime'].' Ref . No :' . $input_data['data']['refId'] .
-                    '. ThankYou for calling Hao City Cabs : 2 888 888.';
+        $message = 'Your order has been confirmed. Date : '. $input_data['data']['bDate'].
+                    ' Time :'. $input_data['data']['bTime'].' Ref . No :' . $input_data['data']['refId'];
+
+        if($input_data['callUpPrice'] =! '-'){
+            $message = $message . ' Call Up Price : ' . $input_data['callUpPrice'];
+        }
+        $message = $message . ' ThankYou for calling Hao City Cabs : 2 888 888.';
         $this->sendSms($bookingCreated, $message);
 //
 //        /* Send the newly added booking to the dispatch view */

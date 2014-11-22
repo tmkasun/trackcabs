@@ -168,6 +168,7 @@ class Cro_controller extends CI_Controller
                             }
                             $bookingData['live_booking'][] = $liveData ;
                         }
+
                         $historyData = $this->history_dao->getBookingByMongoId($newKey['_id']);
                         if($historyData != null){
 

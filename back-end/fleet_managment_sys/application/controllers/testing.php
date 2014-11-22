@@ -99,7 +99,7 @@ class Testing extends CI_Controller
     function send()
     {
         $sms = new Sms("Testing message");
-        $sent = $sms->send("0711661919", "Testing message");
+        $sent = $sms->send("0711661919", "Testing sms from system!");
         var_dump($sent);
     }
 

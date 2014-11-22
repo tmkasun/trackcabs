@@ -66,7 +66,7 @@ class User_controller extends CI_Controller
         $userId = $input_data['userId'];
         $user_type = $input_data['user_type'];
         
-        $data = $this->user_dao->getUser($userId);
+        $data = $this->user_dao->getUser($userId,$user_type);
 
         $data['table_content'] = $this->load->view('admin/'.$user_type.'/'.$user_type.'_search', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
@@ -82,14 +82,14 @@ class User_controller extends CI_Controller
             {                
                 $cursor= $this->cab_dao->get_unassigned_cabs();
                 foreach($cursor as $cab_id){$cab_ids[] = $cab_id;}
-                $data = $this->user_dao->getUser($userId); 
+                $data = $this->user_dao->getUser($userId,$user_type);
                 $data['cab_ids'] = $cab_ids;//array('cab_ids' => $cab_ids);//array_merge($data,$cab_ids);
                 $data[$user_type.'_edit_view'] = $this->load->view('admin/'.$user_type.'/edit_'.$user_type, $data, TRUE);
                 //$data['table_content'] = $this->load->view('admin/'.$user_type.'/new_'.$user_type.'_view',array('cab_ids' => $cab_ids),TRUE);
             }
         else
             {
-                $data = $this->user_dao->getUser($userId);                
+                $data = $this->user_dao->getUser($userId,$user_type);
                 $data[$user_type.'_edit_view'] = $this->load->view('admin/'.$user_type.'/edit_'.$user_type, $data, TRUE);
             }        
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
@@ -168,7 +168,7 @@ class User_controller extends CI_Controller
 
     function getUser(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $result = $this->user_dao->getUser($input_data['userId']);
+        $result = $this->user_dao->getUser($input_data['userId'],$input_data['user_type']);
         $this->output->set_output(json_encode(array("statusMsg" => "success","data" => $result )));
 
     }
@@ -178,6 +178,20 @@ class User_controller extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $result = $this->user_dao->getUsersByPage($input_data['limit'],$input_data['skip']);
         $this->output->set_output(json_encode(array("statusMsg" => "success","data" => $result )));
+    }
+
+    function deleteUser(){
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $result = $this->user_dao->deleteUser($input_data['userId']);
+        if($input_data['user_type']=='driver'){
+            $result = $this->cab_dao->deleteCabDriver($input_data['userId']);
+        }
+        $this->output->set_output(json_encode(array("statusMsg" => "success","data" => $result )));
+
+    }
+
+    function checkExistingUser($uName){
+        return $this->user_dao->checkExisting($uName);
     }
 
     function getAllUsers(){

@@ -28,5 +28,6 @@
         <input type="text" class="form-control" id="userId"  readonly="readonly" value="<?php if(!isset($userId) || $userId === 'empty'){echo 'empty';}else {echo $userId;}?>">
     </div>
     <button type="submit" class="btn btn-default" onclick="updateCab(url, docs_per_page , page )">Save</button>
+    <button type="submit" class="btn btn-default" onclick="deleteCab(<?= $cabId;?>)">Delete</button>
 </form>
 

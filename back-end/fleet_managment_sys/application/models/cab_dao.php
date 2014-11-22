@@ -35,6 +35,26 @@ class Cab_dao extends CI_Model
         return $statusMsg;
     }
 
+    function deleteCab($cabId)
+    {
+        $collection = $this->get_collection();
+        $searchQuery= array('cabId' => (int)$cabId);
+        $collection->remove($searchQuery);
+        $record = $collection->findOne($searchQuery);
+        if( $record == null){ $statusMsg=true;}
+        else {$statusMsg = false;}
+        return $statusMsg;
+    }
+
+    function deleteCabDriver($driverId){
+        $collection = $this->get_collection();
+        $cabArray = array('userId' => '-1');
+        $searchQuery= array('userId' => $driverId);
+        //$record = $collection->findOne($searchQuery);
+        $collection->update($searchQuery,array('$set' => $cabArray));
+
+    }
+
     function updateCab($cabId , $cabArray){
         
         $driverId = $cabArray['userId'];

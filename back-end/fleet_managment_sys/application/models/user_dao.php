@@ -30,11 +30,11 @@ class User_dao extends CI_Model
         return $statusMsg;
     }
 
-    function getUser($userId)
+    function getUser($userId,$userType)
     {
         $collection = $this->get_collection();
 
-        $searchQuery = array('userId' => (int)$userId);
+        $searchQuery = array('userId' => (int)$userId , 'user_type' => $userType);
    // TODO: FTW ? parameter  name is userId and searching for uName while
         //there is an attribute for userId FK
         $user = $collection->findOne($searchQuery);
@@ -48,6 +48,17 @@ class User_dao extends CI_Model
         $searchQuery = array('userId' => (int)$userId);
         $user = $collection->findOne($searchQuery);
         return $user;
+    }
+
+    function deleteUser($userId)
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array('userId' => $userId);
+        $collection->remove($searchQuery);
+        $record = $collection->findOne($searchQuery);
+        if( $record == null){ $statusMsg=true;}
+        else {$statusMsg = false;}
+        return $statusMsg;
     }
 
     //This function will be used if needed to get all user types
@@ -91,6 +102,20 @@ class User_dao extends CI_Model
         }
 
         return $users;
+    }
+
+    function getUserIds_by_type($type)
+    {
+        $collection = $this->get_collection();
+
+        $user_type = array('user_type' => $type);
+        $cursor = $collection->find($user_type);
+        $userIds= array();
+        foreach ($cursor as $user) {
+            $userIds[]= $user['userId'];
+        }
+
+        return $userIds;
     }
 
     //This function is used to get all users of a certain type, limited to page size

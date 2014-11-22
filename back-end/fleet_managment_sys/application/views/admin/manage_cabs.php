@@ -308,6 +308,17 @@
         var result = ajaxPost(user,url);
 
     }
+
+    function deleteCRO(userId,userType){
+        // Confirm Msg Box
+        var user = { 'userId' : parseInt(userId) , 'user_type' : userType};
+        var url = '<?php echo site_url("user_controller/deleteUser") ?>';
+        var result = ajaxPost(user,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+
+    }
+
     function getCROView(id){//alert("in getCROView");
 
         var userId = document.getElementById("userIdSearch").value;

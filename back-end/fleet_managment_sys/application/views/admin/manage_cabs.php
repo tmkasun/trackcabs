@@ -38,7 +38,8 @@
 <!--            <li><a href="#" id="dispatcher" onclick="getDispatchersView(this.id)">Dispatcher</a></li>-->
             <li><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>
             <li><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
-            <li><a href="#" id="accounts" onclick="getAccountsView(this.id)">Accounts</a></li>
+            <li><a href="#" id="reports" onclick="getReportsView(this.id)">Reports</a></li>
+            <li><a href="#" id="packages" onclick="getPackagesView(this.id)">Packages</a></li>
         </ul>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -81,219 +82,12 @@
 </div>
 <!-- Driver javascript-->
 <script>
-    function getDriver(){alert("in getDriver");
-
-        var driverId = document.getElementById("driverIdSearch").value;
-        /* Create a JSON object from the form values */
-        var driver = { 'driverId' : parseInt(driverId) };
-        var url = '<?php echo site_url("driver_retriever/getDriver") ?>';
-        var result = ajaxPost(driver,url);
-
-    }
-    function getDriverView(){alert("in getDriverView");
-
-        var driverId = document.getElementById("driverIdSearch").value;
-        /* Create a JSON object from the form values */
-        var driver = { 'driverId' : parseInt(driverId) };
-        var url = '<?php echo site_url("driver_retriever/getDriverSearchView") ?>';
-        var result = ajaxPost(driver,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.table_content;
-
-    }
-
-    function makeDriverFormEditable(driverId , url){alert("in makeDriverFormEditable");
-
-        var data = {'driverId' : parseInt(driverId) };
-        url =url + "/driver_retriever/getDriverEditView";
-        var result = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.driver_edit_view;
-    }
-
-    function updateDriver(url , docs_per_page , page ){alert("in updateDriver");
-
-        var driverId = document.getElementById("driverId").value;
-        var name = document.getElementById("name").value;
-        var uName = document.getElementById("uName").value;
-        var pass = document.getElementById("pass").value;
-        var nic = document.getElementById("nic").value;
-        var tp = document.getElementById("tp").value;
-        var cabIdAssigned = document.getElementById("cabIdAssigned").value;
-         /* Returns the function if validation fails */
-         /* Create a JSON object from the form values */
-
-        var driver =  {'driverId': parseInt(driverId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp ,'cabId' : cabIdAssigned }};
-        var baseUrl=url;
-        var url = '<?php echo site_url("driver_retriever/updateDriver") ?>';
-        ajaxPost(driver,url);
-        getAllDriversView(docs_per_page , page ,baseUrl);
-    }
-
-    function getDriversView(){alert("in getDriversView");
-        var data = {};
-        /* Get the nav bar for driver management view */
-        var url = '<?php echo site_url("driver_retriever/getDriverNavBarView") ?>';
-        var result = ajaxPost(data,url);
-        /* Append the values for the div tag field */
-        var div = document.getElementById('navBarField');
-        div.innerHTML = result.view.table_content;
-
-        url = '<?php echo site_url("driver_retriever/getSidePanelView") ?>';
-        result = ajaxPost(data,url);
-
-        div = document.getElementById('operation');
-        div.innerHTML =  result.view.table_content;
-
-        getAllDriversView();
-    }
-
-    function getNewDriverView(){alert("in getNewDriverView");
-
-        var data = {};
-        var url = '<?php echo site_url("driver_retriever/getNewFormDriverView") ?>';
-        var result = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.table_content;
-    }
-
-    function createNewDriver(){alert("in createNewDriver");
-        var name = document.getElementById("name").value;
-        var uName = document.getElementById("uName").value;
-        var pass = document.getElementById("pass").value;
-        var nic = document.getElementById("nic").value;
-        var tp = document.getElementById("tp").value;
-        var cabIdAssigned = document.getElementById("cabIdAssigned").value;
-        if(name == "" ){return false;}
-        if(uName == "" ){return false;}
-        if(pass == "" ){return false;}
-        if(nic == "" ){return false;}
-        if(tp == "" ){return false;}
-
-        if(cabIdAssigned == "" ){cabIdAssigned="null"}
-        /* Create a JSON object from the form values */
-        var driver = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp ,'cabId' : cabIdAssigned };
-        var url = '<?php echo site_url("driver_retriever/createDriver") ?>';
-        alert(JSON.stringify(driver));
-        ajaxPost(driver,url);
-        getAllDriversView();
-    }
-
-    /* Gets all available cabs and show in the 'dataFiled' div tag */
-    function getAllDriversView(){alert("in getAllDriversView");
-        var skip = docs_per_page * (page-1);
-        var data = {"skip" : skip , "limit" : docs_per_page};
-        var url = '<?php echo site_url("driver_retriever/getAllDriversView") ?>';
-        var view = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = "";
-        div.innerHTML = view.view.table_content;
-
-    }
+   
 </script>
 
 <!-- Dispatcher javascript-->
 <script>
-    function getDispatcher(){alert("in getDispatcher");
-
-        var dispatcherId = document.getElementById("dispatcherIdSearch").value;
-        /* Create a JSON object from the form values */
-        var driver = { 'dispatcherId' : parseInt(dispatcherId) };
-        var url = '<?php echo site_url("dispatcher_retriever/getDispatcher") ?>';
-        var result = ajaxPost(driver,url);
-
-    }
-    function getDispatcherView(){alert("in getDispatcherView");
-
-        var dispatcherId = document.getElementById("dispatcherIdSearch").value;
-        /* Create a JSON object from the form values */
-        var dispatcher = { 'dispatcherId' : parseInt(dispatcherId) };
-        var url = '<?php echo site_url("dispatcher_retriever/getDispatcherSearchView") ?>';
-        var result = ajaxPost(dispatcher,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.table_content;
-
-    }
-
-    function makeDispatcherFormEditable(dispatcherId , url){alert("in makeDispatcherFormEditable");
-
-        var data = {'dispatcherId' : parseInt(dispatcherId) };
-        url =url + "/dispatcher_retriever/getDispatcherEditView";
-        var result = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.dispatcher_edit_view;
-    }
-
-    function getDispatchersView(){alert("in getDispatchersView");
-        var data = {};
-        /* Get the nav bar for driver management view */
-        var url = '<?php echo site_url("dispatcher_retriever/getDispatcherNavBarView") ?>';
-        var result = ajaxPost(data,url);
-        /* Append the values for the div tag field */
-        var div = document.getElementById('navBarField');
-        div.innerHTML = result.view.table_content;
-
-        url = '<?php echo site_url("dispatcher_retriever/getSidePanelView") ?>';
-        result = ajaxPost(data,url);
-        div = document.getElementById('operation');
-        div.innerHTML =  result.view.table_content;
-
-        getAllDispatchersView();
-    }
-    function createNewDispatcher(){alert("in createNewDispatcher");
-        var name = document.getElementById("name").value;
-        var uName = document.getElementById("uName").value;
-        var pass = document.getElementById("pass").value;
-        var nic = document.getElementById("nic").value;
-        var tp = document.getElementById("tp").value;
-
-        if(name == "" ){return false;}
-        if(uName == "" ){return false;}
-        if(pass == "" ){return false;}
-        if(nic == "" ){return false;}
-        if(tp == "" ){return false;}
-        /* Create a JSON object from the form values */
-        var dispatcher = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp};
-        var url = '<?php echo site_url("dispatcher_retriever/createDispatcher") ?>';
-        alert(JSON.stringify(dispatcher));
-        ajaxPost(dispatcher ,url);
-        getAllDispatchersView();
-    }
-
-    function getAllDispatchersView(){alert("in getAllDispatchersView");
-        var skip = docs_per_page * (page-1);
-        var data = {"skip" : skip , "limit" : docs_per_page};
-        var url = '<?php echo site_url("dispatcher_retriever/getAllDispatchersView") ?>';
-        var view = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = "";
-        div.innerHTML = view.view.table_content;
-
-    }
-
-    function getNewDispatcherView(){alert("in getNewDispatcherView");
-
-        var data = {};
-        var url = '<?php echo site_url("dispatcher_retriever/getNewFormDispatcherView") ?>';
-        var result = ajaxPost(data,url);
-        var div = document.getElementById('dataFiled');
-        div.innerHTML = result.view.table_content;
-    }
-
-    function updateDispatcher(url , docs_per_page , page ){alert("in updateDispatcher");
-        var dispatcherId = document.getElementById("dispatcherId").value;
-        var name = document.getElementById("name").value;
-        var uName = document.getElementById("uName").value;
-        var pass = document.getElementById("pass").value;
-        var nic = document.getElementById("nic").value;
-        var tp = document.getElementById("tp").value;
-        var dispatcher =  {'dispatcherId': parseInt(dispatcherId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp}};
-        var baseUrl=url;
-        var url = '<?php echo site_url("dispatcher_retriever/updateDispatcher") ?>';
-        ajaxPost(dispatcher,url);
-        getAllDispatchersView(docs_per_page , page ,baseUrl);
-    }
-
+    
 </script>
 
 <!-- User javascript-->
@@ -307,6 +101,17 @@
         var result = ajaxPost(user,url);
 
     }
+
+    function deleteCRO(userId,userType){
+        // Confirm Msg Box
+        var user = { 'userId' : parseInt(userId) , 'user_type' : userType};
+        var url = '<?php echo site_url("user_controller/deleteUser") ?>';
+        var result = ajaxPost(user,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+
+    }
+
     function getCROView(id){//alert("in getCROView");
 
         var userId = document.getElementById("userIdSearch").value;
@@ -425,9 +230,24 @@
 
     }
 </script>
-<!-- Account javascript-->
+
+<!-- Reports javascript-->
 <script>
-    function getAccountViewFromDriverId(){
+    
+    function getReportViewFromDriverId(){
+
+        url ='<?php echo site_url("/complaint_controller/get_all_complaints_by_driver") ?>';
+        var driverId = document.getElementById("driverIdSearch").value;//alert(driverId);
+        /* Create a JSON object from the form values */
+        var driver = { 'userId_driver' : driverId };
+        var result = ajaxPost(driver,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = result.view.table_content;
+
+    }
+    
+    function get_complaint_report_view_from_refId(){
 
         url ='<?php echo site_url("/accounts_controller/getAccountsViewByDriverId") ?>';
         var driverId = document.getElementById("driverIdSearch").value;
@@ -438,33 +258,114 @@
         div.innerHTML = result.view.table_content;
 
     }
-    
-    function getAccountsView(){
 
-            var url = '<?php echo site_url("accounts_controller/getAccountsNavBarView") ?>';            
+    function getPackagesViewByPackageId(){
+
+        url ='<?php echo site_url("packages_controller/getPackagesViewByPackageId") ?>';
+        var packageId = document.getElementById("packageIdSearch").value;
+        var packaged = { 'packageId' : packageId  };
+        var result = ajaxPost(packaged,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.table_content;
+
+    }
+
+    function makePackagesFormEditable(packageId ){//alert("in makeCROFormEditable "+user_type);
+
+        var data = {'packageId' : packageId };
+        var url = '<?php echo site_url("packages_controller/getPackageEditView") ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.packages_edit_view;//result.view.type_edit_view;
+    }
+
+    function deletePackage(packageId){
+        // Confirm Msg Box
+        var data = {'packageId' : packageId };
+        var url = '<?php echo site_url("packages_controller/deletePackage") ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+
+    }
+    
+
+    function get_complaint_report_view_from_driverId(){}
+    
+    function getReportsView(){
+            var url = '<?php echo site_url("complaint_controller/getReportsNavBarView") ?>';            
             var result = ajaxPost(null,url);//alert("before call");
             /* Append the values for the div tag field */
             var div = document.getElementById('navBarField');//alert("CRO NavBar ok");
             div.innerHTML = "";
             div.innerHTML = result.view.table_content;//alert("ok");
 
-            url = '<?php echo site_url("accounts_controller/getSidePanelView") ?>';
+            
+            url = '<?php echo site_url("complaint_controller/getSidePanelView") ?>';
             result = ajaxPost(null,url);//alert("CRO SideBar ok");
             div = document.getElementById('operation');
             div.innerHTML =  result.view.table_content;
             
-            url ='<?php echo site_url("accounts_controller/getAllAccountsView") ?>'//url + "/accounts_controller/getAllAccountsView";
+            
+            url ='<?php echo site_url("complaint_controller/get_all_complaints") ?>'//url + "/accounts_controller/getAllAccountsView";
             var skip = docs_per_page * (page-1);
             var data = {"skip" : skip , "limit" : docs_per_page};
-            var view = ajaxPost(data,url);
+            
+            var view = ajaxPost(null,url);
             var div = document.getElementById('dataFiled');
             div.innerHTML = "";
             div.innerHTML = view.view.table_content;//alert("ok2");
 
 
     }
+
+    function getNewPackageView(url){
+
+        var data = {};
+        url ='<?php echo site_url("/packages_controller/getNewPackageView"); ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.new_package_view;
+
+    }
+
+    function createNewPackage(){
+        var packageName = document.getElementById("packageName").value;
+        var fee = document.getElementById("fee").value;
+        var info = document.getElementById("info").value;
+        var packaged = {'packageId':'','packageName' : packageName , 'fee' : fee , 'info' : info };
+        var url =  '<?php echo site_url("packages_controller/createPackage"); ?>';
+        alert(JSON.stringify(packaged));
+        ajaxPost(packaged,url);
+        getPackagesView();
+    }
+
+
+    function getPackagesView(){
+
+        var url = '<?php echo site_url("packages_controller/getPackagesNavBarView") ?>';
+        var result = ajaxPost(null,url);//alert("before call");
+        /* Append the values for the div tag field */
+        var div = document.getElementById('navBarField');//alert("CRO NavBar ok");
+        div.innerHTML = "";
+        div.innerHTML = result.view.table_content;//alert("ok");
+
+        url = '<?php echo site_url("packages_controller/getSidePanelView") ?>';
+        result = ajaxPost(null,url);//alert("CRO SideBar ok");
+        div = document.getElementById('operation');
+        div.innerHTML =  result.view.table_content;
+        url ='<?php echo site_url("packages_controller/getAllPackagesView") ?>'//url + "/accounts_controller/getAllAccountsView";
+        var skip = docs_per_page * (page-1);
+        var data = {"skip" : skip , "limit" : docs_per_page};
+        var view = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;
+    }
+
+
     
-    function updateAccounts(id,bookingChargeId){
+    function updateReports(id,bookingChargeId){
 
         var bookingCharge = document.getElementById(bookingChargeId).value;//console.log(bookingCharge);
         var refId = document.getElementById(id).innerHTML;
@@ -474,6 +375,37 @@
         document.getElementById("amount_percentage_of_"+id).innerHTML = Math.floor(((bookingCharge/100)*17));//parseInt(bookingCharge)
         //console.log(Math.floor(((bookingCharge/17)*100)));
         //getAccountsView();
+    }
+
+    function updatePackage(packageId) {
+        var packageName = document.getElementById("packageName").value;
+        var fee = document.getElementById("fee").value;
+        var info = document.getElementById("info").value;
+        var packaged = {'packageId':packageId,'packageName':packageName,'fee': fee, 'info': info};
+        var url = '<?php echo site_url("packages_controller/updatePackage") ?>';
+        ajaxPost(packaged, url);
+        getPackagesView();
+    }
+
+    function getBookingsByDateRange(id){
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+        var userId = document.getElementById("driverId").value;
+
+        var dates = {'startDate':startDate,'endDate': endDate,'userId':userId};
+        var url = '<?php echo site_url("accounts_controller/getBookingsByDateRange") ?>';
+
+        var result = ajaxPost(dates,url);
+        var div = document.getElementById('tableDiv');
+        div.innerHTML = result.view.table_content;
+    }
+
+    function getSummaryView(){
+        var url = '<?php echo site_url("accounts_controller/getSummaryView") ?>';
+        var result = ajaxPost(null,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.table_content;
+
     }
 </script>
 

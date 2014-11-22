@@ -8,8 +8,7 @@
         <th>Vehicle Type</th>
         <th>CRO Id</th>
         <th>Booking Charge</th>
-        <th>Action</th>
-        <th>Amount Receivable</th>
+
 
     </tr>
 
@@ -24,10 +23,9 @@
             <td><?= $item['driverId'];?></td>
             <td><?= $item['vType'];?></td>
             <td><?= $item['croId'];?></td>
-            <td><input type="text" id="bookingCharge<?= $item['refId'];?>" value="<?= $item['bookingCharge'];?>"/></td>
-            <td><button type="submit" class="btn btn-default" onclick="updateAccounts('<?= $item['refId'];?>','<?php echo "bookingCharge".$item['refId'];?>')">Save</button></td>
+            <td><input disabled type="text" id="bookingCharge<?= $item['refId'];?>" value="<?php if(isset($item['bookingCharge'])){echo $item['bookingCharge'];}else{echo "live Order";}?>"/></td>
             <td><font id="amount_percentage_of_<?php echo $item['refId']?>" color="<?php if($item['payType'] === 'cash'){echo '3300CC';}else{echo 'D80000 ';}?>"></font></td>
-            <td><button type="submit" class="btn btn-default" onclick="">Paid</button></td>
+
         </tr>
 
     <?php endforeach;?>

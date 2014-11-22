@@ -26,15 +26,19 @@ class Complaint_controller extends CI_Controller
     function get_all_complaints()
     {
         $complaints = $this->complaint_dao->get_all_complaints();
-        print_r($complaints);//comment the array print and load complaints to a view with jason encode
+        $complaints['table_content'] = $this->load->view('admin/reports/complaint_reports_view', $complaints, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $complaints)));
+       //print_r($complaints);//comment the array print and load complaints to a view with jason encode
         
     }
     
     function get_all_complaints_by_driver()
     {//$complaint_data['userId_driver']//this line is for testing
         $complaint_data = json_decode(trim(file_get_contents('php://input')), true);
-        $complaints_by_driver = $this->complaint_dao->get_all_complaints_by_driver($complaint_data['userId_driver']);
-        var_dump($complaints_by_driver);//comment the array print and load complaints to a view with jason encode
+        $complaints = $this->complaint_dao->get_all_complaints_by_driver($complaint_data['userId_driver']);//$complaints_by_driver
+        $complaints['table_content'] = $this->load->view('admin/reports/complaint_reports_view', $complaints, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $complaints)));
+        //var_dump($complaints_by_driver);//comment the array print and load complaints to a view with jason encode
     }
     
     function get_complaint_by_refId()
@@ -57,5 +61,26 @@ class Complaint_controller extends CI_Controller
         $complaints_by_complaintId = $this->complaint_dao->update_complaint($complaint_data['complaintId'],array('complaint' => $complaint_data['complaint']));
         var_dump($complaints_by_complaintId);//comment the array print and load complaints to a view with jason encode
         
+    }
+    
+    function getReportsNavBarView(){
+               
+        $table_data['x'] = 1;
+        
+//        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+//        $user_type = $input_data['user_type'];
+        
+        $data['table_content'] = $this->load->view('admin/reports/reports_navbar', $table_data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+    }
+    
+    function getSidePanelView(){
+        $table_data['x'] = 1;
+        
+//        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+//        $user_type = $input_data['user_type'];
+        
+        $data['table_content'] = $this->load->view('admin/reports/reports_sidepanel', $table_data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 }

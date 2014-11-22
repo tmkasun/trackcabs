@@ -54,7 +54,7 @@ function waitForSocketConnection(socket, callback){
 
 var webSocketOnOpen = function () {
     $.UIkit.notify({
-        message: 'You Are Connectedto Map Server!!',
+        message: 'You Are Connectedto Websocket Server!!',
         status: 'success',
         timeout: ApplicationOptions.constance.NOTIFY_SUCCESS_TIMEOUT,
         pos: 'top-center'

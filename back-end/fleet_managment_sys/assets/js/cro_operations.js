@@ -571,8 +571,6 @@ function fillAddressToBooking(bookingObjId){
 }
 
 function fillAddressToBookingFromHistory(bookingObjId){
-    alert(bookingObjId);
-    console.log(bookingObjId);
     var index = -1;
     for(var i=0 ; i < historyBookingObj.length ; i++){
         index++;
@@ -581,12 +579,10 @@ function fillAddressToBookingFromHistory(bookingObjId){
         }
     }
 
-    alert(JSON.stringify(historyBookingObj[index]));
-
     $('#no').val(historyBookingObj[index]['address']['no']);
     $('#road').val(historyBookingObj[index]['address']['road']);
     $('#city').val(historyBookingObj[index]['address']['city']);
     $('#town').val(historyBookingObj[index]['address']['town']);
     $('#landMark').val(historyBookingObj[index]['address']['landmark']);
-
+    $('#newBooking').scrollIntoView();
 }

@@ -9,7 +9,8 @@
         <li><a href="#" id="driver" onclick="getCROsView(this.id)">Drivers</a></li>
         <li><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>
         <li><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
-        <li class="active"><a href="#" id="accounts" onclick="getAccountsView(this.id)">Accounts</a></li>
+        <li class="active"><a href="#" id="reports" onclick="getReportsView(this.id)">Reports</a></li>
+        <li><a href="#" id="packages" onclick="getPackagesView(this.id)">Packages</a></li>
     </ul>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -18,7 +19,8 @@
             <div class="form-group">
                 <input class="form-control" placeholder="Driver ID" type="text" id="driverIdSearch">
             </div>
-            <button type="submit" class="btn btn-default" onclick="getAccountViewFromDriverId()">Submit</button>
+            
+            <button type="submit" class="btn btn-default" onclick="getReportViewFromDriverId()">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="<?= site_url('login/logout')?>">Logout</a></li>

@@ -33,4 +33,5 @@
 
 <!--    <button type="submit" class="btn btn-default" onclick="updateDispatcher($user_type);">Save</button>-->
         <button type="submit" class="btn btn-default" onclick="updateCRO('<?php echo $user_type;?>')">Save</button>
+        <button type="submit" class="btn btn-default" onclick="deleteCRO('<?php echo $userId?>','<?php echo $user_type?>')">Delete</button>
 </form>

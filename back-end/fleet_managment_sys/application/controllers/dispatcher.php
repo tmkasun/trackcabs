@@ -78,7 +78,18 @@ class Dispatcher extends CI_Controller
 //        $customer = $this->customer_dao->getCustomer($dispatchingOrder['tp']); // TODO: need this when updating customer order history
 
         $sms = new Sms();
-        $custoMessage = "You order has been dispatched Order # $dispatchingOrder[refId]";
+
+        $today = date("Y-m-d 00:00:00");
+        $todayUTC = new MongoDate(strtotime($today));
+
+        $custoMessage = "Cab No: $cabId
+        Dispatched at: $today
+        From (Dispatch Location) will reach you shortly Ref. No: $dispatchingOrder[refId]
+        Driver Mobile No: $dispatchingDriver[tp]
+        Plate No: $dispatchingCab[plateNo]
+        Model: $dispatchingCab[vType]
+        Thank you for using Hao City Cabs: 2 888 888
+        ";
         $custoNumber = $dispatchingOrder['tp'];
         $addressArray = array_values($dispatchingOrder['address']);
         $custoAddress = implode(" ", $addressArray);
@@ -93,6 +104,7 @@ class Dispatcher extends CI_Controller
         $sentCusto = $sms->send($custoNumber, $custoMessage);
 
         $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? '' : " Customer number: $custoNumber";
+
         $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . $custoNumber . " Address: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 

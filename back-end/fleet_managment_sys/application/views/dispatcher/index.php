@@ -228,8 +228,7 @@
 
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                        style="color: #f9fdff;cursor: pointer;">Dispatcher </span></i>
-                        class="fa fa-angle-double-down fa-lg"></i></a>
+                        style="color: #f9fdff;cursor: pointer;">Dispatcher </span><i class="fa fa-angle-double-down fa-lg"></i></a>
                 <ul class="dropdown-menu" role="menu">
                     <li>
                         <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"

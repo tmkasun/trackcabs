@@ -22,7 +22,7 @@
                             <td><?=  date('H:i:s Y-m-d ', $item['callTime']->sec);?></td>
                             <td><?=  date('H:i:s Y-m-d ', $item['bookTime']->sec);?></td>
                             <td>
-                                <a href="#" onclick="operations('fillAddressToBookingFromHistory', '<?= $item['_id']?>')">
+                                <a href="#" onclick="operations('fillAddressToBookingFromHistory', '<?= $item['_id']?>');return false;">
                                     <?= implode(", ", $item['address']);?>
                                 </a>
                             </td>

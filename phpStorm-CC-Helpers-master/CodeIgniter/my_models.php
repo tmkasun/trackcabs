@@ -20,7 +20,7 @@
 *  @property live_dao           $live_dao
 *  @property location_dao       $location_dao
  * @property user_dao           $user_dao
- *
+ * @property call_dao           $call_dao
  *
  */
 class my_models

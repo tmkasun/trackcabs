@@ -10,59 +10,96 @@ function addInquireCall(url , objId){
 
 }
 
-function getEditBookingView(url , objId){
-    var data = {'objId' : objId};
-    url = url +"/cro_controller/getEditBookingView";
-    var view = ajaxPost(data,url);
-    /*  Populate the New Booking field with the editing form */
-    $('#newBooking').html(view.view.edit_booking_view);
-    uiInit();
-    /* The ui bug with only can select the vehicle type */
-    var index = -1;
-    for(var i=0 ; i < bookingObj.length ; i++){
-        index++;
-        if( bookingObj[i]['_id']['$id'] === bookingObjId){
-            break;
+function getEditBookingView(url , bookingObjId){
+    var siteUrl = url;
+    var pass = prompt("Please enter Admin Password", "");
+    if ( pass != "") {
+        url = siteUrl + "/login/isAdmin";
+        var data={'pass' : pass};
+        var result =ajaxPost(data,url,false);
+        /* If admin is authenticated */
+        if(result.statusMsg == 'true'){
+
+            var data = {'objId' : bookingObjId};
+            url = siteUrl +"/cro_controller/getEditBookingView";
+            var view = ajaxPost(data,url);
+            /*  Populate the New Booking field with the editing form */
+            $('#newBooking').html(view.view.edit_booking_view);
+            uiInit();
+            /* The ui bug with only can select the vehicle type */
+            var index = -1;
+            for(var i=0 ; i < bookingObj.length ; i++){
+                index++;
+                if( bookingObj[i]['_id']['$id'] === bookingObjId){
+                    break;
+                }
+            }
+
+            var payType = bookingObj[index]['payType'];
+            var vType = bookingObj[index]['vType'];
+            alert(vType);
+            if(vType == 'car'){
+                $('#carRadio').addClass(' active');
+                $('#vehicleType').val('car');
+            }
+            if(vType == 'van'){
+                $('#vanRadio').addClass(' active');
+                $('#vehicleType').val('van');
+            }
+            if(vType == 'nano'){
+                $('#nanoRadio').addClass(' active');
+                $('#vehicleType').val('nano');
+            }
+
+            if(payType == 'cash') {
+                $('#payTypeCash').addClass(' active');
+                $('#paymentType').val('cash');
+            }
+
+            if(payType == 'credit'){
+                $('#payTypeCredit').addClass(' active');
+                $('#paymentType').val('credit');
+            }
+
         }
+        else{ /* If admin is not authenticates*/
+            alert('Admin Password Entered is Invalid. Please contact Admin');
+        }
+    }else{ /* If the Promt input field is empty */
     }
-
-    var payType = bookingObj[index]['payType'];
-    if(payType == 'cash')
-    $('#payTypeCash').addClass(' active');
-
-    if(payType == 'credit')
-        $('#payTypeCredit').addClass(' active');
 }
 
-    function getCancelConfirmationView( url ,  bookingObjId ){
+function getCancelConfirmationView( url ,  bookingObjId ){
 
-    var data = {'_id' : bookingObjId };
-    url = url +"/cro_controller/getCancelConfirmationView";
-    var view = ajaxPost(data,url);
+    var siteUrl = url;
+    var pass = prompt("Please enter Admin Password", "");
+    if ( pass != "") {
+        url = siteUrl + "/login/isAdmin";
+        var adminData = {'pass': pass};
+        var result = ajaxPost(adminData  , url, false);
+        /* If admin is authenticated */
+        if (result.statusMsg == 'true') {
 
-    /*  Populate the job information view with cancel confirmation view*/
-    $('#bookingStatus').html(view.view.cancel_confirmation_view);
+            var data = {'_id' : bookingObjId };
+            url = siteUrl + "/cro_controller/getCancelConfirmationView";
+            var view = ajaxPost(data,url);
+            /*  Populate the job information view with cancel confirmation view*/
+            $('#bookingStatus').html(view.view.cancel_confirmation_view);
+        }
+        else{ /* If admin is not authenticated */
+            alert('Admin Password Entered is Invalid. Please contact Admin')
+        }
+    }else{ /* Prompt input field is Empty */
+
+    }
 }
 
 
 function confirmCancel(url , tp , bookingObjId ){
     var siteUrl = url;
-    var cancelReason="";
     url = siteUrl +"/customer_retriever/canceled";
 
-    if(document.getElementById('cancel1Radio').checked) {
-        cancelReason = 1;
-    }
-    if(document.getElementById('cancel2Radio').checked) {
-        cancelReason = 2;
-    }
-    if(document.getElementById('cancel3Radio').checked) {
-        cancelReason = 3;
-    }
-    if(document.getElementById('cancel4Radio').checked) {
-        cancelReason = 4;
-    }
-
+    var cancelReason =$('input[name=cancelReason]:checked').val();
     var data = {'_id' : bookingObjId , 'cancelReason' : cancelReason, 'tp' : tp};
     ajaxPost(data,url);
     getCustomerInfoView(siteUrl , tp);
@@ -95,6 +132,7 @@ function createBooking(url , tp){
     var bookingCharge = '-';
     var bookingType = 'Personal';
     var personalProfileTp = '-';
+    var cancelReason = '-';
 
     if($('#personalProfileTp').length != 0){
         bookingType = 'Cooperate';
@@ -145,7 +183,8 @@ function createBooking(url , tp){
             'destination' : destination,
             'bookingCharge' : bookingCharge,
             'bookingType' : bookingType,
-            'personalProfileTp' : personalProfileTp
+            'personalProfileTp' : personalProfileTp,
+            'cancelReason' :cancelReason
         }
     };
     ajaxPost(data,url,false);
@@ -210,7 +249,8 @@ function updateBooking(url , objId){
             'pagingBoard' : pagingBoard
         }
     };
-    ajaxPost(data,url);
+    alert(JSON.stringify(data));
+    //ajaxPost(data,url);
 }
 
 function editCustomerInfoEditView( url , tp ){
@@ -339,6 +379,18 @@ function getCustomerInfoView( url , tp ){
     $('#callHistory').html(view.view.call_history_view);
 }
 
+function addComplaint(url,refId){
+    var complaint = prompt("Please enter your complaint", "");
+    if (complaint != "") {
+        url = url + "/complaint_controller/record_complaint";
+        var data={
+            'refId' : refId,
+            'complaint' : complaint
+        };
+        ajaxPost(data,url,false);
+    }
+}
+
 function getSimilarTpNumbers(url , tp){
     url = url + "/customer_retriever/getSimilarTpNumbers";
     var data = {"tp" : tp};
@@ -423,7 +475,6 @@ function uiInit(){
 }
 
 function changeJobInfoViewByRefId(bookingObjId){
-
     var index = -1;
     for(var i=0 ; i < bookingObj.length ; i++){
         index++;
@@ -471,24 +522,20 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobBookTime').html(bookDate.toDateString()+'</br>'+bookDate.toTimeString());
     $('#jobCallTime').html(callDate.toDateString()+'</br>'+callDate.toTimeString());
     $('#jobDispatchB4').html(bookingObj[index]['dispatchB4']);
-    $('#jobPayType').html(bookingObj[index]['jobPayType']);
+    $('#jobPayType').html(bookingObj[index]['payType']);
 
     $('#jobDriverTp').html(bookingObj[index]['driverTp']);
     $('#jobCabColor').html(bookingObj[index]['cabColor']);
     $('#jobCabPlateNo').html(bookingObj[index]['cabPlateNo']);
     $('#jobPagingBoard').html(bookingObj[index]['pagingBoard']);
-    $('#jobInquireButton').html(bookingObj[index]['inqCall']);
 
 
+    $('#jobEditButton').attr("onclick", "operations('editBooking',"+bookingObj[index]['_id']['$id']+")");
+    $('#jobInquireButton').attr("onclick", "operations('addInquireCall',"+bookingObj[index]['_id']['$id']+")");
+    $('#jobInquireButtonCount').html(bookingObj[index]['inqCall']);
+    $('#jobComplaintButton').attr("onclick", "operations('addComplaint',"+bookingObj[index]['refId']+")");
+    $('#jobCancelButton').attr("onclick", "operations('cancel',"+bookingObj[index]['_id']['$id']+")");
 
-    var status = bookingObj[index]['status'];
-    if( status == 'START' ||  status == 'MSG_COPIED' || status == 'MSG_NOT_COPIED' || status == 'AT_THE_PLACE') {
-        $('#jobEditButton').html('<div class="btn-group"> <button type="button" class="btn btn-warning" onclick="operations(\'editBooking\', \''+ bookingObj[index]['_id']['$id']  +'\')">Edit Booking</button></div>');
-    }
-
-    if( status == 'START' ||  status == 'MSG_COPIED' || status == 'MSG_NOT_COPIED' || status == 'AT_THE_PLACE') {
-        $('#jobCancelButton').html('<div class="btn-group"> <button type="button" class="btn btn-danger" onclick="operations(\'cancel\', \'' + bookingObj[index]['_id']['$id']   +  '\')">Cancel</button></div>');
-    }
 }
 
 function addUserToCooperateProfile(url,tp){

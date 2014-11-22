@@ -18,6 +18,7 @@
     <script type="text/javascript" src="<?= base_url();?>assets/js/cro_operations.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/webLibs/bootstrapvalidator-dist-0.5.2/dist/js/bootstrapValidator.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="<?= base_url();?>assets/webLibs/knockout/knockout-3.2.0.js"></script>
 
     <!-- UIkit libraries -->
     <script src="<?= base_url() ?>assets/js/uikit/uikit.min.js"></script>
@@ -25,6 +26,9 @@
 
 
     <script src="<?= base_url() ?>assets/js/application_options.js"></script>
+    <script>
+        setBaseURL('<?= base_url().'index.php/' ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
+    </script>
 
     <!-- autobahn websocket and WAMP -->
     <script src="<?= base_url() ?>assets/js/autobahn/autobahn.min.js"></script>
@@ -70,24 +74,62 @@
     <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0px">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Hao Cabs</a>
+            <a class="navbar-brand" href="#">Hao Cabs - CRO</a>
         </div>
 
         <ul class="nav navbar-nav">
-            <li class="active"><a href="<?= site_url('cro_controller')?>">CRO</a></li>
+            <li class="navbar-form navbar-left" style="padding: 0">  <!--<a href="<?/*= site_url('cro_controller')*/?>">CRO</a>-->
+
+
+
+                <div class="btn-group">
+                    <button type="button" data-bind="click:updateNumbers" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown" >
+                        <span>Get Number</span>
+                        <span class="caret"></span>
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu1" role="menu" style="  padding: 10px; border-radius: 5px">
+
+                        <div style="margin:0">
+                            <table class="table table-hover" style="margin-bottom:2%">
+                                <thead>
+                                <tr>
+                                    <th style="text-align: right; min-width: 97px">Time</th>
+                                    <th>Number</th>
+                                    <th>State</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody data-bind="foreach:currentNumbers">
+                                <tr>
+                                    <td data-bind="text:readableTimeStamp" style="padding: 13px; text-align: right;"><span>2014/10/23</span></td>
+                                    <td data-bind="text:number" style="padding: 13px ; text-align: right;"><span>0772866596</span></td>
+                                    <td data-bind="text:state" style="padding: 13px; text-align: right;"><span>Answered</span></td>
+                                    <td ><button data-bind="click:$root.assignNumber" class="btn btn-default">Assign Number</button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </li>
 
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
                     <input type="tel" class="form-control" placeholder="Mobile / LandLine" id="tpSearch" autofocus>
                 </div>
-                <input type="submit" class="btn btn-default" onclick="operations('getCustomer');return false" onsubmit="operations('getCustomer');return false" value="Submit" />
+                <input type="submit" id="submitNumber" class="btn btn-default" onclick="operations('getCustomer');return false" onsubmit="operations('getCustomer');return false" value="Submit" />
             </form>
 
             <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadBookingsView')?>" >Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
             <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
-            <li><a href="<?= site_url('cro_controller/loadPOBBoardView')?>" >POB Board</a></li>
             <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a></li>
         </ul>
 
@@ -164,7 +206,7 @@
             }
             if(request == 'editBooking'){
                 getEditBookingView(url,param1);
-                getCustomerInfoView(url, tp);
+                //getCustomerInfoView(url, tp);
             }
             if(request == 'updateBooking'){
                 updateBooking(url,param1);
@@ -184,10 +226,16 @@
                 addInquireCall(url ,param1);
                 getCustomerInfoView(url , tp);
             }
+            if(request == 'addComplaint'){
+                addComplaint(url,param1);
+                getCustomerInfoView(url , tp);
+            }
             uiInit();
         }
     </script>
 
 
 </body>
+
+<script type="text/javascript" src="<?= base_url();?>assets/js/CroScripts/ViewModel.js"></script>
 </html>

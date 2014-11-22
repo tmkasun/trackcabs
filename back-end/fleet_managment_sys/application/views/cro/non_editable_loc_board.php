@@ -88,19 +88,11 @@
 
         <ul class="nav navbar-nav">
             <li><a href="<?= site_url('cro_controller')?>">CRO</a></li>
-
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Mobile / LandLine" id="tpSearch" autofocus>
-                </div>
-                <input type="submit" class="btn btn-default" onclick="operations('getCustomer');return false" onsubmit="operations('getCustomer');return false" value="Submit" />
-            </form>
-
-
             <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
+            <li><a href="<?= site_url('cro_controller/loadBookingsView')?>" >Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
             <li class="active"><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
-            <li><a href="<?= site_url('cro_controller/loadPOBBoardView')?>" >POB Board</a></li>
+            <li class="active"><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Complaints</a></li>
             <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a></li>
         </ul>
 

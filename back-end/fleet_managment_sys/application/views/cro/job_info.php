@@ -188,32 +188,34 @@
                         </div>
 
                         <div class="col-lg-2">
-                            <div id="jobEditButton" class="col-lg-12">
-                                <?php if( ($status == "START") || ($status == 'MSG_COPIED') || ($status =='MSG_NOT_COPIED') || ($status =='AT_THE_PLACE')):?>
-
-                                    <div class="btn-group ">
-                                        <button type="button" class="btn btn-warning" onclick="operations('editBooking', '<?= $live_booking[$index]['_id'];?>')">Edit Booking</button>
-                                    </div>
-
-                                <?php endif;?>
+                            <div class="col-lg-12">
+                                <div class="btn-group ">
+                                    <button id="jobEditButton" type="button" style="width: 112px" class="btn btn-default"
+                                        onclick="operations('editBooking', '<?= $live_booking[$index]['_id'];?>')">Edit Booking</button>
+                                </div>
                             </div>
 
                             <div class="col-lg-12" style="margin-top: 2px">
                                 <div class="btn-group">
-                                    <button class="btn btn-default" type="button" onclick="operations('addInquireCall', '<?= $live_booking[$index]['_id'];?>')">
-                                        Inquire <span class="badge" id="jobInquireButton"><?= $live_booking[$index]['inqCall'];?></span>
+                                    <button id="jobInquireButton" style="width: 112px" class="btn btn-default" type="button"
+                                        onclick="operations('addInquireCall', '<?= $live_booking[$index]['_id'];?>')">
+                                    Inquire <span class="badge" id="jobInquireButtonCount"><?= $live_booking[$index]['inqCall'];?></span>
                                     </button>
                                 </div>
                             </div>
 
-                            <div id="jobCancelButton" class="col-lg-12" style="margin-top: 2px">
-                                <?php if( ($status == "START") || ($status == 'MSG_COPIED') || ($status =='MSG_NOT_COPIED') || ($status =='AT_THE_PLACE')):?>
+                            <div  class="col-lg-12" style="margin-top: 2px">
+                                <div class="btn-group">
+                                    <button id="jobComplaintButton" style="width: 112px" type="button" class="btn btn-default"
+                                        onclick="operations('addComplaint', '<?= $live_booking[$index]['refId'];?>')">Complaint</button>
+                                </div>
+                            </div>
 
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-danger" onclick="operations('cancel', '<?= $live_booking[$index]['_id'];?>')">Cancel</button>
-                                    </div>
-
-                                <?php endif;?>
+                            <div  class="col-lg-12" style="margin-top: 2px">
+                                <div class="btn-group">
+                                    <button id="jobCancelButton" style="width: 112px" type="button" class="btn btn-danger"
+                                        onclick="operations('cancel', '<?= $live_booking[$index]['_id'];?>')">Cancel</button>
+                                </div>
                             </div>
 
                         </div>

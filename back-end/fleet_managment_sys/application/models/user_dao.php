@@ -34,7 +34,7 @@ class User_dao extends CI_Model
     {
         $collection = $this->get_collection();
 
-        $searchQuery = array('userId' => $userId);
+        $searchQuery = array('userId' => (int)$userId);
    // TODO: FTW ? parameter  name is userId and searching for uName while
         //there is an attribute for userId FK
         $user = $collection->findOne($searchQuery);

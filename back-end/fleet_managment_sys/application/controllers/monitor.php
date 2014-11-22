@@ -18,6 +18,8 @@
 
      public function getOrder($orderRefId){
          $order = $this->live_dao->getBooking($orderRefId);
+         $driver = $this->user_dao->getUser($order['driverId']);
+         $order['driver'] = $driver;
          $this->output->set_content_type('application/json');
          echo json_encode($order);
      }

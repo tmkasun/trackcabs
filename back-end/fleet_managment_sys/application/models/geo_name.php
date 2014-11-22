@@ -35,7 +35,7 @@ class Geo_name extends CI_Model
      */
     function find($query)
     {
-        $result = $this->mongodb->geo_names->lk_test->find(array("name" => new MongoRegex('/' . $query . '/i')));  //, "feature_code" => array('$in' => array("PPL","PPLL","PPLX"))
+        $result = $this->mongodb->track->geo_names->find(array("name" => new MongoRegex('/' . $query . '/i')));  //, "feature_code" => array('$in' => array("PPL","PPLL","PPLX"))
         $result->limit(10);
 
         $return = array();
@@ -49,7 +49,7 @@ class Geo_name extends CI_Model
     }
 
     function geoCode($query){
-        $result = $this->mongodb->geo_names->lk_test->find($query);
+        $result = $this->mongodb->track->geo_names->find($query);
         $result->limit(10);
 
         $return = array();

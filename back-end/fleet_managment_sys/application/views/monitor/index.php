@@ -63,6 +63,34 @@
                 {'skipSubprotocolCheck': true}
             );
         }
+
+        function updateTime() {
+           /* var liveOrdersList = $('#liveOrdersList').find('a');
+            var i = 0;
+            for (; i < liveOrdersList.length; i++) {
+                var latestBooking = $(liveOrdersList[i]);
+//        var latestBooking = $('#liveOrdersList').find('a:first');
+                var latestBookingDate = latestBooking.data('booktime');
+                var timeDifferent = moment.unix(latestBookingDate).diff(moment(), 'minutes', true);
+                if (timeDifferent <= 30) {
+//                console.log("DEBUG: checking time interval timeDifferent = " + timeDifferent);
+                    latestBooking.addClass("list-group-item-danger");
+                }
+                else {
+//                console.log("DEBUG: fromNow = " + moment.unix(latestBookingDate).fromNow() + " checking time interval timeDifferent = " + timeDifferent);
+                }
+                latestBooking.find('.fromNow').html('(' + moment.unix(latestBookingDate).fromNow() + ')');
+            }*/
+        }
+
+        (function ($) {
+            $(window).load(function () {
+                moment().format();
+                updateTime();
+                setInterval(updateTime, 1000);
+            });
+        })(jQuery);
+
         subscribe('monitor1');
 
     </script>
@@ -122,6 +150,7 @@
             }
 
         }
+        if(!empty($orders_list['START'])):
         foreach ($orders_list['START'] as $order): ?>
             <tr id="<?= $order['refId'] ?>">
                 <td id="refId"><?= $order['refId'] ?></td>
@@ -135,7 +164,7 @@
                 <td><?= getBadge($order['isVip']) ?></td>
                 <td><?= getBadge(false) ?></td>
             </tr>
-        <?php endforeach ?>
+        <?php endforeach; endif ?>
         </tbody>
     </table>
 </div>
@@ -164,7 +193,9 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($orders_list['MSG_NOT_COPIED'] as $order): ?>
+        <?php
+        if(!empty($orders_list['MSG_NOT_COPIED'])):
+        foreach ($orders_list['MSG_NOT_COPIED'] as $order): ?>
             <tr id="<?= $order['refId'] ?>">
                 <td id="refId"><?= $order['refId'] ?></td>
                 <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
@@ -179,7 +210,7 @@
                 <td><?= getBadge($order['isVip']) ?></td>
                 <td><?= getBadge(false) ?></td>
             </tr>
-        <?php endforeach ?>
+        <?php endforeach; endif; ?>
         </tbody>
     </table>
 </div>
@@ -195,9 +226,7 @@
         <tr>
             <th>Ref #</th>
             <th>R.Q Time</th>
-            <th>MCT</th>
             <th>Message copied time</th>
-            <th>MR</th>
             <th>Cab #</th>
             <th>Driver mobile</th>
             <th>Address</th>
@@ -226,9 +255,7 @@
         <tr>
             <th>Ref #</th>
             <th>R.Q Time</th>
-            <th>MCT</th>
             <th>Message copied time</th>
-            <th>MR</th>
             <th>Cab #</th>
             <th>Driver mobile</th>
             <th>Address</th>
@@ -270,7 +297,7 @@
             <th>Cop</th>
 
             <th>Location</th>
-            <th>Info Dispatcher</th>
+            <th>Dispatcher</th>
         </tr>
         </thead>
         <tbody>

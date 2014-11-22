@@ -60,5 +60,14 @@ class Login extends CI_Controller {
         $this->index();
     }
 
+    public function isAdmin(){
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $statusMsg = "false";
+        if($input_data['pass'] == 'admin'){
+            $statusMsg = "true";
+        }
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
+    }
+
 }
 ?>

@@ -11,6 +11,7 @@ class Complaint_dao extends CI_Model
     function record_complaint($complaint_data)
     {
         $collection = $this->get_collection();
+        $complaint_data['refId'] = (int)$complaint_data['refId'];
         $collection->insert($complaint_data);
         return true;              
     }

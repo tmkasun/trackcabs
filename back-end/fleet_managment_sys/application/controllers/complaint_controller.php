@@ -11,6 +11,9 @@ class Complaint_controller extends CI_Controller
         $complaint_data['userId_driver'] = $driver_cro['driverId'];
         $complaint_data['userId_cro_booking'] = $driver_cro['croId'];
         
+        $user = $this->session->userdata('user');
+        $complaint_data['userId_cro_complaint'] = $user['userId'];
+        
         $result = $this->complaint_dao->record_complaint($complaint_data);
         
         $statusMsg = 'success';

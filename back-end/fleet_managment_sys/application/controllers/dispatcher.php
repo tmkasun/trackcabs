@@ -115,7 +115,7 @@ class Dispatcher extends CI_Controller
         $webSocket = new Websocket('localhost', '5555', $user['userId']);
         $dispatchingOrder = $this->live_dao->getBooking($orderId); // Get the updated order
         $dispatchingOrder['driverTp'] = $driverNumber;
-        $orderCro = $this->user_dao->getUser($dispatchingOrder['croId']);
+        $orderCro = $this->user_dao->getUser($dispatchingOrder['croId'],'cro');
         $dispatchingOrder['cro'] = $orderCro;
 
         $webSocket->send($dispatchingOrder, 'monitor1');

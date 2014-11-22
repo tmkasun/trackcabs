@@ -115,10 +115,10 @@ class Customer_retriever extends CI_Controller
         $sms = new Sms();
         foreach ($bookingCreated['profileLinks'] as $item) {
             $customerProfile = $this->customer_dao->getCustomerByMongoObjId($item);
-            if ($customerProfile['tp'] != '-') {
+            if ($customerProfile['tp'] != '-' && $customerProfile['type1'] != 'land') {
                 $sms->send($customerProfile['tp'], $message);
             }
-            if ($customerProfile['tp2'] != '-') {
+            if ($customerProfile['tp2'] != '-' && $customerProfile['type2'] != 'land') {
                 $sms->send($customerProfile['tp2'], $message);
             }
         }

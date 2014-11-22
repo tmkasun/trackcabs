@@ -23,4 +23,8 @@
          $this->output->set_content_type('application/json');
          echo json_encode($order);
      }
+
+     public function pabxData(){
+
+     }
  }

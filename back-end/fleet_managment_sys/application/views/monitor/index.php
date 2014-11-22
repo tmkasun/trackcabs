@@ -146,7 +146,7 @@
                     empty($orders_list['IDLE']) ? $orders_list['IDLE'] = array($order) : array_push($orders_list['IDLE'], $order);
                     break;
                 default:
-                    echo "Your favorite color is neither red, blue, or green!";
+                    echo "";
             }
 
         }

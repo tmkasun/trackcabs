@@ -152,4 +152,10 @@ class Testing extends CI_Controller
         $this->live_dao->updateStatus((string)$order['_id'], "CANCEL");
 
     }
+
+    function pabxData(){
+        $refId = $this->input->post();
+        log_message('info',$refId);
+        echo "ok";
+    }
 }

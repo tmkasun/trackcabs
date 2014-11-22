@@ -79,7 +79,7 @@ class Dispatcher extends CI_Controller
 
         $sms = new Sms();
 
-        $today = date("Y-m-d 00:00:00");
+        $today = date("Y-m-d h:i:sa");
         $todayUTC = new MongoDate(strtotime($today));
 
         $custoMessage = "Cab No: $cabId Dispatched at: $today From location will reach you shortly Ref. No: $dispatchingOrder[refId] Driver Mobile No: $dispatchingDriver[tp] Plate No: $dispatchingCab[plateNo] Model: $dispatchingCab[vType] Thank you for using Hao City Cabs: 2 888 888 ";

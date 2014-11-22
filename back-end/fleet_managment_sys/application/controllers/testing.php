@@ -99,7 +99,7 @@ class Testing extends CI_Controller
     function send()
     {
         $sms = new Sms("Testing message");
-        $sent = $sms->send("0711661919", "Testing message");
+        $sent = $sms->send("0711661919", "Cab No: 1 Dispatched at: 2014-11-22 00:00:00 From (Dispatch Location) will reach you shortly Ref. No: 13 Driver Mobile No: 0711661919 Plate No: sdgfsg Model: car Thank you for using Hao City Cabs: 2 888 888");
         var_dump($sent);
     }
 

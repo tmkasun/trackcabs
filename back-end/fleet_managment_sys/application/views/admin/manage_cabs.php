@@ -39,6 +39,7 @@
             <li><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>
             <li><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
             <li><a href="#" id="accounts" onclick="getAccountsView(this.id)">Accounts</a></li>
+            <li><a href="#" id="packages" onclick="getPackagesView(this.id)">Packages</a></li>
         </ul>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -438,6 +439,36 @@
         div.innerHTML = result.view.table_content;
 
     }
+
+    function getPackagesViewByPackageId(){
+
+        url ='<?php echo site_url("packages_controller/getPackagesViewByPackageId") ?>';
+        var packageId = document.getElementById("packageIdSearch").value;
+        var packaged = { 'packageId' : packageId  };
+        var result = ajaxPost(packaged,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.table_content;
+
+    }
+
+    function makePackagesFormEditable(packageId ){//alert("in makeCROFormEditable "+user_type);
+
+        var data = {'packageId' : packageId };
+        var url = '<?php echo site_url("packages_controller/getPackageEditView") ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.packages_edit_view;//result.view.type_edit_view;
+    }
+
+    function deletePackage(packageId){
+        // Confirm Msg Box
+        var data = {'packageId' : packageId };
+        var url = '<?php echo site_url("packages_controller/deletePackage") ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+
+    }
     
     function getAccountsView(){
 
@@ -463,7 +494,52 @@
 
 
     }
-    
+
+    function getNewPackageView(url){
+
+        var data = {};
+        url ='<?php echo site_url("/packages_controller/getNewPackageView"); ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.new_package_view;
+
+    }
+
+    function createNewPackage(){
+        var packageName = document.getElementById("packageName").value;
+        var fee = document.getElementById("fee").value;
+        var info = document.getElementById("info").value;
+        var packaged = {'packageId':'','packageName' : packageName , 'fee' : fee , 'info' : info };
+        var url =  '<?php echo site_url("packages_controller/createPackage"); ?>';
+        alert(JSON.stringify(packaged));
+        ajaxPost(packaged,url);
+        getPackagesView();
+    }
+
+
+    function getPackagesView(){
+
+        var url = '<?php echo site_url("packages_controller/getPackagesNavBarView") ?>';
+        var result = ajaxPost(null,url);//alert("before call");
+        /* Append the values for the div tag field */
+        var div = document.getElementById('navBarField');//alert("CRO NavBar ok");
+        div.innerHTML = "";
+        div.innerHTML = result.view.table_content;//alert("ok");
+
+        url = '<?php echo site_url("packages_controller/getSidePanelView") ?>';
+        result = ajaxPost(null,url);//alert("CRO SideBar ok");
+        div = document.getElementById('operation');
+        div.innerHTML =  result.view.table_content;
+        url ='<?php echo site_url("packages_controller/getAllPackagesView") ?>'//url + "/accounts_controller/getAllAccountsView";
+        var skip = docs_per_page * (page-1);
+        var data = {"skip" : skip , "limit" : docs_per_page};
+        var view = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;
+    }
+
+
     function updateAccounts(id,bookingChargeId){
 
         var bookingCharge = document.getElementById(bookingChargeId).value;//console.log(bookingCharge);
@@ -474,6 +550,37 @@
         document.getElementById("amount_percentage_of_"+id).innerHTML = Math.floor(((bookingCharge/100)*17));//parseInt(bookingCharge)
         //console.log(Math.floor(((bookingCharge/17)*100)));
         //getAccountsView();
+    }
+
+    function updatePackage(packageId) {
+        var packageName = document.getElementById("packageName").value;
+        var fee = document.getElementById("fee").value;
+        var info = document.getElementById("info").value;
+        var packaged = {'packageId':packageId,'packageName':packageName,'fee': fee, 'info': info};
+        var url = '<?php echo site_url("packages_controller/updatePackage") ?>';
+        ajaxPost(packaged, url);
+        getPackagesView();
+    }
+
+    function getBookingsByDateRange(id){
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+        var userId = document.getElementById("driverId").value;
+
+        var dates = {'startDate':startDate,'endDate': endDate,'userId':userId};
+        var url = '<?php echo site_url("accounts_controller/getBookingsByDateRange") ?>';
+
+        var result = ajaxPost(dates,url);
+        var div = document.getElementById('tableDiv');
+        div.innerHTML = result.view.table_content;
+    }
+
+    function getSummaryView(){
+        var url = '<?php echo site_url("accounts_controller/getSummaryView") ?>';
+        var result = ajaxPost(null,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.table_content;
+
     }
 </script>
 

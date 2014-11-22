@@ -12,6 +12,7 @@
         <li ><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>
         <li class="active"><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>
         <li><a href="#" id="accounts" onclick="getAccountsView(this.id)">Accounts</a></li>
+        <li><a href="#" id="packages" onclick="getPackagesView(this.id)">Packages</a></li>
     </ul>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

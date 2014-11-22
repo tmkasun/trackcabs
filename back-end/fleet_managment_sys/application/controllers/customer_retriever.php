@@ -231,9 +231,9 @@ class Customer_retriever extends CI_Controller
 
         $user = $this->session->userdata('user');
 
-        $webSocket = new Websocket('localhost', '5555', $user['userId']);
-        $webSocket->send($bookingCreated, 'dispatcher1');
-        $webSocket->send($bookingCreated, 'monitor1');
+//        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+//        $webSocket->send($bookingCreated, 'dispatcher1');
+//        $webSocket->send($bookingCreated, 'monitor1');
 
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
     }

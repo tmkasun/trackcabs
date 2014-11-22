@@ -356,8 +356,10 @@ function getCustomerInfoView( url , tp ){
     url = url + "/cro_controller/getCustomerInfoView";
     var data = {"tp" : tp};
     var view = ajaxPost(data,url);
-    if(view.hasOwnProperty('important'))
-    bookingObj=view.important.live_booking;
+    if(view.hasOwnProperty('important')){
+        bookingObj=view.important.live_booking;
+        historyBookingObj=view.important.history_booking;
+    }
 
     if(view.hasOwnProperty('important'))
     customerObj=view.important.customerInfo;
@@ -552,7 +554,6 @@ function addUserToCooperateProfile(url,tp){
 }
 
 function fillAddressToBooking(bookingObjId){
-
     var index = -1;
     for(var i=0 ; i < bookingObj.length ; i++){
         index++;
@@ -566,5 +567,26 @@ function fillAddressToBooking(bookingObjId){
     $('#city').val(bookingObj[index]['address']['city']);
     $('#town').val(bookingObj[index]['address']['town']);
     $('#landMark').val(bookingObj[index]['address']['landmark']);
+
+}
+
+function fillAddressToBookingFromHistory(bookingObjId){
+    alert(bookingObjId);
+    console.log(bookingObjId);
+    var index = -1;
+    for(var i=0 ; i < historyBookingObj.length ; i++){
+        index++;
+        if( historyBookingObj[i]['_id']['$id'] === bookingObjId){
+            break;
+        }
+    }
+
+    alert(JSON.stringify(historyBookingObj[index]));
+
+    $('#no').val(historyBookingObj[index]['address']['no']);
+    $('#road').val(historyBookingObj[index]['address']['road']);
+    $('#city').val(historyBookingObj[index]['address']['city']);
+    $('#town').val(historyBookingObj[index]['address']['town']);
+    $('#landMark').val(historyBookingObj[index]['address']['landmark']);
 
 }

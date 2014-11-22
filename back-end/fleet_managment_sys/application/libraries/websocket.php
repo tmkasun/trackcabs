@@ -24,7 +24,6 @@ class Websocket
     function __construct($ip = 'localhost' ,$port = '5555',$sourceId = NULL)
     {
 
-
         $this->CI =& get_instance();
         $this->context = new ZMQContext();
         $this->socket = $this->context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');

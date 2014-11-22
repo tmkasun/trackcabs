@@ -42,7 +42,6 @@
             <li class="active"><a href="<?= site_url('cro_controller/loadBookingsView')?>" >Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
             <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
-            <li><a href="<?= site_url('cro_controller/loadPOBBoardView')?>" >POB Board</a></li>
             <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a></li>
         </ul>
 
@@ -116,8 +115,6 @@
                 </div>
 
                 <div class="panel-body" >
-
-
 
                 <div class="col-lg-6">
                     <div class="col-lg-12" style="border: 2px solid #a6a6a6;padding-left: 2px; padding-right: 2px">
@@ -289,8 +286,6 @@
                     </div>
                 </div>
 
-
-
                 <div class="col-lg-6" >
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -305,10 +300,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
 
                 </div>
             </div>

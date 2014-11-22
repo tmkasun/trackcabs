@@ -13,8 +13,8 @@ function addInquireCall(url , objId){
 
 }
 
-function getEditBookingView(url , objId){
-    var data = {'objId' : objId};
+function getEditBookingView(url , bookingObjId){
+    var data = {'objId' : bookingObjId};
     url = url +"/cro_controller/getEditBookingView";
     var view = ajaxPost(data,url);
     /*  Populate the New Booking field with the editing form */
@@ -30,11 +30,31 @@ function getEditBookingView(url , objId){
     }
 
     var payType = bookingObj[index]['payType'];
-    if(payType == 'cash')
-    $('#payTypeCash').addClass(' active');
+    var vType = bookingObj[index]['vType'];
+    alert(vType);
+    if(vType == 'car'){
+        $('#carRadio').addClass(' active');
+        $('#vehicleType').val('car');
+    }
+    if(vType == 'van'){
+        $('#vanRadio').addClass(' active');
+        $('#vehicleType').val('van');
+    }
+    if(vType == 'nano'){
+        $('#nanoRadio').addClass(' active');
+        $('#vehicleType').val('nano');
+    }
 
-    if(payType == 'credit')
+    if(payType == 'cash') {
+        $('#payTypeCash').addClass(' active');
+        $('#paymentType').val('cash');
+    }
+
+    if(payType == 'credit'){
         $('#payTypeCredit').addClass(' active');
+        $('#paymentType').val('credit');
+    }
+
 }
 
 function getCancelConfirmationView( url ,  bookingObjId ){
@@ -213,7 +233,8 @@ function updateBooking(url , objId){
             'pagingBoard' : pagingBoard
         }
     };
-    ajaxPost(data,url);
+    alert(JSON.stringify(data));
+    //ajaxPost(data,url);
 }
 
 function editCustomerInfoEditView( url , tp ){

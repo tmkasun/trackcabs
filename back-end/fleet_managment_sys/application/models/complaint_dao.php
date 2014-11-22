@@ -20,17 +20,17 @@ class Complaint_dao extends CI_Model
     {
         $collection = $this->get_collection();
         $complaints_cursor = $collection->find();
-        $complaints = array();
-        foreach($complaints_cursor as $comlaint){$complaints[] = $comlaint;}
+        $complaints = array('complaints' => array());
+        foreach($complaints_cursor as $comlaint){$complaints['complaints'][] = $comlaint;}
         return $complaints;
     }
     function get_all_complaints_by_driver($userId_driver)
     {
         $collection = $this->get_collection();
-        $searchQuery = array('userId_driver' => $userId_driver);
+        $searchQuery = array('userId_driver' => (int)$userId_driver);
         $complaints_cursor_by_driver = $collection->find($searchQuery);
-        $complaints_by_driver = array();
-        foreach($complaints_cursor_by_driver as $complaint_by_driver){$complaints_by_driver[] = $complaint_by_driver;}
+        $complaints_by_driver = array('complaints' => array());
+        foreach($complaints_cursor_by_driver as $complaint_by_driver){$complaints_by_driver['complaints'][] = $complaint_by_driver;}
         return $complaints_by_driver;
     }
     function get_complaint_by_refId($refId)

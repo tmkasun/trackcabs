@@ -86,5 +86,38 @@ class Test_controller extends CI_Controller
         var_dump($this->test_dao->updateCab(1,array('userId' => 3)));
     }
     
+    function get_all_complaints()
+    {
+        $complaints = $this->complaint_dao->get_all_complaints();
+        $complaints['table_content'] = $this->load->view('admin/reports/complaint_reports_view', $complaints, TRUE);
+                var_dump($complaints);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $complaints)));
+       //print_r($complaints);//comment the array print and load complaints to a view with jason encode
+        
+    }
+    
+    function get_users_and_complaints()
+    {
+        $users_cursor = $this->user_dao->getAllUsers();
+        $users = array();
+        foreach($users_cursor as $user){$users[] = $user;}
+        
+        $complaints_cursor = $this->complaint_dao->get_all_complaints();
+        $complaints = array();
+        foreach($complaints_cursor as $complaint){$complaints[] = $complaint;}
+        var_dump($users);
+        var_dump($complaints);
+    }
+    
+    function get_all_complaints_by_driver()
+    {//$complaint_data['userId_driver']//this line is for testing
+        //$complaint_data = json_decode(trim(file_get_contents('php://input')), true);
+        $complaint_data['userId_driver'] = '4';
+        $complaints_by_driver = $this->complaint_dao->get_all_complaints_by_driver($complaint_data['userId_driver']);
+        $complaints_by_driver['table_content'] = $this->load->view('admin/reports/complaint_reports_view', $complaints_by_driver, TRUE);
+                var_dump($complaints_by_driver);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $complaints_by_driver)));
+        //var_dump($complaints_by_driver);//comment the array print and load complaints to a view with jason encode
+    }
 }
 

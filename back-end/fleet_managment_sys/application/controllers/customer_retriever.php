@@ -92,7 +92,8 @@ class Customer_retriever extends CI_Controller
                                 'a privilege to serve you. Hao City Cabs : 2 888 888';
             $this->sendWelcomeMessage($bookingCreated, $welcomeMessage);
         }
-        $message = 'Your order has been confirmed. Date : '. $input_data['bDate']. ' Time :'. $input_data['bTime'].' Ref . No :' . $input_data['data']['refId'];
+        $message = 'Your order has been confirmed. Date : '. $input_data['data']['bDate'].
+                    ' Time :'. $input_data['data']['bTime'].' Ref . No :' . $input_data['data']['refId'];
 
         if($input_data['callUpPrice'] =! '-'){
             $message = $message . ' Call Up Price : ' . $input_data['callUpPrice'];

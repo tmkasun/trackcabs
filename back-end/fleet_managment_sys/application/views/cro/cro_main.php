@@ -155,9 +155,9 @@
 <div class="container-fluid">
     <div class="row" style="background: #d7ddeb; min-height: 1000px">
 
-        <div class="col-lg-12" style="margin-top: 10px">
+        <!--div class="col-lg-12" style="margin-top: 10px">
             <div class="panel panel-default">
-                <div class="panel-body" style="padding: 3px">
+                <div class="panel-body" style="padding: 3px"-->
                     <div class="col-lg-6" style="margin-top: 10px; padding: 2px" id="customerInformation">
 
                     </div>
@@ -166,9 +166,9 @@
 
                     </div>
 
-                </div>
+                <!--/div>
             </div>
-        </div>
+        </div-->
 
 
 

@@ -1,6 +1,6 @@
 <div class="panel panel-default" xmlns="http://www.w3.org/1999/html">
-    <div class="panel-heading">
-        <h3 class="panel-title">Customer Information</h3>
+    <div class="panel-heading" style="padding: 1px">
+        <h5 class="panel-title">Customer Information</h5>
     </div>
     <div class="panel-body" >
         <div class="col-md-12" style="padding: 1px">

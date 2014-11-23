@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-    <div class="panel-heading">
+    <div class="panel-heading" style="padding: 1px">
         <h5 class="panel-title">Job Information</h5>
     </div>
     <div class="panel-body" >

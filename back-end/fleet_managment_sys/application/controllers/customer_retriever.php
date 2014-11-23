@@ -87,25 +87,25 @@ class Customer_retriever extends CI_Controller
         }
 
 
-//        if(!isset($customerProfile['history'])){
-//            $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .
-//                                'a privilege to serve you. Hao City Cabs : 2 888 888';
-//            $this->sendWelcomeMessage($bookingCreated, $welcomeMessage);
-//        }
-//        $message = 'Your order has been confirmed. Date : '. $input_data['data']['bDate'].
-//                    ' Time :'. $input_data['data']['bTime'].' Ref . No :' . $input_data['data']['refId'];
+        if(!isset($customerProfile['history'])){
+            $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .
+                                'a privilege to serve you. Hao City Cabs : 2 888 888';
+            $this->sendWelcomeMessage($bookingCreated, $welcomeMessage);
+        }
+        $message = 'Your order has been confirmed. Date : '. $input_data['data']['bDate'].
+                    ' Time :'. $input_data['data']['bTime'].' Ref . No :' . $input_data['data']['refId'];
+
+        if($input_data['callUpPrice'] =! '-'){
+            $message = $message . ' Call Up Price : ' . $input_data['callUpPrice'];
+        }
+        $message = $message . ' ThankYou for calling Hao City Cabs : 2 888 888.';
+        $this->sendSms($bookingCreated, $message);
 //
-//        if($input_data['callUpPrice'] =! '-'){
-//            $message = $message . ' Call Up Price : ' . $input_data['callUpPrice'];
-//        }
-//        $message = $message . ' ThankYou for calling Hao City Cabs : 2 888 888.';
-//        $this->sendSms($bookingCreated, $message);
-////
-////        /* Send the newly added booking to the dispatch view */
-////
-//        $webSocket = new Websocket('localhost', '5555', $user['userId']);
-//        $webSocket->send($bookingCreated, 'dispatcher1');
-//        $webSocket->send($bookingCreated, 'monitor1');
+//        /* Send the newly added booking to the dispatch view */
+//
+        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+        $webSocket->send($bookingCreated, 'dispatcher1');
+        $webSocket->send($bookingCreated, 'monitor1');
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
     }

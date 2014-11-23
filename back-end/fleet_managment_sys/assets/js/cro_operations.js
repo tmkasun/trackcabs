@@ -496,10 +496,12 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobDriverId').html(driverId);
     $('#jobCabId').html(cabId);
 
+    $('#jobAddress').attr("onclick", "operations('fillAddressToBooking',"+bookingObj[index]['_id']['$id']+")");
     $('#jobAddress').html(bookingObj[index]['address']['no'] + ' , ' + bookingObj[index]['address']['road'] + ' , ' +
                         bookingObj[index]['address']['city'] + ' , ' + bookingObj[index]['address']['town'] + ' ,'  +
                         bookingObj[index]['address']['landmark']);
     $('#jobDestination').html(bookingObj[index]['destination']);
+    $('#jobCallUpPrice').html(bookingObj[index]['callUpPrice']);
     $('#jobRemark').html(bookingObj[index]['remark']);
 
     var specifications = "";

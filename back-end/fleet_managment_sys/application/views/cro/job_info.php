@@ -4,23 +4,6 @@
     </div>
     <div class="panel-body" >
         <div class="col-lg-12">
-    <div class="col-lg-2">
-        <div class="input-group">
-            <span class="input-group-addon">JobCount</span>
-            <input type="text" class="form-control" value="<?= $tot_job;?>">
-        </div>
-
-        <div class="input-group">
-            <span class="input-group-addon">Cancel[Total]</span>
-            <input type="text" class="form-control" value="<?= $tot_cancel;?>">
-        </div>
-
-        <div class="input-group">
-            <span class="input-group-addon">Cancel[Dispatch]</span>
-            <input type="text" class="form-control" value="<?= $dis_cancel;?>">
-        </div>
-
-    </div>
 
     <?php if(!(isset($live_booking)) && isset($history_booking) && sizeof($history_booking) != 0 ):?>
 

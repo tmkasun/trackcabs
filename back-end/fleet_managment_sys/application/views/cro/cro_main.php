@@ -154,16 +154,58 @@
     <div class="row" style="background: #d7ddeb; min-height: 1000px">
 
         <div class="col-lg-12" style="margin-top: 10px" id="customerInformation">
-
-        </div>
-
-        <div class="col-lg-12" style="margin-top: 10px;" id="jobInfo" >
             <div class="col-lg-offset-3 col-lg-7" style="margin-top: 10%">
-                <img style="width: 80%" src="<?= base_url() ?>assets/img/hao-logo-small.png">
+                <!--img style="width: 80%" src="<?= base_url() ?>assets/img/hao-logo-small.png"-->
             </div>
         </div>
 
-        <div class="col-lg-12" style="margin-top: 10px" id="newBooking">
+        <div class="col-lg-6" style="margin-top: 10px;" id="jobInfo" >
+
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">Job Information</h5>
+                </div>
+                <div class="panel-body" >
+                    <div class="col-lg-12" style="padding-left: 1px; padding-right: 1px;">
+
+                        <div class="panel panel-default col-lg-5" style="padding: 1px">
+                            <div class="panel-body" style="padding: 1px">
+                                <span class="col-lg-3" style="padding: 1px">Status</span>
+                                <span class="col-lg-9" style="padding: 1px">START</span>
+
+                                <span class="col-lg-3" style="padding: 1px">Ref. ID</span>
+                                <span class="col-lg-9" style="padding: 1px">12</span>
+
+                                <span class="col-lg-3" style="padding: 1px">Driver ID</span>
+                                <span class="col-lg-9" style="padding: 1px">NOT_ASSIGNED</span>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default col-lg-7 " style="padding: 1px;">
+                            <div class="panel-body" style="padding: 1px">
+                                <span class="col-lg-3" style="padding: 1px">Address</span>
+                                <span class="col-lg-9" style="padding: 1px">8/2 , Viahara Road , Mount Laviania , colombo 03 , Mount lavania</span>
+
+                                <span class="col-lg-3" style="padding: 1px">Ref. ID</span>
+                                <span class="col-lg-9" style="padding: 1px">12</span>
+
+                                <span class="col-lg-3" style="padding: 1px">Driver ID</span>
+                                <span class="col-lg-9" style="padding: 1px">NOT_ASSIGNED</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="col-lg-6" style="margin-top: 10px" id="newBooking">
 
         </div>
 

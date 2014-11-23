@@ -120,6 +120,15 @@ class Cro_controller extends CI_Controller
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
+    function loadCabHeaderView(){
+
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
+
+        $data['cancel_confirmation_view'] = $this->load->view('cro/cancel_booking', $bookingData , TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+    }
+
     function getCustomerInfoView(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $result = $this->customer_dao->getCustomer($input_data['tp']);
@@ -216,4 +225,16 @@ class Cro_controller extends CI_Controller
             $this->output->set_output(json_encode(array("statusMsg" => "success","important" => $bookingData ,"view" => $data)));
         }
     }
+
+    function getCabHeaderView(){
+        if (is_user_logged_in()) {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/cabs/cab_header',$userData);
+        }else{
+            $this -> load -> helper(array('form'));
+            $this -> load -> view('login/index');
+        }
+
+    }
+
 }

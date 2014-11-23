@@ -26,12 +26,31 @@ class Cab_retriever extends CI_Controller
 
     }
 
+    function getAllCabsViewCRO(){
+
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+
+        $data = $this->cab_dao->getCabsByPage($input_data['limit'],$input_data['skip']);
+        $data['table_content'] = $this->load->view('cro/cabs/all_cabs_view', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+
+    }
+
     function getCabSearchView(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $data = $this->cab_dao->getCab($input_data['cabId']);
 
         $data['table_content'] = $this->load->view('admin/cabs/cab_search', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+    }
+
+    function getCabSearchViewCRO(){
+
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $data = $this->cab_dao->getCab($input_data['cabId']);
+        log_message('error',$input_data['cabId']);
+        $data['table_content'] = $this->load->view('cro/cabs/cab_search', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
@@ -93,7 +112,6 @@ class Cab_retriever extends CI_Controller
 
     function updateCab(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        
         if((array_key_exists('userId', $input_data['details']) && $input_data['details']['userId'] === 'empty') || !(array_key_exists('userId', $input_data['details']))){$input_data['details']['userId'] = -1;}
         $this->cab_dao->updateCab($input_data['cabId'],$input_data['details']);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));

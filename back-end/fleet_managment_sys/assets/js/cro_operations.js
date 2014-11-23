@@ -408,6 +408,7 @@ function ajaxPost(data,urlLoc, asynchronicity)    {
         async: asynchronicity ? true : false,
         success: function(data, textStatus, jqXHR) {
             result = JSON.parse(jqXHR.responseText);
+
         },
         error: function(jqXHR, textStatus, errorThrown) {
             if(jqXHR.status == 400) {
@@ -425,6 +426,32 @@ function ajaxPost(data,urlLoc, asynchronicity)    {
     return result;
 }
 
+function ajaxPostCro(data,urlLoc)    {
+    var result=null;
+    $.ajax({
+        type: 'POST', url: urlLoc,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(data),
+        async: false,
+        success: function(data, textStatus, jqXHR) {
+            result = JSON.parse(jqXHR.responseText);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            if(jqXHR.status == 400) {
+                var message= JSON.parse(jqXHR.responseText);
+                $('#messages').empty();
+                $.each(messages, function(i, v) {
+                    var item = $('<li>').append(v);
+                    $('#messages').append(item);
+                });
+            } else {
+                alert('Unexpected server error.');
+            }
+        }
+    });
+    return result;
+}
 
 function showCalender(){
     $('#form_datetime').datetimepicker({
@@ -586,3 +613,12 @@ function fillAddressToBookingFromHistory(bookingObjId){
     $('#landMark').val(historyBookingObj[index]['address']['landmark']);
     $('#newBooking').scrollIntoView();
 }
+
+function getCabHeaderView(){
+    var url = '<?php echo site_url("cro_controller/getCabHeaderView") ?>';
+    var result = ajaxPost(null,url);
+    var div = document.getElementById('dataFiled');
+    div.innerHTML = result.view.table_content;
+
+}
+

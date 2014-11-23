@@ -1,6 +1,7 @@
 <table class="table table-striped" >
     <tr>
         <th>Driver ID</th>
+        <th>Calling Number</th>
         <th>Name</th>
         <th>User Name</th>
         <th>Pass</th>
@@ -8,6 +9,7 @@
         <th>tp</th>
         <th>Can Logout</th>
         <th>Cab ID</th>
+        <th>Cab Start Location</th>
         <th>Blocked</th>
     </tr>
 
@@ -15,6 +17,7 @@
 
         <tr>
             <td><?= $item['userId'];?></td>
+            <td><?= $item['callingNumber'];?></td>
             <td><?= $item['name'];?></td>
             <td><?= $item['uName'];?></td>
             <td><?= $item['pass'];?></td>
@@ -28,6 +31,7 @@
                     echo $item['cabId'];
                 }
                 ?></td>
+            <td><?= $item['startLocation'];?></td>
             <td><?= $item['blocked'];?></td>
         </tr>
 

@@ -21,7 +21,37 @@ class Cab_retriever extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
         $data = $this->cab_dao->getCabsByPage($input_data['limit'],$input_data['skip']);
+        $i = -1;
+        foreach ($data['data'] as $doc ) {
+            $i++;
+            $driverData = $this->user_dao->getDriverByCabId($doc['cabId']);
+            if(isset($doc['userId']) && $doc['userId'] != -1) {
+                $data['data'][$i]['startLocation'] = $driverData['startLocation'];
+            }else{
+                $data['data'][$i]['startLocation'] = "not assigned";
+            }
+        }
         $data['table_content'] = $this->load->view('admin/cabs/all_cabs_view', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+
+    }
+
+    function getAllCabsViewCRO(){
+
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+
+        $data = $this->cab_dao->getCabsByPage($input_data['limit'],$input_data['skip']);
+        $i = -1;
+        foreach ($data['data'] as $doc ) {
+            $i++;
+            $driverData = $this->user_dao->getDriverByCabId($doc['cabId']);
+            if(isset($doc['userId']) && $doc['userId'] != -1) {
+                $data['data'][$i]['startLocation'] = $driverData['startLocation'];
+            }else{
+                $data['data'][$i]['startLocation'] = "not assigned";
+            }
+        }
+        $data['table_content'] = $this->load->view('cro/cabs/all_cabs_view', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
 
     }
@@ -30,8 +60,28 @@ class Cab_retriever extends CI_Controller
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $data = $this->cab_dao->getCab($input_data['cabId']);
+        $driverData = $this->user_dao->getDriverByCabId($data['cabId']);
+            if(isset($data['userId']) && $data['userId'] != -1) {
+                $data['startLocation'] = $driverData['startLocation'];
+            }else{
+                $data['startLocation'] = "not assigned";
+            }
 
         $data['table_content'] = $this->load->view('admin/cabs/cab_search', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+    }
+
+    function getCabSearchViewCRO(){
+
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $data = $this->cab_dao->getCab($input_data['cabId']);
+        $driverData = $this->user_dao->getDriverByCabId($data['cabId']);
+        if(isset($data['userId']) && $data['userId'] != -1) {
+            $data['startLocation'] = $driverData['startLocation'];
+        }else{
+            $data['startLocation'] = "not assigned";
+        }
+        $data['table_content'] = $this->load->view('cro/cabs/cab_search', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
 
@@ -93,7 +143,6 @@ class Cab_retriever extends CI_Controller
 
     function updateCab(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        
         if((array_key_exists('userId', $input_data['details']) && $input_data['details']['userId'] === 'empty') || !(array_key_exists('userId', $input_data['details']))){$input_data['details']['userId'] = -1;}
         $this->cab_dao->updateCab($input_data['cabId'],$input_data['details']);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));

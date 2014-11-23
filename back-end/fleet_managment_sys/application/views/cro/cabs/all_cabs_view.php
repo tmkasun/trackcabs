@@ -6,8 +6,8 @@
         <th>Model</th>
         <th>Info</th>
         <th>Colour</th>
+        <th>Cab Start Location</th>
         <th>User ID</th>
-        <th>Start Location</th>
     </tr>
 
     <?php foreach ($data as $item):?>
@@ -34,12 +34,12 @@
                     echo 'empty';
                 }
                 ?></td>
-            <td><?php if(array_key_exists('userId', $item)){if($item['userId'] == -1){echo 'Not Assigned';}else{echo $item['userId'];}}else {echo 'empty';}?></td>
             <td><?= $item['startLocation'];?></td>
+            <td><?php if(array_key_exists('userId', $item)){if($item['userId'] == -1){echo 'Not Assigned';}else{echo $item['userId'];}}else {echo 'empty';}?></td>
         </tr>
 
 
     <?php endforeach;?>
 
-    </table>
+</table>
 

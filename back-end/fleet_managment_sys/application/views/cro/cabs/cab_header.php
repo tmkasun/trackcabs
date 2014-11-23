@@ -21,9 +21,37 @@
     <script type="text/javascript" src="<?= base_url();?>assets/webLibs/knockout/knockout-3.2.0.js"></script>
 
     <script src="<?= base_url() ?>assets/js/application_options.js"></script>
+    <script>
 
+        var docs_per_page= 100;
+        var page = 1;
+        var obj = null;
+        var url = '<?php echo site_url(); ?>';
+
+    </script>
     <script>
         setBaseURL('<?= base_url().'index.php/' ?>');
+
+        function getCabViewCRO(){
+
+            var cabId = document.getElementById("cabIdSearch").value;
+            var cab = { 'cabId' : parseInt(cabId) };
+            var url = '<?php echo site_url("cab_retriever/getCabSearchViewCRO"); ?>';
+            var result = ajaxPostCro(cab,url);
+            var div = document.getElementById('tableDiv');
+            div.innerHTML = result.view.table_content;
+
+        }
+
+        function getAllCabs(){
+            var url = '<?php echo site_url("/cab_retriever/getAllCabsViewCRO"); ?>';
+            var skip = docs_per_page * (page-1);
+            var data = {"skip" : skip , "limit" : docs_per_page};
+            var view = ajaxPostCro(data,url);
+            var div = document.getElementById('tableDiv');
+            div.innerHTML = view.view.table_content;
+
+        }
     </script>
 
     <style>
@@ -78,7 +106,6 @@
     </style>
 </head>
 <body>
-
 <div id="navBarField">
     <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0px">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -91,9 +118,9 @@
             <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadBookingsView')?>" >Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
-            <li class="active"><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
+            <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
             <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a></li>
-            <li><a href="<?= site_url('cro_controller/getCabHeaderView')?>" >Cabs</a>
+            <li class="active" ><a href="<?= site_url('cro_controller/getCabHeaderView')?>" >Cabs</a>
         </ul>
 
 
@@ -103,7 +130,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Link</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?=$userData['uName'];?><b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?=$uName;?><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="<?= site_url('login/logout')?>">Logout</a></li>
                     </ul>
@@ -113,19 +140,32 @@
     </nav>
 </div>
 
-<div style="max-height: 90%;" id="locationBoardPane">
-    <?= $location_board_pane ?>
-</div>
+
+
+
+<div class="col-lg-12" style="margin-top: 10px;" id="bookingSearch" >
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h5 class="panel-title">Cab Search</h5>
+        </div>
+
+        <div class="panel-body" >
+
+            <div class="col-lg-4">
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <label for="cabIdSearch" class="sr-only">Cab ID</label>
+                        <input type="text" class="form-control" id="cabIdSearch" placeholder="Cab ID">
+                    </div>
+                    <button type="button" class="btn btn-default"  onclick="getCabViewCRO();">Search</button>
+                </form>
+            </div>
+
+        </div>
+        <div id="tableDiv">
+            <script>getAllCabs();</script>
+        </div>
+    </div>
 
 </div>
-
-</div>
-<script>
-    $(document).ready(function(){
-            locVM.disableInputs();
-            $("#locationHeading").hide();
-        });
-</script>
-
 </body>
-</html>

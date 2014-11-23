@@ -115,10 +115,10 @@ class Customer_retriever extends CI_Controller
         $sms = new Sms();
         foreach ($bookingCreated['profileLinks'] as $item) {
             $customerProfile = $this->customer_dao->getCustomerByMongoObjId($item);
-            if ($customerProfile['tp'] != '-') {
+            if ($customerProfile['tp'] != '-' && $customerProfile['type1'] != 'land') {
                 $sms->send($customerProfile['tp'], $message);
             }
-            if ($customerProfile['tp2'] != '-') {
+            if ($customerProfile['tp2'] != '-' && $customerProfile['type2'] != 'land') {
                 $sms->send($customerProfile['tp2'], $message);
             }
         }
@@ -140,19 +140,17 @@ class Customer_retriever extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
         $user = $this->session->userdata('user');
-
         $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
         $result = $bookingData['status'];
 
         if ($bookingData != null) {
-            if ($result == ("MSG_COPIED") || $result == ("MSG_NOT_COPIED") || $result == ("AT_THE_PLACE") || $result == ("POB")) {
 
+            if($result == 'START'){
+                $this->live_dao->updateStatus($input_data['_id'], "CANCEL");
+            } else {
                 /* Adds +1 to the dis_cancel in customers collection */
                 $this->customer_dao->addCanceledDispatch($input_data["tp"]);
                 $this->live_dao->updateStatus($input_data['_id'], "DIS_CANCEL");
-
-            } else if ($result == ("START")) {
-                $this->live_dao->updateStatus($input_data['_id'], "CANCEL");
             }
 
             /* Adds +1 to the tot_cancel in customers collection */
@@ -164,7 +162,8 @@ class Customer_retriever extends CI_Controller
             $bookingData['cancelReason'] = $input_data['cancelReason'];
             $this->history_dao->createBooking($bookingData);
 
-            $message = 'Your booking ' . $bookingData['refId'] . '. has been canceled. Have a nice day';
+            $message = 'Your booking has been canceled. Sorry for the inconvenience. Ref.No : ' . $bookingData['refId'] .
+                        '.Cancel Reason : ' .$bookingData['cancelReason']. '. Thank You for calling Hao City Cabs : 2 888 888';
             $this->sendSms($bookingData, $message);
 //
 //            /* Send the canceled booking to the dispatch view */

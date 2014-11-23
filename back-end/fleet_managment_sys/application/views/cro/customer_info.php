@@ -12,6 +12,9 @@
                         <th>Permanent Remarks</th>
                         <th>Organization</th>
                         <th>Profile Type</th>
+                        <th>Jobs</th>
+                        <th>Cancel[T]</th>
+                        <th>Cancel[D]</th>
                     </tr>
 
                     <tr>
@@ -21,6 +24,9 @@
                         <td><?= $pRemark?></td>
                         <td><?= $org?></td>
                         <td><?= $profileType?></td>
+                        <td><?= $tot_job?></td>
+                        <td><?= $tot_cancel?></td>
+                        <td><?= $dis_cancel?></td>
                     </tr>
                 </table>
             </div>

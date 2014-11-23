@@ -169,7 +169,7 @@
                             <?= implode(", ", $live_booking[$index]['address']);?>
                         </span>
                             <h5>Destination</h5>
-                            <span id="jobRemark"><?= $live_booking[$index]['destination']?></span>
+                            <span id="jobDestination"><?= $live_booking[$index]['destination']?></span>
                             <h5>Remark </h5>
                             <span id="jobRemark"><?= $live_booking[$index]['remark']?></span>
                             <h5>Specifications</h5>

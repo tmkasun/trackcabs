@@ -172,27 +172,130 @@
 
                         <div class="panel panel-default col-lg-5" style="padding: 1px">
                             <div class="panel-body" style="padding: 1px">
-                                <span class="col-lg-3" style="padding: 1px">Status</span>
-                                <span class="col-lg-9" style="padding: 1px">START</span>
+                                <div class="col-lg-12">
+                                    <span class="col-lg-4" style="padding: 1px">Status</span>
+                                    <span id="jobStatus" class="col-lg-8" style="padding: 1px">START</span>
+                                </div>
 
-                                <span class="col-lg-3" style="padding: 1px">Ref. ID</span>
-                                <span class="col-lg-9" style="padding: 1px">12</span>
+                                <div class="col-lg-12">
+                                    <span class="col-lg-4" style="padding: 1px">Ref. ID</span>
+                                    <span class="col-lg-8" style="padding: 1px"><span class="badge" id="jobRefId" >42</span></span>
+                                </div>
 
-                                <span class="col-lg-3" style="padding: 1px">Driver ID</span>
-                                <span class="col-lg-9" style="padding: 1px">NOT_ASSIGNED</span>
+
+                                <div class="col-lg-12">
+                                    <span class="col-lg-4" style="padding: 1px">V Type</span>
+                                    <span id="jobVehicleType" class="col-lg-8" style="padding: 1px">Van</span>
+                                </div>
+
+
+                                <div class="col-lg-12">
+                                    <span class="col-lg-4" style="padding: 1px">Payment</span>
+                                    <span id="jobPayType" class="col-lg-8" style="padding: 1px">Cash</span>
+                                </div>
+
+                                <div class="col-lg-12" style="padding: 1px">
+                                    <div class="well well-sm"><span class="col-lg-offset-3">Vehicle Details</span> </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <span class="col-lg-4" style="padding: 1px">Driver ID</span>
+                                    <span id="jobDriverId" class="col-lg-8" style="padding: 1px">NOT_ASSIGNED</span>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <span class="col-lg-4" style="padding: 1px">Cab ID</span>
+                                    <span id="jobCabId" class="col-lg-8" style="padding: 1px">NOT_ASSIGNED</span>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <span class="col-lg-4" style="padding: 1px">Driver Tp</span>
+                                    <span id="jobStatus" class="col-lg-8" style="padding: 1px">0779823445</span>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <span class="col-lg-4" style="padding: 1px">Cab Color</span>
+                                    <span id="jobRefId" class="col-lg-8" style="padding: 1px">Blue</span>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <span class="col-lg-4" style="padding: 1px">Plate No</span>
+                                    <span id="jobDriverId" class="col-lg-8" style="padding: 1px">UV 123</span>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <span class="col-lg-4" style="padding: 1px">Paging Board</span>
+                                    <span id="jobCabId" class="col-lg-8" style="padding: 1px">-</span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="panel panel-default col-lg-7 " style="padding: 1px;">
                             <div class="panel-body" style="padding: 1px">
                                 <span class="col-lg-3" style="padding: 1px">Address</span>
-                                <span class="col-lg-9" style="padding: 1px">8/2 , Viahara Road , Mount Laviania , colombo 03 , Mount lavania</span>
+                                <span id="jobAddress" class="col-lg-9" style="padding: 1px">8/2 , Viahara Road , Mount Lavania ,Colombo. Near the cargills</span>
 
-                                <span class="col-lg-3" style="padding: 1px">Ref. ID</span>
-                                <span class="col-lg-9" style="padding: 1px">12</span>
+                                <span class="col-lg-3" style="padding: 1px">Remark</span>
+                                <span id="jobRemark" class="col-lg-9" style="padding: 1px">English Speaking Driver</span>
 
-                                <span class="col-lg-3" style="padding: 1px">Driver ID</span>
-                                <span class="col-lg-9" style="padding: 1px">NOT_ASSIGNED</span>
+                                <span class="col-lg-3" style="padding: 1px">Destination</span>
+                                <span id="jobDestination" class="col-lg-9" style="padding: 1px">Wellawatta</span>
+
+                                <span class="col-lg-3" style="padding: 1px">Call Up</span>
+                                <span id="jobDestination" class="col-lg-9" style="padding: 1px">200</span>
+
+                                <span class="col-lg-3" style="padding: 1px">Specs</span>
+                                <span id="jobSpecifications" class="col-lg-9" style="padding: 1px">VIA | VIH</span>
+
+                            </div>
+                        </div>
+
+
+                        <div class="panel panel-default col-lg-7 " style="padding: 1px;">
+                            <div class="panel-body" style="padding: 1px">
+                                <span class="col-lg-3" style="padding: 1px">Book Time</span>
+                                <span id="jobAddress" class="col-lg-9" style="padding: 1px">06:30 2014-11-01 </span>
+
+                                <span class="col-lg-3" style="padding: 1px">Call Time</span>
+                                <span id="jobRemark" class="col-lg-9" style="padding: 1px">05:30 2014-11-01 </span>
+
+                                <span class="col-lg-3" style="padding: 1px">Dispatch</span>
+                                <span id="jobDestination" class="col-lg-9" style="padding: 1px">30 mins</span>
+
+                                <span class="col-lg-3" style="padding: 1px">Specs</span>
+                                <span id="jobSpecifications" class="col-lg-9" style="padding: 1px">VIA | VIH</span>
+
+                                <span class="col-lg-3" style="padding: 1px">Payment</span>
+                                <span id="jobPayType" class="col-lg-9" style="padding: 1px">Cash</span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12" style="margin-top: 5px ; padding: 1px">
+                            <div class="col-lg-12" style="padding: 1px">
+                                <div class="well well-sm" style="min-height: 0px"></div>
+                            </div>
+
+                            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Update
+                                    </button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Inquire
+                                    </button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Complaint
+                                    </button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancel
+                                    </button>
+                                </div>
                             </div>
                         </div>
 

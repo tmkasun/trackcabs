@@ -93,7 +93,7 @@
                         <?php if($live_booking[$index]['isVip'])echo 'VIP | ';?>
                         <?php if($live_booking[$index]['isVih'])echo  'VIH | ';?>
                         <?php if($live_booking[$index]['isUnmarked']) echo 'UNMARK |'?>
-                        <?php if($live_booking[$index]['isTinted']) echo 'Tinted'?>
+                        <?php if($live_booking[$index]['isTinted']) echo 'Tinted'?> &nbsp;
                     </span>
 
                     <span class="col-lg-3" style="padding: 1px">Paging[B]</span>
@@ -121,9 +121,6 @@
             </div>
 
                 <div class="col-lg-12" style="margin-top: 5px ; padding: 1px">
-                <div class="col-lg-12" style="padding: 1px">
-                    <div class="well well-sm" style="min-height: 0px"></div>
-                </div>
 
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group" role="group">
@@ -155,7 +152,7 @@
             </div>
         <?php endif;?>
 
-        <div class="col-lg-12" style="max-height: 200px ; overflow: auto">
+        <div class="col-lg-12" style="max-height: 100px ; overflow: auto; font-size: 12px">
             <?php if(isset($live_booking) && sizeof($live_booking) != 1):?>
                 <table class="table table-striped" style="margin-top: 3%;">
                     <tr>

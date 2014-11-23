@@ -23,7 +23,12 @@
             <div class="col-lg-9" style="padding: 1px">
                 <div class="col-lg-12">
                     <span class="col-lg-3">Name</span>
-                    <span class="col-lg-9"><?= $title?> (<?= $position?>) . <?= $name?></span>
+                    <span class="col-lg-9">
+                        <?= $title?>
+                        <?php if($position !=  '-'){
+                            echo '(' . $position . ')';
+                        }?>
+                        <?= $name?></span>
                 </div>
 
                 <div class="col-lg-12">
@@ -70,9 +75,9 @@
                 <?php endif;?>
 
                 <?php if(isset($userInfo)):?>
-                    <div class="col-lg-12" style="padding: 1px">
+                    <div class="col-lg-12" style="max-height: 150px ; overflow: auto; font-size: 12px ;padding: 1px">
                         <h4>Personal Profiles</h4>
-                        <div class="col-lg-12" style="max-height: 200px ; overflow: auto; padding: 1px">
+                        <div class="col-lg-12" style="padding: 1px">
                             <table class="table table-striped" >
                                 <tr>
                                     <th>Title</th>

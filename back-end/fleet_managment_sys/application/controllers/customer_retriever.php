@@ -140,19 +140,17 @@ class Customer_retriever extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
         $user = $this->session->userdata('user');
-
         $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
         $result = $bookingData['status'];
 
         if ($bookingData != null) {
-            if ($result == ("MSG_COPIED") || $result == ("MSG_NOT_COPIED") || $result == ("AT_THE_PLACE") || $result == ("POB")) {
 
+            if($result == 'START'){
+                $this->live_dao->updateStatus($input_data['_id'], "CANCEL");
+            } else {
                 /* Adds +1 to the dis_cancel in customers collection */
                 $this->customer_dao->addCanceledDispatch($input_data["tp"]);
                 $this->live_dao->updateStatus($input_data['_id'], "DIS_CANCEL");
-
-            } else if ($result == ("START")) {
-                $this->live_dao->updateStatus($input_data['_id'], "CANCEL");
             }
 
             /* Adds +1 to the tot_cancel in customers collection */

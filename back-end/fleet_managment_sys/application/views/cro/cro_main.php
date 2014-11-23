@@ -153,11 +153,93 @@
 <div class="container-fluid">
     <div class="row" style="background: #d7ddeb; min-height: 1000px">
 
-        <div class="col-lg-12" style="margin-top: 10px" id="customerInformation">
+        <div class="col-lg-6" style="margin-top: 10px" id="customerInformation">
+
+            <div class="panel panel-default" xmlns="http://www.w3.org/1999/html">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Customer Information</h3>
+                </div>
+                <div class="panel-body" >
+                    <div class="col-md-12" style="padding: 1px">
+
+                        <div class="col-lg-3" style="padding: 1px">
+                            <img style='float:left;width:134px;height:128px' src="<?= base_url() ?>assets/img/profile_pic.jpg" />
+                            <div class="col-lg-12" style="margin-top: 5px ; padding: 1px">
+
+                                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-default btn-sm" onclick="operations('editCus', '<?= $tp;?>' )">
+                                            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Update
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-9" style="padding: 1px">
+                            <div class="col-lg-12">
+                                <span class="col-lg-3">Name</span>
+                                <span class="col-lg-9">Mr (Dig) . Nirojan Selvanathan</span>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <span class="col-lg-3">Remark[P]</span>
+                                <span class="col-lg-9">Need an English speaking driver nad herohwoihosdn gosdh  dhs follkh ohi olh </span>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <span class="col-lg-3">Organization</span>
+                                <span class="col-lg-9">WSO2</span>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <span class="col-lg-3">Profile</span>
+                                <span class="col-lg-9">Personal</span>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <span class="col-lg-3">Job Count</span>
+                                <span class="col-lg-9">12</span>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <span class="col-lg-3">Cancel [T]</span>
+                                <span class="col-lg-9">12</span>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <span class="col-lg-3">Cancel [D]</span>
+                                <span class="col-lg-9">12</span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="col-lg-offset-4 col-lg-8" style="padding: 1px">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="cooperateUserTp" placeholder="Land / Mobile">
+                                  <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" onclick="operations('addUser');return false;" onsubmit="operations('addUser');return false;">Add User</button>
+                                  </span>
+                                </div><!-- /input-group -->
+                            </div>
+
+                            <div class="col-lg-12">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
             <div class="col-lg-offset-3 col-lg-7" style="margin-top: 10%">
                 <!--img style="width: 80%" src="<?= base_url() ?>assets/img/hao-logo-small.png"-->
             </div>
         </div>
+            </div>
 
         <div class="col-lg-6" style="margin-top: 10px;" id="jobInfo" >
 
@@ -174,7 +256,9 @@
                             <div class="panel-body" style="padding: 1px">
                                 <div class="col-lg-12">
                                     <span class="col-lg-4" style="padding: 1px">Status</span>
-                                    <span id="jobStatus" class="col-lg-8" style="padding: 1px">START</span>
+                                    <span id="jobStatus" class="col-lg-8" style="padding: 1px">
+                                        <span class="label label-default">START</span>
+                                    </span>
                                 </div>
 
                                 <div class="col-lg-12">
@@ -308,7 +392,7 @@
 
         </div>
 
-        <div class="col-lg-6" style="margin-top: 10px" id="newBooking">
+        <div class="col-lg-12" style="margin-top: 10px" id="newBooking">
 
         </div>
 

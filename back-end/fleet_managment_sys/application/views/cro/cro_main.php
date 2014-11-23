@@ -158,11 +158,11 @@
         <div class="col-lg-12" style="margin-top: 10px">
             <div class="panel panel-default">
                 <div class="panel-body" style="padding: 3px">
-                    <div class="col-lg-6" style="margin-top: 10px; padding: 1px" id="customerInformation">
+                    <div class="col-lg-6" style="margin-top: 10px; padding: 2px" id="customerInformation">
 
                     </div>
 
-                    <div class="col-lg-6" style="margin-top: 10px; padding: 1px" id="jobInfo" >
+                    <div class="col-lg-6" style="margin-top: 10px; padding: 2px" id="jobInfo" >
 
                     </div>
 

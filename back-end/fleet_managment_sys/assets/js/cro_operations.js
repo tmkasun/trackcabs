@@ -150,6 +150,20 @@ function createBooking(url , tp){
     if (destination== ''){destination= '-'}
     if (pagingBoard== ''){pagingBoard= '-'}
 
+    /* Form Validations */
+    if(vType == ''){
+        alert('Vehicle Type is Compulsory');
+        return false;
+    }
+    if(bTime == '' || bDate ==  ''){
+        alert('Booking Date and Time are Compulsory');
+        return false;
+    }
+    if(payType ==  ''){
+        alert('Payment method is Compulsory');
+        return false;
+    }
+
     var address = {
         'no':no ,
         'road' : road ,

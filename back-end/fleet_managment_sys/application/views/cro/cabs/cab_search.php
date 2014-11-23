@@ -9,6 +9,7 @@
             <th>Model</th>
             <th>Info</th>
             <th>User ID</th>
+            <th>Cab Start Location</th>
 
         </tr>
         <?php if(isset($cabId)){ ?>
@@ -19,7 +20,7 @@
                 <td><?= $model;?></td>
                 <td><?= $info;?></td>
                 <td><?php if(!isset($userId) || $userId === 'empty' ){echo 'empty';}else {echo $userId;}?></td>
-
+                <td><?= $startLocation;?></td>
             </tr>
         <?php } ?>
     </table>

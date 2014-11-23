@@ -7,7 +7,7 @@
     <h4>Model : <?= $model;?></h4></br>
     <h4>Info : <?= $info;?></h4></br>
     <h4>User ID : <?php if(!isset($userId) || $userId === 'empty' ){echo 'empty';}else {echo $userId;}?></h4></br>
-
+    <h4>Cab Start Location : <?= $startLocation;?></h4></br>
     <div class="btn-group btn-group-justified">
         <div class="btn-group">
             <button type="button" class="btn btn-success" onclick="makeCabFormEditable(<?php echo $cabId;?>,url)">Edit</button>

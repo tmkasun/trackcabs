@@ -4,6 +4,7 @@
                 <table class="table table-striped" >
                     <tr>
                         <th>Driver ID</th>
+                        <th>Calling Number</th>
                         <th>Name</th>
                         <th>User Name</th>
                         <th>Pass</th>
@@ -12,12 +13,14 @@
                         <th>Can Logout</th>
                         <th>Cab ID</th>
                         <th>User Type</th>
+                        <th>Cab Start Location</th>
                         <th>Blocked</th>
                         <th>Action</th>
                     </tr>
                     <?php if(isset($userId)){ ?>
                       <tr>
                             <td><?= $userId;?></td>
+                            <td><?= $callingNumber;?></td>
                             <td><?= $name?></td>
                             <td><?= $uName;?></td>
                             <td><?= $pass;?></td>
@@ -32,6 +35,7 @@
                                 }
                                 ?></td>
                             <td><?= $user_type;?></td>
+                            <td><?= $startLocation;?></td>
                             <td><?= $blocked; ?></td>
                             <td><div class="btn-group btn-group-justified">
                                     <div class="btn-group">

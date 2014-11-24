@@ -20,7 +20,10 @@
                     <?php if(isset($userId)){ ?>
                       <tr>
                             <td><?= $userId;?></td>
-                            <td><?= $callingNumber;?></td>
+                            <td><?php
+                            if(!isset($callingNumber) || $callingNumber == -1 || trim($callingNumber) == ''){echo 'Not Assigned';}
+                            else{echo $callingNumber;}
+                            ?></td>
                             <td><?= $name?></td>
                             <td><?= $uName;?></td>
                             <td><?= $pass;?></td>
@@ -34,8 +37,11 @@
                                     echo $cabId;
                                 }
                                 ?></td>
-                            <td><?= $user_type;?></td>
-                            <td><?= $startLocation;?></td>
+                            <td><?= $user_type;?></td>                            
+                            <td><?php
+                            if(!isset($startLocation) || trim($startLocation) == ''){echo 'Not Assigned';}
+                            else{echo $startLocation;}
+                            ?></td>
                             <td><?= $blocked; ?></td>
                             <td><div class="btn-group btn-group-justified">
                                     <div class="btn-group">

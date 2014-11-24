@@ -35,10 +35,11 @@ class Test_controller extends CI_Controller
         //$input_data = json_decode(trim(file_get_contents('php://input')), true);
         //$limit = $input_data['limit'];
         //$skip = $input_data['skip'];
-        $user_type = 'cro';//$input_data['user_type'];
+        $user_type = 'driver';//$input_data['user_type'];
         
         
-        $data = $this->test_dao->getUsersByPage_by_type();
+        $data = $this->user_dao->getAllUsers_by_type($user_type);
+        var_dump($data);
         print_r($data);
         //$data['table_content'] = $this->load->view('admin/'.$user_type.'/all_'.$user_type.'_view', $data, TRUE);
         //$this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
@@ -119,5 +120,7 @@ class Test_controller extends CI_Controller
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $complaints_by_driver)));
         //var_dump($complaints_by_driver);//comment the array print and load complaints to a view with jason encode
     }
+    
+    
 }
 

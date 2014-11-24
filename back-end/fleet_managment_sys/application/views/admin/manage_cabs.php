@@ -335,9 +335,28 @@
 
     function createNewPackage(){
         var packageName = document.getElementById("packageName").value;
-        var fee = document.getElementById("fee").value;
+        alert("aawa");
+        if (document.getElementById('airport').checked) {
+            var feeType = 'airport';
+
+        }else if(document.getElementById('day').checked){
+            var feeType = 'day';
+        }
         var info = document.getElementById("info").value;
-        var packaged = {'packageId':'','packageName' : packageName , 'fee' : fee , 'info' : info };
+        if(feeType == 'airport'){
+            var name = document.getElementById("name").value;
+            var dropFee = document.getElementById("dropFee").value;
+            var bothwayFee = document.getElementById("bothwayFee").value;
+            var guestCarrierFee = document.getElementById("guestCarrierFee").value;
+            var outsideFee = document.getElementById("outsideFee").value;
+            var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType ,'name':name , 'dropFee' :dropFee , 'bothwayFee' : bothwayFee , 'guestCarrierFee' : guestCarrierFee , 'outsideFee' :outsideFee , 'info' : info };
+        }else{
+            var km = document.getElementById("km").value;
+            var hours = document.getElementById("hours").value;
+            var fee = document.getElementById("fee").value;
+            alert(feeType);
+            var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType , 'km' :km , 'hours' : hours , 'fee' :fee , 'info' : info };
+        }
         var url =  '<?php echo site_url("packages_controller/createPackage"); ?>';
         alert(JSON.stringify(packaged));
         ajaxPost(packaged,url);
@@ -383,9 +402,21 @@
 
     function updatePackage(packageId) {
         var packageName = document.getElementById("packageName").value;
-        var fee = document.getElementById("fee").value;
+        var feeType = document.getElementById("feeType").value;
         var info = document.getElementById("info").value;
-        var packaged = {'packageId':packageId,'packageName':packageName,'fee': fee, 'info': info};
+        if(feeType == 'airport'){
+            var name = document.getElementById("name").value;
+            var dropFee = document.getElementById("dropFee").value;
+            var bothwayFee = document.getElementById("bothwayFee").value;
+            var guestCarrierFee = document.getElementById("guestCarrierFee").value;
+            var outsideFee = document.getElementById("outsideFee").value;
+            var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType ,'name':name , 'dropFee' :dropFee , 'bothwayFee' : bothwayFee , 'guestCarrierFee' : guestCarrierFee , 'outsideFee' :outsideFee , 'info' : info };
+        }else{
+            var km = document.getElementById("km").value;
+            var hours = document.getElementById("hours").value;
+            var fee = document.getElementById("fee").value;
+            var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType , 'km' :km , 'hours' : hours , 'fee' :fee , 'info' : info };
+        }
         var url = '<?php echo site_url("packages_controller/updatePackage") ?>';
         ajaxPost(packaged, url);
         getPackagesView();

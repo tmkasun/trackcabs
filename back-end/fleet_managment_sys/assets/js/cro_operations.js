@@ -150,6 +150,20 @@ function createBooking(url , tp){
     if (destination== ''){destination= '-'}
     if (pagingBoard== ''){pagingBoard= '-'}
 
+    /* Form Validations */
+    if(vType == ''){
+        alert('Vehicle Type is Compulsory');
+        return false;
+    }
+    if(bTime == '' || bDate ==  ''){
+        alert('Booking Date and Time are Compulsory');
+        return false;
+    }
+    if(payType ==  ''){
+        alert('Payment method is Compulsory');
+        return false;
+    }
+
     var address = {
         'no':no ,
         'road' : road ,
@@ -523,10 +537,12 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobDriverId').html(driverId);
     $('#jobCabId').html(cabId);
 
+    $('#jobAddress').attr("onclick", "operations('fillAddressToBooking',"+bookingObj[index]['_id']['$id']+")");
     $('#jobAddress').html(bookingObj[index]['address']['no'] + ' , ' + bookingObj[index]['address']['road'] + ' , ' +
                         bookingObj[index]['address']['city'] + ' , ' + bookingObj[index]['address']['town'] + ' ,'  +
                         bookingObj[index]['address']['landmark']);
     $('#jobDestination').html(bookingObj[index]['destination']);
+    $('#jobCallUpPrice').html(bookingObj[index]['callUpPrice']);
     $('#jobRemark').html(bookingObj[index]['remark']);
 
     var specifications = "";

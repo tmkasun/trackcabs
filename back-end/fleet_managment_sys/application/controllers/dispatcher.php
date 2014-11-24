@@ -289,4 +289,19 @@ class Dispatcher extends CI_Controller
 
     }
 
+
+//    function sendSms($bookingCreated, $message)
+//    {
+//        $sms = new Sms();
+//        foreach ($bookingCreated['profileLinks'] as $item) {
+//            $customerProfile = $this->customer_dao->getCustomerByMongoObjId($item);
+//            if ($customerProfile['tp'] != '-') {
+//                $sms->send($customerProfile['tp'], $message);
+//            }
+//            if ($customerProfile['tp2'] != '-') {
+//                $sms->send($customerProfile['tp2'], $message);
+//            }
+//        }
+//    }
+
 }

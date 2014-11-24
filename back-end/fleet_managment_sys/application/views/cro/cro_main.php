@@ -155,18 +155,27 @@
 <div class="container-fluid">
     <div class="row" style="background: #d7ddeb; min-height: 1000px">
 
-        <div class="col-lg-12" style="margin-top: 10px" id="customerInformation">
+        <div class="col-lg-12" style="margin-top: 10px">
+            <div class="panel panel-default">
+                <div class="panel-body" style="padding: 3px">
+                    <div class="col-lg-6" style="margin-top: 10px; padding: 2px" id="customerInformation">
 
-        </div>
+                    </div>
 
-        <div class="col-lg-12" style="margin-top: 10px;" id="jobInfo" >
-            <div class="col-lg-offset-3 col-lg-7" style="margin-top: 10%">
-                <img style="width: 80%" src="<?= base_url() ?>assets/img/hao-logo-small.png">
+                    <div class="col-lg-6" style="margin-top: 10px; padding: 2px" id="jobInfo" >
+
+                    </div>
+
+                </div>
             </div>
         </div>
 
-        <div class="col-lg-12" style="margin-top: 10px" id="newBooking">
 
+
+        <div class="col-lg-12" style="margin-top: 10px"  id="newBooking">
+            <div class="col-lg-offset-3 col-lg-7" style="margin-top: 10%">
+                <img style="width: 80%" src="<?= base_url() ?>assets/img/hao-logo-small.png">
+            </div>
         </div>
 
         <div class="col-lg-8" style="margin-top: 10px" id="bookingHistory">

@@ -53,7 +53,7 @@ class User_controller extends CI_Controller
         $skip = $input_data['skip'];
         $user_type = $input_data['user_type'];//strtoupper($input_data['user_type']);
         
-        
+        //$data = $this->user_dao->getAllUsers_by_type($user_type);
         $data = $this->user_dao->getUsersByPage_by_type($limit,$skip,$user_type);
         $data['table_content'] = $this->load->view('admin/'.$user_type.'/all_'.$user_type.'_view', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
@@ -126,6 +126,7 @@ class User_controller extends CI_Controller
                     $input_data['status'] = 'out';
                     $input_data['lastLogout'] = new MongoDate();
                     $input_data['lastLogin'] = new MongoDate();
+                    $input_data['callingNumber'] = (int)$input_data['callingNumber'];
                   
                 }
         $result = $this->user_dao->createUser($input_data);
@@ -157,6 +158,13 @@ class User_controller extends CI_Controller
 //                        }
                         //add relese_cab() here
                 }
+        if(array_key_exists('callingNumber', $input_data['details']))
+        {
+            if($input_data['details']['callingNumber'] == ""){$input_data['details']['callingNumber'] = (int)-1;}
+            else {$input_data['details']['callingNumber'] = (int)$input_data['details']['callingNumber'];}
+            //$input_data['details']['callingNumber'] = (int)$input_data['details']['callingNumber'];
+            
+        }        
         $this->user_dao->updateUser($input_data['userId'],$input_data['details']);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
     }

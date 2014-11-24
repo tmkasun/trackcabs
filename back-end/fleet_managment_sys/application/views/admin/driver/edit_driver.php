@@ -5,7 +5,10 @@
     </div>
     <div class="form-group">
         <label for="name">Calling Number</label>
-        <input type="text" class="form-control" id="callingNumber" placeholder="Enter Calling Number" value="<?= $callingNumber;?>">
+        <input type="text" class="form-control" id="callingNumber" placeholder="Enter Calling Number" value="<?php
+                            if(!isset($callingNumber) || $callingNumber == -1 || trim($callingNumber) == ''){echo -1;}
+                            else{echo $callingNumber;}
+                            ?>">
     </div>
     <div class="form-group">
         <label for="name">Full Name</label>
@@ -48,7 +51,10 @@
     </div>
     <div class="form-group">
         <label for="tp">Cab Start Location</label>
-        <input type="text" class="form-control" id="startLocation" placeholder="Enter cab start location" value="<?= $startLocation;?>">
+        <input type="text" class="form-control" id="startLocation" placeholder="Enter cab start location" value="<?php
+                            if(!isset($startLocation)){echo '';}
+                            else{echo $startLocation;}
+                            ?>">
     </div>
     <div class="form-group">
         <label for="blocked">Blocked</label>

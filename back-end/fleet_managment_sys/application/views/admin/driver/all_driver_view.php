@@ -17,7 +17,10 @@
 
         <tr>
             <td><?= $item['userId'];?></td>
-            <td><?= $item['callingNumber'];?></td>
+            <td><?php
+                            if(!isset($item['callingNumber']) || $item['callingNumber'] == -1 || trim($item['callingNumber']) == ''){echo 'Not Assigned';}
+                            else{echo $item['callingNumber'];}
+                            ?></td>
             <td><?= $item['name'];?></td>
             <td><?= $item['uName'];?></td>
             <td><?= $item['pass'];?></td>
@@ -31,7 +34,10 @@
                     echo $item['cabId'];
                 }
                 ?></td>
-            <td><?= $item['startLocation'];?></td>
+            <td><?php
+                            if(!isset($item['startLocation']) || trim($item['startLocation']) == ''){echo 'Not Assigned';}
+                            else{echo $item['startLocation'];}
+                            ?></td>
             <td><?= $item['blocked'];?></td>
         </tr>
 

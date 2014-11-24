@@ -1,267 +1,160 @@
 <div class="panel panel-default">
-    <div class="panel-heading">
+    <div class="panel-heading" style="padding: 1px">
         <h5 class="panel-title">Job Information</h5>
     </div>
     <div class="panel-body" >
-        <div class="col-lg-12">
-    <div class="col-lg-2">
-        <div class="input-group">
-            <span class="input-group-addon">JobCount</span>
-            <input type="text" class="form-control" value="<?= $tot_job;?>">
-        </div>
+        <?php if(isset($live_booking) ):?>
+            <?php $index=sizeof($live_booking)-1;?>
+            <div class="col-lg-12" style="padding-left: 1px; padding-right: 1px;" id="bookingStatus">
 
-        <div class="input-group">
-            <span class="input-group-addon">Cancel[Total]</span>
-            <input type="text" class="form-control" value="<?= $tot_cancel;?>">
-        </div>
+                <div class="panel panel-default col-lg-5" style="padding: 1px">
 
-        <div class="input-group">
-            <span class="input-group-addon">Cancel[Dispatch]</span>
-            <input type="text" class="form-control" value="<?= $dis_cancel;?>">
-        </div>
+                    <div class="panel-body" style="padding: 1px">
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Status</span>
+                                <span class="col-lg-8" style="padding: 1px">
+                                    <span id="jobStatus" class="label label-default"><?= $live_booking[$index]['status'];?></span>
+                                </span>
+                        </div>
 
-    </div>
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Ref. ID</span>
+                            <span class="col-lg-8" style="padding: 1px"><span class="badge" id="jobRefId"><?= $live_booking[$index]['refId']; ?></span></span>
+                        </div>
 
-    <?php if(!(isset($live_booking)) && isset($history_booking) && sizeof($history_booking) != 0 ):?>
 
-        <div class="col-lg-10" style="border-left: 2px solid #a6a6a6" >
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Booking Status</h3>
-                </div>
-                <div class="panel-body" id="bookingStatus">
-                    <?php $index=sizeof($history_booking)-1;?>
-                    <div class="col-lg-3">
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">V Type</span>
+                            <span id="jobVehicleType" class="col-lg-8" style="padding: 1px"><?= $live_booking[$index]['vType']; ?></span>
+                        </div>
 
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <span class="badge" id="jobStatus"><?= $history_booking[$index]['status']; ?></span>
-                                Status
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge" id="jobRefId"><?= $history_booking[$index]['refId']; ?></span>
-                                Reference ID
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge" id="jobDriverId"><?php if($history_booking[$index]['driverId'] == '-' )echo 'NOT_ASSIGNED';else echo $history_booking[$index]['driverId'];?></span>
-                                Driver ID
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge" id="jobCabId"><?php if($history_booking[$index]['cabId'] == '-' )echo 'NOT_ASSIGNED';else $history_booking[$index]['cabId']; ?></span>
-                                Cab ID
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge" id="jobVehicleType"><?= $history_booking[sizeof($history_booking)-1]['vType']; ?></span>
-                                Vehicle Type
-                            </li>
-                        </ul>
-                    </div>
 
-                    <div class="col-lg-9">
-                        <div class="col-lg-4">
-                            <?php $status =$history_booking[$index]['status']; ?>
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Payment</span>
+                            <span id="jobPayType" class="col-lg-8" style="padding: 1px"><?= $live_booking[$index]['payType'];?></span>
+                        </div>
 
-                            <h5>Address </h5>
-                        <span id="jobAddress">
-                            <?= implode(", ", $history_booking[$index]['address']);?>
-                        </span>
-                            <h5>Destination</h5>
-                            <span id="jobRemark"><?= $history_booking[$index]['destination']?></span>
-                            <h5>Remark </h5>
-                            <span id="jobRemark"><?= $history_booking[$index]['remark']?></span>
-                            <h5>Specifications</h5>
-                            <span id="jobSpecifications"> <?php if($history_booking[$index]['isVip'])echo 'VIP | ';?>
-                                <?php if($history_booking[$index]['isVih'])echo  'VIH | ';?>
-                                <?php if($history_booking[$index]['isUnmarked']) echo 'UNMARK |'?>
-                                <?php if($history_booking[$index]['isTinted']) echo 'Tinted'?>
+                        <div class="col-lg-12" style="padding: 1px">
+                            <div class="well well-sm"><span class="col-lg-offset-3">Vehicle Details</span> </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Driver ID</span>
+                            <span id="jobDriverId" class="col-lg-8" style="padding: 1px">
+                                <?php if($live_booking[$index]['driverId'] == '-' )echo 'NOT_ASSIGNED';else echo $live_booking[$index]['driverId'];?>
                             </span>
                         </div>
 
-                        <div class="col-lg-3">
-
-                            <h5>Book Time </h5>
-                            <span id="jobBookTime"><?php echo date('H:i Y-m-d ', $history_booking[$index]['bookTime']->sec);?></span>
-                            </br>
-                            <h5>Call Time</h5>
-                            <span id="jobCallTime"><?php echo date('H:i Y-m-d ', $history_booking[$index]['callTime']->sec);?></span>
-                            </br>
-                            <h5>Dispatch Before </h5>
-                            <span id="jobDispatchB4"><?= $history_booking[$index]['dispatchB4'];?> min
-                            <h5>Pay Type</h5>
-                            <span id="jobPayType"><?= $history_booking[$index]['payType'];?>
-                        </div>
-
-                        <div class="col-lg-3">
-
-                            <h5>Driver Mobile</h5>
-                            <span id="jobDriverTp"><?= $history_booking[$index]['driverTp'];?></span>
-                            <h5>Cab Color</h5>
-                            <span id="jobCabColor"><?= $history_booking[$index]['cabColor'];?></span>
-                            <h5>Plate No</h5>
-                            <span id="jobCabPlateNo"><?= $history_booking[$index]['cabPlateNo'];?></span>
-                            <h5>Paging Board</h5>
-                            <span id="jobPagingBoard"><?php echo $history_booking[$index]['pagingBoard'];?>
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Cab ID</span>
+                            <span id="jobCabId" class="col-lg-8" style="padding: 1px">
+                                <?php if($live_booking[$index]['cabId'] == '-' )echo 'NOT_ASSIGNED';else $live_booking[$index]['cabId']; ?>
                             </span>
                         </div>
 
-                        <div class="col-lg-2">
-                            <div class="col-lg-12">
-                                <div class="btn-group ">
-                                    <button id="jobEditButton" type="button" style="width: 112px" class="btn btn-default"
-                                            onclick="operations('editBooking', '<?= $history_booking[$index]['_id'];?>')">Edit Booking</button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="margin-top: 2px">
-                                <div class="btn-group">
-                                    <button id="jobInquireButton" style="width: 112px" class="btn btn-default" type="button"
-                                            onclick="operations('addInquireCall', '<?= $history_booking[$index]['_id'];?>')">
-                                        Inquire <span class="badge" id="jobInquireButtonCount"><?= $history_booking[$index]['inqCall'];?></span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div  class="col-lg-12" style="margin-top: 2px">
-                                <div class="btn-group">
-                                    <button id="jobComplaintButton" style="width: 112px" type="button" class="btn btn-default"
-                                            onclick="operations('addComplaint', '<?= $history_booking[$index]['refId'];?>')">Complaint</button>
-                                </div>
-                            </div>
-
-                            <div  class="col-lg-12" style="margin-top: 2px">
-                                <div class="btn-group">
-                                    <button id="jobCancelButton" style="width: 112px" type="button" class="btn btn-danger"
-                                            onclick="operations('cancel', '<?= $history_booking[$index]['_id'];?>')">Cancel</button>
-                                </div>
-                            </div>
-
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Driver Tp</span>
+                            <span id="jobDriverTp" class="col-lg-8" style="padding: 1px"><?= $live_booking[$index]['driverTp'];?></span>
                         </div>
-                    </div>
+
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">[C]Color</span>
+                            <span id="jobCabColor" class="col-lg-8" style="padding: 1px"><?= $live_booking[$index]['cabColor'];?></span>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Plate No</span>
+                            <span id="jobCabPlateNo" class="col-lg-8" style="padding: 1px"><?= $live_booking[$index]['cabPlateNo'];?></span>
+                        </div>
+
+                </div>
                 </div>
 
-            </div>
-        </div>
-    <?php endif;?>
-
-    <?php if(isset($live_booking) ):?>
-        <div class="col-lg-10" style="border-left: 2px solid #a6a6a6" >
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Booking Status</h3>
-                </div>
-                <div class="panel-body" id="bookingStatus">
-                    <?php $index=sizeof($live_booking)-1;?>
-                    <div class="col-lg-3">
-
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <span class="badge" id="jobStatus"><?= $live_booking[$index]['status']; ?></span>
-                                Status
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge" id="jobRefId"><?= $live_booking[$index]['refId']; ?></span>
-                                Reference ID
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge" id="jobDriverId"><?php if($live_booking[$index]['driverId'] == '-' )echo 'NOT_ASSIGNED';else echo $live_booking[$index]['driverId'];?></span>
-                                Driver ID
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge" id="jobCabId"><?php if($live_booking[$index]['cabId'] == '-' )echo 'NOT_ASSIGNED';else $live_booking[$index]['cabId']; ?></span>
-                                Cab ID
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge" id="jobVehicleType"><?= $live_booking[sizeof($live_booking)-1]['vType']; ?></span>
-                                Vehicle Type
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="col-lg-9">
-                        <div class="col-lg-4">
-                            <?php $status =$live_booking[$index]['status']; ?>
-
-                            <h5>Address </h5>
-                        <span id="jobAddress">
+                <div class="panel panel-default col-lg-7 " style="padding: 1px;">
+                <div class="panel-body" style="padding: 1px">
+                    <span class="col-lg-3" style="padding: 1px">Address</span>
+                    <span class="col-lg-9" style="padding: 1px">
+                        <a href="#" id="jobAddress" onclick="operations('fillAddressToBooking', '<?= $live_booking[$index]['_id']?>')">
                             <?= implode(", ", $live_booking[$index]['address']);?>
-                        </span>
-                            <h5>Destination</h5>
-                            <span id="jobRemark"><?= $live_booking[$index]['destination']?></span>
-                            <h5>Remark </h5>
-                            <span id="jobRemark"><?= $live_booking[$index]['remark']?></span>
-                            <h5>Specifications</h5>
-                            <span id="jobSpecifications"> <?php if($live_booking[$index]['isVip'])echo 'VIP | ';?>
-                                <?php if($live_booking[$index]['isVih'])echo  'VIH | ';?>
-                                <?php if($live_booking[$index]['isUnmarked']) echo 'UNMARK |'?>
-                                <?php if($live_booking[$index]['isTinted']) echo 'Tinted'?>
-                            </span>
-                        </div>
+                        </a>
+                    </span>
 
-                        <div class="col-lg-3">
+                    <span class="col-lg-3" style="padding: 1px">Remark</span>
+                    <span id="jobRemark" class="col-lg-9" style="padding: 1px"><?= $live_booking[$index]['remark']?></span>
 
-                            <h5>Book Time </h5>
-                            <span id="jobBookTime"><?php echo date('H:i Y-m-d ', $live_booking[$index]['bookTime']->sec);?></span>
-                            </br>
-                            <h5>Call Time</h5>
-                            <span id="jobCallTime"><?php echo date('H:i Y-m-d ', $live_booking[$index]['callTime']->sec);?></span>
-                            </br>
-                            <h5>Dispatch Before </h5>
-                            <span id="jobDispatchB4"><?= $live_booking[$index]['dispatchB4'];?> min
-                            <h5>Pay Type</h5>
-                            <span id="jobPayType"><?= $live_booking[$index]['payType'];?>
-                        </div>
+                    <span class="col-lg-3" style="padding: 1px">Destination</span>
+                    <span id="jobDestination" class="col-lg-9" style="padding: 1px"><?= $live_booking[$index]['destination']?></span>
 
-                        <div class="col-lg-3">
+                    <span class="col-lg-3" style="padding: 1px">Call Up</span>
+                    <span id="jobCallUpPrice" class="col-lg-9" style="padding: 1px"><?= $live_booking[$index]['callUpPrice']?> /=</span>
 
-                            <h5>Driver Mobile</h5>
-                            <span id="jobDriverTp"><?= $live_booking[$index]['driverTp'];?></span>
-                            <h5>Cab Color</h5>
-                            <span id="jobCabColor"><?= $live_booking[$index]['cabColor'];?></span>
-                            <h5>Plate No</h5>
-                            <span id="jobCabPlateNo"><?= $live_booking[$index]['cabPlateNo'];?></span>
-                            <h5>Paging Board</h5>
-                            <span id="jobPagingBoard"><?php echo $live_booking[$index]['pagingBoard'];?>
-                            </span>
-                        </div>
+                    <span class="col-lg-3" style="padding: 1px">Specs</span>
+                    <span id="jobSpecifications" class="col-lg-9" style="padding: 1px">
+                        <?php if($live_booking[$index]['isVip'])echo 'VIP | ';?>
+                        <?php if($live_booking[$index]['isVih'])echo  'VIH | ';?>
+                        <?php if($live_booking[$index]['isUnmarked']) echo 'UNMARK |'?>
+                        <?php if($live_booking[$index]['isTinted']) echo 'Tinted'?>
+                    </span>
 
-                        <div class="col-lg-2">
-                            <div class="col-lg-12">
-                                <div class="btn-group ">
-                                    <button id="jobEditButton" type="button" style="width: 112px" class="btn btn-default"
-                                        onclick="operations('editBooking', '<?= $live_booking[$index]['_id'];?>')">Edit Booking</button>
-                                </div>
-                            </div>
+                    <span class="col-lg-3" style="padding: 1px">Paging[B]</span>
+                    <span id="jobPagingBoard" class="col-lg-9" style="padding: 1px"><?php echo $live_booking[$index]['pagingBoard'];?></span>
 
-                            <div class="col-lg-12" style="margin-top: 2px">
-                                <div class="btn-group">
-                                    <button id="jobInquireButton" style="width: 112px" class="btn btn-default" type="button"
-                                        onclick="operations('addInquireCall', '<?= $live_booking[$index]['_id'];?>')">
-                                    Inquire <span class="badge" id="jobInquireButtonCount"><?= $live_booking[$index]['inqCall'];?></span>
-                                    </button>
-                                </div>
-                            </div>
+                    <div class="col-lg-12" style="padding: 1px">
+                        <div class="well well-sm"><span class="col-lg-offset-3">Time Details</span> </div>
+                    </div>
 
-                            <div  class="col-lg-12" style="margin-top: 2px">
-                                <div class="btn-group">
-                                    <button id="jobComplaintButton" style="width: 112px" type="button" class="btn btn-default"
-                                        onclick="operations('addComplaint', '<?= $live_booking[$index]['refId'];?>')">Complaint</button>
-                                </div>
-                            </div>
+                    <span class="col-lg-3" style="padding: 1px">Book Time</span>
+                    <span id="jobBookTime" class="col-lg-9" style="padding: 1px">
+                        <?php echo date('H:i Y-m-d ', $live_booking[$index]['bookTime']->sec);?>
+                    </span>
 
-                            <div  class="col-lg-12" style="margin-top: 2px">
-                                <div class="btn-group">
-                                    <button id="jobCancelButton" style="width: 112px" type="button" class="btn btn-danger"
-                                        onclick="operations('cancel', '<?= $live_booking[$index]['_id'];?>')">Cancel</button>
-                                </div>
-                            </div>
+                    <span class="col-lg-3" style="padding: 1px">Call Time</span>
+                    <span id="jobCallTime" class="col-lg-9" style="padding: 1px">
+                        <?php echo date('H:i Y-m-d ', $live_booking[$index]['callTime']->sec);?>
+                    </span>
 
-                        </div>
+                    <span class="col-lg-3" style="padding: 1px">Dispatch</span>
+                    <span id="jobDispatchB4" class="col-lg-9" style="padding: 1px">
+                        <?= $live_booking[$index]['dispatchB4'];?> mins
+                    </span>
+                </div>
+            </div>
+
+                <div class="col-lg-12" style="margin-top: 5px ; padding: 1px">
+                <div class="col-lg-12" style="padding: 1px">
+                    <div class="well well-sm" style="min-height: 0px"></div>
+                </div>
+
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default btn-sm" id="jobEditButton"
+                            onclick="operations('editBooking', '<?= $live_booking[$index]['_id'];?>')">
+                            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Update
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default btn-sm" id="jobInquireButton"
+                                onclick="operations('addInquireCall', '<?= $live_booking[$index]['_id'];?>')">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Inquire
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default btn-sm" id="jobComplaintButton"
+                                onclick="operations('addComplaint', '<?= $live_booking[$index]['refId'];?>')">
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Complaint
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default btn-sm" id="jobCancelButton"
+                                onclick="operations('cancel', '<?= $live_booking[$index]['_id'];?>')">
+                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancel
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-    <?php endif;?>
-    </div>
+            </div>
+        <?php endif;?>
+
         <div class="col-lg-12" style="max-height: 200px ; overflow: auto">
             <?php if(isset($live_booking) && sizeof($live_booking) != 1):?>
                 <table class="table table-striped" style="margin-top: 3%;">
@@ -271,8 +164,6 @@
                         <th>Call Time</th>
                         <th>Book Time</th>
                         <th>Address</th>
-                        <th>Driver Id</th>
-                        <th>Cab Id</th>
                         <th>Remark</th>
                     </tr>
                     <?php foreach(array_reverse($live_booking) as $item):?>
@@ -283,11 +174,9 @@
                             <td><?=  date('H:i:s Y-m-d ', $item['bookTime']->sec);?></td>
                             <td>
                                 <a href="#" onclick="operations('fillAddressToBooking', '<?= $item['_id']?>')">
-                                <?= implode(", ", $item['address']);?>
+                                    <?= implode(", ", $item['address']);?>
                                 </a>
                             </td>
-                            <td><?= $item['driverId'];?></td>
-                            <td><?= $item['cabId'];?></td>
                             <td><?= $item['remark'];?></td>
                         </tr>
 
@@ -295,13 +184,133 @@
                 </table>
             <?php endif;?>
         </div>
+
+        <?php if(!(isset($live_booking)) && isset($history_booking) && sizeof($history_booking) != 0 ):?>
+            <div class="col-lg-12" style="padding-left: 1px; padding-right: 1px;" id="bookingStatus">
+                <?php $index=sizeof($history_booking)-1;?>
+
+
+                <div class="col-lg-12" style="padding: 1px ;">
+                    <div class="well well-sm" style="background-color: #B5B5B6"><span class="col-lg-offset-3" >No Pending Bookings</span> </div>
+                </div>
+
+                <div class="panel panel-default col-lg-5" style="padding: 1px">
+
+                    <div class="panel-body" style="padding: 1px">
+
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Status</span>
+                                <span class="col-lg-8" style="padding: 1px">
+                                    <span id="jobStatus" class="label label-default"><?= $history_booking[$index]['status'];?></span>
+                                </span>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Ref. ID</span>
+                            <span class="col-lg-8" style="padding: 1px"><span class="badge" id="jobRefId"><?= $history_booking[$index]['refId']; ?></span></span>
+                        </div>
+
+
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">V Type</span>
+                            <span id="jobVehicleType" class="col-lg-8" style="padding: 1px"><?= $history_booking[$index]['vType']; ?></span>
+                        </div>
+
+
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Payment</span>
+                            <span id="jobPayType" class="col-lg-8" style="padding: 1px"><?= $history_booking[$index]['payType'];?></span>
+                        </div>
+
+                        <div class="col-lg-12" style="padding: 1px">
+                            <div class="well well-sm"><span class="col-lg-offset-3">Vehicle Details</span> </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Driver ID</span>
+                            <span id="jobDriverId" class="col-lg-8" style="padding: 1px">
+                                <?php if($history_booking[$index]['driverId'] == '-' )echo 'NOT_ASSIGNED';else echo $history_booking[$index]['driverId'];?>
+                            </span>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Cab ID</span>
+                            <span id="jobCabId" class="col-lg-8" style="padding: 1px">
+                                <?php if($history_booking[$index]['cabId'] == '-' )echo 'NOT_ASSIGNED';else $history_booking[$index]['cabId']; ?>
+                            </span>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Driver Tp</span>
+                            <span id="jobDriverTp" class="col-lg-8" style="padding: 1px"><?= $history_booking[$index]['driverTp'];?></span>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">[C]Color</span>
+                            <span id="jobCabColor" class="col-lg-8" style="padding: 1px"><?= $history_booking[$index]['cabColor'];?></span>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <span class="col-lg-4" style="padding: 1px">Plate No</span>
+                            <span id="jobCabPlateNo" class="col-lg-8" style="padding: 1px"><?= $history_booking[$index]['cabPlateNo'];?></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="panel panel-default col-lg-7 " style="padding: 1px;">
+                    <div class="panel-body" style="padding: 1px">
+                        <span class="col-lg-3" style="padding: 1px">Address</span>
+                    <span class="col-lg-9" style="padding: 1px">
+                        <a href="#" id="jobAddress" onclick="operations('fillAddressToBooking', '<?= $history_booking[$index]['_id']?>')">
+                            <?= implode(", ", $history_booking[$index]['address']);?>
+                        </a>
+                    </span>
+
+                        <span class="col-lg-3" style="padding: 1px">Remark</span>
+                        <span id="jobRemark" class="col-lg-9" style="padding: 1px"><?= $history_booking[$index]['remark']?></span>
+
+                        <span class="col-lg-3" style="padding: 1px">Destination</span>
+                        <span id="jobDestination" class="col-lg-9" style="padding: 1px"><?= $history_booking[$index]['destination']?></span>
+
+                        <span class="col-lg-3" style="padding: 1px">Call Up</span>
+                        <span id="jobCallUpPrice" class="col-lg-9" style="padding: 1px"><?= $history_booking[$index]['callUpPrice']?> /=</span>
+
+                        <span class="col-lg-3" style="padding: 1px">Specs</span>
+                    <span id="jobSpecifications" class="col-lg-9" style="padding: 1px">
+                        <?php if($history_booking[$index]['isVip'])echo 'VIP | ';?>
+                        <?php if($history_booking[$index]['isVih'])echo  'VIH | ';?>
+                        <?php if($history_booking[$index]['isUnmarked']) echo 'UNMARK |'?>
+                        <?php if($history_booking[$index]['isTinted']) echo 'Tinted'?>
+                    </span>
+
+                        <span class="col-lg-3" style="padding: 1px">Paging[B]</span>
+                        <span id="jobPagingBoard" class="col-lg-9" style="padding: 1px"><?php echo $history_booking[$index]['pagingBoard'];?></span>
+
+                        <div class="col-lg-12" style="padding: 1px">
+                            <div class="well well-sm"><span class="col-lg-offset-3">Time Details</span> </div>
+                        </div>
+
+                        <span class="col-lg-3" style="padding: 1px">Book Time</span>
+                    <span id="jobBookTime" class="col-lg-9" style="padding: 1px">
+                        <?php echo date('H:i Y-m-d ', $history_booking[$index]['bookTime']->sec);?>
+                    </span>
+
+                        <span class="col-lg-3" style="padding: 1px">Call Time</span>
+                    <span id="jobCallTime" class="col-lg-9" style="padding: 1px">
+                        <?php echo date('H:i Y-m-d ', $history_booking[$index]['callTime']->sec);?>
+                    </span>
+
+                        <span class="col-lg-3" style="padding: 1px">Dispatch</span>
+                    <span id="jobDispatchB4" class="col-lg-9" style="padding: 1px">
+                        <?= $history_booking[$index]['dispatchB4'];?> mins
+                    </span>
+                    </div>
+                </div>
+
+            </div>
+
+        <?php endif;?>
+
     </div>
 </div>
-
-
-
-
-
-
-
-

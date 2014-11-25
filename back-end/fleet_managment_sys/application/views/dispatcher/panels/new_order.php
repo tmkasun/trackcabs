@@ -89,33 +89,30 @@
             <?php endforeach ?>
 
         </div>
-        <div class="col-md-6 well well-sm">
+        <div class="col-md-6">
 
-            <div class="col-md-12">
-                <span class="col-md-3">Name:</span>
-                <span class="col-md-9"><?= $customerProfile['title'].". ".$customerProfile['name'] ?></span>
-            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Customer: <?= $customerProfile['title'] . ". " . $customerProfile['name'] ?> </h3>
+                </div>
+                <div class="panel-body">
+                    <span class="col-md-6">Job Count</span>
+                    <span class="col-md-6"><?= $customerProfile['tot_job'] ?></span>
 
-            <div class="col-md-12">
-                <span class="col-md-6">Job Count</span>
-                <span class="col-md-6"><?= $customerProfile['tot_job'] ?></span>
-            </div>
 
-            <div class="col-md-12">
-                <span class="col-md-6">Cancel [T]</span>
-                <span class="col-md-6"><?= $customerProfile['tot_cancel'] ?></span>
-            </div>
+                    <span class="col-md-6">Cancel [T]</span>
+                    <span class="col-md-6"><?= $customerProfile['tot_cancel'] ?></span>
 
-            <div class="col-md-12">
-                <span class="col-md-6">Cancel [D]</span>
-                <span class="col-md-6"><?= $customerProfile['dis_cancel'] ?></span>
-            </div>
+                    <span class="col-md-6">Cancel [D]</span>
+                    <span class="col-md-6"><?= $customerProfile['dis_cancel'] ?></span>
 
-            <div class="col-md-12">
-                <img class="img-responsive center-block" src="<?= base_url() ?>assets/img/cabs/<?= $newOrder['vType'] ?>.png" alt="<?= $newOrder['vType'] ?>">
-                <p class="text-center">
-                    <span class="label label-success">Type:<?= $newOrder['vType'] ?></span>
-                </p>
+                    <!--                        <img class="img-responsive center-block" src="-->
+                    <? //= base_url() ?><!--assets/img/cabs/--><? //= $newOrder['vType'] ?><!--.png" alt="-->
+                    <? //= $newOrder['vType'] ?><!--">-->
+
+
+                </div>
             </div>
         </div>
 
@@ -172,6 +169,13 @@
                 <span class="input-group-addon">CRO ID:</span>
                 <input class="form-control" disabled type="text"
                        value="<?= $newOrder['croId'] ?>"/>
+            </div>
+            <br>
+
+            <div class="input-group input-group-sm">
+                <span class="input-group-addon">Type:</span>
+                <input class="form-control" disabled type="text"
+                       value="<?= $newOrder['vType'] ?>"/>
             </div>
             <br>
 

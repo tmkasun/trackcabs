@@ -49,7 +49,8 @@ class Dispatcher extends CI_Controller
             show_404();
         };
         $newOrder = $this->live_dao->getBooking($orderRefId);
-        $this->load->view('dispatcher/panels/new_order', array('newOrder' => $newOrder));
+        $customerProfile = $this->customer_dao->getCustomerByMongoObjId($newOrder['profileLinks'][0]);
+        $this->load->view('dispatcher/panels/new_order', array('newOrder' => $newOrder, 'customerProfile' => $customerProfile));
 
     }
 
@@ -288,5 +289,20 @@ class Dispatcher extends CI_Controller
         $webSocket->send($delayInformOrder, 'cro1');
 
     }
+
+
+//    function sendSms($bookingCreated, $message)
+//    {
+//        $sms = new Sms();
+//        foreach ($bookingCreated['profileLinks'] as $item) {
+//            $customerProfile = $this->customer_dao->getCustomerByMongoObjId($item);
+//            if ($customerProfile['tp'] != '-') {
+//                $sms->send($customerProfile['tp'], $message);
+//            }
+//            if ($customerProfile['tp2'] != '-') {
+//                $sms->send($customerProfile['tp2'], $message);
+//            }
+//        }
+//    }
 
 }

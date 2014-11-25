@@ -36,17 +36,17 @@ class Complaint_dao extends CI_Model
     function get_complaint_by_refId($refId)
     {
         $collection = $this->get_collection();
-        $searchQuery = array('refId' => $refId);
+        $searchQuery = array('refId' => (int)$refId);
         $complaints_cursor_by_refId = $collection->find($searchQuery);
-        $complaints_by_refId = array();
-        foreach($complaints_cursor_by_refId as $complaint_by_refId){$complaints_by_refId[] = $complaint_by_refId;}
+        $complaints_by_refId = array('complaints' => array());
+        foreach($complaints_cursor_by_refId as $complaint_by_refId){$complaints_by_refId['complaints'][] = $complaint_by_refId;}
         return $complaints_by_refId;
     }
     function get_complaint_by_complaintId($complaintId)
     {
         $collection = $this->get_collection();
-        $searchQuery = array('complaintId' => $complaintId);
-        $complaint_by_refId = $collection->findOne($searchQuery);
+        $searchQuery = array('complaintId' => (int)$complaintId);
+        $complaint_by_refId = array('complaints' => $collection->find($searchQuery));//$collection->find($searchQuery);//array('complaints' => $collection->findOne($searchQuery));
         return $complaint_by_refId;
     }
     

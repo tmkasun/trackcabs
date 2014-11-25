@@ -53,11 +53,11 @@
 
     }
 
-    function delayInform(refId){
+    function delayInform(refId) {
 //        console.log("refId = "+refId);
         closeAll();
         var minutes = $('#delayInforMinutes').val();
-        $.post('dispatcher/delayInform', {refId: refId,minutes: minutes}, function (response) {
+        $.post('dispatcher/delayInform', {refId: refId, minutes: minutes}, function (response) {
             $.UIkit.notify({
                 message: "Delay informed to all CROs",
                 status: 'success',
@@ -89,14 +89,34 @@
             <?php endforeach ?>
 
         </div>
-        <div class="col-md-6">
-            <img class="img-responsive center-block"
-                 src="<?= base_url() ?>assets/img/cabs/<?= $newOrder['vType'] ?>.png" alt="<?= $newOrder['vType'] ?>">
+        <div class="col-md-6 well well-sm">
 
-            <p class="text-center">
-                <span class="label label-success">Type:<?= $newOrder['vType'] ?></span>
-            </p>
+            <div class="col-md-12">
+                <span class="col-md-3">Name:</span>
+                <span class="col-md-9"><?= $customerProfile['title'].". ".$customerProfile['name'] ?></span>
+            </div>
 
+            <div class="col-md-12">
+                <span class="col-md-6">Job Count</span>
+                <span class="col-md-6"><?= $customerProfile['tot_job'] ?></span>
+            </div>
+
+            <div class="col-md-12">
+                <span class="col-md-6">Cancel [T]</span>
+                <span class="col-md-6"><?= $customerProfile['tot_cancel'] ?></span>
+            </div>
+
+            <div class="col-md-12">
+                <span class="col-md-6">Cancel [D]</span>
+                <span class="col-md-6"><?= $customerProfile['dis_cancel'] ?></span>
+            </div>
+
+            <div class="col-md-12">
+                <img class="img-responsive center-block" src="<?= base_url() ?>assets/img/cabs/<?= $newOrder['vType'] ?>.png" alt="<?= $newOrder['vType'] ?>">
+                <p class="text-center">
+                    <span class="label label-success">Type:<?= $newOrder['vType'] ?></span>
+                </p>
+            </div>
         </div>
 
     </div>
@@ -157,9 +177,12 @@
 
             <div class="input-group input-group-sm">
                 <span class="input-group-addon" style="padding: 0px;margin: 0px;width: 90px;">
-                    <button class="btn btn-warning btn-xs" type="button" onclick="delayInform(<?= $newOrder['refId'] ?>)">Delay inform</button>
+                    <button class="btn btn-warning btn-xs" type="button"
+                            onclick="delayInform(<?= $newOrder['refId'] ?>)">Delay inform
+                    </button>
                 </span>
-                <input id="delayInforMinutes" autocomplete="off" type="text" class="form-control" style="text-align: right" placeholder="Request minutes"/>
+                <input id="delayInforMinutes" autocomplete="off" type="text" class="form-control"
+                       style="text-align: right" placeholder="Request minutes"/>
                 <span class="input-group-addon">min</span>
             </div>
         </div>

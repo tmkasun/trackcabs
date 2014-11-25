@@ -49,7 +49,8 @@ class Dispatcher extends CI_Controller
             show_404();
         };
         $newOrder = $this->live_dao->getBooking($orderRefId);
-        $this->load->view('dispatcher/panels/new_order', array('newOrder' => $newOrder));
+        $customerProfile = $this->customer_dao->getCustomerByMongoObjId($newOrder['profileLinks'][0]);
+        $this->load->view('dispatcher/panels/new_order', array('newOrder' => $newOrder, 'customerProfile' => $customerProfile));
 
     }
 

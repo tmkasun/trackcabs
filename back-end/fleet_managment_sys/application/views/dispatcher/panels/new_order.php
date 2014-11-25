@@ -97,15 +97,15 @@
                         Customer: <?= $customerProfile['title'] . ". " . $customerProfile['name'] ?> </h3>
                 </div>
                 <div class="panel-body">
-                    <span class="col-md-6">Job Count</span>
-                    <span class="col-md-6"><?= $customerProfile['tot_job'] ?></span>
+                    <span class="col-md-6">Job Count  :</span>
+                    <span class="col-md-6 text-primary"><?= $customerProfile['tot_job'] ?></span>
 
 
-                    <span class="col-md-6">Cancel [T]</span>
-                    <span class="col-md-6"><?= $customerProfile['tot_cancel'] ?></span>
+                    <span class="col-md-6">Cancel [T]  :</span>
+                    <span class="col-md-6 text-danger"><?= $customerProfile['tot_cancel'] ?></span>
 
-                    <span class="col-md-6">Cancel [D]</span>
-                    <span class="col-md-6"><?= $customerProfile['dis_cancel'] ?></span>
+                    <span class="col-md-6">Cancel [D]  :</span>
+                    <span class="col-md-6 text-danger"><?= $customerProfile['dis_cancel'] ?></span>
 
                     <!--                        <img class="img-responsive center-block" src="-->
                     <? //= base_url() ?><!--assets/img/cabs/--><? //= $newOrder['vType'] ?><!--.png" alt="-->
@@ -198,8 +198,8 @@
                 </button>
             </div>
             <div class="btn-group">
-                <button style="background-color: #f4f4f4;" type="button" class="btn  btn-default"
-                        onclick="cancelOrder(<?= $newOrder['refId'] ?>);">Cancel
+                <button style="background-color: #d9534f;color: #ffffaa" type="button" class="btn  btn-default"
+                        onclick="cancelOrder(<?= $newOrder['refId'] ?>);">Cancel order
                 </button>
             </div>
             <!--<div class="btn-group">-->

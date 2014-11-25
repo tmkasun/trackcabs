@@ -17,7 +17,7 @@
 
         var docs_per_page= 100;
         var page = 1;
-        var obj = null;
+        var obj = null;        
         var url = '<?php echo site_url(); ?>';
 
     </script>
@@ -238,17 +238,58 @@
 <!-- Reports javascript-->
 <script>
     
-    function getReportViewFromDriverId(){
+    function getReportViewFromSearchId(){
+        
+        var search_Id = document.getElementById("search_select").value;
+        var search;
+        
+        if(search_Id === "driverId")
+        {
+            url ='<?php echo site_url("/complaint_controller/get_all_complaints_by_driver") ?>';
+            var driverId = document.getElementById("idForSearch").value;//alert(driverId);
+            /* Create a JSON object from the form values */
+            search = { 'userId_driver' : driverId };
+            //set_place_holder("Driver ID");
+            //place_holder_of_report_navBar = "Driver ID";
+        }
+        else if(search_Id === "refId")
+        {
+            url ='<?php echo site_url("/complaint_controller/get_complaint_by_refId") ?>';
+            var refId = document.getElementById("idForSearch").value;//alert(driverId);
+            /* Create a JSON object from the form values */
+            search = { 'refId' : refId };
+            //set_place_holder("Booking Ref ID");
+            //place_holder_of_report_navBar = "Booking Ref ID";
+        }
+        
+        else if(search_Id === "complaintId")
+        {
+            url ='<?php echo site_url("/complaint_controller/get_complaint_by_complaintId") ?>';
+            var complaintId = document.getElementById("idForSearch").value;
+            /* Create a JSON object from the form values */
+            search = { 'complaintId' : complaintId };
+            //set_place_holder("Complaint Ref ID");
+            //place_holder_of_report_navBar = "Complaint Ref ID";            
+        }
+        
+        else
+        {
+            alert("Error in Selection!");
+        }
 
-        url ='<?php echo site_url("/complaint_controller/get_all_complaints_by_driver") ?>';
-        var driverId = document.getElementById("driverIdSearch").value;//alert(driverId);
-        /* Create a JSON object from the form values */
-        var driver = { 'userId_driver' : driverId };
-        var result = ajaxPost(driver,url);
+        
+        var result = ajaxPost(search,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = "";
         div.innerHTML = result.view.table_content;
 
+    }
+    
+    function set_place_holder(value)
+    {
+        alert("hello");place_holder = "Enter ID";
+        var place_holder = document.getElementById("search_box_for_reports");
+        place_holder.innerrHTML = "<input class=\"form-control\" placeholder=\""+ place_holder +"\" type=\"text\" id=\"idForSearch\">";
     }
     
     function get_complaint_report_view_from_refId(){
@@ -291,10 +332,7 @@
         var div = document.getElementById('dataFiled');
         div.innerHTML = "";
 
-    }
-    
-
-    function get_complaint_report_view_from_driverId(){}
+    }    
     
     function getReportsView(){
             var url = '<?php echo site_url("complaint_controller/getReportsNavBarView") ?>';            
@@ -335,9 +373,28 @@
 
     function createNewPackage(){
         var packageName = document.getElementById("packageName").value;
-        var fee = document.getElementById("fee").value;
+        alert("aawa");
+        if (document.getElementById('airport').checked) {
+            var feeType = 'airport';
+
+        }else if(document.getElementById('day').checked){
+            var feeType = 'day';
+        }
         var info = document.getElementById("info").value;
-        var packaged = {'packageId':'','packageName' : packageName , 'fee' : fee , 'info' : info };
+        if(feeType == 'airport'){
+            var name = document.getElementById("name").value;
+            var dropFee = document.getElementById("dropFee").value;
+            var bothwayFee = document.getElementById("bothwayFee").value;
+            var guestCarrierFee = document.getElementById("guestCarrierFee").value;
+            var outsideFee = document.getElementById("outsideFee").value;
+            var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType ,'name':name , 'dropFee' :dropFee , 'bothwayFee' : bothwayFee , 'guestCarrierFee' : guestCarrierFee , 'outsideFee' :outsideFee , 'info' : info };
+        }else{
+            var km = document.getElementById("km").value;
+            var hours = document.getElementById("hours").value;
+            var fee = document.getElementById("fee").value;
+            alert(feeType);
+            var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType , 'km' :km , 'hours' : hours , 'fee' :fee , 'info' : info };
+        }
         var url =  '<?php echo site_url("packages_controller/createPackage"); ?>';
         alert(JSON.stringify(packaged));
         ajaxPost(packaged,url);
@@ -383,9 +440,21 @@
 
     function updatePackage(packageId) {
         var packageName = document.getElementById("packageName").value;
-        var fee = document.getElementById("fee").value;
+        var feeType = document.getElementById("feeType").value;
         var info = document.getElementById("info").value;
-        var packaged = {'packageId':packageId,'packageName':packageName,'fee': fee, 'info': info};
+        if(feeType == 'airport'){
+            var name = document.getElementById("name").value;
+            var dropFee = document.getElementById("dropFee").value;
+            var bothwayFee = document.getElementById("bothwayFee").value;
+            var guestCarrierFee = document.getElementById("guestCarrierFee").value;
+            var outsideFee = document.getElementById("outsideFee").value;
+            var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType ,'name':name , 'dropFee' :dropFee , 'bothwayFee' : bothwayFee , 'guestCarrierFee' : guestCarrierFee , 'outsideFee' :outsideFee , 'info' : info };
+        }else{
+            var km = document.getElementById("km").value;
+            var hours = document.getElementById("hours").value;
+            var fee = document.getElementById("fee").value;
+            var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType , 'km' :km , 'hours' : hours , 'fee' :fee , 'info' : info };
+        }
         var url = '<?php echo site_url("packages_controller/updatePackage") ?>';
         ajaxPost(packaged, url);
         getPackagesView();

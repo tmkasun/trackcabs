@@ -45,14 +45,18 @@ class Complaint_controller extends CI_Controller
     {//$complaint_data['refId'] = 10;//this line is for testing
         $complaint_data = json_decode(trim(file_get_contents('php://input')), true);
         $complaints_by_refId = $this->complaint_dao->get_complaint_by_refId($complaint_data['refId']);
-        var_dump($complaints_by_refId);//comment the array print and load complaints to a view with jason encode       
+        $complaints_by_refId['table_content'] = $this->load->view('admin/reports/complaint_reports_view', $complaints_by_refId, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $complaints_by_refId)));
+        //var_dump($complaints_by_refId);//comment the array print and load complaints to a view with jason encode       
     }
     
     function get_complaint_by_complaintId()
     {//$complaint_data['complaintId'] = 12;//this line is for testing
         $complaint_data = json_decode(trim(file_get_contents('php://input')), true);
         $complaints_by_complaintId = $this->complaint_dao->get_complaint_by_complaintId($complaint_data['complaintId']);
-        var_dump($complaints_by_complaintId);//comment the array print and load complaints to a view with jason encode        
+        $complaints_by_complaintId['table_content'] = $this->load->view('admin/reports/complaint_reports_view', $complaints_by_complaintId, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $complaints_by_complaintId)));
+        //var_dump($complaints_by_complaintId);//comment the array print and load complaints to a view with jason encode        
     }
     
     function updatae_complaint()

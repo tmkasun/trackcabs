@@ -473,18 +473,36 @@ function LocationBoardViewModel(){
         sendingData = {};
         sendingData.cabId = cab.id;
         sendingData.orderId = currentDispatchOrderRefId;
-        $.post('dispatcher/dispatchVehicle', sendingData, function (response) {
-            console.log(response);
+        $.post('dispatcher/dispatchVehicle', sendingData, function (dispatchedOrder) {
+            console.log(dispatchedOrder);
+
             setTimeout(function(){dispatchNotify.close()},3000);
             dispatchNotify.status('success');
             dispatchNotify.content("Order Dispatched successfully!");
-            console.log(response);
+
             currentDispatchOrderRefId = null;
+
             var orderDOM = $('#liveOrdersList').find('#' + sendingData.orderId);
-            $(orderDOM).fadeOut();
-            orderDOM.appendTo('#dispatchedOrdersList .mCSB_container');
-            $('#liveOrdersList').find('#' + sendingData.orderId).remove();
-            setTimeout(function(){orderDOM.show()},500);
+            $(orderDOM).fadeOut().remove();
+
+
+            var dispatchedOrderUnixTimeStamp = dispatchedOrder.dispatchTime.sec;
+            var orderBookingTime = moment.unix(dispatchedOrderUnixTimeStamp);
+
+            var $fromNowSpan = $("<span>", {class: "text-warning fromNow"});
+            var $labelSpan = $("<span>", {class: "label label-info"}).css({float: 'right'}).text(dispatchedOrder.refId);
+
+            var $order = $("<a>", {
+                id: dispatchedOrder.refId,
+                class: "list-group-item",
+                onclick: "disengageOrder(this.id);return false"
+            })
+                .attr('data-bookTime', dispatchedOrderUnixTimeStamp).text(orderBookingTime.format('Do-MMM-YY  hh:mm a')).append($fromNowSpan).append($labelSpan);
+
+            $order.appendTo('#dispatchedOrdersList .mCSB_container');
+
+            delete unDispatchedOrders[dispatchedOrder.refId];
+
             cab.state = "MSG_NOT_COPIED";
             zone.idle.cabs.remove(cab);
             self.pendingCabs.push(cab);

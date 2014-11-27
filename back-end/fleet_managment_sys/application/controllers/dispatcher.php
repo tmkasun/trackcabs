@@ -49,7 +49,8 @@ class Dispatcher extends CI_Controller
             show_404();
         };
         $newOrder = $this->live_dao->getBooking($orderRefId);
-        $this->load->view('dispatcher/panels/new_order', array('newOrder' => $newOrder));
+        $customerProfile = $this->customer_dao->getCustomerByMongoObjId($newOrder['profileLinks'][0]);
+        $this->load->view('dispatcher/panels/new_order', array('newOrder' => $newOrder, 'customerProfile' => $customerProfile));
 
     }
 
@@ -122,7 +123,7 @@ class Dispatcher extends CI_Controller
 //        $response = array('status'=> 'success', 'message' => 'Reference Id '.$postData['refId'].'Dispatched to '.$dispatchingOrder['address']);
         $this->output->set_content_type('application/json');
 //        echo json_encode($response);
-        echo json_encode($dispatchingCab);
+        echo json_encode($dispatchingOrder);
     }
 
     function cancelOrder()
@@ -167,6 +168,10 @@ class Dispatcher extends CI_Controller
         $user = $this->session->userdata('user');
         $webSocket = new Websocket('localhost', '5555', $user['userId']);
         $webSocket->send($order, 'monitor1');
+
+
+        $this->output->set_content_type('application/json');
+        echo json_encode($order);
     }
 
     function setIdleZone()

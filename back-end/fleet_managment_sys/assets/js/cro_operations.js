@@ -151,6 +151,18 @@ function createBooking(url , tp){
     if (pagingBoard== ''){pagingBoard= '-'}
 
     /* Form Validations */
+    if(road == ''){
+        alert('Road number is compulsory');
+        return false;
+    }
+    if( town == ''){
+        alert('Town is compulsory');
+        return false;
+    }
+    if(city == ''){
+        alert('City is compulsory');
+        return false;
+    }
     if(vType == ''){
         alert('Vehicle Type is Compulsory');
         return false;

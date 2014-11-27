@@ -67,17 +67,9 @@
         });
     }
 </script>
-<div class="modal-header"
-     style="cursor: move;background: #f9f9f9;-webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);-moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);">
-    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title">
-        <!-- TODO: Trigger bootstrap tooltip $('#aboutTileUrl').tooltip(); to enable tooltip -->
-        Booking #<i><?= $newOrder['refId'] ?></i>
-    </h4>
-</div>
 <div class="modal-body">
 
-    <p class="text-info text-center">Booking details</p>
+    <p class="text-info text-center">Booking details of #<?= $newOrder['refId'] ?></p>
 
     <div class="row">
         <div class="col-md-6 well well-sm">
@@ -89,58 +81,68 @@
             <?php endforeach ?>
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
 
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        Customer: <?= $customerProfile['title'] . ". " . $customerProfile['name'] ?> </h3>
+                        <?= $customerProfile['title'] . ". " . $customerProfile['name'] ?> </h3>
                 </div>
                 <div class="panel-body">
-                    <span class="col-md-6">Job Count  :</span>
-                    <span class="col-md-6 text-primary"><?= $customerProfile['tot_job'] ?></span>
+                    <span >Job Count  :</span>
+                    <span class="text-primary"><?= $customerProfile['tot_job'] ?></span>
+                    <br/>
 
+                    <span >Cancel [T]  :</span>
+                    <span class="text-danger"><?= $customerProfile['tot_cancel'] ?></span>
+                    <br/>
 
-                    <span class="col-md-6">Cancel [T]  :</span>
-                    <span class="col-md-6 text-danger"><?= $customerProfile['tot_cancel'] ?></span>
-
-                    <span class="col-md-6">Cancel [D]  :</span>
-                    <span class="col-md-6 text-danger"><?= $customerProfile['dis_cancel'] ?></span>
-
+                    <span >Cancel [D]  :</span>
+                    <span class="text-danger"><?= $customerProfile['dis_cancel'] ?></span>
+                    <br/>
                     <!--                        <img class="img-responsive center-block" src="-->
                     <? //= base_url() ?><!--assets/img/cabs/--><? //= $newOrder['vType'] ?><!--.png" alt="-->
                     <? //= $newOrder['vType'] ?><!--">-->
 
-
                 </div>
             </div>
+        </div>
+        <div class="col-md-3">
+            <ul class="list-group">
+                <?php if($newOrder['isVip']): ?>
+                    <li class="list-group-item">
+                        <?= getBadge($newOrder['isVip']) ?>
+                        VIP
+                    </li>
+                <?php endif ?>
+
+                <?php if($newOrder['isVih']): ?>
+                    <li class="list-group-item">
+                        <?= getBadge($newOrder['isVih']) ?>
+                        VIH
+                    </li>
+                <?php endif ?>
+
+                <?php if($newOrder['isTinted']): ?>
+                    <li class="list-group-item">
+                        <?= getBadge($newOrder['isTinted']) ?>
+                        Tinted
+                    </li>
+                <?php endif ?>
+
+                <?php if($newOrder['isUnmarked']): ?>
+                    <li class="list-group-item">
+                        <?= getBadge($newOrder['isUnmarked']) ?>
+                        Unmarked
+                    </li>
+                <?php endif ?>
+
+            </ul>
         </div>
 
     </div>
     <div class="row">
-        <div class="col-md-6">
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <?= getBadge($newOrder['isVip']) ?>
-                    VIP
-                </li>
 
-                <li class="list-group-item">
-                    <?= getBadge($newOrder['isVih']) ?>
-                    VIH
-                </li>
-
-                <li class="list-group-item">
-                    <?= getBadge($newOrder['isTinted']) ?>
-                    Tinted
-                </li>
-
-                <li class="list-group-item">
-                    <?= getBadge($newOrder['isUnmarked']) ?>
-                    Unmarked
-                </li>
-            </ul>
-        </div>
         <div class="col-md-6">
 
             <div class="input-group input-group-sm">

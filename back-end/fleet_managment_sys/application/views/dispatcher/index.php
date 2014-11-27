@@ -263,11 +263,13 @@
         </div>
     </div>
     <div id="locBoardWrapper" class="col-md-8">
-        <div id="rightSidePane">
-            <div style="max-height: 90%;" id="locationBoardPane">
-                <div class="row">
-                    testing
+        <div id="rightSidePane" >
+            <div class="row" id="orderBuilder">
+                <div class="well well-sm "  >
+                    Select an order for dispatch
                 </div>
+            </div>
+            <div class="row" style="max-height: 90%;" id="locationBoardPane">
                 <?= $location_board_pane ?>
             </div>
 

@@ -7,6 +7,11 @@
             <?php $index=sizeof($live_booking)-1;?>
             <div class="col-lg-12" style="padding-left: 1px; padding-right: 1px;" id="bookingStatus">
 
+                <div class="col-lg-12" style="padding: 1px ;">
+                    <div class="well well-sm" style="background-color: #e3e3e4"><span class="col-lg-offset-4" >Pending Bookings <?= sizeof($live_booking);?></span> </div>
+                </div>
+
+
                 <div class="panel panel-default col-lg-5" style="padding: 1px">
 
                     <div class="panel-body" style="padding: 1px">
@@ -74,7 +79,7 @@
                 <div class="panel-body" style="padding: 1px">
                     <span class="col-lg-3" style="padding: 1px">Address</span>
                     <span class="col-lg-9" style="padding: 1px">
-                        <a href="#" id="jobAddress" onclick="operations('fillAddressToBooking', '<?= $live_booking[$index]['_id']?>')">
+                        <a href="#newBooking" id="jobAddress" onclick="operations('fillAddressToBooking', '<?= $live_booking[$index]['_id']?>')">
                             <?= implode(", ", $live_booking[$index]['address']);?>
                         </a>
                     </span>
@@ -93,7 +98,7 @@
                         <?php if($live_booking[$index]['isVip'])echo 'VIP | ';?>
                         <?php if($live_booking[$index]['isVih'])echo  'VIH | ';?>
                         <?php if($live_booking[$index]['isUnmarked']) echo 'UNMARK |'?>
-                        <?php if($live_booking[$index]['isTinted']) echo 'Tinted'?>
+                        <?php if($live_booking[$index]['isTinted']) echo 'Tinted'?> &nbsp;
                     </span>
 
                     <span class="col-lg-3" style="padding: 1px">Paging[B]</span>
@@ -121,9 +126,6 @@
             </div>
 
                 <div class="col-lg-12" style="margin-top: 5px ; padding: 1px">
-                <div class="col-lg-12" style="padding: 1px">
-                    <div class="well well-sm" style="min-height: 0px"></div>
-                </div>
 
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group" role="group">
@@ -155,7 +157,7 @@
             </div>
         <?php endif;?>
 
-        <div class="col-lg-12" style="max-height: 200px ; overflow: auto">
+        <div class="col-lg-12" style="max-height: 150px ; overflow: auto; font-size: 12px">
             <?php if(isset($live_booking) && sizeof($live_booking) != 1):?>
                 <table class="table table-striped" style="margin-top: 3%;">
                     <tr>
@@ -173,7 +175,7 @@
                             <td><?=  date('H:i:s Y-m-d ', $item['callTime']->sec);?></td>
                             <td><?=  date('H:i:s Y-m-d ', $item['bookTime']->sec);?></td>
                             <td>
-                                <a href="#" onclick="operations('fillAddressToBooking', '<?= $item['_id']?>')">
+                                <a href="#newBooking" onclick="operations('fillAddressToBooking', '<?= $item['_id']?>')">
                                     <?= implode(", ", $item['address']);?>
                                 </a>
                             </td>
@@ -191,7 +193,7 @@
 
 
                 <div class="col-lg-12" style="padding: 1px ;">
-                    <div class="well well-sm" style="background-color: #B5B5B6"><span class="col-lg-offset-3" >No Pending Bookings</span> </div>
+                    <div class="well well-sm" style="background-color: #B5B5B6"><span class="col-lg-offset-4" >No Pending Bookings</span> </div>
                 </div>
 
                 <div class="panel panel-default col-lg-5" style="padding: 1px">
@@ -262,7 +264,7 @@
                     <div class="panel-body" style="padding: 1px">
                         <span class="col-lg-3" style="padding: 1px">Address</span>
                     <span class="col-lg-9" style="padding: 1px">
-                        <a href="#" id="jobAddress" onclick="operations('fillAddressToBooking', '<?= $history_booking[$index]['_id']?>')">
+                        <a href="#newBooking" id="jobAddress" onclick="operations('fillAddressToBookingFromHistory', '<?= $history_booking[$index]['_id']?>')">
                             <?= implode(", ", $history_booking[$index]['address']);?>
                         </a>
                     </span>

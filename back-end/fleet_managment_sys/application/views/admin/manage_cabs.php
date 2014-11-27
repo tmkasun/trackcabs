@@ -217,7 +217,7 @@
         else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type  , 'blocked':'false' };}
         //else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId };}
         var url = '<?php echo site_url("user_controller/createUser") ?>';
-        alert(JSON.stringify(user));
+       //alert(JSON.stringify(user));
         ajaxPost(user,url);
         getAllCROsView(id);
     }
@@ -373,7 +373,7 @@
 
     function createNewPackage(){
         var packageName = document.getElementById("packageName").value;
-        alert("aawa");
+        //alert("aawa");
         if (document.getElementById('airport').checked) {
             var feeType = 'airport';
 
@@ -392,11 +392,11 @@
             var km = document.getElementById("km").value;
             var hours = document.getElementById("hours").value;
             var fee = document.getElementById("fee").value;
-            alert(feeType);
+            //alert(feeType);
             var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType , 'km' :km , 'hours' : hours , 'fee' :fee , 'info' : info };
         }
         var url =  '<?php echo site_url("packages_controller/createPackage"); ?>';
-        alert(JSON.stringify(packaged));
+        //alert(JSON.stringify(packaged));
         ajaxPost(packaged,url);
         getPackagesView();
     }

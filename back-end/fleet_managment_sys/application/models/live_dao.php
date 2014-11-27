@@ -192,7 +192,7 @@ class Live_dao extends CI_Model
     function getNotDispatchedBookings(){
         $collection = $this->get_collection();
 
-        $cursor = $collection->find(array("status" => "START"))->sort(array('bookTime' => 1,'address.town' => 1));
+        $cursor = $collection->find(array("status" => array('$in' => array("START","DISENGAGE"))))->sort(array('bookTime' => 1,'address.town' => 1));
         $data= array();
         foreach ($cursor as $doc) {
             $data[]= $doc;

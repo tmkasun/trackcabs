@@ -93,7 +93,7 @@
 
 </head>
 <body>
-<h1 id="locationHeading" style="text-align: center; margin-bottom: 0">Location Board</h1>
+<!--<h1 id="locationHeading" style="text-align: center; margin-bottom: 0">Location Board</h1>-->
 
     <div id="LocationContainer" style="overflow: auto; height: 100%">
 

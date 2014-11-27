@@ -16,7 +16,7 @@ def main():
     baud = 460800
     deliver = False
     destination = "0711661919"
-    message = "Testing_message"
+    message = "Testing_message \n new line \t tab \n n \n e \n l"
     modem = GsmModem(port, baud)
     # Uncomment the following line to see what the modem is doing:
     # logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)

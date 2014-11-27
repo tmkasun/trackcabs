@@ -243,6 +243,7 @@
     </div>
 </nav>
 
+<!-- Location board and dispatch menu area -->
 <div class="row">
     <div class="col-md-4">
         <div id="leftSidePane">
@@ -264,6 +265,9 @@
     <div id="locBoardWrapper" class="col-md-8">
         <div id="rightSidePane">
             <div style="max-height: 90%;" id="locationBoardPane">
+                <div class="row">
+                    testing
+                </div>
                 <?= $location_board_pane ?>
             </div>
 

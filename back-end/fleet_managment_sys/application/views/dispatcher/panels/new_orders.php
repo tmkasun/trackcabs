@@ -47,7 +47,8 @@
 
     //TODO: move this scripts to separate file like dispatcher.js in assets file currentDispatchOrderRefId
     function dispatchOrder(orderId) {
-        $("#commonModal").modal('toggle').find(".modal-content").load('dispatcher/newOrder/' + orderId);
+//        $("#commonModal").modal('toggle').find(".modal-content").load('dispatcher/newOrder/' + orderId);
+        $("#orderBuilder").load('dispatcher/newOrder/' + orderId);
         currentDispatchOrderRefId = orderId;
     }
 
@@ -63,12 +64,13 @@
                 conn.subscribe(userid, function (topic, data) {
                     // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
                     console.log('New Message published to user "' + topic + '" : ' + data.message);
+                    debugObject = data;
                     var newOrder = data.message;
                     if (newOrder.status === "CANCEL") {
                         removeOrder(newOrder, true);
                         delete unDispatchedOrders[newOrder.refId];
                     } else {
-                        if(newOrder.refId in unDispatchedOrders){
+                        if (newOrder.refId in unDispatchedOrders) {
                             removeOrder(newOrder);
                             addNewOrder(newOrder);
                             $.UIkit.notify({
@@ -78,9 +80,9 @@
                                 pos: 'top-center'
                             });
 
-                        }else{
+                        } else {
                             unDispatchedOrders[newOrder.refId] = newOrder;
-                            addNewOrder(newOrder,true);
+                            addNewOrder(newOrder, true);
                         }
                     }
                 });
@@ -94,22 +96,61 @@
 
     function addNewOrder(newOrder, alertMessage) {
         var newOrderUnixTimeStamp = newOrder.bookTime.sec;
+        var orderAddress = newOrder.address;
         var orderBookingTime = moment.unix(newOrderUnixTimeStamp);
 
+        /*
+        *
+         <span class="text-muted"> No: </span> <span class="text-primary"> <?= $order['address']['no'] ?> </span>
+        * */
         var $fromNowSpan = $("<span>", {class: "text-warning fromNow"});
         var $labelSpan = $("<span>", {class: "label label-info"}).css({float: 'right'}).text(newOrder.refId);
+
+        var $listGroupHeading = $("<h4>", {class: "list-group-item-heading"})
+            .text(orderBookingTime.format('Do-MMM-YY  hh:mm a'))
+            .append($fromNowSpan)
+            .append($labelSpan);
+
+        var $listGroupText = $("<p>", {class: "list-group-item-text"}).
+            html('<span class="text-muted"> No: </span>' + '<span class="text-primary">' + orderAddress.no + '</span>'
+            + '<span class="text-muted"> Road: </span>' + '<span class="text-primary">' + orderAddress.road + '</span></br>'
+            + '<span class="text-muted"> City: </span>' + '<span class="text-primary">' + orderAddress.city + '</span>'
+            + '<span class="text-muted">  Town: </span>' + '<span class="text-primary">' + orderAddress.town + '</span> ');
 
         var $order = $("<a>", {
             id: newOrder.refId,
             class: "list-group-item",
             onclick: "dispatchOrder(this.id);return false"
         })
-            .attr('data-bookTime', newOrderUnixTimeStamp).text(orderBookingTime.format('Do-MMM-YY  hh:mm a')).append($fromNowSpan).append($labelSpan);
+
+            .attr('data-bookTime', newOrderUnixTimeStamp).append($listGroupHeading).append($listGroupText);
+
+        /* Old method showing date time remove if not in use */
+
+        /*
+         *
+         var $listGroupHeading = $("<h4>", {class: "list-group-item-heading"})
+         .attr('data-bookTime', newOrderUnixTimeStamp)
+         .text(orderBookingTime.format('Do-MMM-YY  hh:mm a'))
+         .append($fromNowSpan)
+         .append($labelSpan);
+
+         var $listGroupText = $("<p>", {class: "list-group-item-text"}).text(orderAddress.city +'\n'+orderAddress.town);
+
+         var $order = $("<a>", {
+         id: newOrder.refId,
+         class: "list-group-item",
+         onclick: "dispatchOrder(this.id);return false"
+         })
+         .append($listGroupHeading).append($listGroupText);
+         * */
+//        var orderBookingTime = moment.unix(newOrderUnixTimeStamp);
+//            .attr('data-bookTime', newOrderUnixTimeStamp).text(orderBookingTime.format('Do-MMM-YY  hh:mm a')).append($fromNowSpan).append($labelSpan);
 
         /* Find element ref id which new element need to be insert after*/
         var liveOrdersList = $('#liveOrdersList').find('a');
 
-        if(alertMessage){
+        if (alertMessage) {
             $.UIkit.notify({
                 message: '<span style="color: dodgerblue">New Order <b>#' + newOrder.refId + ' added.</b></span><br>',
                 status: 'success',
@@ -143,7 +184,7 @@
         console.log("DEBUG: remove order : " + newOrder);
         var orderRefId = newOrder.refId;
         var orderDOM = $('#liveOrdersList').find('#' + orderRefId);
-        if(alertMessage){
+        if (alertMessage) {
             $.UIkit.notify({
                 message: '<span style="color: dodgerblue">Order <b>' + orderRefId + '</b> has been canceled!</span><br>',
                 status: 'danger',
@@ -161,13 +202,23 @@
         <a href="#" class="list-group-item active text-center">
             New Orders
         </a>
+
         <div id="liveOrdersList" class="mscroll" style="overflow-y: auto;height: 90%;">
+
             <?php foreach ($orders as $order) { ?>
                 <a id="<?= $order['refId'] ?>" onclick="dispatchOrder(this.id);return false"
                    class="list-group-item" data-bookTime="<?= $order['bookTime']->sec ?>">
-                    <?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?>
-                    <span class="text-warning fromNow"></span>
-                    <span class="label label-info" style="float: right"><?= $order['refId'] ?></span>
+                    <h4 class="list-group-item-heading">
+                        <?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?>
+                        <span class="text-warning fromNow"></span>
+                        <span class="label label-info" style="float: right"><?= $order['refId'] ?></span>
+                    </h4>
+                    <p class="list-group-item-text">
+                        <span class="text-muted"> No: </span> <span class="text-primary"> <?= $order['address']['no'] ?> </span>
+                        <span class="text-muted"> Road: </span> <span class="text-primary"> <?= $order['address']['road'] ?> </span> <br>
+                        <span class="text-muted"> City: </span> <span class="text-primary"> <?= $order['address']['city'] ?> </span>
+                        <span class="text-muted"> Town: </span> <span class="text-primary"> <?= $order['address']['town'] ?> </span>
+                    </p>
                 </a>
                 <script>
                     var order = JSON.parse('<?= json_encode($order) ?>');

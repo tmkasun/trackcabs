@@ -96,9 +96,9 @@ class User_dao extends CI_Model
 
         $user_type = array('user_type' => $type);
         $cursor = $collection->find($user_type);
-        $users= array();
+        $users= array('data' => array());
         foreach ($cursor as $user) {
-            $users[]= $user;
+            $users['data'][]= $user;
         }
 
         return $users;

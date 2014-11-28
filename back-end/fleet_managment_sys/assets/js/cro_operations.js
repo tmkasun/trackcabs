@@ -154,6 +154,32 @@ function createBooking(url , tp){
     if (destination== ''){destination= '-'}
     if (pagingBoard== ''){pagingBoard= '-'}
 
+    /* Form Validations */
+    if(road == ''){
+        alert('Road number is compulsory');
+        return false;
+    }
+    if( town == ''){
+        alert('Town is compulsory');
+        return false;
+    }
+    if(city == ''){
+        alert('City is compulsory');
+        return false;
+    }
+    if(vType == ''){
+        alert('Vehicle Type is Compulsory');
+        return false;
+    }
+    if(bTime == '' || bDate ==  ''){
+        alert('Booking Date and Time are Compulsory');
+        return false;
+    }
+    if(payType ==  ''){
+        alert('Payment method is Compulsory');
+        return false;
+    }
+
     var address = {
         'no':no ,
         'road' : road ,
@@ -412,6 +438,7 @@ function ajaxPost(data,urlLoc, asynchronicity)    {
         async: asynchronicity ? true : false,
         success: function(data, textStatus, jqXHR) {
             result = JSON.parse(jqXHR.responseText);
+
         },
         error: function(jqXHR, textStatus, errorThrown) {
             if(jqXHR.status == 400) {
@@ -429,6 +456,32 @@ function ajaxPost(data,urlLoc, asynchronicity)    {
     return result;
 }
 
+function ajaxPostCro(data,urlLoc)    {
+    var result=null;
+    $.ajax({
+        type: 'POST', url: urlLoc,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(data),
+        async: false,
+        success: function(data, textStatus, jqXHR) {
+            result = JSON.parse(jqXHR.responseText);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            if(jqXHR.status == 400) {
+                var message= JSON.parse(jqXHR.responseText);
+                $('#messages').empty();
+                $.each(messages, function(i, v) {
+                    var item = $('<li>').append(v);
+                    $('#messages').append(item);
+                });
+            } else {
+                alert('Unexpected server error.');
+            }
+        }
+    });
+    return result;
+}
 
 function showCalender(){
     $('#form_datetime').datetimepicker({
@@ -500,10 +553,12 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobDriverId').html(driverId);
     $('#jobCabId').html(cabId);
 
+    $('#jobAddress').attr("onclick", "operations('fillAddressToBooking',"+bookingObj[index]['_id']['$id']+")");
     $('#jobAddress').html(bookingObj[index]['address']['no'] + ' , ' + bookingObj[index]['address']['road'] + ' , ' +
                         bookingObj[index]['address']['city'] + ' , ' + bookingObj[index]['address']['town'] + ' ,'  +
                         bookingObj[index]['address']['landmark']);
     $('#jobDestination').html(bookingObj[index]['destination']);
+    $('#jobCallUpPrice').html(bookingObj[index]['callUpPrice']);
     $('#jobRemark').html(bookingObj[index]['remark']);
 
     var specifications = "";
@@ -589,3 +644,12 @@ function fillAddressToBookingFromHistory(bookingObjId){
     $('#town').val(historyBookingObj[index]['address']['town']);
     $('#landMark').val(historyBookingObj[index]['address']['landmark']);
 }
+
+function getCabHeaderView(){
+    var url = '<?php echo site_url("cro_controller/getCabHeaderView") ?>';
+    var result = ajaxPost(null,url);
+    var div = document.getElementById('dataFiled');
+    div.innerHTML = result.view.table_content;
+
+}
+

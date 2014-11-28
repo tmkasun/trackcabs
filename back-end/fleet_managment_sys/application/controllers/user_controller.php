@@ -103,7 +103,7 @@ class User_controller extends CI_Controller
         $data=array();
         if( $result != null ){
             $statusMsg = 'success';
-            $data['useerId']=$result['userrId'];
+            $data['userId']=$result['userId'];
             $data['cabId']=$result['cabId'];
         }
         $this->output->set_output( json_encode ( array ( "statusMsg" => $statusMsg , 'data' => $data )));

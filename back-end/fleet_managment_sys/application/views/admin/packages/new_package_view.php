@@ -20,8 +20,6 @@
             </div>
         </div>
     <div class="form-group" id="airportFeeDiv">
-        <label for="fee">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Enter Name"><br>
         <label for="fee">Drop Fee</label>
         <input type="text" class="form-control" id="dropFee" placeholder="Enter Fee"><br>
         <label for="fee">Both Way Fee</label>

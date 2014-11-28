@@ -2,7 +2,6 @@
     <tr>
         <th>Package Id</th>
         <th>Package Name</th>
-        <th>Name</th>
         <th>Drop Fee</th>
         <th>Both Way Fee</th>
         <th>Guest Carrier Fee</th>
@@ -19,7 +18,6 @@
         <tr>
             <td><p id="<?= $item['packageId'];?>"><?= $item['packageId'];?></p></td>
             <td><p id="<?= $item['packageName'];?>"><?= $item['packageName'];?></p></td>
-            <td><?= $item['name'];?></td>
             <td><?= $item['dropFee'];?></td>
             <td><?= $item['bothwayFee'];?></td>
             <td><?= $item['guestCarrierFee'];?></td>

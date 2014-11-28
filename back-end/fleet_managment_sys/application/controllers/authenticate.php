@@ -33,7 +33,7 @@ class Authenticate extends CI_Controller {
         $authenticationResult = $this->user_dao->logout($userId);
 
         if (!$authenticationResult) {
-            $authentication = array('isAuthorized' => $userId);
+            $authentication = array('isAuthorized' => false);
         }else {
             $authentication = array('isAuthorized' => true);
             $this->user_dao->setLastLogout($userId,$timeStamp);

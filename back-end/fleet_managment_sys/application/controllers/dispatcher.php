@@ -99,8 +99,9 @@ class Dispatcher extends CI_Controller
         $sentCusto = $sms->send($custoNumber, $custoMessage);
 
         $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? '' : "\nCustomer number: $custoNumber";
+        $pagingBoard = ($dispatchingOrder['pagingBoard'] != '-') ? "\nPaging Board: $dispatchingOrder[pagingBoard]" : '';
 
-        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . $custoNumber . "\nAddress: " . $custoAddress;
+        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . $custoNumber . $pagingBoard . "\nAddress: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
 
@@ -293,6 +294,25 @@ class Dispatcher extends CI_Controller
         $delayInformOrder['delay_minutes'] = $minutes;
         $webSocket->send($delayInformOrder, 'cro1');
 
+    }
+
+    function cabDetails($cabId){
+
+        if (!is_user_logged_in()) {
+            show_404();
+        };
+        $cab = $this->cab_dao->getCab($cabId);
+        $driver = $this->user_dao->getUser($cab['userId'],'driver');
+        $this->load->view('dispatcher/panels/cab_details', array('cab' => $cab, 'driver' => $driver));
+
+    }
+
+    function search_cab(){
+        $this->load->view('dispatcher/modals/search_cab');
+    }
+
+    function dispatch_history(){
+        $this->load->view('dispatcher/modals/dispatch_history');
     }
 
 

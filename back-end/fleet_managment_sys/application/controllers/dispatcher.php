@@ -49,7 +49,8 @@ class Dispatcher extends CI_Controller
             show_404();
         };
         $newOrder = $this->live_dao->getBooking($orderRefId);
-        $this->load->view('dispatcher/panels/new_order', array('newOrder' => $newOrder));
+        $customerProfile = $this->customer_dao->getCustomerByMongoObjId($newOrder['profileLinks'][0]);
+        $this->load->view('dispatcher/panels/new_order', array('newOrder' => $newOrder, 'customerProfile' => $customerProfile));
 
     }
 
@@ -72,6 +73,7 @@ class Dispatcher extends CI_Controller
         $dispatchingDriver = $this->user_dao->getDriverByCabId($cabId);
         $driverId = $dispatchingDriver['userId'];
         $dispatchingCab = $this->cab_dao->setState($cabId, "MSG_NOT_COPIED");
+        $cabZone = $dispatchingCab['zone'];
         $dispatchingCab = $this->cab_dao->setZone($cabId, "None");
         $dispatchingCab['driverId'] = $driverId;
 //        $this->live_dao->deleteBooking($postData['refId']);
@@ -82,7 +84,7 @@ class Dispatcher extends CI_Controller
         $today = date("Y-m-d h:ia");
         $todayUTC = new MongoDate(strtotime($today));
 
-        $custoMessage = "Cab No: $cabId Dispatched at: $today From location will reach you shortly Ref. No: $dispatchingOrder[refId] Driver Mobile No: $dispatchingDriver[tp] Plate No: $dispatchingCab[plateNo] Model: $dispatchingCab[vType] Thank you for using Hao City Cabs: 2 888 888 ";
+        $custoMessage = "Cab No: $cabId Dispatched at: $today \nFrom $cabZone ,will reach you shortly\nRef. No: $dispatchingOrder[refId]\nDriver Mobile No: $dispatchingDriver[tp] \nPlate No: $dispatchingCab[plateNo] \nModel: $dispatchingCab[model] \nThank you for using Hao City Cabs: (011) 2 888 888";
         $custoNumber = $dispatchingOrder['tp'];
         $addressArray = array_values($dispatchingOrder['address']);
         $custoAddress = implode(" ", $addressArray);
@@ -96,9 +98,9 @@ class Dispatcher extends CI_Controller
 
         $sentCusto = $sms->send($custoNumber, $custoMessage);
 
-        $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? '' : " Customer number: $custoNumber";
+        $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? '' : "\nCustomer number: $custoNumber";
 
-        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . $custoNumber . " Address: " . $custoAddress;
+        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . $custoNumber . "\nAddress: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
 
@@ -122,7 +124,7 @@ class Dispatcher extends CI_Controller
 //        $response = array('status'=> 'success', 'message' => 'Reference Id '.$postData['refId'].'Dispatched to '.$dispatchingOrder['address']);
         $this->output->set_content_type('application/json');
 //        echo json_encode($response);
-        echo json_encode($dispatchingCab);
+        echo json_encode($dispatchingOrder);
     }
 
     function cancelOrder()
@@ -167,6 +169,10 @@ class Dispatcher extends CI_Controller
         $user = $this->session->userdata('user');
         $webSocket = new Websocket('localhost', '5555', $user['userId']);
         $webSocket->send($order, 'monitor1');
+
+
+        $this->output->set_content_type('application/json');
+        echo json_encode($order);
     }
 
     function setIdleZone()

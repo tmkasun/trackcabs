@@ -12,11 +12,18 @@
             });
             return false;
         }
+        console.log("DEBUG: dispatcher disengageCab");
         $.post('dispatcher/disengageCab', {refId: orderRefId}).done(
-        function () {
+        function (disengagedOrder) {
+            console.log(disengagedOrder);
+            console.log("DEBUG: response");
+
             var orderDOM = $('#dispatchedOrdersList').find('#' + orderRefId);
             $(orderDOM).fadeOut();
             $('#dispatchedOrdersList').find('#' + orderRefId).remove();
+            unDispatchedOrders[disengagedOrder.refId] = disengagedOrder;
+            addNewOrder(disengagedOrder);
+            closeAll();
             $.UIkit.notify({
                 message: "Order: <b>" + orderRefId + "</b> has been disengaged!",
                 status: 'warning',

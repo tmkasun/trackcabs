@@ -1,15 +1,68 @@
 <script>
     //TODO: move this scripts to separate file like dispatcher.js in assets file
+    var dispatchDetails = {};
     function allowDispatchCab(refId) {
-        closeAll();
+//        closeAll();
 //        $("#newOrdersPane").fadeOut('slow');
-        $.UIkit.notify({
-            message: "Order: " + refId + " selected for dispatch!",
-            status: 'success',
+        /* $.UIkit.notify({
+         message: "Order: " + refId + " selected for dispatch!",
+         status: 'success',
+         timeout: 0,
+         pos: 'top-center'
+         });
+         currentDispatchOrderRefId = refId;*/
+
+        var zone = dispatchDetails.zone;
+        var cab = dispatchDetails.cab;
+
+        var dispatchNotify = $.UIkit.notify({
+            message: '<span style="color: dodgerblue">Dispatching order <b>' + refId + '</b></span>',
+            status: 'warning',
             timeout: 0,
             pos: 'top-center'
         });
-        currentDispatchOrderRefId = refId;
+
+        sendingData = {};
+        sendingData.cabId = cab.id;
+        sendingData.orderId = refId;
+        $.post('dispatcher/dispatchVehicle', sendingData, function (dispatchedOrder) {
+            console.log(dispatchedOrder);
+            setTimeout(function () {
+                dispatchNotify.close()
+            }, 3000);
+            dispatchNotify.status('success');
+            dispatchNotify.content("Order Dispatched successfully!");
+
+            var orderDOM = $('#liveOrdersList').find('#' + sendingData.orderId);
+            $(orderDOM).fadeOut().remove();
+
+
+            var dispatchedOrderUnixTimeStamp = dispatchedOrder.dispatchTime.sec;
+            var orderBookingTime = moment.unix(dispatchedOrderUnixTimeStamp);
+
+            var $fromNowSpan = $("<span>", {class: "text-warning fromNow"});
+            var $labelSpan = $("<span>", {class: "label label-info"}).css({float: 'right'}).text(dispatchedOrder.refId);
+
+            var $order = $("<a>", {
+                id: dispatchedOrder.refId,
+                class: "list-group-item",
+                onclick: "disengageOrder(this.id);return false"
+            })
+                .attr('data-bookTime', dispatchedOrderUnixTimeStamp).text(orderBookingTime.format('Do-MMM-YY  hh:mm a')).append($fromNowSpan).append($labelSpan);
+
+            $order.appendTo('#dispatchedOrdersList .mCSB_container');
+
+            delete unDispatchedOrders[dispatchedOrder.refId];
+
+            // TODO: dehan's work i have done a temp fix
+            cab.state = "MSG_NOT_COPIED";
+            zone.idle.cabs.remove(cab);
+            locVM.pendingCabs.push(cab);
+
+            $("#orderBuilder").html('');
+        });
+
+
     }
 
     function cancelOrder(orderRefId) {
@@ -67,17 +120,9 @@
         });
     }
 </script>
-<div class="modal-header"
-     style="cursor: move;background: #f9f9f9;-webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);-moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);">
-    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title">
-        <!-- TODO: Trigger bootstrap tooltip $('#aboutTileUrl').tooltip(); to enable tooltip -->
-        Booking #<i><?= $newOrder['refId'] ?></i>
-    </h4>
-</div>
 <div class="modal-body">
 
-    <p class="text-info text-center">Booking details</p>
+    <p class="text-info text-center">Booking details of #<?= $newOrder['refId'] ?></p>
 
     <div class="row">
         <div class="col-md-6 well well-sm">
@@ -89,58 +134,68 @@
             <?php endforeach ?>
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
 
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        Customer: <?= $customerProfile['title'] . ". " . $customerProfile['name'] ?> </h3>
+                        <?= $customerProfile['title'] . ". " . $customerProfile['name'] ?> </h3>
                 </div>
                 <div class="panel-body">
-                    <span class="col-md-6">Job Count  :</span>
-                    <span class="col-md-6 text-primary"><?= $customerProfile['tot_job'] ?></span>
+                    <span>Job Count  :</span>
+                    <span class="text-primary"><?= $customerProfile['tot_job'] ?></span>
+                    <br/>
 
+                    <span>Cancel [T]  :</span>
+                    <span class="text-danger"><?= $customerProfile['tot_cancel'] ?></span>
+                    <br/>
 
-                    <span class="col-md-6">Cancel [T]  :</span>
-                    <span class="col-md-6 text-danger"><?= $customerProfile['tot_cancel'] ?></span>
-
-                    <span class="col-md-6">Cancel [D]  :</span>
-                    <span class="col-md-6 text-danger"><?= $customerProfile['dis_cancel'] ?></span>
-
+                    <span>Cancel [D]  :</span>
+                    <span class="text-danger"><?= $customerProfile['dis_cancel'] ?></span>
+                    <br/>
                     <!--                        <img class="img-responsive center-block" src="-->
                     <? //= base_url() ?><!--assets/img/cabs/--><? //= $newOrder['vType'] ?><!--.png" alt="-->
                     <? //= $newOrder['vType'] ?><!--">-->
 
-
                 </div>
             </div>
+        </div>
+        <div class="col-md-3">
+            <ul class="list-group">
+                <?php if ($newOrder['isVip']): ?>
+                    <li class="list-group-item">
+                        <?= getBadge($newOrder['isVip']) ?>
+                        VIP
+                    </li>
+                <?php endif ?>
+
+                <?php if ($newOrder['isVih']): ?>
+                    <li class="list-group-item">
+                        <?= getBadge($newOrder['isVih']) ?>
+                        VIH
+                    </li>
+                <?php endif ?>
+
+                <?php if ($newOrder['isTinted']): ?>
+                    <li class="list-group-item">
+                        <?= getBadge($newOrder['isTinted']) ?>
+                        Tinted
+                    </li>
+                <?php endif ?>
+
+                <?php if ($newOrder['isUnmarked']): ?>
+                    <li class="list-group-item">
+                        <?= getBadge($newOrder['isUnmarked']) ?>
+                        Unmarked
+                    </li>
+                <?php endif ?>
+
+            </ul>
         </div>
 
     </div>
     <div class="row">
-        <div class="col-md-6">
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <?= getBadge($newOrder['isVip']) ?>
-                    VIP
-                </li>
 
-                <li class="list-group-item">
-                    <?= getBadge($newOrder['isVih']) ?>
-                    VIH
-                </li>
-
-                <li class="list-group-item">
-                    <?= getBadge($newOrder['isTinted']) ?>
-                    Tinted
-                </li>
-
-                <li class="list-group-item">
-                    <?= getBadge($newOrder['isUnmarked']) ?>
-                    Unmarked
-                </li>
-            </ul>
-        </div>
         <div class="col-md-6">
 
             <div class="input-group input-group-sm">
@@ -191,10 +246,19 @@
             </div>
         </div>
 
+
+        <div class="col-md-6" id="assignedCab">
+            <div class="well well-sm text-center">
+                Select a cab.
+            </div>
+        </div>
+
+
         <div style="margin-bottom: -15px" class="btn-group btn-group-justified">
             <div class="btn-group">
-                <button style="background-color: #f4f4f4;" type="button" class="btn btn-default"
-                        onclick="allowDispatchCab(<?= $newOrder['refId'] ?>)">Assign cab
+                <button style="background-color: #428bca;color: rgb(202, 255, 215);" type="button"
+                        class="btn btn-default"
+                        onclick="allowDispatchCab(<?= $newOrder['refId'] ?>)">Confirm and dispatch
                 </button>
             </div>
             <div class="btn-group">

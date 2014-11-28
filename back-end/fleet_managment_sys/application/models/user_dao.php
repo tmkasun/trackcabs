@@ -161,7 +161,8 @@ class User_dao extends CI_Model
         $collection = $this->get_collection();
         $searchQuery = array('userId' => $userId);
         $user = $collection->findOne($searchQuery);
-        $seconds_diff = $timeStamp - (float) $user['lastLogout']->sec;
+        $lastLogout =new MongoDate(strtotime($user['lastLogout']));
+        $seconds_diff = $timeStamp - (float) $lastLogout->sec;
         $hour_diff = $seconds_diff/3600;
         return $hour_diff;
 
@@ -176,10 +177,8 @@ class User_dao extends CI_Model
     function setLastLogout($userId,$timeStamp)
     {
         $collection = $this->get_collection();
-        $searchQuery = array('userId' => $userId);
-        $user = $collection->findOne($searchQuery);
-        $user['lastLogout'] = $timeStamp;
-        $collection->save($user);
+        $searchQuery = array('userId' => new MongoInt32($userId));
+        $collection->update($searchQuery,array('$set' => array('lastLogout' => $timeStamp)));
 
     }
 
@@ -228,6 +227,20 @@ class User_dao extends CI_Model
         return $user;
 
     }
+
+    /**
+     * sets The last Logout time
+     * @param $userId
+     * @internal param $timeStamp
+     */
+    function setDriverCallingNumberMinus($userId)
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array('userId' => $userId);
+        $collection->update($searchQuery,array('$set'=> array('callingNumber' => -1)));
+    }
+
+
     function getCabByDriverId($driverId)
     {
         $collection = $this->get_collection();

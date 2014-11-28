@@ -12,7 +12,11 @@ function addInquireCall(url , objId){
 
 function getEditBookingView(url , bookingObjId){
     var siteUrl = url;
+
+    
     var pass = prompt("Please enter Admin Password", "");
+
+
     if ( pass != "") {
         url = siteUrl + "/login/isAdmin";
         var data={'pass' : pass};
@@ -151,6 +155,18 @@ function createBooking(url , tp){
     if (pagingBoard== ''){pagingBoard= '-'}
 
     /* Form Validations */
+    if(road == ''){
+        alert('Road number is compulsory');
+        return false;
+    }
+    if( town == ''){
+        alert('Town is compulsory');
+        return false;
+    }
+    if(city == ''){
+        alert('City is compulsory');
+        return false;
+    }
     if(vType == ''){
         alert('Vehicle Type is Compulsory');
         return false;

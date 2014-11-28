@@ -103,7 +103,7 @@ class User_controller extends CI_Controller
         $data=array();
         if( $result != null ){
             $statusMsg = 'success';
-            $data['useerId']=$result['userrId'];
+            $data['userId']=$result['userId'];
             $data['cabId']=$result['cabId'];
         }
         $this->output->set_output( json_encode ( array ( "statusMsg" => $statusMsg , 'data' => $data )));
@@ -124,7 +124,7 @@ class User_controller extends CI_Controller
                             $this->cab_dao->updateCab($input_data['cabId'],array('userId' => $input_data["userId"] ));
                         }
                     $input_data['status'] = 'out';
-                    $input_data['lastLogout'] = new MongoDate();
+                    $input_data['lastLogout'] = new MongoDate(strtotime("2010-01-15 00:00:00"));
                     $input_data['lastLogin'] = new MongoDate();
                     $input_data['callingNumber'] = (int)$input_data['callingNumber'];
                   

@@ -93,9 +93,9 @@
 
 </head>
 <body>
-<h1 id="locationHeading" style="text-align: center; margin-bottom: 0">Location Board</h1>
+<!--<h1 id="locationHeading" style="text-align: center; margin-bottom: 0">Location Board</h1>-->
 
-    <div id="LocationContainer" style="overflow: auto; height: 100%">
+    <div id="LocationContainer" >
 
         <div id="idleContainer" class="row" style="padding: 2%">
 
@@ -192,7 +192,7 @@
                                                                     </table>
 
                                                                     <div class="row" style="float:right; margin:0">
-                                                                        <button class="btn btn-success cabManipulate" data-bind="click:$root.dispatchCab.bind($data , $parent )">Dispatch</button>
+                                                                        <button class="btn btn-success cabManipulate" data-bind="click:$root.dispatchCab.bind($data , $parent )">Assign Cab</button>
                                                                     </div>
 
                                                                 </div>

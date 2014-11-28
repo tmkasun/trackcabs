@@ -371,12 +371,6 @@ function LocationBoardViewModel(){
                 alert('Cab Id does not exist');
             }
 
-            $.UIkit.notify({
-                message: '<span style="color: dodgerblue">' + response.status + '</span><br>' + response.message,
-                status: (response.status == 'success' ? 'success' : 'danger'),
-                timeout: 3000,
-                pos: 'top-center'
-            });
         });
 
 
@@ -462,51 +456,9 @@ function LocationBoardViewModel(){
     };
 
     self.dispatchCab = function(zone, cab){
-        $.UIkit.notify.closeAll();
-        var dispatchNotify = $.UIkit.notify({
-            message: '<span style="color: dodgerblue">Dispatching order <b>'+currentDispatchOrderRefId+'</b></span>',
-            status: 'warning',
-            timeout: 0,
-            pos: 'top-center'
-        });
-
-        sendingData = {};
-        sendingData.cabId = cab.id;
-        sendingData.orderId = currentDispatchOrderRefId;
-        $.post('dispatcher/dispatchVehicle', sendingData, function (dispatchedOrder) {
-            console.log(dispatchedOrder);
-
-            setTimeout(function(){dispatchNotify.close()},3000);
-            dispatchNotify.status('success');
-            dispatchNotify.content("Order Dispatched successfully!");
-
-            currentDispatchOrderRefId = null;
-
-            var orderDOM = $('#liveOrdersList').find('#' + sendingData.orderId);
-            $(orderDOM).fadeOut().remove();
-
-
-            var dispatchedOrderUnixTimeStamp = dispatchedOrder.dispatchTime.sec;
-            var orderBookingTime = moment.unix(dispatchedOrderUnixTimeStamp);
-
-            var $fromNowSpan = $("<span>", {class: "text-warning fromNow"});
-            var $labelSpan = $("<span>", {class: "label label-info"}).css({float: 'right'}).text(dispatchedOrder.refId);
-
-            var $order = $("<a>", {
-                id: dispatchedOrder.refId,
-                class: "list-group-item",
-                onclick: "disengageOrder(this.id);return false"
-            })
-                .attr('data-bookTime', dispatchedOrderUnixTimeStamp).text(orderBookingTime.format('Do-MMM-YY  hh:mm a')).append($fromNowSpan).append($labelSpan);
-
-            $order.appendTo('#dispatchedOrdersList .mCSB_container');
-
-            delete unDispatchedOrders[dispatchedOrder.refId];
-
-            cab.state = "MSG_NOT_COPIED";
-            zone.idle.cabs.remove(cab);
-            self.pendingCabs.push(cab);
-        });
+        $("#assignedCab").load('dispatcher/cabDetails/' + cab.id);
+        dispatchDetails['zone'] = zone;
+        dispatchDetails['cab'] = cab;
 
     };
 
@@ -595,18 +547,12 @@ function LocationBoardViewModel(){
                 alert('Cab Id does not exist');
             }
 
-            $.UIkit.notify({
-                message: '<span style="color: dodgerblue">' + response.status + '</span><br>' + response.message,
-                status: (response.status == 'success' ? 'success' : 'danger'),
-                timeout: 3000,
-                pos: 'top-center'
-            });
         });
 
 
         
 
-    }
+    };
 
     self.removeCabFromAllBoards = function(lastZone, cabId) {
         //Remove from Idle and Pob

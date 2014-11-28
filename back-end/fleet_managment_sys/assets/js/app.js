@@ -66,15 +66,23 @@ $("#searchbox").click(function () {
 });
 
 /* TypeAhead search functionality */
-function getSearchKey(order){
+function getSearchKey(order,q){
+    var queryIsNAN = isNaN(q);
+    //console.log(queryIsNAN);
+    //console.log(q);
+
     var searchKey;
     var leftSidePane = $("#leftSidePane");
-    if(leftSidePane.find('#searchByRefId').hasClass('active')){
+    if(leftSidePane.find('#searchByRefId').hasClass('active') && !queryIsNAN){
         searchKey = order.refId;
+        //console.log("Search by refId");
     }
-    else if(leftSidePane.find('#searchByTown')){
+    else if(leftSidePane.find('#searchByTown').hasClass('active') || queryIsNAN){
         searchKey = order.address.town;
+        //console.log("Search by townnnn");
     }
+
+    console.log(searchKey);
     return searchKey;
 }
 
@@ -88,7 +96,7 @@ var substringMatcher = function () {
         $('#liveOrdersList .mCSB_container').empty();
         $.each(unDispatchedOrders, function (i, order) {
             //console.log("i = "+i+" order = "+order);
-            var searchKey = getSearchKey(order);
+            var searchKey = getSearchKey(order,q);
             //console.log("searchKey = "+searchKey);
 
             if (substrRegex.test(searchKey)) {

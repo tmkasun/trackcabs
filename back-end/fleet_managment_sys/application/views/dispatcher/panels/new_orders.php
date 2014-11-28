@@ -47,7 +47,8 @@
 
     //TODO: move this scripts to separate file like dispatcher.js in assets file currentDispatchOrderRefId
     function dispatchOrder(orderId) {
-        $("#commonModal").modal('toggle').find(".modal-content").load('dispatcher/newOrder/' + orderId);
+//        $("#commonModal").modal('toggle').find(".modal-content").load('dispatcher/newOrder/' + orderId);
+        $("#orderBuilder").load('dispatcher/newOrder/' + orderId);
         currentDispatchOrderRefId = orderId;
     }
 

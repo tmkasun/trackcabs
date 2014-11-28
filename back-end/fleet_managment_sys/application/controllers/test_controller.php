@@ -140,5 +140,12 @@ class Test_controller extends CI_Controller
         //var_dump($complaints_by_complaintId);//comment the array print and load complaints to a view with jason encode        
     }
     
+    function get_all_cancel_reports()
+    {
+        $type = 'DIS_CANCEL';//json_decode(trim(file_get_contents('php://input')), true);
+        $cancel_report_data = $this->complaint_dao->get_all_cancel_reports($type);
+        $cancel_report_data['table_content'] = $this->load->view('admin/reports/cancel_reports_view', $cancel_report_data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $cancel_report_data)));
+    }
 }
 

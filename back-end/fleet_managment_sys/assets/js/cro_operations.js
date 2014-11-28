@@ -440,7 +440,7 @@ function ajaxPost(data,urlLoc, asynchronicity)    {
     return result;
 }
 
-function ajaxPostCro(data,urlLoc)    {
+function ajaxPostCro(data,urlLoc)    {//alert("inside ajaxPostCro");
     var result=null;
     $.ajax({
         type: 'POST', url: urlLoc,

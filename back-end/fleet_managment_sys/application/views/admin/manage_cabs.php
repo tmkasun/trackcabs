@@ -82,7 +82,7 @@
 </div>
 <!-- Driver javascript-->
 <script>
-   
+
 </script>
 
 <!-- Dispatcher javascript-->
@@ -92,6 +92,24 @@
 
 <!-- User javascript-->
 <script>
+    function getCROsView(id){
+        var data = {'user_type': id};//alert(id);
+        /* Get the nav bar for cro management view */
+        var url = '<?php echo site_url("user_controller/getUserNavBarView") ?>';
+        var result = ajaxPost(data,url);
+        /* Append the values for the div tag field */
+        var div = document.getElementById('navBarField');//alert("CRO NavBar ok");
+        div.innerHTML = result.view.table_content;
+
+        url = '<?php echo site_url("user_controller/getSidePanelView") ?>';
+        result = ajaxPost(data,url);//alert("CRO SideBar ok");
+
+        div = document.getElementById('operation');
+        div.innerHTML =  result.view.table_content;
+
+        getAllCROsView(id);
+    }
+
     function getCRO(){//alert("in getCRO");
 
         var userId = document.getElementById("userIdSearch").value;
@@ -155,33 +173,14 @@
             //json object for 'user_type' 'driver'....when driver edited, 'logout' alwys set to false
             var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId, 'logout': logout , 'blocked':blocked , 'callingNumber':callingNumber , 'startLocation':startLocation }};
         }
-        //jason object when for 'user_type's 'cro', and 'dispatcher' 
+        //jason object when for 'user_type's 'cro', and 'dispatcher'
         else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp , 'blocked':blocked}};}
         //else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId}};}
-        
+
         var url = '<?php echo site_url("user_controller/updateUser") ?>';
-        ajaxPost(user,url);        
+        ajaxPost(user,url);
         getAllCROsView(id);
     }
-
-    function getCROsView(id){//alert("in getCROsView");
-        var data = {'user_type': id};//alert(id);
-        /* Get the nav bar for cro management view */
-        var url = '<?php echo site_url("user_controller/getUserNavBarView") ?>';
-        var result = ajaxPost(data,url);
-        /* Append the values for the div tag field */
-        var div = document.getElementById('navBarField');//alert("CRO NavBar ok");
-        div.innerHTML = result.view.table_content;
-
-        url = '<?php echo site_url("user_controller/getSidePanelView") ?>';
-        result = ajaxPost(data,url);//alert("CRO SideBar ok");
-
-        div = document.getElementById('operation');
-        div.innerHTML =  result.view.table_content;
-
-        getAllCROsView(id);
-    }    
-    
 
     function getNewCROView(id){//alert("in getNewCROView");
 
@@ -199,8 +198,8 @@
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
         var user_type = id;
-        var cabId = "";        
-        
+        var cabId = "";
+
         if(name == "" ){return false;}
         if(uName == "" ){return false;}
         if(pass == "" ){return false;}
@@ -211,9 +210,9 @@
         {
             cabId = document.getElementById("cabId").value;
             //json object for 'user_type' 'driver'
-            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' , 'blocked':'false' ,'lastLogout':'0' , 'callingNumber':'-1' , 'startLocation':'' };
+            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' , 'blocked':'false' ,'lastLogout': '0' , 'callingNumber':'-1' , 'startLocation':'' };
         }
-        //jason object when for 'user_type's 'cro', and 'dispatcher' 
+        //jason object when for 'user_type's 'cro', and 'dispatcher'
         else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type  , 'blocked':'false' };}
         //else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId };}
         var url = '<?php echo site_url("user_controller/createUser") ?>';

@@ -97,7 +97,6 @@
                                 <tr>
                                     <th style="text-align: right; min-width: 97px">Time</th>
                                     <th>Number</th>
-                                    <th>State</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -105,7 +104,6 @@
                                 <tr>
                                     <td data-bind="text:readableTimeStamp" style="padding: 13px; text-align: right;"><span>2014/10/23</span></td>
                                     <td data-bind="text:number" style="padding: 13px ; text-align: right;"><span>0772866596</span></td>
-                                    <td data-bind="text:state" style="padding: 13px; text-align: right;"><span>Answered</span></td>
                                     <td ><button data-bind="click:$root.assignNumber" class="btn btn-default">Assign Number</button></td>
                                 </tr>
                                 </tbody>
@@ -187,6 +185,12 @@
                 tp = $('#tpSearch').val();
                 getCustomerInfoView( url , tp);
             }
+            ///////////////////TODO: Implement To Identify a called customer
+            if(request == 'getCalledCustomer'){
+                tp = $('#tpSearch').val();
+                getCustomerInfoView( url , tp,param1);
+            }
+            ///////////////////
             if(request == 'createCusInfo'){
                 createCusInfo( url );
                 getCustomerInfoView(url , tp , customerObj,bookingObj);

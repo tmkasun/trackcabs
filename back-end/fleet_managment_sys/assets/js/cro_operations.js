@@ -12,7 +12,11 @@ function addInquireCall(url , objId){
 
 function getEditBookingView(url , bookingObjId){
     var siteUrl = url;
+
+    
     var pass = prompt("Please enter Admin Password", "");
+
+
     if ( pass != "") {
         url = siteUrl + "/login/isAdmin";
         var data={'pass' : pass};

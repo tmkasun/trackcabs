@@ -13,10 +13,6 @@
     </div>
     <?php if($feeType == 'airport'){ ?>
         <div class="form-group">
-            <label for="fee">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter Name" value="<?= $name;?>">
-        </div>
-        <div class="form-group">
             <label for="fee">Drop Fee</label>
             <input type="text" class="form-control" id="dropFee" placeholder="Enter Fee" value="<?= $dropFee;?>">
         </div>

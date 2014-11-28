@@ -30,13 +30,14 @@ class Authenticate extends CI_Controller {
         $inputArray = json_decode(trim($input), true);
         $userId = $inputArray['uName'];
         $timeStamp = new MongoDate();
-        $this->user_dao->setLastLogout($userId,$timeStamp);
         $authenticationResult = $this->user_dao->logout($userId);
 
         if (!$authenticationResult) {
-            $authentication = array('isAuthorized' => false);
+            $authentication = array('isAuthorized' => $userId);
         }else {
             $authentication = array('isAuthorized' => true);
+            $this->user_dao->setLastLogout($userId,$timeStamp);
+            $this->user_dao->setDriverCallingNumberMinus($userId);
         }
         $this -> output -> set_content_type('application/json') -> set_output(json_encode($authentication));
     }
@@ -48,7 +49,7 @@ class Authenticate extends CI_Controller {
         $timeStamp = new MongoDate();
         $authenticationResult = $this->user_dao->driverAuthenticate($userId,$inputArray['pass']);
         $hoursAfterLastLogin = $this->user_dao->hoursAfterLastLogin($authenticationResult['userId'],$timeStamp->sec);
-        if (!$authenticationResult && $hoursAfterLastLogin<5) {
+        if (!$authenticationResult || $hoursAfterLastLogin<5) {
             $authentication = array('isAuthorized' => false);
         }else {
             $driver = $this->user_dao->getUserById($userId);

@@ -64,7 +64,7 @@
         <div class="col-lg-12" style="margin-top: 10px">
             <div class="panel panel-default">
                     <div class="panel-heading" style="margin-top: 10px; border-left: 1px solid #a6a6a6" >
-                        <h3 class="panel-title">Info</h3>
+                        <h3 class="panel-title" id="panel_title">Info</h3>
                     </div>
                     <div class="panel-body" id="information">
 
@@ -82,7 +82,7 @@
 </div>
 <!-- Driver javascript-->
 <script>
-   
+
 </script>
 
 <!-- Dispatcher javascript-->
@@ -92,6 +92,24 @@
 
 <!-- User javascript-->
 <script>
+    function getCROsView(id){
+        var data = {'user_type': id};//alert(id);
+        /* Get the nav bar for cro management view */
+        var url = '<?php echo site_url("user_controller/getUserNavBarView") ?>';
+        var result = ajaxPost(data,url);
+        /* Append the values for the div tag field */
+        var div = document.getElementById('navBarField');//alert("CRO NavBar ok");
+        div.innerHTML = result.view.table_content;
+
+        url = '<?php echo site_url("user_controller/getSidePanelView") ?>';
+        result = ajaxPost(data,url);//alert("CRO SideBar ok");
+
+        div = document.getElementById('operation');
+        div.innerHTML =  result.view.table_content;
+
+        getAllCROsView(id);
+    }
+
     function getCRO(){//alert("in getCRO");
 
         var userId = document.getElementById("userIdSearch").value;
@@ -155,33 +173,14 @@
             //json object for 'user_type' 'driver'....when driver edited, 'logout' alwys set to false
             var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId, 'logout': logout , 'blocked':blocked , 'callingNumber':callingNumber , 'startLocation':startLocation }};
         }
-        //jason object when for 'user_type's 'cro', and 'dispatcher' 
+        //jason object when for 'user_type's 'cro', and 'dispatcher'
         else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp , 'blocked':blocked}};}
         //else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId}};}
-        
+
         var url = '<?php echo site_url("user_controller/updateUser") ?>';
-        ajaxPost(user,url);        
+        ajaxPost(user,url);
         getAllCROsView(id);
     }
-
-    function getCROsView(id){//alert("in getCROsView");
-        var data = {'user_type': id};//alert(id);
-        /* Get the nav bar for cro management view */
-        var url = '<?php echo site_url("user_controller/getUserNavBarView") ?>';
-        var result = ajaxPost(data,url);
-        /* Append the values for the div tag field */
-        var div = document.getElementById('navBarField');//alert("CRO NavBar ok");
-        div.innerHTML = result.view.table_content;
-
-        url = '<?php echo site_url("user_controller/getSidePanelView") ?>';
-        result = ajaxPost(data,url);//alert("CRO SideBar ok");
-
-        div = document.getElementById('operation');
-        div.innerHTML =  result.view.table_content;
-
-        getAllCROsView(id);
-    }    
-    
 
     function getNewCROView(id){//alert("in getNewCROView");
 
@@ -199,8 +198,8 @@
         var nic = document.getElementById("nic").value;
         var tp = document.getElementById("tp").value;
         var user_type = id;
-        var cabId = "";        
-        
+        var cabId = "";
+
         if(name == "" ){return false;}
         if(uName == "" ){return false;}
         if(pass == "" ){return false;}
@@ -211,9 +210,9 @@
         {
             cabId = document.getElementById("cabId").value;
             //json object for 'user_type' 'driver'
-            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' , 'blocked':'false' ,'lastLogout':'0' , 'callingNumber':'-1' , 'startLocation':'' };
+            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' , 'blocked':'false' ,'lastLogout': '0' , 'callingNumber':'-1' , 'startLocation':'' };
         }
-        //jason object when for 'user_type's 'cro', and 'dispatcher' 
+        //jason object when for 'user_type's 'cro', and 'dispatcher'
         else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type  , 'blocked':'false' };}
         //else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId };}
         var url = '<?php echo site_url("user_controller/createUser") ?>';
@@ -348,6 +347,9 @@
             div = document.getElementById('operation');
             div.innerHTML =  result.view.table_content;
             
+            //can use the line commented below to change the panel heading, but will have to use this in all views
+            //document.getElementById('panel_title').innerHTML = "Complaint Reports"
+            
             
             url ='<?php echo site_url("complaint_controller/get_all_complaints") ?>'//url + "/accounts_controller/getAllAccountsView";
             var skip = docs_per_page * (page-1);
@@ -382,12 +384,11 @@
         }
         var info = document.getElementById("info").value;
         if(feeType == 'airport'){
-            var name = document.getElementById("name").value;
             var dropFee = document.getElementById("dropFee").value;
             var bothwayFee = document.getElementById("bothwayFee").value;
             var guestCarrierFee = document.getElementById("guestCarrierFee").value;
             var outsideFee = document.getElementById("outsideFee").value;
-            var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType ,'name':name , 'dropFee' :dropFee , 'bothwayFee' : bothwayFee , 'guestCarrierFee' : guestCarrierFee , 'outsideFee' :outsideFee , 'info' : info };
+            var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType ,'dropFee' :dropFee , 'bothwayFee' : bothwayFee , 'guestCarrierFee' : guestCarrierFee , 'outsideFee' :outsideFee , 'info' : info };
         }else{
             var km = document.getElementById("km").value;
             var hours = document.getElementById("hours").value;
@@ -480,6 +481,17 @@
         div.innerHTML = result.view.table_content;
 
     }
+    
+    //Functions for Cancel Reports
+    function getCancelReportsView(type)
+    {type = typeof type !== 'undefined' ? type : "ALL";//alert(type);
+        url ='<?php echo site_url("complaint_controller/get_all_cancel_reports") ?>'//url + "/accounts_controller/getAllAccountsView";                    
+        var view = ajaxPost(type,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;//alert("ok2");
+    }    
+    
 </script>
 
 <script>

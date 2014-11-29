@@ -138,7 +138,7 @@
     </script>
 </head>
 
-<body style="margin: 0;padding: 0;">
+<body style="margin: 0;padding: 0;zoom: 90%;-moz-transform: scale(0.9, 0.9);">
 
 <div id="container">
 
@@ -185,12 +185,12 @@
             </li>
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Dispatch History</button>
+                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/dispatch_history');return false" >Dispatch History</button>
                 </form>
             </li>
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Search cab</button>
+                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/search_cab');return false" >Search cab</button>
                 </form>
             </li>
             <li>
@@ -243,6 +243,7 @@
     </div>
 </nav>
 
+<!-- Location board and dispatch menu area -->
 <div class="row">
     <div class="col-md-4">
         <div id="leftSidePane">
@@ -261,9 +262,14 @@
             <?= $new_orders_pane ?>
         </div>
     </div>
-    <div id="locBoardWrapper" class="col-md-8">
-        <div id="rightSidePane">
-            <div style="max-height: 90%;" id="locationBoardPane">
+    <div id="locBoardWrapper" class="col-md-8" style="overflow: scroll">
+        <div id="rightSidePane" >
+            <div class="row" id="orderBuilder">
+                <div class="well well-sm text-center"  >
+                    Select an order for dispatch
+                </div>
+            </div>
+            <div class="row" style="max-height: 90%;" id="locationBoardPane">
                 <?= $location_board_pane ?>
             </div>
 
@@ -626,7 +632,7 @@
 
 <!-- General modal placeholder , TODO: open all the modal through this wrapper via remote AJAX calls -->
 <div class="modal" id="commonModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- This content is load by $.ajax call , pages are located at '/controllers/modals/' -->
         </div>

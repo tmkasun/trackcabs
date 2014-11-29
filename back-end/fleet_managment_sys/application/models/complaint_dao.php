@@ -56,5 +56,19 @@ class Complaint_dao extends CI_Model
         $searchQuery = array('complaintId' => $complaintId);
         $collection->update($searchQuery,array('$set' => $edited_complaint));
     }
+    
+    //Fucnitons for cancel reports
+    
+    function get_all_cancel_reports($type)
+    {
+        $collection = $this->get_collection("history");
+        if($type === 'ALL'){$searchQuery = array('$or' => array(array('status' => 'DIS_CANCEL'),array('status' => 'CANCEL')));}
+        elseif($type === 'CANCEL'){$searchQuery = array('status' => 'CANCEL');}
+        elseif($type === 'DIS_CANCEL'){$searchQuery = array('status' => 'DIS_CANCEL');}
+        $cancel_cursor = $collection->find($searchQuery);
+        $cancellations = array('cancellations' => array());
+        foreach($cancel_cursor as $cancel_report){$cancellations['cancellations'][] = $cancel_report;}
+        return $cancellations;
+    }
   
 }

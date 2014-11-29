@@ -30,23 +30,32 @@ class AlertToMongo(Resource):
     def render_POST(self, request):
         print "Got a POST request from {}".format(request.getClientIP())
 
-        requestContent = request.content.getvalue()
-        jsonContent = json.loads(requestContent)
+        request_content = request.content.getvalue()
+        json_content = json.loads(request_content)
 
-        print("Request content {}".format(jsonContent))
+        print("Request content {}".format(json_content))
 
-        result = self.updateAlert(jsonContent)
+        result = self.update_alert(json_content)
+
         print(result)
 
         return ""
 
-    def updateAlert(self, jsonHash, collection='live'):
-        print("DEBUG: jsonHash['properties']['orderId'] = "+jsonHash['properties']['orderId'])
-        print("DEBUG: jsonHash['properties']['orderId'] = "+jsonHash['properties']['state'])
-        # client.track['users'].update()
-        return client.track[collection].update({'refId': int(jsonHash['properties']['orderId'])},
-                                               {'$set': {'status': str(jsonHash['properties']['state'])}}, #"lastUpdatedOn": datetime.datetime.utcnow()
-                                               upsert=False, multi=False)
+    def update_alert(self, jsonHash, collection='live'):
+        order_state = str(jsonHash['properties']['state'])
+        order_id = int(jsonHash['properties']['orderId'])
+
+        print(
+            "DEBUG: orderId = {} orderState = {}".format(order_id,
+                                                         order_state))  # client.track['users'].update() #TODO: update cab status as-well
+
+        client.track[collection].update({'refId': order_id}, {'$set': {'status': order_state}},
+                                        # "lastUpdatedOn": datetime.datetime.utcnow()
+                                        upsert=False, multi=False)
+        if order_state == "IDLE":
+            current_order = client.track[collection].find_one({'refId': order_id})
+            client.track['history'].save(current_order)
+            client.track[collection].remove({'refId': order_id})
 
 
 port = 9091

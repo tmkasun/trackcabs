@@ -1,54 +1,56 @@
 from twisted.internet.task import deferLater
-from twisted.internet.defer import inlineCallbacks
-from twisted.web.server import Site, NOT_DONE_YET
+from twisted.web.server import Site
 from twisted.internet import reactor
+from twisted.web.resource import Resource
 import cgi
 
-import serial
-import time
-from twisted.web.resource import Resource
+import sys, logging
+
+from gsmmodem.modem import GsmModem, SentSms
+from gsmmodem.exceptions import TimeoutException, PinRequiredError, IncorrectPinError
 
 
-class TextMessage:
-    def __init__(self, recipient="0711661919", message="Testing message from Kasun"):
-        self.recipient = recipient
-        self.content = message
+def initModem(port='/dev/ttyUSB0', baud=460800):
+    global modem
 
-    def setRecipient(self, number):
-        self.recipient = number
+    modem = GsmModem(port, baud)
 
-    def setContent(self, message):
-        self.content = message
+    # Uncomment the following line to see what the modem is doing:
+    # logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
-    def connectPhone(self):
-        self.ser = serial.Serial('/dev/ttyUSB0', 460800, timeout=5)
-        time.sleep(1)
+    print('Connecting to GSM modem on {0}...'.format(port))
+    try:
+        modem.connect()
+    except PinRequiredError:
+        sys.stderr.write('Error: SIM card PIN required. Please specify a PIN. \n')
+        sys.exit(1)
+    except IncorrectPinError:
+        sys.stderr.write('Error: Incorrect SIM card PIN entered.\n')
+        sys.exit(1)
+    print('Checking for network coverage...')
+    try:
+        modem.waitForNetworkCoverage(5)
+    except TimeoutException:
+        print('Network signal strength is not sufficient, please adjust modem position/antenna and try again.')
+        modem.close()
+        sys.exit(1)
 
-    def delayTime(self, seconds=1):
-        time.sleep(seconds)
 
-    def sendMessage(self):
-        print "Sending SMS....."
-
-        self.ser.write('ATZ\r')
-        self.delayTime()
-
-        self.ser.write('AT+CMGF=1\r')
-        self.delayTime()
-
-        self.ser.write('''AT+CMGS="''' + self.recipient + '''"\r''')
-        self.delayTime()
-
-        self.ser.write(self.content + "\r")
-        self.delayTime()
-
-        self.ser.write(chr(26))
-        self.delayTime()
-
-        print "Done. You should have receive the message by now!"
-
-    def disconnectPhone(self):
-        self.ser.close()
+def sendSms(destination, message, deliver=False):
+    if deliver:
+        print ('\nSending SMS and waiting for delivery report...')
+    else:
+        print('\nSending SMS \nmessage ({}) \nto ({})...'.format(message, destination))
+    try:
+        sms = modem.sendSms(destination, message, waitForDeliveryReport=deliver)
+    except TimeoutException:
+        print('Failed to send message: the send operation timed out')
+    else:
+        if sms.report:
+            print('Message sent{0}'.format(
+                ' and delivered OK.' if sms.status == SentSms.DELIVERED else ', but delivery failed.'))
+        else:
+            print('Message sent.')
 
 
 debugObject = None
@@ -62,10 +64,11 @@ class Simple(Resource):
         if not (self.isMobile(mobile_number)):
             return "Invalid mobile number: {}\nerror code:-1".format(mobile_number)
         message = request.args['message'][0]
-        msg_gateway.setContent(message)
-        msg_gateway.setRecipient(mobile_number)
         if not mode_flag == 1:
-            msg_gateway.sendMessage()
+            sendSms(mobile_number, message)
+
+        else:
+            print("[DEBUG_MODE]: Message = {} , \nmobile number = {}".format(mobile_number, message))
 
     def render_GET(self, request):
         # reactor.callLater(2, reactor.stop)
@@ -109,11 +112,10 @@ root = Resource()
 root.putChild('sms_service', Simple())
 site = Site(root)
 
-print "Starting server on {}".format(port)
-msg_gateway = TextMessage()
+print "Starting server on {} url: 127.0.0.1:{}/sms_service".format(port, port)
 if not mode_flag == 1:
-    msg_gateway.connectPhone()
-    print "Connecting to phone on {}".format(msg_gateway.ser)
+    initModem()
+    print("Connected to modem")
 else:
     print("DEBUG_MODE enabled no message will be sent out from the dongle")
 

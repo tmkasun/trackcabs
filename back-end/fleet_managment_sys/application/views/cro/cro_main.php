@@ -254,12 +254,21 @@
                 createCusInfo( url );
                 getCustomerInfoView(url , tp , customerObj,bookingObj);
             }
+            if(request == 'validateBooking'){
+
+                if(validateBooking(url,tp)){
+                    $('#modalConfirm').modal('show');
+                }
+                else{
+                    return false;
+                }
+
+            }
             if(request == 'createBooking'){
-
-
-
+                $('#modalConfirm').modal('hide');
                 createBooking(url , tp);
                 getCustomerInfoView(url , tp );
+                alert('Booking successfully Created');
             }
             if(request == 'cancel'){
                 getCancelConfirmationView(url ,param1);
@@ -302,18 +311,15 @@
             uiInit();
         }
     </script>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalConfirm">
-        Launch demo modal
-    </button>
 
-    <!-- Modal -->
+
+    <!-- Modal For Order Confirmation -->
     <div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h2 class="modal-title" id="myModalLabel">Confirm Booking Details of Booking #123123</h2>
+                    <h2 class="modal-title" id="myModalLabel">Confirm Booking Details<span id="bookingId" class="nts-label-value modalConfirm"></span></h2>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -355,20 +361,20 @@
 
                                     <div class="list-group-item" style="overflow:auto; border-top-left-radius: 4px; border-top-right-radius: 4px">
                                         <div class="col-md-5" style="padding: 0 "><div  id="landMark" class="nts-label-small ">Remark</div></div>
-                                        <div id="remark" class="col-md-7" style="padding: 0 10px"><span class="nts-label-value modalConfirm">Alert be on time!</span></div>
+                                        <div id="remark" class="col-md-7" style="padding: 0 10px"><span id="remark"  class="nts-label-value modalConfirm">Alert be on time!</span></div>
                                     </div>
                                     <div class="list-group-item" style="overflow:auto">
                                         <div class="col-md-5" style="padding: 0"><div class="nts-label-small  " >Dispatch Before</div></div>
-                                        <div  id="dispatchB4" class="col-md-7" style="padding: 0 10px"><span class="nts-label-value modalConfirm">30</span></div>
+                                        <div class="col-md-7" style="padding: 0 10px"><span id="dispatchB4"  class="nts-label-value modalConfirm">30</span></div>
                                     </div>
                                     <div class="list-group-item" style="overflow:auto">
                                         <div class="col-md-5" style="padding: 0"><div class="nts-label-small ">Call Up</div></div>
-                                        <div  id="callUpPrice" class="col-md-7" style="padding: 0 10px"><span class="nts-label-value modalConfirm">-</span></div>
+                                        <div class="col-md-7" style="padding: 0 10px"><span id="callUpPrice" class="nts-label-value modalConfirm">-</span></div>
                                     </div>
 
                                     <div class="list-group-item" style="overflow:auto">
                                         <div class="col-md-5" style="padding: 0"><div class="nts-label-small " >Paging Board</div></div>
-                                        <div  id="pagingBoard" class="col-md-7" style="padding: 0 10px"><span class="nts-label-value modalConfirm">-</span></div>
+                                        <div class="col-md-7" style="padding: 0 10px"><span id ="pagingBoard" class="nts-label-value modalConfirm">-</span></div>
                                     </div>
 
                                 </div>
@@ -402,15 +408,15 @@
                                 <legend style="margin:0;; border-bottom: transparent">Booking Requirements</legend>
 
                                 <div class="list-group-item" style="overflow:auto; border-top-left-radius: 4px; border-top-right-radius: 4px">
-                                    <div class="col-md-7" style="padding: 0 10px"><span class="nts-label-value modalConfirm">VIP | Tinted</span></div>
+                                    <div class="col-md-7" style="padding: 0 10px"><span id="requirements" class="nts-label-value modalConfirm">VIP | Tinted</span></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Create Booking</button>
+                    <button type="button" onclick="return false;"  class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" onclick="operations('createBooking');" class="btn btn-default">Confirm</button>
                 </div>
             </div>
         </div>

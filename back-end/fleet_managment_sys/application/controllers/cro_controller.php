@@ -87,6 +87,7 @@ class Cro_controller extends CI_Controller
         $data = $this->live_dao->getBooking($input_data["refId"]);
         if($data != null){
             $statusMsg = 'true';
+            $data['customerProfile'][0] = $this->customer_dao->getCustomerByMongoObjId($data['profileLinks'][0]);
             $view_data['advanced_bookings_view'] = $this->load->view('cro/bookings/bookings_by_reference', $data, TRUE);
         }
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , "data" => $data , 'view' => $view_data)));

@@ -171,13 +171,13 @@
                 <input type="submit" id="submitNumber" class="btn btn-default" onclick="operations('getCustomer');return false" onsubmit="operations('getCustomer');return false" value="Submit" />
             </form>
 
-            <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" >My Bookings</a></li>
-            <li><a href="<?= site_url('cro_controller/loadBookingsView')?>" >Bookings</a></li>
-            <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
-            <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
-            <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a>
-            <li><a href="<?= site_url('cro_controller/getCabHeaderView')?>" >Cabs</a>
-            <li><a href="<?= site_url('cro_controller/getAllPackagesView')?>" >Packages</a>
+            <li><a href="<?= site_url('cro_controller/loadMyBookingsView')?>" target="_blank" >My Bookings</a></li>
+            <li><a href="<?= site_url('cro_controller/loadBookingsView')?>" target="_blank" >Bookings</a></li>
+            <li><a href="<?= site_url('cro_controller/loadMapView')?>" target="_blank">Map</a></li>
+            <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" target="_blank">Location Board</a></li>
+            <li><a href="<?= site_url('cro_controller/refresh')?>" target="_blank">Refresh</a>
+            <li><a href="<?= site_url('cro_controller/getCabHeaderView')?>" target="_blank">Cabs</a>
+            <li><a href="<?= site_url('cro_controller/getAllPackagesView')?>" target="_blank">Packages</a>
 <!--            <li><a href="" onclick="forCro()">Packages</a>-->
 
         </ul>

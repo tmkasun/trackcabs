@@ -117,6 +117,14 @@
 
     <script>
 
+        getAdvancedBookingsView();
+        function getAdvancedBookingsView(){
+            var controllerUrl = url + '/cro_controller/getAdvancedBookingsView';
+            var data = {};
+            var result = ajaxPost(data , controllerUrl , false);
+            $('#searchDetails').html(result.view.advanced_bookings_view);
+        }
+
         function bookingsOperations(request){
 
             if(request == 'getBookingById'){

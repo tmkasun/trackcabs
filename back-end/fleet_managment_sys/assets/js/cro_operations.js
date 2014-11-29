@@ -138,6 +138,10 @@ function createBooking(url , tp){
     var personalProfileTp = '-';
     var cancelReason = '-';
 
+
+
+
+
     if($('#personalProfileTp').length != 0){
         bookingType = 'Cooperate';
         personalProfileTp = $('#personalProfileTp').val();
@@ -179,6 +183,10 @@ function createBooking(url , tp){
         alert('Payment method is Compulsory');
         return false;
     }
+    //TODO : Call to load dispatcher modal conformation
+    //$("#orderBuilder").load('dispatcher/newOrder/' + orderId);
+
+    $('#modalConfirm').modal('show');
 
     var address = {
         'no':no ,
@@ -456,7 +464,7 @@ function ajaxPost(data,urlLoc, asynchronicity)    {
     return result;
 }
 
-function ajaxPostCro(data,urlLoc)    {
+function ajaxPostCro(data,urlLoc)    {//alert("inside ajaxPostCro");
     var result=null;
     $.ajax({
         type: 'POST', url: urlLoc,

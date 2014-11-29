@@ -69,6 +69,52 @@
 
         subscribe('cro1');
         </script>
+    <style>
+        .nts-label{
+
+            /*font-size: 75%;*/
+            padding: .2em 16px .3em;
+            margin: 0 12px;
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .25em;
+            background-color: #777;
+        }
+
+        .nts-label-value{
+            display: inline;
+        }
+
+
+        .nts-label-small{
+
+            /*font-size: 75%;*/
+            padding: 0.4em 3px .5em;
+            margin: 0 0px;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .25em;
+            background-color: #777;
+        }
+
+        .nts-label-value-small{
+            display: inline;
+        }
+
+
+
+
+    </style>
 </head>
 <body>
 <div id="navBarField">
@@ -131,6 +177,8 @@
             <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
             <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a>
             <li><a href="<?= site_url('cro_controller/getCabHeaderView')?>" >Cabs</a>
+            <li><a href="<?= site_url('cro_controller/getAllPackagesView')?>" >Packages</a>
+<!--            <li><a href="" onclick="forCro()">Packages</a>-->
 
         </ul>
 
@@ -207,6 +255,9 @@
                 getCustomerInfoView(url , tp , customerObj,bookingObj);
             }
             if(request == 'createBooking'){
+
+
+
                 createBooking(url , tp);
                 getCustomerInfoView(url , tp );
             }
@@ -252,9 +303,122 @@
             uiInit();
         }
     </script>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalConfirm">
+        Launch demo modal
+    </button>
 
+    <!-- Modal -->
+    <div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h2 class="modal-title" id="myModalLabel">Confirm Booking Details of Booking #123123</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div >
+
+
+                            <div style="margin:4px 30px 20px">
+                                    <legend style="margin:0;; border-bottom: transparent">Location Details</legend>
+
+                                    <div class="list-group-item" style="overflow:auto; border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                        <div class="col-md-3" style="padding: 0 "><div class="nts-label ">No</div></div>
+                                        <div class="col-md-9" style="padding: 0 10px"><span id="no" class="nts-label-value modalConfirm">54/2 54/2 54/2</span></div>
+                                    </div>
+                                    <div class="list-group-item" style="overflow:auto">
+                                        <div class="col-md-3" style="padding: 0"><div class="nts-label " >Road</div></div>
+                                        <div class="col-md-9" style="padding: 0 10px"><span id="road" class="nts-label-value  modalConfirm">Awesome Road Awesome Road Awesome Road Awesome Road Awesome Road</span></div>
+                                    </div>
+                                    <div class="list-group-item" style="overflow:auto">
+                                        <div class="col-md-3" style="padding: 0"><div class="nts-label  ">City</div></div>
+                                        <div class="col-md-9" style="padding: 0 10px"><span id="city" class="nts-label-value  modalConfirm">Colombo Colombo</span></div>
+                                    </div>
+
+                                    <div class="list-group-item" style="overflow:auto">
+                                        <div class="col-md-3" style="padding: 0"><div class="nts-label  " >Town</div></div>
+                                        <div class="col-md-9" style="padding: 0 10px"><span id="town"  class="nts-label-value  modalConfirm">Town X</span></div>
+                                    </div>
+                                    <div class="list-group-item" style="overflow:auto">
+                                        <div class="col-md-3" style="padding: 0"><div class="nts-label " >Land Mark</div></div>
+                                        <div class="col-md-9" style="padding: 0 10px"><span id="landMark" class="nts-label-value  modalConfirm">Clocktower Clocktower  Clocktower Clocktower</span></div>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                            <div style="margin:4px 30px 20px">
+                                <div class="col-md-6" style="padding: 0px 5px 0 0px;" >
+                                    <legend style="margin:0;; border-bottom: transparent">Dispatch Details</legend>
+
+                                    <div class="list-group-item" style="overflow:auto; border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                        <div class="col-md-5" style="padding: 0 "><div  id="landMark" class="nts-label-small ">Remark</div></div>
+                                        <div id="remark" class="col-md-7" style="padding: 0 10px"><span class="nts-label-value modalConfirm">Alert be on time!</span></div>
+                                    </div>
+                                    <div class="list-group-item" style="overflow:auto">
+                                        <div class="col-md-5" style="padding: 0"><div class="nts-label-small  " >Dispatch Before</div></div>
+                                        <div  id="dispatchB4" class="col-md-7" style="padding: 0 10px"><span class="nts-label-value modalConfirm">30</span></div>
+                                    </div>
+                                    <div class="list-group-item" style="overflow:auto">
+                                        <div class="col-md-5" style="padding: 0"><div class="nts-label-small ">Call Up</div></div>
+                                        <div  id="callUpPrice" class="col-md-7" style="padding: 0 10px"><span class="nts-label-value modalConfirm">-</span></div>
+                                    </div>
+
+                                    <div class="list-group-item" style="overflow:auto">
+                                        <div class="col-md-5" style="padding: 0"><div class="nts-label-small " >Paging Board</div></div>
+                                        <div  id="pagingBoard" class="col-md-7" style="padding: 0 10px"><span class="nts-label-value modalConfirm">-</span></div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6" style="padding: 0px 0px 0 5px">
+                                    <legend style="margin:0; border-bottom: transparent">Booking Details</legend>
+
+                                    <div class="list-group-item" style="overflow:auto; border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                        <div class="col-md-5" style="padding: 0 "><div class="nts-label-small">Vehicle Type</div></div>
+                                        <div class="col-md-7" style="padding: 0 10px"><span id ="vehicleType"  class="nts-label-value modalConfirm">Nano</span></div>
+                                    </div>
+                                    <div class="list-group-item" style="overflow:auto">
+                                        <div class="col-md-5" style="padding: 0"><div class="nts-label-small" >Payment Type</div></div>
+                                        <div class="col-md-7" style="padding: 0 10px"><span id ="payentType" class="nts-label-value modalConfirm">Cash</span></div>
+                                    </div>
+                                    <div class="list-group-item" style="overflow:auto">
+                                        <div class="col-md-5" style="padding: 0"><div class="nts-label-small ">Booking Time</div></div>
+                                        <div class="col-md-7" style="padding: 0 10px"><span  id ="bTime" class="nts-label-value modalConfirm">03:56</span></div>
+                                    </div>
+
+                                    <div class="list-group-item" style="overflow:auto">
+                                        <div class="col-md-5" style="padding: 0"><div class="nts-label-small " >Booking Date</div></div>
+                                        <div class="col-md-7" style="padding: 0 10px"><span id ="bDate" class="nts-label-value modalConfirm">2014-11-29</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div style="margin:4px 30px 20px">
+                            <div style="padding: 0px 5px 0 0px;" >
+                                <legend style="margin:0;; border-bottom: transparent">Booking Requirements</legend>
+
+                                <div class="list-group-item" style="overflow:auto; border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                    <div class="col-md-7" style="padding: 0 10px"><span class="nts-label-value modalConfirm">VIP | Tinted</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Create Booking</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 
 <script type="text/javascript" src="<?= base_url();?>assets/js/CroScripts/ViewModel.js"></script>
 </html>
+

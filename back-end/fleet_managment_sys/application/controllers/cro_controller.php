@@ -236,5 +236,18 @@ class Cro_controller extends CI_Controller
         }
 
     }
+    
+    function getAllPackagesView()
+    {
+        if (is_user_logged_in())
+        {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/packages/packages_main',$userData);
+        }
+        else
+        {
+            $this -> load -> helper(array('form'));
+        }
+    }
 
 }

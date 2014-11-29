@@ -130,7 +130,6 @@
 
             if(request == 'getBookingById'){
                 url = url + '/cro_controller/getBookingByRefIdView';
-                alert(url);
                 var refId= $('#refIdSearch').val();
                 var  data={'refId' : refId}
                 var result = ajaxPost(data , url , false);

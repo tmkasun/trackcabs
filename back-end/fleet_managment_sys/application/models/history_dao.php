@@ -28,6 +28,12 @@ class History_dao extends CI_Model
         return $collection->findOne($searchQuery);
     }
 
+    function getBookingByRefId($refId){
+        $collection = $this->get_collection();
+        $searchQuery= array('refId' => (int)$refId);
+        return $collection->findOne($searchQuery);
+    }
+
     function getBookings($limit = null){
         $collection = $this->get_collection();
         return $collection->find()->limit($limit);

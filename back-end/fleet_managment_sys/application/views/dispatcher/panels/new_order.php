@@ -45,7 +45,7 @@
 
             var $order = $("<a>", {
                 id: dispatchedOrder.refId,
-                class: "list-group-item",
+                class: "",
                 onclick: "disengageOrder(this.id);return false"
             })
                 .attr('data-bookTime', dispatchedOrderUnixTimeStamp).text(orderBookingTime.format('Do-MMM-YY  hh:mm a')).append($fromNowSpan).append($labelSpan);
@@ -135,7 +135,7 @@
             <?php endforeach ?>
 
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6">
 
             <div class="panel panel-success">
                 <div class="panel-heading">
@@ -161,40 +161,56 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <ul class="list-group">
-                <?php if ($newOrder['isVip']): ?>
-                    <li class="list-group-item">
-                        <?= getBadge($newOrder['isVip']) ?>
-                        VIP
-                    </li>
-                <?php endif ?>
 
-                <?php if ($newOrder['isVih']): ?>
-                    <li class="list-group-item">
-                        <?= getBadge($newOrder['isVih']) ?>
-                        VIH
-                    </li>
-                <?php endif ?>
+    </div>
 
-                <?php if ($newOrder['isTinted']): ?>
-                    <li class="list-group-item">
-                        <?= getBadge($newOrder['isTinted']) ?>
-                        Tinted
-                    </li>
-                <?php endif ?>
 
-                <?php if ($newOrder['isUnmarked']): ?>
-                    <li class="list-group-item">
-                        <?= getBadge($newOrder['isUnmarked']) ?>
-                        Unmarked
-                    </li>
-                <?php endif ?>
+    <div class="row">
+        <div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+            <?php if ($newOrder['isVip']): ?>
 
-            </ul>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default">
+                        VIP <?= getBadge($newOrder['isVip']) ?>
+                    </button>
+                </div>
+            <?php endif ?>
+
+
+            <?php if ($newOrder['isVih']): ?>
+
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default">
+                        VIH <?= getBadge($newOrder['isVih']) ?>
+
+                    </button>
+                </div>
+            <?php endif ?>
+
+            <?php if ($newOrder['isTinted']): ?>
+
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default">
+                        Tinted <?= getBadge($newOrder['isTinted']) ?>
+                    </button>
+                </div>
+            <?php endif ?>
+
+            <?php if ($newOrder['isUnmarked']): ?>
+
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default">
+                        Unmarked <?= getBadge($newOrder['isUnmarked']) ?>
+                    </button>
+                </div>
+            <?php endif ?>
+
         </div>
 
     </div>
+    <br/>
+
+
     <div class="row">
 
         <div class="col-md-6">
@@ -253,7 +269,6 @@
                 Select a cab.
             </div>
         </div>
-
 
         <div style="margin-bottom: -15px" class="btn-group btn-group-justified">
             <div class="btn-group">

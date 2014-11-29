@@ -32,6 +32,16 @@
                 </div>
 
                 <div class="col-lg-12">
+                    <span class="col-lg-3">Telephone 1</span>
+                    <span class="col-lg-9"><?= $tp?></span>
+                </div>
+
+                <div class="col-lg-12">
+                    <span class="col-lg-3">Telephone 2</span>
+                    <span class="col-lg-9"><?= $tp2?></span>
+                </div>
+
+                <div class="col-lg-12">
                     <span class="col-lg-3">Remark[P]</span>
                     <span class="col-lg-9"><?= $pRemark?></span>
                 </div>

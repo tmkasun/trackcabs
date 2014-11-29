@@ -144,9 +144,6 @@ function validateBooking(url , tp){
     }
 
     if (no == ''){no = '-'}
-    if (road == ''){road= '-'}
-    if (city== ''){city= '-'}
-    if (town== ''){town= '-'}
     if (landMark== ''){landMark= '-'}
     if (remark== ''){remark= '-'}
     if (callUpPrice== ''){callUpPrice= 0}
@@ -648,7 +645,7 @@ function changeJobInfoViewByRefId(bookingObjId){
                         bookingObj[index]['address']['city'] + ' , ' + bookingObj[index]['address']['town'] + ' ,'  +
                         bookingObj[index]['address']['landmark']);
     $('#jobDestination').html(bookingObj[index]['destination']);
-    $('#jobCallUpPrice').html(bookingObj[index]['callUpPrice']);
+    $('#jobCallUpPrice').html(bookingObj[index]['callUpPrice'] + ' /=');
     $('#jobRemark').html(bookingObj[index]['remark']);
 
     var specifications = "";

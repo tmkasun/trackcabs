@@ -81,6 +81,26 @@ class Cro_controller extends CI_Controller
         $this->output->set_output(json_encode(array("statusMsg" => "success", 'data' => $data,"view" => $view_data)));
     }
 
+    function getBookingByRefIdView(){
+        $statusMsg = 'false';
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $data = $this->live_dao->getBooking($input_data["refId"]);
+
+        if($data == null){
+            $data = $this->history_dao->getBookingByRefId($input_data["refId"]);
+        }
+
+        $view_data['advanced_bookings_view'] = "";
+        if($data != null){
+            $statusMsg = 'true';
+            foreach($data['profileLinks'] as $profile){
+                $data['customerProfile'][] =  $this->customer_dao->getCustomerByMongoObjId($profile);
+            }
+            $view_data['advanced_bookings_view'] = $this->load->view('cro/bookings/bookings_by_reference', $data, TRUE);
+        }
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , "data" => $data , 'view' => $view_data)));
+    }
+
     function getTodayMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $user = $this->session->userdata('user');

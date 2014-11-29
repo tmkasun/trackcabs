@@ -245,7 +245,7 @@
 
 <!-- Location board and dispatch menu area -->
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div id="leftSidePane">
             <div class="input-group input-group">
                 <span class="input-group-addon" style="padding: 0px;margin: 0px;width: 90px;">
@@ -262,19 +262,24 @@
             <?= $new_orders_pane ?>
         </div>
     </div>
-    <div id="locBoardWrapper" class="col-md-8" style="overflow: scroll">
+    <div class="col-md-4" style="overflow-y: auto;" >
         <div id="rightSidePane" >
             <div class="row" id="orderBuilder">
                 <div class="well well-sm text-center"  >
                     Select an order for dispatch
                 </div>
             </div>
-            <div class="row" style="max-height: 90%;" id="locationBoardPane">
-                <?= $location_board_pane ?>
-            </div>
 
         </div>
     </div>
+
+    <div id="locBoardWrapper"  class="col-md-5" style="overflow-y: auto;">
+
+        <div class="row" style="max-height: 90%;" id="locationBoardPane">
+            <?= $location_board_pane ?>
+        </div>
+    </div>
+
 </div>
 
 

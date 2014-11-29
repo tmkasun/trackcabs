@@ -129,12 +129,17 @@
         function bookingsOperations(request){
 
             if(request == 'getBookingById'){
-                url = url + '/customer_retriever/getBookingByRefId';
-                alert(url);
+                url = url + '/cro_controller/getBookingByRefIdView';
                 var refId= $('#refIdSearch').val();
                 var  data={'refId' : refId}
                 var result = ajaxPost(data , url , false);
                 alert(JSON.stringify(result));
+                if(result.statusMsg == 'true')
+                    $('#searchDetails').html(result.view.advanced_bookings_view);
+                else
+                    alert('Booking ID does not exists');
+
+
             }
 
             if(request == 'getBookingByTown'){

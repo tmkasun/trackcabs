@@ -75,19 +75,46 @@ class Cro_controller extends CI_Controller
         }
     }
 
+    function getAdvancedBookingsView(){
+        $data= $this->live_dao->getAllBookingsTest();
+        $view_data['advanced_bookings_view'] = $this->load->view('cro/bookings/advanced_bookings', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", 'data' => $data,"view" => $view_data)));
+    }
+
+    function getBookingByRefIdView(){
+        $statusMsg = 'false';
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $data = $this->live_dao->getBooking($input_data["refId"]);
+
+        if($data == null){
+            $data = $this->history_dao->getBookingByRefId($input_data["refId"]);
+        }
+
+        $view_data['advanced_bookings_view'] = "";
+        if($data != null){
+            $statusMsg = 'true';
+            foreach($data['profileLinks'] as $profile){
+                $data['customerProfile'][] =  $this->customer_dao->getCustomerByMongoObjId($profile);
+            }
+            $view_data['advanced_bookings_view'] = $this->load->view('cro/bookings/bookings_by_reference', $data, TRUE);
+        }
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , "data" => $data , 'view' => $view_data)));
+    }
+
     function getTodayMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $user = $this->session->userdata('user');
         $data = $this->live_dao->getCroBookingsToday($user['userId']);
 
         $data['booking_summary'] = $this->load->view('cro/my_bookings/booking_summary', $data , TRUE);
-        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
 
     }
 
     function  getMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $user = $this->session->userdata('user');
+
         $data = $this->live_dao->getCroBookings($user['userId']);
 
         $data['booking_summary'] = $this->load->view('cro/my_bookings/booking_summary', $data , TRUE);

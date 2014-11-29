@@ -53,8 +53,9 @@ class Accounts_controller extends CI_Controller
         $startDate = new MongoDate(strtotime($input_data['startDate']));
         $endDate = new MongoDate(strtotime($input_data['endDate']));
         $userId = $input_data['userId'];
-        $historyCursor = $this->history_dao->getBookingsByDateRange($startDate,$endDate,$userId);
-        $liveCursor = $this->live_dao->getBookingsByDateRange($startDate,$endDate,$userId);
+        $cabId = $input_data['cabId'];
+        $historyCursor = $this->history_dao->getBookingsByDateRange($startDate,$endDate,$userId,$cabId);
+        $liveCursor = $this->live_dao->getBookingsByDateRange($startDate,$endDate,$userId,$cabId);
         $data= array('data'=> array());
         foreach ($liveCursor as $booking) {
             $data['data'][]= $booking;
@@ -63,14 +64,16 @@ class Accounts_controller extends CI_Controller
             $data['data'][]= $booking;
         }
 
-        $data['table_content'] = $this->load->view('admin/accounts/summary_table', $data, TRUE);
+        $data['table_content'] = $this->load->view('admin/reports/summary_table', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
     }
 
     function getSummaryView(){
         $driverIds = $this->user_dao->getUserIds_by_type('driver');
+        $cabIds = $this->user_dao->getUserIds_by_type('cabs');
         $data['driverIds'] = $driverIds;
-        $data['table_content'] = $this->load->view('admin/accounts/summary_view', $data, TRUE);
+        $data['cabIds'] = $cabIds;
+        $data['table_content'] = $this->load->view('admin/reports/summary_view', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
 
     }

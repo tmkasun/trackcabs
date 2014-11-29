@@ -28,6 +28,12 @@ class History_dao extends CI_Model
         return $collection->findOne($searchQuery);
     }
 
+    function getBookingByRefId($refId){
+        $collection = $this->get_collection();
+        $searchQuery= array('refId' => (int)$refId);
+        return $collection->findOne($searchQuery);
+    }
+
     function getBookings($limit = null){
         $collection = $this->get_collection();
         return $collection->find()->limit($limit);
@@ -47,12 +53,16 @@ class History_dao extends CI_Model
         return $collection->findOne($searchQuery);
     }
 
-    function getBookingsByDateRange($startDate,$endDate,$userId){
+    function getBookingsByDateRange($startDate,$endDate,$userId,$cabId){
         $collection = $this->get_collection();
-        if($userId == "0") {
+        if($userId == "0" && $cabId == "0") {
             $searchQuery = array('bookTime' => array('$gt' => $startDate, '$lte' => $endDate));
-        }else{
+        }else if($userId != "0" && $cabId == "0"){
             $searchQuery = array('bookTime' => array('$gt' => $startDate, '$lte' => $endDate),'driverId' => new MongoInt32($userId));
+        }else if($userId == "0" && $cabId != "0"){
+            $searchQuery = array('bookTime' => array('$gt' => $startDate, '$lte' => $endDate),'cabId' => new MongoInt32($cabId));
+        }else if($userId != "0" && $cabId != "0"){
+            $searchQuery = array('bookTime' => array('$gt' => $startDate, '$lte' => $endDate),'driverId' => new MongoInt32($userId),'cabId' => new MongoInt32($cabId));
         }
         return $collection->find($searchQuery);//var_dump($cursor);
 

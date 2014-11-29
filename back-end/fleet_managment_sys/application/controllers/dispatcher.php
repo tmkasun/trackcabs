@@ -312,7 +312,8 @@ class Dispatcher extends CI_Controller
     }
 
     function dispatch_history(){
-        $this->load->view('dispatcher/modals/dispatch_history');
+        $history_booking = $cab = $this->history_dao->getBookings();
+        $this->load->view('dispatcher/modals/dispatch_history', array('history_booking' => $history_booking));
     }
 
 

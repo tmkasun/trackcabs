@@ -185,12 +185,12 @@
             </li>
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/dispatch_history');" >Dispatch History</button>
+                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/dispatch_history');return false" >Dispatch History</button>
                 </form>
             </li>
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/search_cab');" >Search cab</button>
+                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/search_cab');return false" >Search cab</button>
                 </form>
             </li>
             <li>
@@ -632,7 +632,7 @@
 
 <!-- General modal placeholder , TODO: open all the modal through this wrapper via remote AJAX calls -->
 <div class="modal" id="commonModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- This content is load by $.ajax call , pages are located at '/controllers/modals/' -->
         </div>

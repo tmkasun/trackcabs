@@ -115,35 +115,6 @@
             </div>
         </div>
 
-        <div class="col-lg-12" style="margin-top: 5px ; padding: 1px">
-
-            <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default btn-sm" id="jobEditButton"
-                            onclick="operations('editBooking', '<?= $live_booking[$index]['_id'];?>')">
-                        <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Update
-                    </button>
-                </div>
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default btn-sm" id="jobInquireButton"
-                            onclick="operations('addInquireCall', '<?= $live_booking[$index]['_id'];?>')">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Inquire
-                    </button>
-                </div>
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default btn-sm" id="jobComplaintButton"
-                            onclick="operations('addComplaint', '<?= $live_booking[$index]['refId'];?>')">
-                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Complaint
-                    </button>
-                </div>
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default btn-sm" id="jobCancelButton"
-                            onclick="operations('cancel', '<?= $live_booking[$index]['_id'];?>')">
-                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancel
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 </div>

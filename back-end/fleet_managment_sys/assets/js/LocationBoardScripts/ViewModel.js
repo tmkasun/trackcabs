@@ -271,8 +271,12 @@ function LocationBoardViewModel(){
         });
     };
 
+
+
+    //Devided view of columns
     var zonesRange1 = self.zones.slice(0,Math.round(zonesLength/2));
     var zonesRange2 = self.zones.slice(Math.round(zonesLength/2),zonesLength);
+
 
     self.ZonesColumn1 = ko.computed(function() {
         var zoneList = LocationBoard.zones.slice(0,Math.round(zonesLength/2));
@@ -283,8 +287,6 @@ function LocationBoardViewModel(){
         var zoneList = LocationBoard.zones.slice(Math.round(zonesLength/2),zonesLength);
         return zoneList;
     });
-
-
 
 
     self.PobZonesColumn1 = ko.computed(function() {
@@ -309,6 +311,23 @@ function LocationBoardViewModel(){
         var zoneList = LocationBoard.other.slice(Math.round(otherLength/2),otherLength);
         return zoneList;
     });
+    //end of divided view of colombo
+
+
+    //Total view of columns
+    self.Zones = ko.computed(function() {
+        var zoneList = LocationBoard.zones;
+        return zoneList;
+    });
+    self.PobZones = ko.computed(function() {
+        var zoneList = LocationBoard.zones;
+        return zoneList;
+    });
+    self.Others = ko.computed(function() {
+        var zoneList = LocationBoard.other.slice(0,Math.round(otherLength/2));
+        return zoneList;
+    });
+    //end of divided view of colombo
 
 
 

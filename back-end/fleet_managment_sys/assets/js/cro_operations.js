@@ -242,10 +242,6 @@ function createBooking(url , tp){
     var personalProfileTp = '-';
     var cancelReason = '-';
 
-
-
-
-
     if($('#personalProfileTp').length != 0){
         bookingType = 'Cooperate';
         personalProfileTp = $('#personalProfileTp').val();

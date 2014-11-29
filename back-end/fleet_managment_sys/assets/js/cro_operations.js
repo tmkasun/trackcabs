@@ -109,11 +109,7 @@ function confirmCancel(url , tp , bookingObjId ){
     getCustomerInfoView(siteUrl , tp);
 }
 
-
-function createBooking(url , tp){
-    var baseUrl = url;
-    url = baseUrl + "/customer_retriever/addBooking";
-
+function validateBooking(url , tp){
     var no          = $('#no').val();
     var road        = $('#road').val();
     var city        = $('#city').val();
@@ -186,7 +182,93 @@ function createBooking(url , tp){
     //TODO : Call to load dispatcher modal conformation
     //$("#orderBuilder").load('dispatcher/newOrder/' + orderId);
 
-    $('#modalConfirm').modal('show');
+
+
+    var specifications = "";
+    if(isVip)
+        specifications =specifications + ' VIP |';
+    if(isVih)
+        specifications =specifications + ' VIH |';
+    if(isUnmarked)
+        specifications =specifications + ' UNMARK |';
+    if(isTinted)
+        specifications =specifications + ' TINTED |';
+    if(specifications !== "")
+        specifications ='| ' + specifications;
+
+
+    $('span#no.modalConfirm').text(no);
+    $('span#road.modalConfirm').text(road);
+    $('span#city.modalConfirm').text(city);
+    $('span#town.modalConfirm').text(town);
+    $('span#landMark.modalConfirm').text(landMark);
+    $('span#remark.modalConfirm').text(remark);
+    $('span#callUpPrice.modalConfirm').text(callUpPrice);
+    $('span#dispatchB4.modalConfirm').text(dispatchB4);
+    $('span#destination.modalConfirm').text(destination);
+    $('span#pagingBoard.modalConfirm').text(pagingBoard);
+    $('span#bDate.modalConfirm').text(bDate);
+    $('span#bTime.modalConfirm').text(bTime);
+    $('span#vehicleType.modalConfirm').text(vType);
+    $('span#vehicleType.paymentType').text(payType);
+    $('span#requirements.modalConfirm').text(specifications);
+
+    return true;
+
+}
+
+function createBooking(url , tp){
+    var baseUrl = url;
+    url = baseUrl + "/customer_retriever/addBooking";
+
+    var no          = $('#no').val();
+    var road        = $('#road').val();
+    var city        = $('#city').val();
+    var town        = $('#town').val();
+    var landMark    = $('#landMark').val();
+    var remark      = $('#remark').val();
+    var callUpPrice = $('#callUpPrice').val();
+    var dispatchB4  = $('#dispatchB4').val();
+    var destination = $('#destination').val();
+    var pagingBoard = $('#pagingBoard').val();
+    var bDate       = $('#bDate').val();
+    var bTime       = $('#bTime').val();
+    var vType               = $('#vehicleType').val();
+    var payType             = $('#paymentType').val();
+    var isUnmarked          = $('#unmarked')[0].checked;
+    var isTinted            = $('#tinted')[0].checked;
+    var isVip               = $('#vip')[0].checked;
+    var isVih               = $('#vih')[0].checked;
+    var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
+    var bookingCharge = '-';
+    var bookingType = 'Personal';
+    var personalProfileTp = '-';
+    var cancelReason = '-';
+
+
+
+
+
+    if($('#personalProfileTp').length != 0){
+        bookingType = 'Cooperate';
+        personalProfileTp = $('#personalProfileTp').val();
+    }
+
+    if (no == ''){no = '-'}
+    if (road == ''){road= '-'}
+    if (city== ''){city= '-'}
+    if (town== ''){town= '-'}
+    if (landMark== ''){landMark= '-'}
+    if (remark== ''){remark= '-'}
+    if (callUpPrice== ''){callUpPrice= 0}
+    if (dispatchB4== ''){dispatchB4= 30}
+    if (destination== ''){destination= '-'}
+    if (pagingBoard== ''){pagingBoard= '-'}
+
+    //TODO : Call to load dispatcher modal conformation
+    //$("#orderBuilder").load('dispatcher/newOrder/' + orderId);
+
+
 
     var address = {
         'no':no ,

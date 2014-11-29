@@ -316,6 +316,10 @@ class Dispatcher extends CI_Controller
         $this->load->view('dispatcher/modals/dispatch_history', array('history_booking' => $history_booking));
     }
 
+    function search_cabs($query){
+
+    }
+
 
 //    function sendSms($bookingCreated, $message)
 //    {

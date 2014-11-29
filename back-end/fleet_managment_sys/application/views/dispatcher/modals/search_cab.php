@@ -10,30 +10,31 @@
 </div>
 <div class="modal-body">
 
-    <p class="text-info text-center">Booking details</p>
-
     <div class="row">
-        <div class="col-md-6 well well-sm">
-            Test well
-
+        <div class="input-group input-group">
+                <span class="input-group-addon" style="padding: 0px;margin: 0px;width: 120px;">
+                <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
+                    <button id="searchByCabId" type="button" class="btn btn-default active">ID</button>
+                    <button id="searchByCabModel" type="button" class="btn btn-default">Model</button>
+                    <button id="searchByCabDriver" type="button" class="btn btn-default">Driver</button>
+                    <!--                    <button id="searchByCabId" type="button" class="btn btn-default">Cab#</button>-->
+                </div>
+                </span>
+            <input autofocus="true" id="cabSearch" type="text" class="form-control" placeholder="Search cabs"/>
+                <span class="input-group-addon">
+                <i id="resetSearch"
+                   onclick="$('#searchCabsContainer').empty();$.each(unDispatchedOrders, function (i, order) {addNewOrder(order);});$('#orderSearch').val('');"
+                   style="cursor: pointer;" class="fa fa-repeat"></i>
+                </span>
         </div>
-        <div class="col-md-6">
-            another one
-
-        </div>
-
+    </div>
+    <div id="searchCabsContainer" class="row" style="min-height: 100px">
     </div>
     <div class="row">
-        <div class="col-md-6">
-            another one ok
-        </div>
-        <div class="col-md-6">
-            noo other one
-        </div>
-
         <div style="margin-bottom: -15px" class="btn-group btn-group-justified">
             <div class="btn-group">
-                <button style="background-color: #f0ad4e;" type="button" class="btn btn-default" onclick="closeAll()">Close
+                <button style="background-color: #f0ad4e;" type="button" class="btn btn-default" onclick="closeAll()">
+                    Close
                 </button>
             </div>
         </div>

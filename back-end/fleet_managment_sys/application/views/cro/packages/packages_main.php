@@ -32,22 +32,22 @@
     <script>
         setBaseURL('<?= base_url().'index.php/' ?>');
 
-        function getCabViewCRO(){
+        function getPackageViewCRO(){
 
-            var cabId = document.getElementById("cabIdSearch").value;
-            var cab = { 'cabId' : parseInt(cabId) };
-            var url = '<?php echo site_url("cab_retriever/getCabSearchViewCRO"); ?>';
-            var result = ajaxPostCro(cab,url);
+            var packageId = document.getElementById("packageIdSearch").value;
+            var package = { 'packageId' : parseInt(packageId) };
+            var url = '<?php echo site_url("packages_controller/getPackagesViewByPackageId"); ?>';
+            var result = ajaxPostCro(package,url);
             var div = document.getElementById('tableDiv');
             div.innerHTML = result.view.table_content;
 
         }
 
-        function getAllCabs(){
-            var url = '<?php echo site_url("/cab_retriever/getAllCabsViewCRO"); ?>';
-            var skip = docs_per_page * (page-1);
-            var data = {"skip" : skip , "limit" : docs_per_page};
-            var view = ajaxPostCro(data,url);
+        function getAllPackages(){
+            var url = '<?php echo site_url("packages_controller/getAllPackagesView"); ?>';
+            //var skip = docs_per_page * (page-1);
+            //var data = {"skip" : skip , "limit" : docs_per_page};
+            var view = ajaxPostCro(null,url);//alert(view);
             var div = document.getElementById('tableDiv');
             div.innerHTML = view.view.table_content;
 
@@ -120,8 +120,8 @@
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
             <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
             <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a></li>
-            <li class="active" ><a href="<?= site_url('cro_controller/getCabHeaderView')?>" >Cabs</a>
-            <li><a href="<?= site_url('cro_controller/getAllPackagesView')?>" >Packages</a>    
+            <li><a href="<?= site_url('cro_controller/getCabHeaderView')?>" >Cabs</a>
+            <li class="active"><a href="<?= site_url('cro_controller/getAllPackagesView')?>" >Packages</a>
         </ul>
 
 
@@ -144,27 +144,27 @@
 
 
 
-<div class="col-lg-12" style="margin-top: 10px;" id="bookingSearch" >
+<div class="col-lg-12" style="margin-top: 10px;" id="packageSearch" >
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h5 class="panel-title">Cab Search</h5>
+            <h5 class="panel-title">Package Search</h5>
         </div>
-
+        
         <div class="panel-body" >
 
             <div class="col-lg-4">
                 <form class="form-inline" role="form">
                     <div class="form-group">
-                        <label for="cabIdSearch" class="sr-only">Cab ID</label>
-                        <input type="text" class="form-control" id="cabIdSearch" placeholder="Cab ID">
+                        <label for="cabIdSearch" class="sr-only">Package ID</label>
+                        <input type="text" class="form-control" id="packageIdSearch" placeholder="Package ID">
                     </div>
-                    <button type="button" class="btn btn-default"  onclick="getCabViewCRO();">Search</button>
+                    <button type="button" class="btn btn-default"  onclick="getPackageViewCRO();">Search</button>                    
                 </form>
             </div>
 
         </div>
         <div id="tableDiv">
-            <script>getAllCabs();</script>
+            <script>getAllPackages();</script>
         </div>
     </div>
 

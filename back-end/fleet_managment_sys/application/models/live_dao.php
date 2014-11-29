@@ -142,6 +142,16 @@ class Live_dao extends CI_Model
         return $data;
     }
 
+    function getAllBookingsTest(){
+        $collection = $this->get_collection();
+        $cursor = $collection->find()->sort(array('bookTime' => 1,'address.town' => 1));
+        $data= array('data' => array());
+        foreach ($cursor as $doc) {
+            $data['data'][]= $doc;
+        }
+        return $data;
+    }
+
     function getDayBookings($date){
         $collection = $this->get_collection();
         $searchQuery = array('callTime' => array('$gte'=>$date) );

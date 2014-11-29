@@ -64,7 +64,7 @@
         <div class="col-lg-12" style="margin-top: 10px">
             <div class="panel panel-default">
                     <div class="panel-heading" style="margin-top: 10px; border-left: 1px solid #a6a6a6" >
-                        <h3 class="panel-title">Info</h3>
+                        <h3 class="panel-title" id="panel_title">Info</h3>
                     </div>
                     <div class="panel-body" id="information">
 
@@ -347,6 +347,9 @@
             div = document.getElementById('operation');
             div.innerHTML =  result.view.table_content;
             
+            //can use the line commented below to change the panel heading, but will have to use this in all views
+            //document.getElementById('panel_title').innerHTML = "Complaint Reports"
+            
             
             url ='<?php echo site_url("complaint_controller/get_all_complaints") ?>'//url + "/accounts_controller/getAllAccountsView";
             var skip = docs_per_page * (page-1);
@@ -478,6 +481,17 @@
         div.innerHTML = result.view.table_content;
 
     }
+    
+    //Functions for Cancel Reports
+    function getCancelReportsView(type)
+    {type = typeof type !== 'undefined' ? type : "ALL";//alert(type);
+        url ='<?php echo site_url("complaint_controller/get_all_cancel_reports") ?>'//url + "/accounts_controller/getAllAccountsView";                    
+        var view = ajaxPost(type,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;//alert("ok2");
+    }    
+    
 </script>
 
 <script>

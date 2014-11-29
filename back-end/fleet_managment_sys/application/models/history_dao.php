@@ -28,6 +28,10 @@ class History_dao extends CI_Model
         return $collection->findOne($searchQuery);
     }
 
+    function getBookings($limit = null){
+        $collection = $this->get_collection();
+        return $collection->find()->limit($limit);
+    }
     /**
      * @param $id = mongoId String
      * @return php array of booking

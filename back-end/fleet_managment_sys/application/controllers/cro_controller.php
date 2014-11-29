@@ -75,19 +75,26 @@ class Cro_controller extends CI_Controller
         }
     }
 
+    function getAdvancedBookingsView(){
+        $data= $this->live_dao->getAllBookingsTest();
+        $view_data['advanced_bookings_view'] = $this->load->view('cro/bookings/advanced_bookings', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", 'data' => $data,"view" => $view_data)));
+    }
+
     function getTodayMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $user = $this->session->userdata('user');
         $data = $this->live_dao->getCroBookingsToday($user['userId']);
 
         $data['booking_summary'] = $this->load->view('cro/my_bookings/booking_summary', $data , TRUE);
-        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
 
     }
 
     function  getMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $user = $this->session->userdata('user');
+
         $data = $this->live_dao->getCroBookings($user['userId']);
 
         $data['booking_summary'] = $this->load->view('cro/my_bookings/booking_summary', $data , TRUE);
@@ -235,6 +242,19 @@ class Cro_controller extends CI_Controller
             $this -> load -> view('login/index');
         }
 
+    }
+    
+    function getAllPackagesView()
+    {
+        if (is_user_logged_in())
+        {
+            $userData = $this->session->userdata('user');
+            $this->load->view('cro/packages/packages_main',$userData);
+        }
+        else
+        {
+            $this -> load -> helper(array('form'));
+        }
     }
 
 }

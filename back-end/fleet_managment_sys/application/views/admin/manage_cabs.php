@@ -32,7 +32,7 @@
         </div>
 
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#" onclick="getAllCabs(docs_per_page , page , url)">Cabs</a></li>
+            <li class="active"><a href="#" onclick="getAllCabs(docs_per_page , page ,  '<?php echo site_url();?>')">Cabs</a></li>
 <!--            <li><a href="#" id="driver" onclick="getDriversView(this.id)">Drivers</a></li>-->
             <li><a href="#" id="driver" onclick="getCROsView(this.id)">Drivers</a></li>
 <!--            <li><a href="#" id="dispatcher" onclick="getDispatchersView(this.id)">Dispatcher</a></li>-->
@@ -465,8 +465,9 @@
         var startDate = document.getElementById("startDate").value;
         var endDate = document.getElementById("endDate").value;
         var userId = document.getElementById("driverId").value;
+        var cabId = document.getElementById("cabId").value;
 
-        var dates = {'startDate':startDate,'endDate': endDate,'userId':userId};
+        var dates = {'startDate':startDate,'endDate': endDate,'userId':userId,'cabId':cabId};
         var url = '<?php echo site_url("accounts_controller/getBookingsByDateRange") ?>';
 
         var result = ajaxPost(dates,url);
@@ -485,7 +486,7 @@
     //Functions for Cancel Reports
     function getCancelReportsView(type)
     {type = typeof type !== 'undefined' ? type : "ALL";//alert(type);
-        url ='<?php echo site_url("complaint_controller/get_all_cancel_reports") ?>'//url + "/accounts_controller/getAllAccountsView";                    
+        var url ='<?php echo site_url("complaint_controller/get_all_cancel_reports") ?>'//url + "/accounts_controller/getAllAccountsView";
         var view = ajaxPost(type,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = "";

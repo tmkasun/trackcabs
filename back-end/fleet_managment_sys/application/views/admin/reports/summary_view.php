@@ -6,6 +6,12 @@ DriverId : <select id="driverId" placeholder="0" >
                 <option value="<?= $SDriverId;?>"><?= $SDriverId;?></option>
              <?php endforeach;?>
            </select>
+CabId : <select id="cabId" placeholder="0" >
+    <option value="0">All</option>
+    <?php foreach ($cabIds as $SCabId):?>
+        <option value="<?= $SCabId;?>"><?= $SCabId;?></option>
+    <?php endforeach;?>
+</select>
 
 <button type="submit" id="dateButton" class="btn btn-default" onclick="getBookingsByDateRange(this.id)">Search</button>
 <br><br>

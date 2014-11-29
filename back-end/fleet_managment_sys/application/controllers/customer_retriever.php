@@ -86,6 +86,7 @@ class Customer_retriever extends CI_Controller
             $this->customer_dao->addBooking($customerProfile2['tp'],$bookingObjId);
         }
 
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
 
         if(!isset($customerProfile['history'])){
             $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .
@@ -107,7 +108,6 @@ class Customer_retriever extends CI_Controller
         $webSocket->send($bookingCreated, 'dispatcher1');
         $webSocket->send($bookingCreated, 'monitor1');
 
-        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
     }
 
     function sendSms($bookingCreated, $message)

@@ -134,7 +134,12 @@
                 var  data={'refId' : refId}
                 var result = ajaxPost(data , url , false);
                 alert(JSON.stringify(result));
-                $('#searchDetails').html(result.view.advanced_bookings_view);
+                if(result.statusMsg == 'true')
+                    $('#searchDetails').html(result.view.advanced_bookings_view);
+                else
+                    alert('Booking ID does not exists');
+
+
             }
 
             if(request == 'getBookingByTown'){

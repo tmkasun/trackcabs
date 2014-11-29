@@ -82,12 +82,17 @@ class Cro_controller extends CI_Controller
     }
 
     function getBookingByRefIdView(){
-        $statusMsg = 'fail';
+        $statusMsg = 'false';
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $data = $this->live_dao->getBooking($input_data["refId"]);
+
+        if($data == null){
+            $data = $this->history_dao->getBookingByRefId($input_data["refId"]);
+        }
+
+        $view_data['advanced_bookings_view'] = "";
         if($data != null){
             $statusMsg = 'true';
-
             foreach($data['profileLinks'] as $profile){
                 $data['customerProfile'][] =  $this->customer_dao->getCustomerByMongoObjId($profile);
             }

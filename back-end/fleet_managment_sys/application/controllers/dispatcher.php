@@ -16,7 +16,7 @@ class Dispatcher extends CI_Controller
             $new_orders = $this->live_dao->getNotDispatchedBookings();
             $dispatchedOrders = $this->live_dao->getDispatchedBookings();
             $new_orders_pane = $this->load->view("dispatcher/panels/new_orders", array('orders' => $new_orders, 'dispatchedOrders' => $dispatchedOrders), TRUE);
-            $location_board_pane = $this->load->view("dispatcher/panels/locView", NULL, TRUE);
+            $location_board_pane = $this->load->view("dispatcher/panels/locView_ver2", NULL, TRUE);
 
             $this->load->view('dispatcher/index', array('new_orders_pane' => $new_orders_pane, 'location_board_pane' => $location_board_pane));
         } else {

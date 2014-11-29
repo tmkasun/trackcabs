@@ -5,7 +5,7 @@
     </div>
 
     <ul class="nav navbar-nav">
-        <li><a href="#" onclick="getCabsDefaultView( '<?php echo site_url();?>', docs_per_page , page)">Cabs</a></li>
+        <li><a href="#" onclick="getCabsDefaultView('<?php echo site_url();?>', docs_per_page , page)">Cabs</a></li>
         <li><a href="#" id="driver" onclick="getCROsView(this.id)">Drivers</a></li>
         <li ><a href="#" id="dispatcher" onclick="getCROsView(this.id)">Dispatcher</a></li>
         <li class="active"><a href="#" id="cro" onclick="getCROsView(this.id)">CRO</a></li>

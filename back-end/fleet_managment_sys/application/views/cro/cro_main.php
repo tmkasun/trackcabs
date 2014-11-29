@@ -225,7 +225,6 @@
                 getCustomerInfoView(url , tp);
             }
             if(request == 'changeJobInfoView'){
-                alert(param1);
                 changeJobInfoViewByRefId(param1)
             }
             if(request == 'addUser'){

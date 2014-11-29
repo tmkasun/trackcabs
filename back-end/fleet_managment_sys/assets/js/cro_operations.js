@@ -37,7 +37,7 @@ function getEditBookingView(url , bookingObjId){
 
             var payType = bookingObj[index]['payType'];
             var vType = bookingObj[index]['vType'];
-            alert(vType);
+
             if(vType == 'car'){
                 $('#carRadio').addClass(' active');
                 $('#vehicleType').val('car');

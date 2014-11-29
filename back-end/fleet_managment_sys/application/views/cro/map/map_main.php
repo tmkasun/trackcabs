@@ -36,7 +36,6 @@
             <li><a href="<?= site_url('cro_controller/loadBookingsView')?>" >Bookings</a></li>
             <li class="active"><a href="<?= site_url('cro_controller/loadMapView')?>" >Map</a></li>
             <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" >Location Board</a></li>
-            <li><a href="<?= site_url('cro_controller/refresh')?>" >Refresh</a></li>
             <li><a href="<?= site_url('cro_controller/getCabHeaderView')?>" >Cabs</a>
             <li><a href="<?= site_url('cro_controller/getAllPackagesView')?>" >Packages</a>    
         </ul>

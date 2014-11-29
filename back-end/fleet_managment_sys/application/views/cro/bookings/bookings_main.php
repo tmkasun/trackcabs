@@ -129,12 +129,13 @@
         function bookingsOperations(request){
 
             if(request == 'getBookingById'){
-                url = url + '/customer_retriever/getBookingByRefId';
+                url = url + '/cro_controller/getBookingByRefIdView';
                 alert(url);
                 var refId= $('#refIdSearch').val();
                 var  data={'refId' : refId}
                 var result = ajaxPost(data , url , false);
                 alert(JSON.stringify(result));
+                $('#searchDetails').html(result.view.advanced_bookings_view);
             }
 
             if(request == 'getBookingByTown'){

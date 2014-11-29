@@ -566,7 +566,7 @@ function changeJobInfoViewByRefId(bookingObjId){
                         bookingObj[index]['address']['city'] + ' , ' + bookingObj[index]['address']['town'] + ' ,'  +
                         bookingObj[index]['address']['landmark']);
     $('#jobDestination').html(bookingObj[index]['destination']);
-    $('#jobCallUpPrice').html(bookingObj[index]['callUpPrice']);
+    $('#jobCallUpPrice').html(bookingObj[index]['callUpPrice'] + ' /=');
     $('#jobRemark').html(bookingObj[index]['remark']);
 
     var specifications = "";

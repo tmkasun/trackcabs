@@ -144,9 +144,6 @@ function validateBooking(url , tp){
     }
 
     if (no == ''){no = '-'}
-    if (road == ''){road= '-'}
-    if (city== ''){city= '-'}
-    if (town== ''){town= '-'}
     if (landMark== ''){landMark= '-'}
     if (remark== ''){remark= '-'}
     if (callUpPrice== ''){callUpPrice= 0}

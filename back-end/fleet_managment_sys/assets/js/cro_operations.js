@@ -304,10 +304,8 @@ function createBooking(url , tp){
     var bookingConfirmationData = {
         'tp' : tp,
         'refId' : result.refId
-
-    } ;
-    alert(JSON.stringify(result));
-    //ajaxPost(bookingConfirmationData,url,false);
+        };
+    ajaxPost(bookingConfirmationData,url,true);
 }
 
 

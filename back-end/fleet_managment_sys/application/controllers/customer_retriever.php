@@ -123,13 +123,13 @@ class Customer_retriever extends CI_Controller
                 ' a privilege to serve you. Hao City Cabs : 2 888 888';
 //            $this->sendWelcomeMessage($customerProfile, $welcomeMessage);
         }
-        $message = 'Your order has been confirmed. Date : '. $input_data['data']['bDate'].
-            ' Time :'. $input_data['data']['bTime'].' Ref . No :' . $input_data['data']['refId'];
+        $message = 'Your order has been confirmed. Date : '. date('jS-M-y', $bookingCreated['bookTime']->sec).
+                ' Time :'. date('h:i a', $bookingCreated['bookTime']->sec).' Ref . No :' . $bookingCreated['refId'] . ' .';
 
         if($bookingCreated['callUpPrice'] != '0'){
             $message = $message . ' Call Up Price : ' . $bookingCreated['callUpPrice'];
         }
-        $message = $message . ' ThankYou for calling Hao City Cabs : 2 888 888.';
+        $message = $message . ' ThankYou for calling Hao City Cabs : (011) 2 888 888.';
 //        $this->sendSms($bookingCreated, $message);
 //
 //        /* Send the newly added booking to the dispatch view */
@@ -138,7 +138,7 @@ class Customer_retriever extends CI_Controller
 //        $webSocket->send($bookingCreated, 'dispatcher1');
 //        $webSocket->send($bookingCreated, 'monitor1');
 
-        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg, 'message' => $message , 'booking' => $bookingCreated )));
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg, 'message' => $message , 'booking' => $bookingCreated , 'profile' => $customerProfile )));
 
     }
 

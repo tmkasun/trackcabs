@@ -63,8 +63,9 @@
             function () {
                 conn.subscribe(userid, function (topic, data) {
                     // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
-                    console.log('New Message published to user "' + topic + '" : ' + data.message);
-                    debugObject = data;
+                    console.log('debug: New Message published to user "' + topic + '" : ' + data.message);
+                    console.log(data);
+
                     var newOrder = data.message;
                     if (newOrder.status === "CANCEL") {
                         removeOrder(newOrder, true);
@@ -100,11 +101,13 @@
         var orderBookingTime = moment.unix(newOrderUnixTimeStamp);
 
         /*
-        *
-         <span class="text-muted"> No: </span> <span class="text-primary"> <?= $order['address']['no'] ?> </span>
-        * */
+         *
+         <span class="text-muted"> No: </span> <span class="text-primary">
+        <?= $order['address']['no'] ?> </span>
+         * */
         var $fromNowSpan = $("<span>", {class: "text-warning fromNow"});
         var $labelSpan = $("<span>", {class: "label label-info"}).css({float: 'right'}).text(newOrder.refId);
+        var $inqCallSpan = $("<span>", {class: "label label-danger"}).css({float: 'right'}).text('Inquire: ' + newOrder.inqCall);
 
         var $listGroupHeading = $("<h4>", {class: "list-group-item-heading"})
             .text(orderBookingTime.format('Do-MMM-YY  hh:mm a'))
@@ -117,6 +120,9 @@
             + '<span class="text-muted"> City: </span>' + '<span class="text-primary">' + orderAddress.city + '</span>'
             + '<span class="text-muted">  Town: </span>' + '<span class="text-primary">' + orderAddress.town + '</span> ');
 
+        if (newOrder.inqCall > 0) {
+            $listGroupText.append($inqCallSpan);
+        }
         var $order = $("<a>", {
             id: newOrder.refId,
             class: "list-group-item",
@@ -192,7 +198,7 @@
                 pos: 'top-center'
             });
         }
-        $(orderDOM).fadeOut();
+        $(orderDOM).remove();
     }
 
 </script>
@@ -213,11 +219,20 @@
                         <span class="text-warning fromNow"></span>
                         <span class="label label-info" style="float: right"><?= $order['refId'] ?></span>
                     </h4>
+
                     <p class="list-group-item-text">
-                        <span class="text-muted"> No: </span> <span class="text-primary"> <?= $order['address']['no'] ?> </span>
-                        <span class="text-muted"> Road: </span> <span class="text-primary"> <?= $order['address']['road'] ?> </span> <br>
-                        <span class="text-muted"> City: </span> <span class="text-primary"> <?= $order['address']['city'] ?> </span>
-                        <span class="text-muted"> Town: </span> <span class="text-primary"> <?= $order['address']['town'] ?> </span>
+                        <span class="text-muted"> No: </span> <span
+                            class="text-primary"> <?= $order['address']['no'] ?> </span>
+                        <span class="text-muted"> Road: </span> <span
+                            class="text-primary"> <?= $order['address']['road'] ?> </span> <br>
+                        <span class="text-muted"> City: </span> <span
+                            class="text-primary"> <?= $order['address']['city'] ?> </span>
+                        <span class="text-muted"> Town: </span> <span
+                            class="text-primary"> <?= $order['address']['town'] ?> </span>
+
+                        <?php if ($order['inqCall'] > 0): ?>
+                            <span class="label label-danger" style="float: right">Inquire: <?= $order['inqCall'] ?></span>
+                        <?php endif ?>
                     </p>
                 </a>
                 <script>

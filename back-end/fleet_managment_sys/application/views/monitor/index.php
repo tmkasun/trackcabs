@@ -264,7 +264,27 @@
         </tr>
         </thead>
         <tbody>
+        <?php
+        if (!empty($orders_list['MSG_COPIED'])):
+            foreach ($orders_list['MSG_COPIED'] as $order): ?>
+                <tr id="<?= $order['refId'] ?>">
+                    <td id="refId"><?= $order['refId'] ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
+                    <td id="mct"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                    <td id="cabId"><?= $order['cabId'] ?></td>
 
+                    <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'], 'driver');
+                        echo($driver['tp']) ?></td>
+
+                    <td id="address"><?= implode(", ", $order['address']) ?></td>
+                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td>Inquiries</td>
+                    <td><?= getBadge(false) ?></td>
+                    <td><?= getBadge($order['isVih']) ?></td>
+                    <td><?= getBadge($order['isVip']) ?></td>
+                    <td><?= getBadge(false) ?></td>
+                </tr>
+            <?php endforeach; endif; ?>
         </tbody>
     </table>
 </div>
@@ -293,7 +313,27 @@
         </tr>
         </thead>
         <tbody>
+        <?php
+        if (!empty($orders_list['AT_THE_PLACE'])):
+            foreach ($orders_list['AT_THE_PLACE'] as $order): ?>
+                <tr id="<?= $order['refId'] ?>">
+                    <td id="refId"><?= $order['refId'] ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
+                    <td id="mct"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                    <td id="cabId"><?= $order['cabId'] ?></td>
 
+                    <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'], 'driver');
+                        echo($driver['tp']) ?></td>
+
+                    <td id="address"><?= implode(", ", $order['address']) ?></td>
+                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td>Inquiries</td>
+                    <td><?= getBadge(false) ?></td>
+                    <td><?= getBadge($order['isVih']) ?></td>
+                    <td><?= getBadge($order['isVip']) ?></td>
+                    <td><?= getBadge(false) ?></td>
+                </tr>
+            <?php endforeach; endif; ?>
         </tbody>
     </table>
 </div>

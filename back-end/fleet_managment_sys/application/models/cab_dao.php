@@ -45,6 +45,18 @@ class Cab_dao extends CI_Model
         else {$statusMsg = false;}
         return $statusMsg;
     }
+    function getCabIds()
+    {
+        $collection = $this->get_collection();
+        $cursor = $collection->find();
+
+        $cabIds= array();
+        foreach ($cursor as $cab) {
+            $cabIds[]= $cab['cabId'];
+        }
+
+        return $cabIds;
+    }
 
     function deleteCabDriver($driverId){
         $collection = $this->get_collection();

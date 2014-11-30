@@ -11,11 +11,21 @@ class Login extends CI_Controller {
 	public function index() {
 
         $user = $this->session->userdata('user');
+        $timeStamp = new MongoDate();
         if (is_user_logged_in()) {
-            if($user['user_type']=='dispatcher')
+            $log_input_data = array('userId' => new MongoInt32($user['userId']) , 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp , 'user_type' => $user['user_type'] , 'log_type' => 'login');
+            $this->log_dao->createLog($log_input_data);
+            if($user['user_type']=='dispatcher') {
                 redirect('dispatcher', 'refresh');
+            }
             if($user == 'admin'){
                 redirect('admin', 'refresh');
+            }
+            if($user['user_type'] == 'driver'){
+                $log_input_data = array('userId' => new MongoInt32($user['userId']) , 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp , 'user_type' => $user['user_type'] , 'log_type' => 'failed');
+                $this->log_dao->createLog($log_input_data);
+                $this -> load -> helper(array('form'));
+                $this -> load -> view('login/index');
             }
             if($user['user_type'] == 'cro'){
                 redirect('cro_controller', 'refresh');
@@ -24,12 +34,18 @@ class Login extends CI_Controller {
                 redirect('admin', 'refresh');
             }
 		} else {
+            $log_input_data = array('userId' => new MongoInt32($user['userId']) , 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp , 'user_type' => $user['user_type'] , 'log_type' => 'failed');
+            $this->log_dao->createLog($log_input_data);
             $this -> load -> helper(array('form'));
 			$this -> load -> view('login/index');
 		}
 	}
 
 	public function logout() {
+        $user = $this->session->userdata('user');
+        $timeStamp = new MongoDate();
+        $log_input_data = array('userId' => new MongoInt32($user['userId']) , 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp , 'user_type' => $user['user_type'] , 'log_type' => 'logout');
+        $this->log_dao->createLog($log_input_data);
 		$this -> session -> unset_userdata('logged_in');
         $this -> session -> unset_userdata('user');
         $this->session->sess_destroy();
@@ -41,7 +57,7 @@ class Login extends CI_Controller {
         $userName = $this->input->post('username');
         $pass = $this->input->post('password');
         if($userName=='admin' && $pass=='admin'){
-            $result = array('user_type' => 'admin' , 'uName' => 'admin');
+            $result = array('userId' => -1, 'user_type' => 'admin' , 'uName' => 'admin');
         }else{
             $result = $this->user_dao->authenticate($userName,$pass);
         }

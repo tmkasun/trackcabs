@@ -21,6 +21,12 @@ class Login extends CI_Controller {
             if($user == 'admin'){
                 redirect('admin', 'refresh');
             }
+            if($user['user_type'] == 'driver'){
+                $log_input_data = array('userId' => new MongoInt32($user['userId']) , 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp , 'user_type' => $user['user_type'] , 'log_type' => 'failed');
+                $this->log_dao->createLog($log_input_data);
+                $this -> load -> helper(array('form'));
+                $this -> load -> view('login/index');
+            }
             if($user['user_type'] == 'cro'){
                 redirect('cro_controller', 'refresh');
             }

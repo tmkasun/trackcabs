@@ -197,7 +197,7 @@
 
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Monitor Agent</button>
+                    <a class="btn btn-sm btn-success navbar-btn" href="monitor"  target="_blank" >Monitor Agent</a>
                 </form>
             </li>
 

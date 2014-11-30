@@ -19,7 +19,7 @@
             <div class="form-group">
                 <input class="form-control" placeholder="Package ID" type="text" id="packageIdSearch">
             </div>
-            <button type="submit" class="btn btn-default" onclick="getPackagesViewByPackageId()">Submit</button>
+            <button type="submit" class="btn btn-default" onclick="getPackagesViewByPackageId();return false;">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="<?= site_url('login/logout')?>">Logout</a></li>

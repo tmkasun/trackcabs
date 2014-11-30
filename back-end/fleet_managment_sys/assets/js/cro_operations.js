@@ -261,8 +261,6 @@ function createBooking(url , tp){
     //TODO : Call to load dispatcher modal conformation
     //$("#orderBuilder").load('dispatcher/newOrder/' + orderId);
 
-
-
     var address = {
         'no':no ,
         'road' : road ,

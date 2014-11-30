@@ -199,17 +199,6 @@ class Customer_retriever extends CI_Controller
 
     }
 
-    public function getBookingByRefId()
-    {
-        $statusMsg = 'success';
-        $input_data = json_decode(trim(file_get_contents('php://input')), true);
-        $result = $this->live_dao->getBooking($input_data["refId"]);
-        if($result != null){
-            $statusMsg = 'fail';
-        }
-        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , "data" => $result)));
-
-    }
 
     public function getBookingByRefTown()
     {

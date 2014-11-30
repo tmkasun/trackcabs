@@ -56,6 +56,11 @@ class Testing extends CI_Controller
         echo $geo_names;
     }
 
+
+    function session_user(){
+        var_dump($this->session->userdata('user'));
+    }
+
     function geoCode()
     {
         $POST = $this->input->post();

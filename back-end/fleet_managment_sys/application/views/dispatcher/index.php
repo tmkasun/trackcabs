@@ -170,17 +170,7 @@
             </li>
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Cab Location</button>
-                </form>
-            </li>
-            <li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Advance Booking</button>
-                </form>
-            </li>
-            <li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Standing orders</button>
+                    <button class="btn btn-sm btn-success navbar-btn">Cab Start Location</button>
                 </form>
             </li>
             <li>
@@ -199,17 +189,30 @@
                 </form>
             </li>
 
-            <li>
+            <!--<li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
                     <button class="btn btn-sm btn-success navbar-btn">Payment</button>
                 </form>
+            </li>-->
+
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-success navbar-btn">Monitor Agent</button>
+                </form>
             </li>
+
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-warning navbar-btn">Vehicle Tracking</button>
+                </form>
+            </li>
+
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
                     <button class="btn btn-sm btn-success navbar-btn">Cab Attendance</button>
                 </form>
             </li>
-            <li class="dropdown">
+            <!--<li class="dropdown">
                 <form action="#" style="margin: 0px;padding-right: 5px;" class="dropdown-toggle"
                       data-toggle="dropdown">
                     <a class="btn btn-sm btn btn-warning navbar-btn">Reports</a>
@@ -221,7 +224,7 @@
                             <report></report>
                         </a></li>
                 </ul>
-            </li>
+            </li>-->
         </ul>
 
         <ul class="nav navbar-nav navbar-right">

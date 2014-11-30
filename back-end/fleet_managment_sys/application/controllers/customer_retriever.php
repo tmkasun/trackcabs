@@ -86,17 +86,18 @@ class Customer_retriever extends CI_Controller
             $this->customer_dao->addBooking($customerProfile2['tp'],$bookingObjId);
         }
 
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
 
         if(!isset($customerProfile['history'])){
             $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .
-                                'a privilege to serve you. Hao City Cabs : 2 888 888';
-            $this->sendWelcomeMessage($bookingCreated, $welcomeMessage);
+                                ' a privilege to serve you. Hao City Cabs : 2 888 888';
+            $this->sendWelcomeMessage($customerProfile, $welcomeMessage);
         }
         $message = 'Your order has been confirmed. Date : '. $input_data['data']['bDate'].
                     ' Time :'. $input_data['data']['bTime'].' Ref . No :' . $input_data['data']['refId'];
 
-        if($input_data['callUpPrice'] =! '-'){
-            $message = $message . ' Call Up Price : ' . $input_data['callUpPrice'];
+        if($input_data['data']['callUpPrice'] != '0'){
+            $message = $message . ' Call Up Price : ' . $input_data['data']['callUpPrice'];
         }
         $message = $message . ' ThankYou for calling Hao City Cabs : 2 888 888.';
         $this->sendSms($bookingCreated, $message);
@@ -107,7 +108,6 @@ class Customer_retriever extends CI_Controller
         $webSocket->send($bookingCreated, 'dispatcher1');
         $webSocket->send($bookingCreated, 'monitor1');
 
-        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
     }
 
     function sendSms($bookingCreated, $message)

@@ -147,5 +147,6 @@ class Test_controller extends CI_Controller
         $cancel_report_data['table_content'] = $this->load->view('admin/reports/cancel_reports_view', $cancel_report_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $cancel_report_data)));
     }
+
 }
 

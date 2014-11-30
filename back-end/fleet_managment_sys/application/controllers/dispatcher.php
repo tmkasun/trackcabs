@@ -16,7 +16,7 @@ class Dispatcher extends CI_Controller
             $new_orders = $this->live_dao->getNotDispatchedBookings();
             $dispatchedOrders = $this->live_dao->getDispatchedBookings();
             $new_orders_pane = $this->load->view("dispatcher/panels/new_orders", array('orders' => $new_orders, 'dispatchedOrders' => $dispatchedOrders), TRUE);
-            $location_board_pane = $this->load->view("dispatcher/panels/locView", NULL, TRUE);
+            $location_board_pane = $this->load->view("dispatcher/panels/locView_ver2", NULL, TRUE);
 
             $this->load->view('dispatcher/index', array('new_orders_pane' => $new_orders_pane, 'location_board_pane' => $location_board_pane));
         } else {
@@ -111,7 +111,7 @@ class Dispatcher extends CI_Controller
         $webSocket = new Websocket('localhost', '5555', $user['userId']);
         $dispatchingOrder = $this->live_dao->getBooking($orderId); // Get the updated order
         $dispatchingOrder['driverTp'] = $driverNumber;
-        $orderCro = $this->user_dao->getUser($dispatchingOrder['croId'],'cro');
+        $orderCro = $this->user_dao->getUser($dispatchingOrder['croId'], 'cro');
         $dispatchingOrder['cro'] = $orderCro;
 
         $webSocket->send($dispatchingOrder, 'monitor1');
@@ -131,19 +131,57 @@ class Dispatcher extends CI_Controller
     function cancelOrder()
     {
         $refId = $this->input->post('refId');
-        $order = $this->live_dao->getBooking($refId);
-        if (empty($order)) {
-            $this->output->set_status_header(404, "Can't find refId" . $refId);
-            return;
-        }
-        $this->live_dao->updateStatus((string)$order['_id'], "FAIL");
+        $cancelReason = $this->input->post('cancelReason');
+
         $order = $this->live_dao->getBooking($refId);
 
+        if ($order['status'] == 'START') {
+            $alreadyDispatched = false;
+            $this->live_dao->updateStatus($order['_id'], "CANCEL");
+        } else {
+            /* Adds +1 to the dis_cancel in customers collection */
+            $alreadyDispatched = true;
+            $this->customer_dao->addCanceledDispatch($order["tp"]);
+            $this->live_dao->updateStatus($order['_id'], "DIS_CANCEL");
+        }
+
+        /* Adds +1 to the tot_cancel in customers collection */
+        $this->customer_dao->addCanceledTotal($order["tp"]);
+
+        $order = $this->live_dao->getBooking($refId);
+        $this->live_dao->deleteBookingByMongoId($order['_id']);
+
+        /* Add removed booking from live to the history collection */
+        $order['cancelReason'] = $cancelReason;
+        $this->history_dao->createBooking($order);
+
+        /*
+         * Cancel Message (Customer)
+Your booking has been cancelled. Sorry for the inconvenience.
+Ref. No:
+Date:
+Time:
+Cancelled Reasons
+Thank you for calling Hao City Cabs: 2 888 888
+Cancelled Reasons (Driver)
+Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
+         * */
         $sms = new Sms();
-        $custoMessage = "You order #$refId has been canceled.Sorry for the inconvenience.";
+        $date = date("Y-m-d");
+        $time = date("h:ia");
+
+        $custoMessage = "Your booking has been cancelled. Sorry for the inconvenience.\nRef. No: $refId\nDate: $date\nTime: $time\nReasons: $cancelReason\nThank you for calling Hao City Cabs: 2 888 888";
         $custoNumber = $order['tp'];
         $sentCusto = $sms->send($custoNumber, $custoMessage);
+        if ($alreadyDispatched) {
+            $driver = $this->user_dao->getUser($order['driverId'], 'driver');
 
+            $driverMessage = "#" . $driver['userId'] . '2' . $order['refId'] . "Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.\nReasons: $cancelReason";
+
+            $driverNumber = $driver['tp'];
+            $sentDriver = $sms->send($driverNumber, $driverMessage);
+
+        }
         $user = $this->session->userdata('user');
         $webSocket = new Websocket('localhost', '5555', $user['userId']);
         $webSocket->send($order, 'monitor1');
@@ -153,6 +191,7 @@ class Dispatcher extends CI_Controller
     function disengageCab()
     {
         $refId = $this->input->post('refId');
+        $disengageReason = $this->input->post('disengageReason');
         $order = $this->live_dao->getBooking($refId);
         if (empty($order)) {
             $this->output->set_status_header(404, "Can't find refId" . $refId);
@@ -163,9 +202,21 @@ class Dispatcher extends CI_Controller
 
         $driver = $this->user_dao->getDriverByCabId($order['cabId']);
         $sms = new Sms();
-        $driverMessage = "#" . $driver['userId'] . '2' . $order['refId'] . ' Order has been disengaged. Please contact dispatcher!';
-        $riverNumber = $driver['tp'];
-        $sentCusto = $sms->send($riverNumber, $driverMessage);
+        $driverMessage = "#" . $driver['userId'] . '2' . $order['refId'] . " Order has been disengaged. Do not proceed to hire. Sorry for the inconvenience.\nReason: $disengageReason";
+        $driverNumber = $driver['tp'];
+        $sentDriver = $sms->send($driverNumber, $driverMessage);
+
+
+
+
+        $sms = new Sms();
+        $date = date("Y-m-d");
+        $time = date("h:ia");
+
+        $custoMessage = "Vehicle has been disengaged. Another vehicle will reach you shortly. Sorry for the inconvenience.\nRef. No: $refId\nDate: $date\nTime: $time\nReasons: $disengageReason\nThank you for calling Hao City Cabs: 2 888 888";
+        $custoNumber = $order['tp'];
+        $sentCusto = $sms->send($custoNumber, $custoMessage);
+
 
         $user = $this->session->userdata('user');
         $webSocket = new Websocket('localhost', '5555', $user['userId']);
@@ -183,7 +234,7 @@ class Dispatcher extends CI_Controller
 
         $cab = $this->cab_dao->getCab($cabId);
         $driver = $this->user_dao->getDriverByCabId($cabId);
-        if($cab != null){
+        if ($cab != null) {
 
 
             $newCab = $this->cab_dao->setState($cabId, "IDLE");
@@ -194,8 +245,7 @@ class Dispatcher extends CI_Controller
             echo json_encode($newCab);
 
 
-        }
-        else{
+        } else {
             $this->output->set_content_type('application/json');
             echo json_encode($cab);
 
@@ -210,9 +260,9 @@ class Dispatcher extends CI_Controller
         $cabId = $this->input->post('cabId');
         $cab = $this->cab_dao->getCab($cabId);
 
-        if($cab != null){
-            $newCab = $this->cab_dao->setState($cabId,"IDLE");
-            $newCab = $this->cab_dao->setZone($cabId,"None");
+        if ($cab != null) {
+            $newCab = $this->cab_dao->setState($cabId, "IDLE");
+            $newCab = $this->cab_dao->setZone($cabId, "None");
             $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');
             echo json_encode($newCab);
@@ -242,15 +292,14 @@ class Dispatcher extends CI_Controller
         $cabEta = $this->input->post('cabEta');
 
         $driver = $this->user_dao->getDriverByCabId($cabId);
-        if($cab != null){
+        if ($cab != null) {
             $newCab = $this->cab_dao->setPobDestinationZoneTime($cabId, $zone, $cabEta);
             $newCab['userId'] = $driver['userId'];
 
             $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');
             echo json_encode($newCab);
-        }
-        else{
+        } else {
             $this->output->set_content_type('application/json');
             echo json_encode($cab);
 
@@ -259,13 +308,14 @@ class Dispatcher extends CI_Controller
 
     }
 
-    function setOtherState(){
+    function setOtherState()
+    {
 
         $cabId = $this->input->post('cabId');
         $zone = $this->input->post('zone');
         $cab = $this->cab_dao->getCab($cabId);
         $driver = $this->user_dao->getDriverByCabId($cabId);
-        if($cab != null){
+        if ($cab != null) {
 
             $newCab = $this->cab_dao->setState($cabId, "OTHER");
             $newCab = $this->cab_dao->setZone($cabId, $zone);
@@ -274,8 +324,7 @@ class Dispatcher extends CI_Controller
             $newCab['lastZone'] = $cab['zone'];
             $this->output->set_content_type('application/json');
             echo json_encode($newCab);
-        }
-        else{
+        } else {
             $this->output->set_content_type('application/json');
             echo json_encode($cab);
 
@@ -296,26 +345,44 @@ class Dispatcher extends CI_Controller
 
     }
 
-    function cabDetails($cabId){
+    function cabDetails($cabId)
+    {
 
         if (!is_user_logged_in()) {
             show_404();
         };
         $cab = $this->cab_dao->getCab($cabId);
-        $driver = $this->user_dao->getUser($cab['userId'],'driver');
+        $driver = $this->user_dao->getUser($cab['userId'], 'driver');
         $this->load->view('dispatcher/panels/cab_details', array('cab' => $cab, 'driver' => $driver));
 
     }
 
-    function search_cab(){
+    function search_cab()
+    {
         $this->load->view('dispatcher/modals/search_cab');
     }
 
-    function dispatch_history(){
+    function dispatch_history()
+    {
         $history_booking = $cab = $this->history_dao->getBookings();
         $this->load->view('dispatcher/modals/dispatch_history', array('history_booking' => $history_booking));
     }
 
+    function search_cabs($query)
+    {
+
+    }
+
+    function cancel_reason($orderRefId)
+    {
+        $cancelOrder = $this->live_dao->getBooking($orderRefId);
+        $this->load->view('dispatcher/modals/cancel_reason', array('order' => $cancelOrder));
+    }
+
+    function disengage_reason($orderRefId){
+        $cancelOrder = $this->live_dao->getBooking($orderRefId);
+        $this->load->view('dispatcher/modals/disengage_reason', array('order' => $cancelOrder));
+    }
 
 //    function sendSms($bookingCreated, $message)
 //    {

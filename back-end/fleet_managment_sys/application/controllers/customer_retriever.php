@@ -86,27 +86,59 @@ class Customer_retriever extends CI_Controller
             $this->customer_dao->addBooking($customerProfile2['tp'],$bookingObjId);
         }
 
-        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg, 'tp' => $input_data["tp"] ,
+                                    'refId' => $input_data["data"]["refId"] )));
+
+//        if(!isset($customerProfile['history'])){
+//            $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .
+//                                ' a privilege to serve you. Hao City Cabs : 2 888 888';
+////            $this->sendWelcomeMessage($customerProfile, $welcomeMessage);
+//        }
+//        $message = 'Your order has been confirmed. Date : '. $input_data['data']['bDate'].
+//                    ' Time :'. $input_data['data']['bTime'].' Ref . No :' . $input_data['data']['refId'];
+//
+//        if($input_data['data']['callUpPrice'] != '0'){
+//            $message = $message . ' Call Up Price : ' . $input_data['data']['callUpPrice'];
+//        }
+//        $message = $message . ' ThankYou for calling Hao City Cabs : 2 888 888.';
+//        $this->sendSms($bookingCreated, $message);
+////
+////        /* Send the newly added booking to the dispatch view */
+////
+////        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+////        $webSocket->send($bookingCreated, 'dispatcher1');
+////        $webSocket->send($bookingCreated, 'monitor1');
+
+    }
+
+    public function sendBookingDetails(){
+        $statusMsg = 'true';
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+
+        $customerProfile = $this->customer_dao->getCustomer($input_data['tp']);
+        $bookingCreated = $this->live_dao->getBooking($input_data['refId']);
 
         if(!isset($customerProfile['history'])){
             $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .
-                                ' a privilege to serve you. Hao City Cabs : 2 888 888';
-            $this->sendWelcomeMessage($customerProfile, $welcomeMessage);
+                ' a privilege to serve you. Hao City Cabs : 2 888 888';
+//            $this->sendWelcomeMessage($customerProfile, $welcomeMessage);
         }
         $message = 'Your order has been confirmed. Date : '. $input_data['data']['bDate'].
-                    ' Time :'. $input_data['data']['bTime'].' Ref . No :' . $input_data['data']['refId'];
+            ' Time :'. $input_data['data']['bTime'].' Ref . No :' . $input_data['data']['refId'];
 
-        if($input_data['data']['callUpPrice'] != '0'){
-            $message = $message . ' Call Up Price : ' . $input_data['data']['callUpPrice'];
+        if($bookingCreated['callUpPrice'] != '0'){
+            $message = $message . ' Call Up Price : ' . $bookingCreated['callUpPrice'];
         }
         $message = $message . ' ThankYou for calling Hao City Cabs : 2 888 888.';
-        $this->sendSms($bookingCreated, $message);
+//        $this->sendSms($bookingCreated, $message);
 //
 //        /* Send the newly added booking to the dispatch view */
 //
-        $webSocket = new Websocket('localhost', '5555', $user['userId']);
-        $webSocket->send($bookingCreated, 'dispatcher1');
-        $webSocket->send($bookingCreated, 'monitor1');
+//        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+//        $webSocket->send($bookingCreated, 'dispatcher1');
+//        $webSocket->send($bookingCreated, 'monitor1');
+
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg, 'message' => $message , 'booking' => $bookingCreated )));
 
     }
 

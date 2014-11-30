@@ -215,8 +215,8 @@ function validateBooking(url , tp){
 }
 
 function createBooking(url , tp){
-    var baseUrl = url;
-    url = baseUrl + "/customer_retriever/addBooking";
+    var siteUrl = url;
+    url = siteUrl + "/customer_retriever/addBooking";
 
     var no          = $('#no').val();
     var road        = $('#road').val();
@@ -298,7 +298,16 @@ function createBooking(url , tp){
             'cancelReason' :cancelReason
         }
     };
-    ajaxPost(data,url,false);
+    var result = ajaxPost(data,url,false);
+
+    url = siteUrl + '/customer_retriever/sendBookingDetails';
+    var bookingConfirmationData = {
+        'tp' : tp,
+        'refId' : result.refId
+
+    } ;
+    alert(JSON.stringify(result));
+    //ajaxPost(bookingConfirmationData,url,false);
 }
 
 

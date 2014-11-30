@@ -31,7 +31,8 @@ class Authenticate extends CI_Controller {
         $userId = $inputArray['uName'];
         $timeStamp = new MongoDate();
         $authenticationResult = $this->user_dao->logout($userId);
-
+        $log_input_data = array('userId' => new MongoInt32($userId) , 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp , 'callingNumber' => $authenticationResult['callingNumber'] , 'user_type' => 'driver' , 'log_type' => 'logout');
+        $this->log_dao->createLog($log_input_data);
         if (!$authenticationResult) {
             $authentication = array('isAuthorized' => false);
         }else {
@@ -49,10 +50,14 @@ class Authenticate extends CI_Controller {
         $timeStamp = new MongoDate();
         $authenticationResult = $this->user_dao->driverAuthenticate($userId,$inputArray['pass']);
         $hoursAfterLastLogin = $this->user_dao->hoursAfterLastLogin($authenticationResult['userId'],$timeStamp->sec);
+               // $this->log_dao->updateCallingNumber(date('YYYY-mm-dd', $timeStamp->sec),$authenticationResult['userId'],$timeStamp->sec);
         if (!$authenticationResult || $hoursAfterLastLogin<5) {
             $authentication = array('isAuthorized' => false);
         }else {
+
             $driver = $this->user_dao->getUserById($userId);
+            $log_input_data = array('userId' => new MongoInt32($userId) , 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp , 'callingNumber' => $driver['callingNumber'] , 'user_type' => 'driver' , 'log_type' => 'login');
+            $this->log_dao->createLog($log_input_data);
             // For reference $driver->role->cab->id and $driver->role->id and $driver->role->cab->type
             $authentication = array('isAuthorized' => true,'driverId' => $driver['userId'],  'cabId' => $driver['cabId'] ,'vehicleType' => 'van');
         }

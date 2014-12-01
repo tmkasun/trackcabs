@@ -384,6 +384,11 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->load->view('dispatcher/modals/disengage_reason', array('order' => $cancelOrder));
     }
 
+    function calling_number(){
+        $drivers = $this->user_dao->getDriversSortedByCallingNumber();
+        $this->load->view('dispatcher/modals/calling_number', array('data' => $drivers));
+    }
+
 //    function sendSms($bookingCreated, $message)
 //    {
 //        $sms = new Sms();

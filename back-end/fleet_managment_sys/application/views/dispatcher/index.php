@@ -232,7 +232,6 @@
                         <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
                            onclick="$('#aboutModal').modal('show'); return false;">About</a>
                     </li>
-                    <li><a href="#">Doc</a></li>
                     <li class="divider"></li>
                     <li><a href="<?= site_url('login/logout') ?>">Logout</a></li>
                 </ul>

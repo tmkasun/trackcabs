@@ -11,7 +11,7 @@
 </div>
 <div class="modal-body">
 
-    <div class="panel panel-default" style="border: none;height: 80%;">
+    <div class="panel panel-default" style="border: none;min-height: 20%;">
         <div class="panel-body">
 
             <table class="table table-striped">

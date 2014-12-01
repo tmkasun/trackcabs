@@ -19,11 +19,7 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
-
 
             <div class="col-lg-9" style="padding: 1px">
                 <div class="col-lg-12">

@@ -56,7 +56,7 @@ var ViewModelCro = function(){
 
 
         $.ajax({
-            url: serviceUrl + "call/getLiveCalls",
+            url: serviceUrl + "call/getCallsInLastSeconds",
             type: "GET",
             dataType: "json"
         }).done(function( response ) {

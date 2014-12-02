@@ -120,9 +120,9 @@ class Customer_retriever extends CI_Controller
 
         $user = $this->session->userdata('user');
 
-//        $webSocket = new Websocket('localhost', '5555', $user['userId']);
-//        $webSocket->send($bookingCreated, 'dispatcher1');
-//        $webSocket->send($bookingCreated, 'monitor1');
+        $webSocket = new Websocket('localhost', '5555', $user['userId']);
+        $webSocket->send($bookingCreated, 'dispatcher1');
+        $webSocket->send($bookingCreated, 'monitor1');
 
         if(!isset($customerProfile['history'])){
             $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .
@@ -136,7 +136,7 @@ class Customer_retriever extends CI_Controller
             $message = $message . ' Call Up Price : ' . $bookingCreated['callUpPrice'];
         }
         $message = $message . ' ThankYou for calling Hao City Cabs : (011) 2 888 888.';
-//        $this->sendSms($bookingCreated, $message);
+        $this->sendSms($bookingCreated, $message);
 //
 //        /* Send the newly added booking to the dispatch view */
 //
@@ -258,7 +258,7 @@ class Customer_retriever extends CI_Controller
         $webSocket->send($bookingCreated, 'dispatcher1');
         $webSocket->send($bookingCreated, 'monitor1');
 
-        $this->output->set_output(json_encode(array("statusMsg" => "success")));
+        $this->output->set_output(json_encode(array("statusMsg" => "success" , 'booking' => $bookingCreated)));
     }
 
     public function addCustomerToCooperateProfile()

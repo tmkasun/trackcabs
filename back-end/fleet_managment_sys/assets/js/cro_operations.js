@@ -7,6 +7,7 @@ function addInquireCall(url , objId){
     var data = {'objId' : objId};
     url = url +"/customer_retriever/addInquireCall";
     var view = ajaxPost(data,url);
+    alert(JSON.stringify(view));
 
 }
 

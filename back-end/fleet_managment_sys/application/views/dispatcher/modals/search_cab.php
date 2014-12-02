@@ -59,7 +59,7 @@
 <div class="modal-header"
      style="cursor: move;background: #f9f9f9;-webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);-moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);">
     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title">
+    <h4 class="modal-title text-center">
         <!-- TODO: Trigger bootstrap tooltip $('#aboutTileUrl').tooltip(); to enable tooltip -->
         Search Cab
     </h4>

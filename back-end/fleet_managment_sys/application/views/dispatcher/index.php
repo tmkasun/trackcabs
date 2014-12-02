@@ -165,7 +165,7 @@
             </li>
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Cab Start Location</button>
+                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/cab_start');return false" >Cab Location</button>
                 </form>
             </li>
             <li>

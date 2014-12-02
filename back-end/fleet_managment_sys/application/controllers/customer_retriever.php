@@ -127,7 +127,7 @@ class Customer_retriever extends CI_Controller
         if(!isset($customerProfile['history'])){
             $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .
                 ' a privilege to serve you. Hao City Cabs : 2 888 888';
-//            $this->sendWelcomeMessage($customerProfile, $welcomeMessage);
+            $this->sendWelcomeMessage($customerProfile, $welcomeMessage);
         }
         $message = 'Your order has been confirmed. Date : '. date('jS-M-y', $bookingCreated['bookTime']->sec).
                 ' Time :'. date('h:i a', $bookingCreated['bookTime']->sec).' Ref . No :' . $bookingCreated['refId'] . ' .';

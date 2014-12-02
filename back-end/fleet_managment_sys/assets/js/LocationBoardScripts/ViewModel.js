@@ -59,7 +59,7 @@ var zone6   = new Zone( 6,"Marinedrive 04");
 var zone7   = new Zone( 7,"T'Mulla/Thimbiri");
 var zone8   = new Zone( 8,"Vilasitha(Kirulapona)");
 var zone9   = new Zone( 9,"Colombo 06");
-var zone10  = new Zone(10,"Marinedrive 04");
+var zone10  = new Zone(10,"Marinedrive 06");
 
 var zone11  = new Zone(11,"Alex"                    );
 var zone12  = new Zone(12,"Rupavahing"              );
@@ -266,6 +266,21 @@ function LocationBoardViewModel(){
                 }
 
             }
+
+            //Sort ETA cabs by time
+            for(key in self.zones()){
+                self.zones()[key].pob.cabs.sort(function (cab1, cab2) {
+                    if (cab1.eta > cab2.eta) {
+                        return 1;
+                    }
+                    if (cab1.eta < cab2.eta) {
+                        return -1;
+                    }
+                    return 0;
+                });
+            }
+
+
         }).fail(function( jqXHR, textStatus ) {
             console.log( "Location Board Init failed: " + textStatus );
         });
@@ -428,6 +443,18 @@ function LocationBoardViewModel(){
             if(indexToAdd !== -1){
                 self.zones()[indexToAdd].pob.cabs.push(currentCab);
             }
+
+            //Sort ETA cabs by time
+            self.zones()[indexToAdd].pob.cabs.sort(function (cab1, cab2) {
+                if (cab1.eta > cab2.eta) {
+                    return 1;
+                }
+                if (cab1.eta < cab2.eta) {
+                    return -1;
+                }
+                return 0;
+            });
+
 
 
         });

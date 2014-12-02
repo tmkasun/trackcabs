@@ -64,16 +64,9 @@ class Packages_dao extends CI_Model
     function updatePackage($packageId , $data){
         $collection = $this->get_collection();
 
-        $searchQuery= array('packageId' => new MongoInt32($packageId));
-        $record = $collection->findOne($searchQuery);
+        $searchQuery= array('packageId' => (int)$packageId);
+        $collection->update($searchQuery,array('$set' => $data ));
 
-        foreach ($data as $key => $value){
-            if($key != 'packageId') {
-                $record[$key] = $data[$key];
-            }
-        }
-
-        $collection->save($record);
     }
 
 }

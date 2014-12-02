@@ -473,6 +473,7 @@ function updateCustomerInfoView(url){
 function getCustomerInfoView( url , tp , isFromPABX ){
 
     url = url + "/cro_controller/getCustomerInfoView";
+    isFromPABX = isFromPABX ? true : false ;
     var data = {"tp" : tp , 'isFromPABX' : isFromPABX };
     var view = ajaxPost(data,url);
     if(view.hasOwnProperty('important')){

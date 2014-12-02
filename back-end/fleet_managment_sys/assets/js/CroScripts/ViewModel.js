@@ -76,7 +76,7 @@ var ViewModelCro = function(){
     self.assignNumber = function (data) {
         //self.currentNumbers.remove(data);
         $('input#tpSearch').val(data.number);
-        operations("getCustomerFromPABX");
+        operations("getCustomerFromPABX", data.number);
 
     }
 

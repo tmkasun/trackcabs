@@ -21,13 +21,14 @@ class Call extends CI_Controller
     {
         $postData = $this->input->post();
         $state = array_keys($postData)[0];
-//        var_dump($state);
-//        var_dump(str_getcsv($postData[$state]));
+
+        $today = date("Y-m-d h:ia");
+
         $csvCallArray = str_getcsv($postData[$state]);
         $callInfo = array(
             "state" => $state,
             "phone_number" => $csvCallArray[1],
-            "date" => new MongoDate(strtotime($csvCallArray[3])),
+            "date" => new MongoDate(strtotime($today)),
             "parameter1" => $csvCallArray[4],
             "extension_number" => $csvCallArray[5]
         );

@@ -7,6 +7,7 @@ function addInquireCall(url , objId){
     var data = {'objId' : objId};
     url = url +"/customer_retriever/addInquireCall";
     var view = ajaxPost(data,url);
+    alert(JSON.stringify(view));
 
 }
 
@@ -215,8 +216,8 @@ function validateBooking(url , tp){
 }
 
 function createBooking(url , tp){
-    var baseUrl = url;
-    url = baseUrl + "/customer_retriever/addBooking";
+    var siteUrl = url;
+    url = siteUrl + "/customer_retriever/addBooking";
 
     var no          = $('#no').val();
     var road        = $('#road').val();
@@ -261,8 +262,6 @@ function createBooking(url , tp){
     //TODO : Call to load dispatcher modal conformation
     //$("#orderBuilder").load('dispatcher/newOrder/' + orderId);
 
-
-
     var address = {
         'no':no ,
         'road' : road ,
@@ -300,7 +299,14 @@ function createBooking(url , tp){
             'cancelReason' :cancelReason
         }
     };
-    ajaxPost(data,url,false);
+    var result = ajaxPost(data,url,false);
+
+    url = siteUrl + '/customer_retriever/sendBookingDetails';
+    var bookingConfirmationData = {
+        'tp' : tp,
+        'refId' : result.refId
+        };
+    ajaxPost(bookingConfirmationData,url,true);
 }
 
 
@@ -464,10 +470,11 @@ function updateCustomerInfoView(url){
     getCustomerInfoView(siteUrl , tp);
 }
 
-function getCustomerInfoView( url , tp ){
+function getCustomerInfoView( url , tp , isFromPABX ){
 
     url = url + "/cro_controller/getCustomerInfoView";
-    var data = {"tp" : tp};
+    isFromPABX = isFromPABX ? true : false ;
+    var data = {"tp" : tp , 'isFromPABX' : isFromPABX };
     var view = ajaxPost(data,url);
     if(view.hasOwnProperty('important')){
         bookingObj=view.important.live_booking;

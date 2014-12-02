@@ -56,7 +56,7 @@ var ViewModelCro = function(){
 
 
         $.ajax({
-            url: serviceUrl + "call/getLiveCalls",
+            url: serviceUrl + "call/getCallsInLastSeconds",
             type: "GET",
             dataType: "json"
         }).done(function( response ) {
@@ -76,7 +76,7 @@ var ViewModelCro = function(){
     self.assignNumber = function (data) {
         //self.currentNumbers.remove(data);
         $('input#tpSearch').val(data.number);
-        $('input#submitNumber').click();
+        operations("getCustomerFromPABX", data.number);
 
     }
 

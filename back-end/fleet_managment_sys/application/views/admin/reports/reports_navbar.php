@@ -20,7 +20,7 @@
                 <input class="form-control" placeholder="Enter ID" type="text" id="idForSearch">
             </div>
             
-            <button type="submit" class="btn btn-default" onclick="getReportViewFromSearchId()">Submit</button>
+            <button type="submit" class="btn btn-default" onclick="getReportViewFromSearchId();return false;">Submit</button>
             <select id="search_select">
                 <option value="driverId">Search by Driver ID</option>
                 <option value="refId">Search by Booking Ref ID</option>

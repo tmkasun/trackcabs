@@ -207,8 +207,6 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $sentDriver = $sms->send($driverNumber, $driverMessage);
 
 
-
-
         $sms = new Sms();
         $date = date("Y-m-d");
         $time = date("h:ia");
@@ -379,9 +377,33 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->load->view('dispatcher/modals/cancel_reason', array('order' => $cancelOrder));
     }
 
-    function disengage_reason($orderRefId){
+    function disengage_reason($orderRefId)
+    {
         $cancelOrder = $this->live_dao->getBooking($orderRefId);
         $this->load->view('dispatcher/modals/disengage_reason', array('order' => $cancelOrder));
+    }
+
+    function calling_number()
+    {
+        $drivers = $this->user_dao->getDriversSortedByCallingNumber();
+        $this->load->view('dispatcher/modals/calling_number', array('data' => $drivers));
+    }
+
+    function  cab_start()
+    {
+        $drivers = $this->user_dao->getAllUsers_by_type('driver');
+        $driversWithCab = array();
+        foreach ($drivers['data'] as $driver) {
+            if ($driver['cabId'] != -1) {
+                $driverCab = $this->user_dao->getCabByDriverId($driver['userId']);
+                $driver['cab'] = $driverCab;
+                array_push($driversWithCab, $driver);
+            }
+//            else {
+//                array_push($driversWithCab, $driver);
+//            }
+        }
+        $this->load->view('dispatcher/modals/cab_start_location', array('data' => $driversWithCab));
     }
 
 //    function sendSms($bookingCreated, $message)

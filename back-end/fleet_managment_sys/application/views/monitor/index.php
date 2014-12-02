@@ -65,22 +65,22 @@
         }
 
         function updateTime() {
-           /* var liveOrdersList = $('#liveOrdersList').find('a');
-            var i = 0;
-            for (; i < liveOrdersList.length; i++) {
-                var latestBooking = $(liveOrdersList[i]);
-//        var latestBooking = $('#liveOrdersList').find('a:first');
-                var latestBookingDate = latestBooking.data('booktime');
-                var timeDifferent = moment.unix(latestBookingDate).diff(moment(), 'minutes', true);
-                if (timeDifferent <= 30) {
-//                console.log("DEBUG: checking time interval timeDifferent = " + timeDifferent);
-                    latestBooking.addClass("list-group-item-danger");
-                }
-                else {
-//                console.log("DEBUG: fromNow = " + moment.unix(latestBookingDate).fromNow() + " checking time interval timeDifferent = " + timeDifferent);
-                }
-                latestBooking.find('.fromNow').html('(' + moment.unix(latestBookingDate).fromNow() + ')');
-            }*/
+            /* var liveOrdersList = $('#liveOrdersList').find('a');
+             var i = 0;
+             for (; i < liveOrdersList.length; i++) {
+             var latestBooking = $(liveOrdersList[i]);
+             //        var latestBooking = $('#liveOrdersList').find('a:first');
+             var latestBookingDate = latestBooking.data('booktime');
+             var timeDifferent = moment.unix(latestBookingDate).diff(moment(), 'minutes', true);
+             if (timeDifferent <= 30) {
+             //                console.log("DEBUG: checking time interval timeDifferent = " + timeDifferent);
+             latestBooking.addClass("list-group-item-danger");
+             }
+             else {
+             //                console.log("DEBUG: fromNow = " + moment.unix(latestBookingDate).fromNow() + " checking time interval timeDifferent = " + timeDifferent);
+             }
+             latestBooking.find('.fromNow').html('(' + moment.unix(latestBookingDate).fromNow() + ')');
+             }*/
         }
 
         (function ($) {
@@ -97,6 +97,28 @@
 
 </head>
 <body>
+
+
+<nav class="navbar navbar-inverse" role="navigation" style="background-color: floralwhite;">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#"><img style="max-width:50px; margin-top: -7px;"
+                                              src="<?= base_url() ?>assets/img/hao-logo-small.png"/></a>
+
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <a class="btn btn-sm btn-success navbar-btn" href="/">Home</a>
+                </form>
+            </li>
+
+        </ul>
+
+    </div>
+</nav>
+
+
 <div class="container" style="width: 100%">
 <div class="row text-center text-info">
     Monitor all
@@ -150,21 +172,21 @@
             }
 
         }
-        if(!empty($orders_list['START'])):
-        foreach ($orders_list['START'] as $order): ?>
-            <tr id="<?= $order['refId'] ?>">
-                <td id="refId"><?= $order['refId'] ?></td>
-                <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
-                <td id="mr">MR</td>
-                <td id="address"><?= implode(", ", $order['address']) ?></td>
-                <td id="agent"><?= $order['croId'] ?></td>
-                <td>Inquiries</td>
-                <td><?= getBadge(false) ?></td>
-                <td><?= getBadge($order['isVih']) ?></td>
-                <td><?= getBadge($order['isVip']) ?></td>
-                <td><?= getBadge(false) ?></td>
-            </tr>
-        <?php endforeach; endif ?>
+        if (!empty($orders_list['START'])):
+            foreach ($orders_list['START'] as $order): ?>
+                <tr id="<?= $order['refId'] ?>">
+                    <td id="refId"><?= $order['refId'] ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
+                    <td id="mr">MR</td>
+                    <td id="address"><?= implode(", ", $order['address']) ?></td>
+                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td>Inquiries</td>
+                    <td><?= getBadge(false) ?></td>
+                    <td><?= getBadge($order['isVih']) ?></td>
+                    <td><?= getBadge($order['isVip']) ?></td>
+                    <td><?= getBadge(false) ?></td>
+                </tr>
+            <?php endforeach; endif ?>
         </tbody>
     </table>
 </div>
@@ -194,25 +216,26 @@
         </thead>
         <tbody>
         <?php
-        if(!empty($orders_list['MSG_NOT_COPIED'])):
-        foreach ($orders_list['MSG_NOT_COPIED'] as $order): ?>
-            <tr id="<?= $order['refId'] ?>">
-                <td id="refId"><?= $order['refId'] ?></td>
-                <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
-                <td id="mst"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
-                <td id="cabId"><?= $order['cabId'] ?></td>
+        if (!empty($orders_list['MSG_NOT_COPIED'])):
+            foreach ($orders_list['MSG_NOT_COPIED'] as $order): ?>
+                <tr id="<?= $order['refId'] ?>">
+                    <td id="refId"><?= $order['refId'] ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
+                    <td id="mst"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                    <td id="cabId"><?= $order['cabId'] ?></td>
 
-                <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'],'driver'); echo($driver['tp']) ?></td>
+                    <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'], 'driver');
+                        echo($driver['tp']) ?></td>
 
-                <td id="address"><?= implode(", ", $order['address']) ?></td>
-                <td id="agent"><?= $order['croId'] ?></td>
-                <td>Inquiries</td>
-                <td><?= getBadge(false) ?></td>
-                <td><?= getBadge($order['isVih']) ?></td>
-                <td><?= getBadge($order['isVip']) ?></td>
-                <td><?= getBadge(false) ?></td>
-            </tr>
-        <?php endforeach; endif; ?>
+                    <td id="address"><?= implode(", ", $order['address']) ?></td>
+                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td>Inquiries</td>
+                    <td><?= getBadge(false) ?></td>
+                    <td><?= getBadge($order['isVih']) ?></td>
+                    <td><?= getBadge($order['isVip']) ?></td>
+                    <td><?= getBadge(false) ?></td>
+                </tr>
+            <?php endforeach; endif; ?>
         </tbody>
     </table>
 </div>
@@ -241,7 +264,27 @@
         </tr>
         </thead>
         <tbody>
+        <?php
+        if (!empty($orders_list['MSG_COPIED'])):
+            foreach ($orders_list['MSG_COPIED'] as $order): ?>
+                <tr id="<?= $order['refId'] ?>">
+                    <td id="refId"><?= $order['refId'] ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
+                    <td id="mct"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                    <td id="cabId"><?= $order['cabId'] ?></td>
 
+                    <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'], 'driver');
+                        echo($driver['tp']) ?></td>
+
+                    <td id="address"><?= implode(", ", $order['address']) ?></td>
+                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td>Inquiries</td>
+                    <td><?= getBadge(false) ?></td>
+                    <td><?= getBadge($order['isVih']) ?></td>
+                    <td><?= getBadge($order['isVip']) ?></td>
+                    <td><?= getBadge(false) ?></td>
+                </tr>
+            <?php endforeach; endif; ?>
         </tbody>
     </table>
 </div>
@@ -270,7 +313,27 @@
         </tr>
         </thead>
         <tbody>
+        <?php
+        if (!empty($orders_list['AT_THE_PLACE'])):
+            foreach ($orders_list['AT_THE_PLACE'] as $order): ?>
+                <tr id="<?= $order['refId'] ?>">
+                    <td id="refId"><?= $order['refId'] ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
+                    <td id="mct"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                    <td id="cabId"><?= $order['cabId'] ?></td>
 
+                    <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'], 'driver');
+                        echo($driver['tp']) ?></td>
+
+                    <td id="address"><?= implode(", ", $order['address']) ?></td>
+                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td>Inquiries</td>
+                    <td><?= getBadge(false) ?></td>
+                    <td><?= getBadge($order['isVih']) ?></td>
+                    <td><?= getBadge($order['isVip']) ?></td>
+                    <td><?= getBadge(false) ?></td>
+                </tr>
+            <?php endforeach; endif; ?>
         </tbody>
     </table>
 </div>

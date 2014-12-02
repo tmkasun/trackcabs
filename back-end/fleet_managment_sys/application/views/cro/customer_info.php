@@ -3,10 +3,12 @@
         <h5 class="panel-title">Customer Information</h5>
     </div>
     <div class="panel-body" >
-        <div class="col-md-12" style="padding: 1px; min-height: 300px;">
+        <div class="col-md-12" style="padding: 1px; ">
 
             <div class="col-lg-3" style="padding: 1px">
                 <img style='float:left;width:134px;height:128px' src="<?= base_url() ?>assets/img/profile_pic.jpg" />
+
+
                 <div class="col-lg-12" style="margin-top: 5px ; padding: 1px">
 
                     <div class="btn-group btn-group-justified" role="group" aria-label="...">
@@ -17,7 +19,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="col-lg-9" style="padding: 1px">

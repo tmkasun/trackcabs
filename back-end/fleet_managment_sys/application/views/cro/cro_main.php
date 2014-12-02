@@ -218,6 +218,10 @@
             if(request == 'updateCusInfo'){
                 updateCustomerInfoView( url );
             }
+            if(request == 'getCustomerFromPABX'){
+                tp = param1;
+                getCustomerInfoView( url , tp , true);
+            }
             if(request == 'getCustomer'){
                 tp = $('#tpSearch').val();
                 getCustomerInfoView( url , tp);

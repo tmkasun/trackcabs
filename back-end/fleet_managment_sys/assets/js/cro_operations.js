@@ -470,10 +470,10 @@ function updateCustomerInfoView(url){
     getCustomerInfoView(siteUrl , tp);
 }
 
-function getCustomerInfoView( url , tp ){
+function getCustomerInfoView( url , tp , isFromPABX ){
 
     url = url + "/cro_controller/getCustomerInfoView";
-    var data = {"tp" : tp};
+    var data = {"tp" : tp , 'isFromPABX' : isFromPABX };
     var view = ajaxPost(data,url);
     if(view.hasOwnProperty('important')){
         bookingObj=view.important.live_booking;

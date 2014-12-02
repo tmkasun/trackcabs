@@ -157,14 +157,16 @@ class User_controller extends CI_Controller
 //                            $this->cab_dao->updateCab($input_data['details']['cabId'],array('userId' => $input_data["userId"] ));
 //                        }
                         //add relese_cab() here
-                }
+            $timeStamp = new MongoDate();
+        }
         if(array_key_exists('callingNumber', $input_data['details']))
         {
             if($input_data['details']['callingNumber'] == ""){$input_data['details']['callingNumber'] = (int)-1;}
             else {$input_data['details']['callingNumber'] = (int)$input_data['details']['callingNumber'];}
             //$input_data['details']['callingNumber'] = (int)$input_data['details']['callingNumber'];
-            
-        }        
+            $this->log_dao->updateCallingNumber(date('Y-m-d', $timeStamp->sec),$input_data['userId'],$input_data['details']['callingNumber']);
+
+        }
         $this->user_dao->updateUser($input_data['userId'],$input_data['details']);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
     }

@@ -24,14 +24,16 @@
     <script src="<?= base_url() ?>assets/js/uikit/uikit.min.js"></script>
     <script src="<?= base_url() ?>assets/js/uikit/addons/notify.min.js"></script>
 
+    <!-- autobahn websocket and WAMP -->
+    <script src="<?= base_url() ?>assets/js/autobahn/autobahn.min.js"></script>
 
     <script src="<?= base_url() ?>assets/js/application_options.js"></script>
+    <script src="<?= base_url() ?>assets/js/websocket/cro.js"></script>
+
     <script>
         setBaseURL('<?= base_url().'index.php/' ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
     </script>
 
-    <!-- autobahn websocket and WAMP -->
-    <script src="<?= base_url() ?>assets/js/autobahn/autobahn.min.js"></script>
 
 
     <script>
@@ -44,30 +46,6 @@
         var historyBookingObj = null;
         var customerObj = null;
 
-        function subscribe(userid) {
-            var conn = new ab.Session(
-                'ws://' + ApplicationOptions.constance.WEBSOCKET_URL + ':' + ApplicationOptions.constance.WEBSOCKET_PORT,
-                function () {
-                    conn.subscribe(userid, function (topic, data) {
-                        // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
-                        console.log('New Message published to user "' + topic + '" : ' + data.message);
-                        var messageData = data.message;
-                        debugObject = $.UIkit.notify({
-                            message: "Order # = <span onclick='$(\"#tpSearch\").val(\""+messageData.tp+"\")' style='cursor: pointer;color: red'>"+messageData.refId+"</span> request to delay in <span style='color: #0000FF'>"+ messageData.delay_minutes+" minutes</span> from cro(ID): "+messageData.croId,
-                            status: 'warning',
-                            timeout: 0,
-                            pos: 'top-center'
-                        });
-                    });
-                },
-                function () {
-                    console.warn('WebSocket connection closed');
-                },
-                {'skipSubprotocolCheck': true}
-            );
-        }
-
-        subscribe('cro1');
         </script>
     <style>
         .nts-label{

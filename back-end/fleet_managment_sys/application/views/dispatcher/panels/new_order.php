@@ -25,6 +25,7 @@
         sendingData = {};
         sendingData.cabId = cab.id;
         sendingData.orderId = refId;
+        $("#orderBuilder").html('');
         $.post('dispatcher/dispatchVehicle', sendingData, function (dispatchedOrder) {
             console.log(dispatchedOrder);
             setTimeout(function () {
@@ -58,54 +59,10 @@
             cab.state = "MSG_NOT_COPIED";
             zone.idle.cabs.remove(cab);
             locVM.pendingCabs.push(cab);
-
-            $("#orderBuilder").html('');
         });
 
 
     }
-
-    function cancelOrder(orderRefId) {
-        var confirmation = confirm("Are you sure you want to cancel this order!");
-        if (!confirmation) {
-            $.UIkit.notify({
-                message: "Order not cancelled.",
-                status: 'success',
-                timeout: 3000,
-                pos: 'top-center'
-            });
-            return false;
-        }
-        $.post('dispatcher/cancelOrder', {refId: orderRefId}).done(
-            function () {
-                var orderDOM = $('#liveOrdersList').find('#' + orderRefId);
-                $(orderDOM).fadeOut();
-                orderDOM.appendTo('#dispatchedOrdersList .mCSB_container');
-                $('#liveOrdersList').find('#' + orderRefId).remove();
-                setTimeout(function () {
-                    orderDOM.show()
-                }, 500);
-                $.UIkit.notify({
-                    message: "Order: <b>" + orderRefId + "</b> has been canceled!",
-                    status: 'success',
-                    timeout: 3000,
-                    pos: 'top-center'
-                });
-            }
-        ).
-            fail(
-            function () {
-                $.UIkit.notify({
-                    message: "Can't cancel Order: <b>" + orderRefId + "</b> Something went wrong!",
-                    status: 'danger',
-                    timeout: 3000,
-                    pos: 'top-center'
-                });
-            }
-        );
-
-    }
-
 
     function delayInform(refId) {
 //        console.log("refId = "+refId);
@@ -278,8 +235,8 @@
                 </button>
             </div>
             <div class="btn-group">
-                <button style="background-color: #d9534f;color: #ffffaa" type="button" class="btn  btn-default"
-                        onclick="cancelOrder(<?= $newOrder['refId'] ?>);">Cancel order
+                <button style="background-color: #f0ad4e;color: #000000" type="button" class="btn  btn-default"
+                        onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/cancel_reason/<?= $newOrder['refId'] ?>');return false;">Cancel order
                 </button>
             </div>
             <!--<div class="btn-group">-->

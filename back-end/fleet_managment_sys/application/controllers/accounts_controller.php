@@ -70,7 +70,7 @@ class Accounts_controller extends CI_Controller
 
     function getSummaryView(){
         $driverIds = $this->user_dao->getUserIds_by_type('driver');
-        $cabIds = $this->user_dao->getUserIds_by_type('cabs');
+        $cabIds = $this->cab_dao->getCabIds();
         $data['driverIds'] = $driverIds;
         $data['cabIds'] = $cabIds;
         $data['table_content'] = $this->load->view('admin/reports/summary_view', $data, TRUE);

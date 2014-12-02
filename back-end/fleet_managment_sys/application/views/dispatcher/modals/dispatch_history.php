@@ -4,19 +4,16 @@
 <div class="modal-header"
      style="cursor: move;background: #f9f9f9;-webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);-moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);">
     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title">
+    <h4 class="modal-title text-center">
         <!-- TODO: Trigger bootstrap tooltip $('#aboutTileUrl').tooltip(); to enable tooltip -->
         Dispatch History
     </h4>
 </div>
 <div class="modal-body">
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Booking History</h3>
-        </div>
+    <div class="panel panel-default" style="border: none;height: 80%;">
         <div class="panel-body">
-            <div class="col-lg-12" style="max-height: 200px ; overflow: auto">
+            <div class="col-lg-12" style=" overflow: auto">
                 <?php if (isset($history_booking) && sizeof($history_booking) != 0): ?>
                     <table class="table table-striped">
                         <tr>
@@ -36,10 +33,8 @@
                                 <td><?= date('H:i:s Y-m-d ', $item['callTime']->sec); ?></td>
                                 <td><?= date('H:i:s Y-m-d ', $item['bookTime']->sec); ?></td>
                                 <td>
-                                    <a href="#newBooking"
-                                       onclick="operations('fillAddressToBookingFromHistory', '<?= $item['_id'] ?>');return false;">
                                         <?= implode(", ", $item['address']); ?>
-                                    </a>
+
                                 </td>
                                 <td><?= $item['driverId']; ?></td>
                                 <td><?= $item['cabId']; ?></td>

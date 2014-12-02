@@ -160,17 +160,12 @@
 
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Calling No.</button>
+                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/calling_number');return false">Calling No.</button>
                 </form>
             </li>
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Cab</button>
-                </form>
-            </li>
-            <li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Cab Start Location</button>
+                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/cab_start');return false" >Cab Location</button>
                 </form>
             </li>
             <li>
@@ -197,7 +192,7 @@
 
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Monitor Agent</button>
+                    <a class="btn btn-sm btn-success navbar-btn" href="monitor"  target="_blank" >Monitor Agent</a>
                 </form>
             </li>
 
@@ -237,7 +232,6 @@
                         <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
                            onclick="$('#aboutModal').modal('show'); return false;">About</a>
                     </li>
-                    <li><a href="#">Doc</a></li>
                     <li class="divider"></li>
                     <li><a href="<?= site_url('login/logout') ?>">Logout</a></li>
                 </ul>

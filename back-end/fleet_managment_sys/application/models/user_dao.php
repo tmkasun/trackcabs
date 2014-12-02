@@ -24,18 +24,21 @@ class User_dao extends CI_Model
         $searchQuery = array('userId' => $user_details['userId']);
         $record = $collection->findOne($searchQuery);
 
-        if( $record == null){ $collection->insert($user_details);}
-        else {$statusMsg = false;}
+        if ($record == null) {
+            $collection->insert($user_details);
+        } else {
+            $statusMsg = false;
+        }
 
         return $statusMsg;
     }
 
-    function getUser($userId,$userType)
+    function getUser($userId, $userType)
     {
         $collection = $this->get_collection();
 
-        $searchQuery = array('userId' => (int)$userId , 'user_type' => $userType);
-   // TODO: FTW ? parameter  name is userId and searching for uName while
+        $searchQuery = array('userId' => (int)$userId, 'user_type' => $userType);
+        // TODO: FTW ? parameter  name is userId and searching for uName while
         //there is an attribute for userId FK
         $user = $collection->findOne($searchQuery);
         return $user;
@@ -56,8 +59,11 @@ class User_dao extends CI_Model
         $searchQuery = array('userId' => $userId);
         $collection->remove($searchQuery);
         $record = $collection->findOne($searchQuery);
-        if( $record == null){ $statusMsg=true;}
-        else {$statusMsg = false;}
+        if ($record == null) {
+            $statusMsg = true;
+        } else {
+            $statusMsg = false;
+        }
         return $statusMsg;
     }
 
@@ -67,24 +73,23 @@ class User_dao extends CI_Model
         $collection = $this->get_collection();
 
         $cursor = $collection->find();
-        $users= array();
+        $users = array();
         foreach ($cursor as $user) {
-            $users[]= $user;
+            $users[] = $user;
         }
 
         return $users;
     }
 
     //This function will be used if needed to get all user types, number of users limited to page size
-    function getUsersByPage($limit,$skip)
+    function getUsersByPage($limit, $skip)
     {
         $collection = $this->get_collection();
 
         $cursor = $collection->find()->limit($limit)->skip($skip);
-        $users= array('data' => array());
-        foreach ($cursor as $user)
-        {
-            $users['data'][]= $user;
+        $users = array('data' => array());
+        foreach ($cursor as $user) {
+            $users['data'][] = $user;
         }
         return $users;
     }
@@ -96,9 +101,9 @@ class User_dao extends CI_Model
 
         $user_type = array('user_type' => $type);
         $cursor = $collection->find($user_type);
-        $users= array('data' => array());
+        $users = array('data' => array());
         foreach ($cursor as $user) {
-            $users['data'][]= $user;
+            $users['data'][] = $user;
         }
 
         return $users;
@@ -110,25 +115,24 @@ class User_dao extends CI_Model
 
         $user_type = array('user_type' => $type);
         $cursor = $collection->find($user_type);
-        $userIds= array();
+        $userIds = array();
         foreach ($cursor as $user) {
-            $userIds[]= $user['userId'];
+            $userIds[] = $user['userId'];
         }
 
         return $userIds;
     }
 
     //This function is used to get all users of a certain type, limited to page size
-    function getUsersByPage_by_type($limit,$skip,$type)
+    function getUsersByPage_by_type($limit, $skip, $type)
     {
         $collection = $this->get_collection();
 
         $user_type = array('user_type' => $type);
         $cursor = $collection->find($user_type)->limit($limit)->skip($skip);//$user_type
-        $users= array('data' => array());
-        foreach ($cursor as $user)
-        {
-            $users['data'][]= $user;
+        $users = array('data' => array());
+        foreach ($cursor as $user) {
+            $users['data'][] = $user;
         }
         return $users;
     }
@@ -136,7 +140,7 @@ class User_dao extends CI_Model
     function authenticate($userName, $pass)
     {
         $collection = $this->get_collection();
-        $searchQuery = array("uName" => $userName , 'pass' => $pass );
+        $searchQuery = array("uName" => $userName, 'pass' => $pass);
         $user = $collection->findOne($searchQuery);
         return $user;
 
@@ -145,25 +149,26 @@ class User_dao extends CI_Model
     function driverAuthenticate($driverId, $pass)
     {
         $collection = $this->get_collection();
-        $searchQuery = array("userId" => (int)$driverId , 'pass' => $pass , "user_type" => "driver" );
+        $searchQuery = array("userId" => (int)$driverId, 'pass' => $pass, "user_type" => "driver");
         $user = $collection->findOne($searchQuery);
         return $user;
 
     }
+
     /**
      * Returns the time after last login in hours
      * @param $userId
      * @param $timeStamp
      * @return array|null
      */
-    function hoursAfterLastLogin($userId,$timeStamp)
+    function hoursAfterLastLogin($userId, $timeStamp)
     {
         $collection = $this->get_collection();
         $searchQuery = array('userId' => $userId);
         $user = $collection->findOne($searchQuery);
-        $lastLogout =new MongoDate(strtotime($user['lastLogout']));
-        $seconds_diff = $timeStamp - (float) $lastLogout->sec;
-        $hour_diff = $seconds_diff/3600;
+        $lastLogout = new MongoDate(strtotime($user['lastLogout']));
+        $seconds_diff = $timeStamp - (float)$lastLogout->sec;
+        $hour_diff = $seconds_diff / 3600;
         return $hour_diff;
 
     }
@@ -174,11 +179,11 @@ class User_dao extends CI_Model
      * @param $userId
      * @param $timeStamp
      */
-    function setLastLogout($userId,$timeStamp)
+    function setLastLogout($userId, $timeStamp)
     {
         $collection = $this->get_collection();
         $searchQuery = array('userId' => new MongoInt32($userId));
-        $collection->update($searchQuery,array('$set' => array('lastLogout' => $timeStamp)));
+        $collection->update($searchQuery, array('$set' => array('lastLogout' => $timeStamp)));
 
     }
 
@@ -190,18 +195,18 @@ class User_dao extends CI_Model
     function logout($driverId)//the variable $dirverId refers to the 'userId' atrribute of a single driver(user)
     {
         $collection = $this->get_collection();
-        $searchQuery = array("userId" => new MongoInt32($driverId) , 'logout' => 'true' );
+        $searchQuery = array("userId" => new MongoInt32($driverId), 'logout' => 'true');
         $user = $collection->findOne($searchQuery);
         return $user;
 
     }
 
-    function updateUser($userId , $edited_data)
+    function updateUser($userId, $edited_data)
     {
         $collection = $this->get_collection();
 
-        $searchQuery= array('userId' => $userId);
-        $collection->update($searchQuery,array('$set' => $edited_data));
+        $searchQuery = array('userId' => $userId);
+        $collection->update($searchQuery, array('$set' => $edited_data));
         //$user = $collection->findOne($searchQuery);
 
 //        foreach ($edited_data as $key => $value)
@@ -216,11 +221,11 @@ class User_dao extends CI_Model
     function getDriverByCabId($cabId)
     {
         $collection = $this->get_collection();
-        $searchQuery= array('cabId' => (int)$cabId,'user_type' => 'driver');
+        $searchQuery = array('cabId' => (int)$cabId, 'user_type' => 'driver');
         $user = $collection->findOne($searchQuery);
 
         $collection = $this->get_collection('cabs');
-        $searchQuery= array('cabId' => (int)$cabId);
+        $searchQuery = array('cabId' => (int)$cabId);
         $cab = $collection->findOne($searchQuery);
 //        $user['cab'] = $cab;
 
@@ -237,22 +242,32 @@ class User_dao extends CI_Model
     {
         $collection = $this->get_collection();
         $searchQuery = array('userId' => $userId);
-        $collection->update($searchQuery,array('$set'=> array('callingNumber' => -1)));
+        $collection->update($searchQuery, array('$set' => array('callingNumber' => -1)));
     }
 
 
     function getCabByDriverId($driverId)
     {
         $collection = $this->get_collection();
-        $searchQuery= array('userId' => (int)$driverId,'user_type' => 'driver');
+        $searchQuery = array('userId' => (int)$driverId, 'user_type' => 'driver');
         $driver = $collection->findOne($searchQuery);
 
         $collection = $this->get_collection('cabs');
-        $searchQuery= array('cabId' => (int)$driver['cabId']);
+        $searchQuery = array('cabId' => (int)$driver['cabId']);
         $cab = $collection->findOne($searchQuery);
         $cab['driver'] = $driver;
 
         return $cab;
+    }
+
+    function getDriversSortedByCallingNumber()
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array('user_type' => 'driver', "callingNumber" => array('$ne' => -1));
+        $drivers = $collection->find($searchQuery)->sort(array("callingNumber", 1));
+        return $drivers;
+
+
     }
 
 

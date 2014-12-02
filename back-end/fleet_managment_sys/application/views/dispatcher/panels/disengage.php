@@ -2,18 +2,17 @@
     //TODO: move this scripts to separate file like dispatcher.js in assets file
 
     function disengageCab(orderRefId) {
-        var confirmation = confirm("Are you sure you want to disengage this order!");
-        if(!confirmation){
-            $.UIkit.notify({
-                message: "Order not disengaged.",
-                status: 'success',
-                timeout: 3000,
-                pos: 'top-center'
-            });
-            return false;
-        }
-        console.log("DEBUG: dispatcher disengageCab");
-        $.post('dispatcher/disengageCab', {refId: orderRefId}).done(
+
+        var disengageReason =$('input[name=cancelReason]:checked').val();
+        console.log("DEBUG: cancelReason = "+disengageReason);
+        closeAll();
+        $.UIkit.notify({
+            message: "Disengaging order <b>" + orderRefId + "</b>",
+            status: 'info',
+            timeout: 3000,
+            pos: 'top-center'
+        });
+        $.post('dispatcher/disengageCab', {refId: orderRefId,'disengageReason' : disengageReason}).done(
         function (disengagedOrder) {
             console.log(disengagedOrder);
             console.log("DEBUG: response");
@@ -138,8 +137,14 @@
 
         <div style="margin-bottom: -15px" class="btn-group btn-group-justified">
             <div class="btn-group">
-                <button style="background-color: #f0ad4e;" type="button" class="btn btn-default"
-                        onclick="disengageCab(<?= $newOrder['refId'] ?>)">Disengage cab
+                <button style="background-color: #f0ad4e;color: #000000" type="button" class="btn  btn-default"
+                        onclick="$('#commonModal').modal('show').find('.modal-content').load('dispatcher/disengage_reason/<?= $newOrder['refId'] ?>');return false;">Disengage cab
+                </button>
+            </div>
+
+            <div class="btn-group">
+                <button style="background-color: #f02700;color: #000000" type="button" class="btn  btn-default"
+                        onclick="$('#commonModal').modal('show').find('.modal-content').load('dispatcher/cancel_reason/<?= $newOrder['refId'] ?>');return false;">Cancel order
                 </button>
             </div>
             <!--<div class="btn-group">-->

@@ -21,6 +21,20 @@ class Log_dao extends CI_Model
         return;
     }
 
+    function getCallingNumberByDate($date,$driverId){
+        $collection = $this->get_collection();
+        $searchQuery = array('userId' => $driverId,'date' => $date ,'user_type' => 'driver', 'log_type' => 'login' );
+        $log = $collection->findOne($searchQuery);
+        return $log;
+    }
+
+    function getLogoutByDate($date,$driverId){
+        $collection = $this->get_collection();
+        $searchQuery = array('userId' => $driverId,'date' => $date ,'user_type' => 'driver', 'log_type' => 'logout' );
+        $log = $collection->findOne($searchQuery);
+        return $log;
+    }
+
     function updateCallingNumber($date,$driverId,$callingNo){
         $collection = $this->get_collection();
         $searchQuery = array('userId' => $driverId,'date' => $date ,'user_type' => 'driver');

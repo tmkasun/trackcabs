@@ -477,8 +477,25 @@
         div.innerHTML = result.view.table_content;
     }
 
+    function getHireSummaryByDate(id){
+        var date = document.getElementById("date").value;
+        var dates = {'date':date};
+        var url = '<?php echo site_url("accounts_controller/getCallingNumberSummaryView") ?>';
+        var result = ajaxPost(dates,url);
+        var div = document.getElementById('tableDiv');
+        div.innerHTML = result.view.table_content;
+    }
+
     function getSummaryView(){
         var url = '<?php echo site_url("accounts_controller/getSummaryView") ?>';
+        var result = ajaxPost(null,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.table_content;
+
+    }
+
+    function getHireSummaryView(){
+        var url = '<?php echo site_url("accounts_controller/getHireSummaryView") ?>';
         var result = ajaxPost(null,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = result.view.table_content;

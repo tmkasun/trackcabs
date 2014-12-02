@@ -19,7 +19,7 @@
             <div class="form-group">
                 <input class="form-control" placeholder="CRO ID" type="text" id="userIdSearch">
             </div>
-            <button type="submit" id="cro" class="btn btn-default" onclick="getCROView(this.id)">Submit</button>
+            <button type="submit" id="cro" class="btn btn-default" onclick="getCROView(this.id);return false;">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="<?= site_url('login/logout')?>">Logout</a></li>

@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <input class="form-control" placeholder="Cab ID" type="text" id="cabIdSearch">
                 </div>
-                <button type="submit" class="btn btn-default" onclick="getCabView(url)">Submit</button>
+                <button type="submit" class="btn btn-default" onclick="getCabView(url);return false;">Submit</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="<?= site_url('login/logout')?>">Log Out</a></li>

@@ -1,4 +1,4 @@
-<div class="col-lg-7">
+<div class="col-lg-12">
 
             <div >
                 <table class="table table-striped" >

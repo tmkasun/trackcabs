@@ -440,21 +440,23 @@
     }
 
     function updatePackage(packageId) {
+        var packageId = document.getElementById("packageId").value;
         var packageName = document.getElementById("packageName").value;
         var feeType = document.getElementById("feeType").value;
         var info = document.getElementById("info").value;
-        if(feeType == 'airport'){
-            var name = document.getElementById("name").value;
+        if(feeType === 'airport'){
+
             var dropFee = document.getElementById("dropFee").value;
             var bothwayFee = document.getElementById("bothwayFee").value;
             var guestCarrierFee = document.getElementById("guestCarrierFee").value;
             var outsideFee = document.getElementById("outsideFee").value;
-            var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType ,'name':name , 'dropFee' :dropFee , 'bothwayFee' : bothwayFee , 'guestCarrierFee' : guestCarrierFee , 'outsideFee' :outsideFee , 'info' : info };
+            var packaged = {'packageId':packageId,'packageName' : packageName , 'feeType' : feeType ,'name':name , 'dropFee' :dropFee , 'bothwayFee' : bothwayFee , 'guestCarrierFee' : guestCarrierFee , 'outsideFee' :outsideFee , 'info' : info };
+
         }else{
             var km = document.getElementById("km").value;
             var hours = document.getElementById("hours").value;
             var fee = document.getElementById("fee").value;
-            var packaged = {'packageId':'','packageName' : packageName , 'feeType' : feeType , 'km' :km , 'hours' : hours , 'fee' :fee , 'info' : info };
+            var packaged = {'packageId':packageId,'packageName' : packageName , 'feeType' : feeType , 'km' :km , 'hours' : hours , 'fee' :fee , 'info' : info };
         }
         var url = '<?php echo site_url("packages_controller/updatePackage") ?>';
         ajaxPost(packaged, url);

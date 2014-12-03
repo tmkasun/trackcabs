@@ -240,5 +240,14 @@ class Live_dao extends CI_Model
 
     }
 
+    function getHireSummaryByDate($date){
+
+        $collection = $this->get_collection();
+        $searchQuery= array('bDate' =>$date);
+        $bookings = $collection->find($searchQuery);
+
+        return $bookings;
+    }
+
 
 }

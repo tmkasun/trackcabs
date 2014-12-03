@@ -155,4 +155,13 @@ class History_dao extends CI_Model
         $driver_cro = $collection->findOne($searchQuery,array('driverId' => true, 'croId' => true));
         return $driver_cro;
     }
+
+    function getHireSummaryByDate($date){
+
+        $collection = $this->get_collection();
+        $searchQuery= array('bDate' =>$date);
+        $bookings = $collection->find($searchQuery);
+
+        return $bookings;
+    }
 }

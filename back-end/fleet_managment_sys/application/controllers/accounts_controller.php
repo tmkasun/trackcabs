@@ -77,4 +77,65 @@ class Accounts_controller extends CI_Controller
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
 
     }
+
+    function getHireSummaryView(){
+        $data = "";
+        $data['table_content'] = $this->load->view('admin/reports/hire_summary_view', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
+
+    }
+
+    function getCallingNumberSummaryView(){
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $date = $input_data['date'];
+        $historyCursor = $this->history_dao->getHireSummaryByDate($date);
+        $liveCursor = $this->live_dao->getHireSummaryByDate($date);
+        $data= array('data'=> array());
+        $i = 0;
+        foreach ($liveCursor as $booking) {
+            $data['data'][$i]= $booking;
+            $relevantLogin=$this->log_dao->getCallingNumberByDate($date,$booking['driverId']);
+            $relevantLogout=$this->log_dao->getLogoutByDate($date,$booking['driverId']);
+            $data['data'][$i]['callingNumber']=$relevantLogin['callingNumber'];
+            if(isset($relevantLogin['time'])) {
+                $timeOn = new MongoDate(strtotime($relevantLogin['time']));
+                $data['data'][$i]['timeOn']=date('h:i:s', $timeOn->sec);
+            }else{
+                $timeOn = "-";
+                $data['data'][$i]['timeOn']=$timeOn;
+            }
+            if(isset($relevantLogin['time'])) {
+                $timeOut = new MongoDate(strtotime($relevantLogout['time']));
+                $data['data'][$i]['timeOut']=date('h:i:s', $timeOut->sec);
+            }else{
+                $timeOut = "-";
+                $data['data'][$i]['timeOut']=$timeOut;
+            }
+            $i++;
+        }
+        foreach ($historyCursor as $booking) {
+            $data['data'][$i]= $booking;
+            $relevantLogin=$this->log_dao->getCallingNumberByDate($date,$booking['driverId']);
+            $relevantLogout=$this->log_dao->getLogoutByDate($date,$booking['driverId']);
+            $data['data'][$i]['callingNumber']=$relevantLogin['callingNumber'];
+            if(isset($relevantLogin['time'])) {
+                $timeOn = new MongoDate(strtotime($relevantLogin['time']));
+                $data['data'][$i]['timeOn']=date('h:i:s', $timeOn->sec);
+            }else{
+                $timeOn = "-";
+                $data['data'][$i]['timeOn']=$timeOn;
+            }
+            if(isset($relevantLogin['time'])) {
+                $timeOut = new MongoDate(strtotime($relevantLogout['time']));
+                $data['data'][$i]['timeOut']=date('h:i:s', $timeOut->sec);
+            }else{
+                $timeOut = "-";
+                $data['data'][$i]['timeOut']=$timeOut;
+            }
+            $i++;
+        }
+        $data['table_content'] = $this->load->view('admin/reports/hire_summary_table', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
+
+    }
 }

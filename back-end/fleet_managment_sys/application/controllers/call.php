@@ -35,4 +35,11 @@ class Call extends CI_Controller
         $this->call_dao->createCall($callInfo);
 
     }
+
+    function getCallsInLastSeconds(){
+
+        $calls = $this->call_dao->getCallsInLastSeconds();
+        $this->output->set_output(json_encode($calls));
+
+    }
 }

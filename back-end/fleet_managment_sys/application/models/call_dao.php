@@ -42,4 +42,17 @@ class Call_dao extends CI_Model
         return $callArray;
     }
 
+
+    function getCallsInLastSeconds(){
+        $collection = $this->get_collection();
+        $SecondsBeforeNow = strtotime("now")-150;
+        $SecondsBeforeNowinMongo = new MongoDate(strtotime($SecondsBeforeNow));
+        $cursor =$collection->find(array('time'=> array('$gte' => $SecondsBeforeNowinMongo)));
+        $callArray = array();
+        foreach ($cursor as $doc) {
+            array_push($callArray,$doc);
+        }
+        return $callArray;
+    }
+
 }

@@ -7,7 +7,6 @@ function addInquireCall(url , objId){
     var data = {'objId' : objId};
     url = url +"/customer_retriever/addInquireCall";
     var view = ajaxPost(data,url);
-    alert(JSON.stringify(view));
 
 }
 
@@ -300,7 +299,6 @@ function createBooking(url , tp){
         }
     };
     var result = ajaxPost(data,url,false);
-
     url = siteUrl + '/customer_retriever/sendBookingDetails';
     var bookingConfirmationData = {
         'tp' : tp,

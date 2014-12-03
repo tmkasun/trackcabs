@@ -216,7 +216,8 @@
                 editCustomerInfoEditView( url , param1 );
             }
             if(request == 'updateCusInfo'){
-                updateCustomerInfoView( url );
+                updateCustomerInfo( url );
+                getCustomerInfoView( url , tp);
             }
             if(request == 'getCustomerFromPABX'){
                 tp = param1;

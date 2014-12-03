@@ -428,7 +428,7 @@ function createCusInfo(url){
 
 }
 
-function updateCustomerInfoView(url){
+function updateCustomerInfo(url){
 
     var siteUrl = url;
     url = siteUrl + "/customer_retriever/updateCustomer";
@@ -468,8 +468,6 @@ function updateCustomerInfoView(url){
     };
     ajaxPost(data,url);
     tp = editedTp;
-    alert(tp);
-    getCustomerInfoView(siteUrl , tp);
 }
 
 function getCustomerInfoView( url , tp , isFromPABX ){

@@ -87,7 +87,7 @@ class Customer_retriever extends CI_Controller
         }
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg, 'tp' => $input_data["tp"] ,
-                                    'refId' => $input_data["data"]["refId"] )));
+                                    'refId' => $input_data["data"]["refId"] , 'test' => sizeof($customerProfile['history']) )));
 
 //        if(!isset($customerProfile['history'])){
 //            $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .
@@ -124,7 +124,7 @@ class Customer_retriever extends CI_Controller
         $webSocket->send($bookingCreated, 'dispatcher1');
         $webSocket->send($bookingCreated, 'monitor1');
 
-        if(!isset($customerProfile['history'])){
+        if(sizeof($customerProfile['history']) == 1){
             $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .
                 ' a privilege to serve you. Hao City Cabs : 2 888 888';
             $this->sendWelcomeMessage($customerProfile, $welcomeMessage);

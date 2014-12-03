@@ -432,8 +432,8 @@ function updateCustomerInfoView(url){
 
     var siteUrl = url;
     url = siteUrl + "/customer_retriever/updateCustomer";
-    var tp      = $('#tp').val();
-    var tp2     = $('#tp2').val();
+    var editedTp      = $('#tp').val();
+    var editedTp2     = $('#tp2').val();
     var cusName = $('#cusName').val();
     var pRemark = $('#pRemark').val();
     var org     = $('#organization').val();
@@ -455,9 +455,9 @@ function updateCustomerInfoView(url){
         'profileType' : profileType,
         'tp' : tp ,
         'data' :
-            {   'tp' : tp ,
+            {   'tp' : editedTp ,
                 'type1' : type1 ,
-                'tp2' : tp2 ,
+                'tp2' : editedTp2 ,
                 'type2' : type2 ,
                 'name' : cusName ,
                 'pRemark' : pRemark ,
@@ -467,6 +467,8 @@ function updateCustomerInfoView(url){
             }
     };
     ajaxPost(data,url);
+    tp = editedTp;
+    alert(tp);
     getCustomerInfoView(siteUrl , tp);
 }
 

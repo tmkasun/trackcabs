@@ -10,12 +10,33 @@ function addInquireCall(url , objId){
 
 }
 
+
+function autherizeAdmin(){
+    var relevantData =$('#modalPass').children("span#metaRelevantData").text();
+    var finalOperation = $('#modalPass').children("span#metaFinalOperation").text();
+    var passForm = $('#adminPassForm').serializeArray();
+    if ( pass != "") {
+        url = siteUrl + "/login/isAdmin";
+        var result = ajaxPost(passForm, url, false);
+        if (result.statusMsg == 'true') {
+
+        }
+        else{
+            alert('Admin Password Entered is Invalid. Please contact DevTeam');
+        }
+    }else{
+        alert('Password Not entered!!!');
+    }
+
+
+}
 function getEditBookingView(url , bookingObjId){
     var siteUrl = url;
 
-    
-    var pass = prompt("Please enter Admin Password", "");
+    ////INsert Modal
 
+    var pass = prompt("Please enter Admin Password", "");
+    ///
 
     if ( pass != "") {
         url = siteUrl + "/login/isAdmin";

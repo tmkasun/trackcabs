@@ -87,7 +87,7 @@ class Customer_retriever extends CI_Controller
         }
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg, 'tp' => $input_data["tp"] ,
-                                    'refId' => $input_data["data"]["refId"] , 'test' => sizeof($customerProfile['history']) )));
+                                    'refId' => $input_data["data"]["refId"]  )));
 
 //        if(!isset($customerProfile['history'])){
 //            $welcomeMessage = 'Welcome to the Hao Family. Thank you for choosing us to be part of your journey. It is' .

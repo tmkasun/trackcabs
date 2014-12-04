@@ -46,6 +46,7 @@ class Packages_controller extends CI_Controller
     function updatePackage()
     {
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $input_data['packageId'] = (int)$input_data['packageId'];
         $this->packages_dao->updatePackage($input_data['packageId'],$input_data);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
 

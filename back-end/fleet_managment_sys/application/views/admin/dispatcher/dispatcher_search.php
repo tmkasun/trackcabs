@@ -24,7 +24,7 @@
                             <td><?= $tp;?></td>
                             <td><?= $user_type;?></td>
                             <td><?= $blocked; ?></td>
-                            <td><button type="button" class="btn btn-success" onclick="makeCROFormEditable(<?= $userId;?>,url, '<?php echo $user_type;?>')">Edit</button></td>
+                            <td><button type="button" class="btn btn-success" onclick="makeCROFormEditable(<?= $userId;?>,url, '<?php echo $user_type;?>');return false;">Edit</button></td>
                         </tr>
                     <?php } ?>
                 </table>

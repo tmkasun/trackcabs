@@ -265,9 +265,9 @@
             }
             if(request == 'authenticateUser'){
 
-                var relevantData = param1;
-                var finalOperation = param2;
 
+                var relevantData = param1;//Any data related tot he next operations to be pasased as parameters
+                var finalOperation = param2;//the next operation to be performed
                 $('#modalPass').children("span#metaRelevantData").text(param1);
                 $('#modalPass').children("span#metaFinalOperation").text(param2);
                 $('#modalPass').modal('show');
@@ -416,8 +416,8 @@
 
     <!-- Generic Modal For Admin Password Prompt -->
     <div class="modal fade" id="modalPass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <span id="metaRelevantData" style="display: none"></span>
-        <span id="finalOperation" style="display: none"></span>
+        <span id="metaRelevantData" style="visibility: hidden"></span>
+        <span id="metaFinalOperation" style="visibility: hidden"></span>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -425,7 +425,7 @@
                     <h2 class="modal-title" id="myModalLabel">Enter Admin Password</h2>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row" style="padding: 35px">
                         <form id="adminPassForm" role="form">
 
                             <div class="form-group">
@@ -433,8 +433,6 @@
                                 <input type="password" class="form-control" id="pwd">
                             </div>
 
-                            <button type="button" onclick="return false;"  class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="button" onclick="autherizeAdmin()" class="btn btn-default">Confirm</button>
 
                         </form>
 
@@ -442,7 +440,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" onclick="return false;"  class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" onclick="autherizeAdmin()" class="btn btn-default">Ok</button>
+                    <button type="button" onclick="autherizeAdmin(); return false;" class="btn btn-default">Ok</button>
                 </div>
             </div>
         </div>

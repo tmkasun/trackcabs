@@ -12,14 +12,19 @@ function addInquireCall(url , objId){
 
 
 function autherizeAdmin(){
+    $('#modalPass').modal('hide');
     var relevantData =$('#modalPass').children("span#metaRelevantData").text();
     var finalOperation = $('#modalPass').children("span#metaFinalOperation").text();
-    var passForm = $('#adminPassForm').serializeArray();
-    if ( pass != "") {
+    var pass = $('#adminPassForm').children().children('input#pwd').val();
+    $('#adminPassForm').children().children('input#pwd').val('');
+    var siteUrl = url;
+    var data={'pass' : pass};
+    if ( pass != undefined) {
         url = siteUrl + "/login/isAdmin";
-        var result = ajaxPost(passForm, url, false);
+        var result = ajaxPost(data, url, false);
         if (result.statusMsg == 'true') {
 
+            operations(finalOperation,relevantData);
         }
         else{
             alert('Admin Password Entered is Invalid. Please contact DevTeam');
@@ -33,65 +38,49 @@ function autherizeAdmin(){
 function getEditBookingView(url , bookingObjId){
     var siteUrl = url;
 
-    ////INsert Modal
 
-    var pass = prompt("Please enter Admin Password", "");
-    ///
-
-    if ( pass != "") {
-        url = siteUrl + "/login/isAdmin";
-        var data={'pass' : pass};
-        var result =ajaxPost(data,url,false);
-        /* If admin is authenticated */
-        if(result.statusMsg == 'true'){
-
-            var data = {'objId' : bookingObjId};
-            url = siteUrl +"/cro_controller/getEditBookingView";
-            var view = ajaxPost(data,url);
-            /*  Populate the New Booking field with the editing form */
-            $('#newBooking').html(view.view.edit_booking_view);
-            uiInit();
-            /* The ui bug with only can select the vehicle type */
-            var index = -1;
-            for(var i=0 ; i < bookingObj.length ; i++){
-                index++;
-                if( bookingObj[i]['_id']['$id'] === bookingObjId){
-                    break;
-                }
-            }
-
-            var payType = bookingObj[index]['payType'];
-            var vType = bookingObj[index]['vType'];
-
-            if(vType == 'car'){
-                $('#carRadio').addClass(' active');
-                $('#vehicleType').val('car');
-            }
-            if(vType == 'van'){
-                $('#vanRadio').addClass(' active');
-                $('#vehicleType').val('van');
-            }
-            if(vType == 'nano'){
-                $('#nanoRadio').addClass(' active');
-                $('#vehicleType').val('nano');
-            }
-
-            if(payType == 'cash') {
-                $('#payTypeCash').addClass(' active');
-                $('#paymentType').val('cash');
-            }
-
-            if(payType == 'credit'){
-                $('#payTypeCredit').addClass(' active');
-                $('#paymentType').val('credit');
-            }
-
+    var data = {'objId' : bookingObjId};
+    url = siteUrl +"/cro_controller/getEditBookingView";
+    var view = ajaxPost(data,url);
+    /*  Populate the New Booking field with the editing form */
+    $('#newBooking').html(view.view.edit_booking_view);
+    uiInit();
+    /* The ui bug with only can select the vehicle type */
+    var index = -1;
+    for(var i=0 ; i < bookingObj.length ; i++){
+        index++;
+        if( bookingObj[i]['_id']['$id'] === bookingObjId){
+            break;
         }
-        else{ /* If admin is not authenticates*/
-            alert('Admin Password Entered is Invalid. Please contact Admin');
-        }
-    }else{ /* If the Promt input field is empty */
     }
+
+    var payType = bookingObj[index]['payType'];
+    var vType = bookingObj[index]['vType'];
+
+    if(vType == 'car'){
+        $('#carRadio').addClass(' active');
+        $('#vehicleType').val('car');
+    }
+    if(vType == 'van'){
+        $('#vanRadio').addClass(' active');
+        $('#vehicleType').val('van');
+    }
+    if(vType == 'nano'){
+        $('#nanoRadio').addClass(' active');
+        $('#vehicleType').val('nano');
+    }
+
+    if(payType == 'cash') {
+        $('#payTypeCash').addClass(' active');
+        $('#paymentType').val('cash');
+    }
+
+    if(payType == 'credit'){
+        $('#payTypeCredit').addClass(' active');
+        $('#paymentType').val('credit');
+    }
+
+
 }
 
 function getCancelConfirmationView( url ,  bookingObjId ){

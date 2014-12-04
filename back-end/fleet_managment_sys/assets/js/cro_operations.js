@@ -20,8 +20,8 @@ function autherizeAdmin(){
     var siteUrl = url;
     var data={'pass' : pass};
     if ( pass != undefined) {
-        url = siteUrl + "/login/isAdmin";
-        var result = ajaxPost(data, url, false);
+        var authnticateUrl = siteUrl + "/login/isAdmin";
+        var result = ajaxPost(data, authnticateUrl, false);
         if (result.statusMsg == 'true') {
 
             operations(finalOperation,relevantData);
@@ -143,10 +143,6 @@ function validateBooking(url , tp){
     var bookingType = 'Personal';
     var personalProfileTp = '-';
     var cancelReason = '-';
-
-
-
-
 
     if($('#personalProfileTp').length != 0){
         bookingType = 'Cooperate';

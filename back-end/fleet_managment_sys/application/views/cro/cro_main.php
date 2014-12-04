@@ -245,7 +245,6 @@
                 else{
                     return false;
                 }
-
             }
             if(request == 'createBooking'){
                 $('#modalConfirm').modal('hide');

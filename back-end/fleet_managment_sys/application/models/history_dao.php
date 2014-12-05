@@ -36,7 +36,14 @@ class History_dao extends CI_Model
 
     function getBookings($limit = null){
         $collection = $this->get_collection();
-        return $collection->find()->limit($limit);
+        $bookings = $collection->find()->limit($limit);
+        $bookings_with_cab = array();
+        foreach ($bookings as $booking) {
+            $cab = $this->cab_dao->getCab($booking['cabId']);
+            $booking['cab'] = $cab;
+            array_push($bookings_with_cab,$booking);
+        }
+        return $bookings_with_cab;
     }
     /**
      * @param $id = mongoId String

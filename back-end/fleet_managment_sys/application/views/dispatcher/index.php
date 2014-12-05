@@ -170,7 +170,7 @@
             </li>
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/dispatch_history');return false" >Dispatch History</button>
+                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModalLarger').modal('toggle').find('.modal-content').load('dispatcher/dispatch_history');return false" >Dispatch History</button>
                 </form>
             </li>
             <li>
@@ -642,7 +642,20 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+<!--commonModalLarger-->
+
+<div class="modal" id="commonModalLarger" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width: 90%">
+        <div class="modal-content">
+            <!-- This content is load by $.ajax call , pages are located at '/controllers/modals/' -->
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 <!-- /Modals in use -->
+
 
 <!-- ** comment out below library if using minimized wso2_geo_app.min library **  -->
 <script src="<?= base_url() ?>assets/js/app.js"></script>

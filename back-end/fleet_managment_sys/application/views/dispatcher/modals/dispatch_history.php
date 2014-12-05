@@ -3,7 +3,7 @@
     $(
         function () {
             $('.cabDetailsPopOver').popover({html: true});
-            console.log("DEBUG: loading pop over");
+            $('.cancelTooltip').tooltip();
         }
     );
 </script>
@@ -37,7 +37,7 @@
                             <tr>
                                 <td>
                                     <?php if($item['status'] == "DIS_CANCEL" or $item['status'] == "CANCEL"): ?>
-                                        <span class="text-danger"> <?= $item['status'] ?> </span>
+                                        <span data-toggle="tooltip" data-placement="right" title="<?= $item['cancelReason'] ?>" style="cursor: help" class="cancelTooltip text-danger"> <?= $item['status'] ?> </span>
                                         <?php else: ?>
                                         <?= $item['status'] ?>
                                     <?php endif ?>

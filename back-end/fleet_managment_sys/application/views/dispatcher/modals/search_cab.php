@@ -38,48 +38,30 @@
                 }
             });
 
-            function init_cab_typeahead() {
-                cabs_search.initialize();
-                $('#cabSearch').typeahead({
-                    hint: true,
-                    highlight: true,
-                    minLength: 1
-                }, {
-                    name: 'name',
-                    displayKey: 'value',
-                    source: cabs_search.ttAdapter()
-                }).on('typeahead:selected', function ($e, datum) {
-                    console.log(datum);
-                }).on('typeahead:selected', function ($e, datum) {
 
-                });
-            }
-
-            init_cab_typeahead();
+            cabs_search.initialize();
+            $('#cabSearch').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            }, {
+                name: 'name',
+                displayKey: 'value',
+                source: cabs_search.ttAdapter()
+            }).on('typeahead:selected', function ($e, datum) {
+                console.log(datum);
+                $('#searchCabsContainer').empty();
+                createCabDom(datum.cab);
+            }).on('typeahead:change', function ($e, datum) {
+                console.log($e);
+                $('#searchCabsContainer').empty();
+                createCabDom(datum.cab);
+            });
 
             function createCabDom(cabJson) {
-                /*
-                 * <tr>
-                 <td>1</td>result
-                 <td>Mark</td>
-                 <td>Otto</td>
-                 <td>@mdo</td>
-                 </tr>
 
-                 <th>Cab ID</th>
-                 <th>Plate No</th>
-                 <th>Model</th>
-                 <th>Color</th>
-                 <th>UserId</th>
-                 <th>Zone</th>
-                 <th>Info</th>
-                 </tr>
-                 </thead>
-                 <tbody id="searchCabsContainer">
-                 * */
                 var searchCabsContainer = $('#searchCabsContainer');
 
-                console.log(cabJson);
                 var $tr = $('<tr>');
                 var $tdCabId = $('<td>');
                 $tdCabId.html(cabJson.cabId);

@@ -82,7 +82,7 @@ function getSearchKey(order,q){
         //console.log("Search by townnnn");
     }
 
-    console.log(searchKey);
+    //console.log(searchKey);
     return searchKey;
 }
 

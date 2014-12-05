@@ -65,22 +65,16 @@
         }
 
         function updateTime() {
-            /* var liveOrdersList = $('#liveOrdersList').find('a');
-             var i = 0;
-             for (; i < liveOrdersList.length; i++) {
-             var latestBooking = $(liveOrdersList[i]);
-             //        var latestBooking = $('#liveOrdersList').find('a:first');
-             var latestBookingDate = latestBooking.data('booktime');
-             var timeDifferent = moment.unix(latestBookingDate).diff(moment(), 'minutes', true);
-             if (timeDifferent <= 30) {
-             //                console.log("DEBUG: checking time interval timeDifferent = " + timeDifferent);
-             latestBooking.addClass("list-group-item-danger");
-             }
-             else {
-             //                console.log("DEBUG: fromNow = " + moment.unix(latestBookingDate).fromNow() + " checking time interval timeDifferent = " + timeDifferent);
-             }
-             latestBooking.find('.fromNow').html('(' + moment.unix(latestBookingDate).fromNow() + ')');
-             }*/
+//            console.log("DEBUG: call updateTime");
+            var dynamicTimeDOMs = $('.dynamicTimeUpdate');
+            var i = 0;
+            for (; i < dynamicTimeDOMs.length; i++) {
+                var dynamicTimeDOM = $(dynamicTimeDOMs[i]);
+                //        var latestBooking = $('#liveOrdersList').find('a:first');
+                var baseTime = dynamicTimeDOM.data('basetime');
+//                console.log(dynamicTimeDOM);
+                dynamicTimeDOM.html(moment.unix(baseTime).fromNow());
+            }
         }
 
         (function ($) {
@@ -177,7 +171,7 @@
                 <tr id="<?= $order['refId'] ?>">
                     <td id="refId"><?= $order['refId'] ?></td>
                     <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
-                    <td id="mr">MR</td>
+                    <td class="dynamicTimeUpdate" data-basetime="<?= $order['bookTime']->sec ?>" id="mr">MR</td>
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
                     <td id="agent"><?= $order['croId'] ?></td>
                     <td>Inquiries</td>

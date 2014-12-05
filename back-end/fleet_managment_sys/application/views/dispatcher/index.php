@@ -138,7 +138,7 @@
     </script>
 </head>
 
-<body style="margin: 0;padding: 0;zoom: 90%;-moz-transform: scale(0.9, 0.9);">
+<body style="margin: 0;padding: 0;zoom: 90%;">
 
 <div id="container">
 

@@ -39,7 +39,7 @@
                         <td><?= $item['userId']; ?></td>
                         <td><?= $item['name']; ?></td>
                         <td><?= $item['tp']; ?></td>
-                        <td><?= $item['logout']; ?></td>
+                        <td><?= getBadge($item['logout']); ?></td>
                         <td><?php
                             if (!array_key_exists("cabId", $item) || $item['cabId'] === "" || $item['cabId'] == -1) {
                                 echo 'Not Assigned';
@@ -69,7 +69,19 @@
 </div>
 
 
+<?php
+function getBadge($status)
+{
+    $status = (bool)$status;
+    if ($status) {
+        $returnBadge = '<span class="badge alert-info"><span style="color: #5cb85c" class="glyphicon glyphicon-ok"></span></span>';
+    } else {
+        $returnBadge = '<span class="badge alert-warning"><span style="color: #d9534f" class="glyphicon glyphicon-remove"></span></span>';
+    }
+    return $returnBadge;
+}
 
+?>
 
 
 

@@ -77,11 +77,16 @@
             displayKey: 'value',
             source: locationsExtractor(LocationBoard.zones)
         }).on('typeahead:selected', function ($e, datum) {
-            console.log($e);
+            console.log("DEBUG: on selected");
             $("#newLocation").html(datum["value"]);
         }
     ).on('typeahead:autocompleted', function ($e, datum) {
-            console.log($e);
+            console.log("DEBUG: on auto");
+            //TODO: add cab to this location ask from dehan
+            $("#newLocation").html(datum["value"]);
+        }
+    ).on('typeahead:change', function ($e, datum) {
+            console.log("DEBUG: on change");
             $("#newLocation").html(datum["value"]);
         }
     );

@@ -638,6 +638,7 @@ function LocationBoardViewModel(){
 
 
 }
+
 var locVM = new LocationBoardViewModel();
 locVM.initializeLocationBoard();
 ko.applyBindings(locVM);

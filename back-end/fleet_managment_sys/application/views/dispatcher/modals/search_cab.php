@@ -3,8 +3,6 @@
     $(
         function () {
 
-            var searchCabsResults = [];
-
             function getCabSearchKey() {
                 return $('#cabSearchKey').find("label.active input").val();
             }
@@ -175,6 +173,32 @@
             </tr>
             </thead>
             <tbody id="searchCabsContainer">
+            <?php foreach ($cabs as $cab): ?>
+                <tr>
+                    <td>
+                        <?= $cab['cabId'] ?>
+                    </td>
+                    <td>
+                        <?= $cab['plateNo'] ?>
+                    </td>
+                    <td>
+                        <?= $cab['model'] ?>
+                    </td>
+                    <td>
+                        <?= $cab['color'] ?>
+                    </td>
+                    <td>
+                        <?= $cab['userId'] ?>
+                    </td>
+                    <td>
+                        <?= $cab['zone'] ?>
+                    </td>
+                    <td>
+                        <?= $cab['info'] ?>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+
 
             </tbody>
         </table>

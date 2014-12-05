@@ -162,6 +162,8 @@ function init_typeahead() {
     });
 }
 
+
+
 // TODO: when click on a notification alert ? "Uncaught ReferenceError: KM is not defined "
 var toggled = false;
 function focusOnSpatialObject(objectId) {

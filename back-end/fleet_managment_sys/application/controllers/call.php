@@ -33,7 +33,11 @@ class Call extends CI_Controller
             "extension_number" => $csvCallArray[5]
         );
 
+        $webSocket = new Websocket('localhost', '5555', 'pabx');
+        $webSocket->send($callInfo, 'cro1');
+
         $this->call_dao->createCall($callInfo);
+
 
     }
 

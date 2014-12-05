@@ -46,7 +46,7 @@
                                 <td><?= $item['driverId']; ?></td>
                                 <td>
                                     <?php if ($item['cabId'] != '-'): ?>
-                                        <a href="#" tabindex="0" class="btn btn-lg btn-info cabDetailsPopOver"
+                                        <a href="#" tabindex="0" class="btn btn-sm btn-default cabDetailsPopOver"
                                            role="button"
                                            data-toggle="popover" data-trigger="focus" title="Cab Details"
                                            data-placement="left"

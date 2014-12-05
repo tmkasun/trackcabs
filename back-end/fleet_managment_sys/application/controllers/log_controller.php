@@ -7,8 +7,12 @@ class Log_controller extends CI_Controller
     {
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $this->log_dao->createLog($input_data);
+    }
 
-
+    function getLog()
+    {
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $this->log_dao->createLog($input_data);
     }
 
 }

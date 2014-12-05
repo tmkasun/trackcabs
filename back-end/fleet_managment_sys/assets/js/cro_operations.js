@@ -7,71 +7,80 @@ function addInquireCall(url , objId){
     var data = {'objId' : objId};
     url = url +"/customer_retriever/addInquireCall";
     var view = ajaxPost(data,url);
-    alert(JSON.stringify(view));
 
 }
 
+
+function autherizeAdmin(){
+    $('#modalPass').modal('hide');
+    var relevantData =$('#modalPass').children("span#metaRelevantData").text();
+    var finalOperation = $('#modalPass').children("span#metaFinalOperation").text();
+    var pass = $('#adminPassForm').children().children('input#pwd').val();
+    $('#adminPassForm').children().children('input#pwd').val('');
+    var siteUrl = url;
+    var data={'pass' : pass};
+    if ( pass != undefined) {
+        var authnticateUrl = siteUrl + "/login/isAdmin";
+        var result = ajaxPost(data, authnticateUrl, false);
+        if (result.statusMsg == 'true') {
+
+            operations(finalOperation,relevantData);
+        }
+        else{
+            alert('Admin Password Entered is Invalid. Please contact DevTeam');
+        }
+    }else{
+        alert('Password Not entered!!!');
+    }
+
+
+}
 function getEditBookingView(url , bookingObjId){
     var siteUrl = url;
 
-    
-    var pass = prompt("Please enter Admin Password", "");
 
-
-    if ( pass != "") {
-        url = siteUrl + "/login/isAdmin";
-        var data={'pass' : pass};
-        var result =ajaxPost(data,url,false);
-        /* If admin is authenticated */
-        if(result.statusMsg == 'true'){
-
-            var data = {'objId' : bookingObjId};
-            url = siteUrl +"/cro_controller/getEditBookingView";
-            var view = ajaxPost(data,url);
-            /*  Populate the New Booking field with the editing form */
-            $('#newBooking').html(view.view.edit_booking_view);
-            uiInit();
-            /* The ui bug with only can select the vehicle type */
-            var index = -1;
-            for(var i=0 ; i < bookingObj.length ; i++){
-                index++;
-                if( bookingObj[i]['_id']['$id'] === bookingObjId){
-                    break;
-                }
-            }
-
-            var payType = bookingObj[index]['payType'];
-            var vType = bookingObj[index]['vType'];
-
-            if(vType == 'car'){
-                $('#carRadio').addClass(' active');
-                $('#vehicleType').val('car');
-            }
-            if(vType == 'van'){
-                $('#vanRadio').addClass(' active');
-                $('#vehicleType').val('van');
-            }
-            if(vType == 'nano'){
-                $('#nanoRadio').addClass(' active');
-                $('#vehicleType').val('nano');
-            }
-
-            if(payType == 'cash') {
-                $('#payTypeCash').addClass(' active');
-                $('#paymentType').val('cash');
-            }
-
-            if(payType == 'credit'){
-                $('#payTypeCredit').addClass(' active');
-                $('#paymentType').val('credit');
-            }
-
+    var data = {'objId' : bookingObjId};
+    url = siteUrl +"/cro_controller/getEditBookingView";
+    var view = ajaxPost(data,url);
+    /*  Populate the New Booking field with the editing form */
+    $('#newBooking').html(view.view.edit_booking_view);
+    uiInit();
+    /* The ui bug with only can select the vehicle type */
+    var index = -1;
+    for(var i=0 ; i < bookingObj.length ; i++){
+        index++;
+        if( bookingObj[i]['_id']['$id'] === bookingObjId){
+            break;
         }
-        else{ /* If admin is not authenticates*/
-            alert('Admin Password Entered is Invalid. Please contact Admin');
-        }
-    }else{ /* If the Promt input field is empty */
     }
+
+    var payType = bookingObj[index]['payType'];
+    var vType = bookingObj[index]['vType'];
+
+    if(vType == 'car'){
+        $('#carRadio').addClass(' active');
+        $('#vehicleType').val('car');
+    }
+    if(vType == 'van'){
+        $('#vanRadio').addClass(' active');
+        $('#vehicleType').val('van');
+    }
+    if(vType == 'nano'){
+        $('#nanoRadio').addClass(' active');
+        $('#vehicleType').val('nano');
+    }
+
+    if(payType == 'cash') {
+        $('#payTypeCash').addClass(' active');
+        $('#paymentType').val('cash');
+    }
+
+    if(payType == 'credit'){
+        $('#payTypeCredit').addClass(' active');
+        $('#paymentType').val('credit');
+    }
+
+
 }
 
 function getCancelConfirmationView( url ,  bookingObjId ){
@@ -134,10 +143,6 @@ function validateBooking(url , tp){
     var bookingType = 'Personal';
     var personalProfileTp = '-';
     var cancelReason = '-';
-
-
-
-
 
     if($('#personalProfileTp').length != 0){
         bookingType = 'Cooperate';
@@ -300,7 +305,6 @@ function createBooking(url , tp){
         }
     };
     var result = ajaxPost(data,url,false);
-
     url = siteUrl + '/customer_retriever/sendBookingDetails';
     var bookingConfirmationData = {
         'tp' : tp,
@@ -428,12 +432,12 @@ function createCusInfo(url){
 
 }
 
-function updateCustomerInfoView(url){
+function updateCustomerInfo(url){
 
     var siteUrl = url;
     url = siteUrl + "/customer_retriever/updateCustomer";
-    var tp      = $('#tp').val();
-    var tp2     = $('#tp2').val();
+    var editedTp      = $('#tp').val();
+    var editedTp2     = $('#tp2').val();
     var cusName = $('#cusName').val();
     var pRemark = $('#pRemark').val();
     var org     = $('#organization').val();
@@ -455,9 +459,9 @@ function updateCustomerInfoView(url){
         'profileType' : profileType,
         'tp' : tp ,
         'data' :
-            {   'tp' : tp ,
+            {   'tp' : editedTp ,
                 'type1' : type1 ,
-                'tp2' : tp2 ,
+                'tp2' : editedTp2 ,
                 'type2' : type2 ,
                 'name' : cusName ,
                 'pRemark' : pRemark ,
@@ -467,7 +471,7 @@ function updateCustomerInfoView(url){
             }
     };
     ajaxPost(data,url);
-    getCustomerInfoView(siteUrl , tp);
+    tp = editedTp;
 }
 
 function getCustomerInfoView( url , tp , isFromPABX ){

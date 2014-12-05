@@ -130,7 +130,7 @@
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default btn-sm" id="jobEditButton"
-                            onclick="operations('editBooking', '<?= $live_booking[$index]['_id'];?>')">
+                            onclick="operations('authenticateUser', '<?= $live_booking[$index]['_id'];?>','editBooking')">
                             <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Update
                         </button>
                     </div>

@@ -41,5 +41,6 @@
         <label for="info">Info</label>
         <input type="text" class="form-control" id="info" placeholder="Enter Info">
     </div>
-    <button type="submit" id="dispatcher" class="btn btn-default" onclick="createNewPackage()">Save</button>
+    <button type="submit" id="dispatcher" class="btn btn-default" onclick="createNewPackage();return false;"
+        onsubmit="createNewPackage();return false;">Save</button>
 </form>

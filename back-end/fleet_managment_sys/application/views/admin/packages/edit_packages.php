@@ -48,6 +48,8 @@
         <label for="info">Info</label>
         <input type="text" class="form-control" id="info" placeholder="Enter Info" value="<?= $info;?>">
     </div>
-    <button type="submit" class="btn btn-default" onclick="updatePackage('<?php echo $packageId;?>')">Save</button>
-    <button type="submit" class="btn btn-default" onclick="deletePackage('<?php echo $packageId;?>')">Delete</button>
+    <button type="submit" class="btn btn-default" onclick="updatePackage('<?php echo $packageId;?>');return false;"
+            onsubmit="updatePackage('<?php echo $packageId;?>');return false;">Save</button>
+    <button type="submit" class="btn btn-default" onclick="deletePackage('<?php echo $packageId;?>');return false;"
+            onsubmit="deletePackage('<?php echo $packageId;?>');return false;">Delete</button>
 </form>

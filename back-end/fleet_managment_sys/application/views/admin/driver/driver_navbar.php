@@ -20,7 +20,8 @@
                 <input class="form-control" placeholder="Driver ID" type="text" id="userIdSearch">
             </div>
 <!--            <button type="submit" class="btn btn-default" onclick="getDriverView()">Submit</button>-->
-                <button type="submit" id="driver" class="btn btn-default" onclick="getCROView(this.id);return false;">Submit</button>
+                <button type="submit" id="driver" class="btn btn-default" onclick="getCROView(this.id);return false;"
+                        onsubmit="getCROView(this.id);return false;">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="<?= site_url('login/logout')?>">Logout</a></li>

@@ -211,12 +211,13 @@
         </div>
     </div>
     <script>
-        function operations(request, param1){
+        function operations(request, param1, param2){
             if(request=="editCus"){
                 editCustomerInfoEditView( url , param1 );
             }
             if(request == 'updateCusInfo'){
-                updateCustomerInfoView( url );
+                updateCustomerInfo( url );
+                getCustomerInfoView( url , tp);
             }
             if(request == 'getCustomerFromPABX'){
                 tp = param1;
@@ -244,7 +245,6 @@
                 else{
                     return false;
                 }
-
             }
             if(request == 'createBooking'){
                 $('#modalConfirm').modal('hide');
@@ -261,6 +261,15 @@
             }
             if(request == 'denyCancel'){
                 getCustomerInfoView(url, tp);
+            }
+            if(request == 'authenticateUser'){
+
+
+                var relevantData = param1;//Any data related tot he next operations to be pasased as parameters
+                var finalOperation = param2;//the next operation to be performed
+                $('#modalPass').children("span#metaRelevantData").text(param1);
+                $('#modalPass').children("span#metaFinalOperation").text(param2);
+                $('#modalPass').modal('show');
             }
             if(request == 'editBooking'){
                 getEditBookingView(url,param1);
@@ -399,6 +408,38 @@
                 <div class="modal-footer">
                     <button type="button" onclick="return false;"  class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <button type="button" onclick="operations('createBooking');" class="btn btn-default">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Generic Modal For Admin Password Prompt -->
+    <div class="modal fade" id="modalPass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <span id="metaRelevantData" style="visibility: hidden"></span>
+        <span id="metaFinalOperation" style="visibility: hidden"></span>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h2 class="modal-title" id="myModalLabel">Enter Admin Password</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="padding: 35px">
+                        <form id="adminPassForm" role="form">
+
+                            <div class="form-group">
+                                <label for="pwd">Admin Password:</label>
+                                <input type="password" class="form-control" id="pwd">
+                            </div>
+
+
+                        </form>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="return false;"  class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" onclick="autherizeAdmin(); return false;" class="btn btn-default">Ok</button>
                 </div>
             </div>
         </div>

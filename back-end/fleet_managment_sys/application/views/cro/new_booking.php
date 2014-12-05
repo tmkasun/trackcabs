@@ -99,9 +99,9 @@
                         <div class="form-group">
                             <label class="control-label" style="font-weight:bold">Vehicle Type</label></br>
                             <div class="btn-group">
-                                <button type="button" id="carRadio"  data-set="vehicle" value="Car" class="btn btn-default customRadio">Car</button>
-                                <button type="button" id="vanRadio"  data-set="vehicle" value="Van" class="btn btn-default customRadio">Van</button>
-                                <button type="button" id="nanoRadio"   data-set="vehicle" value="Nano" class="btn btn-default customRadio">Nano</button>
+                                <button type="button" id="carRadio"  data-set="vehicle" value="car" class="btn btn-default customRadio">Car</button>
+                                <button type="button" id="vanRadio"  data-set="vehicle" value="van" class="btn btn-default customRadio">Van</button>
+                                <button type="button" id="nanoRadio"   data-set="vehicle" value="nano" class="btn btn-default customRadio">Nano</button>
                             </div>
                             <input style="display: none" class="customRadio" name="vehicleType" id="vehicleType">
 
@@ -110,8 +110,8 @@
                         <div class="form-group">
                             <label class="control-label" style="font-weight:bold">Payment Type</label></br>
                             <div class="btn-group">
-                                <button type="button" data-set="payment" value="Cash" class="btn btn-default customRadio">Cash</button>
-                                <button type="button" data-set="payment" value="Credit" class="btn btn-default customRadio">Credit Card</button>
+                                <button type="button" data-set="payment" value="cash" class="btn btn-default customRadio">Cash</button>
+                                <button type="button" data-set="payment" value="credit" class="btn btn-default customRadio">Credit Card</button>
                             </div>
                             <input style="display: none" class="customRadio" name="paymentType" id="paymentType">
                         </div>

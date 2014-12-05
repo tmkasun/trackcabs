@@ -29,5 +29,6 @@
             
         </select>
     </div>
-    <button type="submit" id="driver" class="btn btn-default" onclick="createNewCRO(this.id)">Save</button>
+    <button type="submit" id="driver" class="btn btn-default" onclick="createNewCRO(this.id);return false;"
+            onsubmit="createNewCRO(this.id);return false;">Save</button>
 </form>

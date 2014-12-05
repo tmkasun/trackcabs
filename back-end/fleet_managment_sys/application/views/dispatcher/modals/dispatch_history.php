@@ -35,7 +35,13 @@
                         </tr>
                         <?php foreach ($history_booking as $item): ?>
                             <tr>
-                                <td><?= $item['status']; ?></td>
+                                <td>
+                                    <?php if($item['status'] == "DIS_CANCEL" or $item['status'] == "CANCEL"): ?>
+                                        <span class="text-danger"> <?= $item['status'] ?> </span>
+                                        <?php else: ?>
+                                        <?= $item['status'] ?>
+                                    <?php endif ?>
+                                </td>
                                 <td><?= $item['refId']; ?></td>
                                 <td><?= date('H:i:s Y-m-d ', $item['callTime']->sec); ?></td>
                                 <td><?= date('H:i:s Y-m-d ', $item['bookTime']->sec); ?></td>

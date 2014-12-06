@@ -11,12 +11,23 @@ function addInquireCall(url , objId){
 }
 
 
+var initAdminAuthenticateModalUi = function() {
+    $("input#pwd").keyup(function (event) {
+        if (event.keyCode == 13) {
+            autherizeAdmin();
+            return false;
+
+            //$(this).siblings("button").click();
+        }
+    });
+};
+
 function autherizeAdmin(){
     $('#modalPass').modal('hide');
     var relevantData =$('#modalPass').children("span#metaRelevantData").text();
     var finalOperation = $('#modalPass').children("span#metaFinalOperation").text();
-    var pass = $('#adminPassForm').children().children('input#pwd').val();
-    $('#adminPassForm').children().children('input#pwd').val('');
+    var pass = $('input#pwd').val();
+    $('input#pwd').val('');
     var siteUrl = url;
     var data={'pass' : pass};
     if ( pass != undefined) {
@@ -34,6 +45,7 @@ function autherizeAdmin(){
 
 
 }
+
 function getEditBookingView(url , bookingObjId){
 
     var siteUrl = url;
@@ -105,7 +117,6 @@ function getCancelConfirmationView( url ,  bookingObjId ){
 
     }
 }
-
 
 function confirmCancel(url , tp , bookingObjId ){
     var siteUrl = url;
@@ -322,7 +333,6 @@ function sendBookingConfirmationDetails(siteUrl, refId){
     ajaxPost(bookingConfirmationData,controllerUrl,true);
     alert('Confirmation SMS has been sent');
 }
-
 
 function updateBooking(url , objId){
 
@@ -586,8 +596,6 @@ function ajaxPostCro(data,urlLoc)    {//alert("inside ajaxPostCro");
     });
     return result;
 }
-
-
 
 function changeJobInfoViewByRefId(bookingObjId){
     var index = -1;

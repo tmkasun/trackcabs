@@ -271,6 +271,7 @@
                 $('#modalPass').children("span#metaRelevantData").text(param1);
                 $('#modalPass').children("span#metaFinalOperation").text(param2);
                 $('#modalPass').modal('show');
+                initAdminAuthenticateModalUi();
             }
             if(request == 'editBooking'){
                 getEditBookingView(url,param1);
@@ -425,16 +426,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="row" style="padding: 35px">
-                        <form id="adminPassForm" role="form">
-
-                            <div class="form-group">
-                                <label for="pwd">Admin Password:</label>
-                                <input type="password" class="form-control" id="pwd">
-                            </div>
-
-
-                        </form>
-
+                        <div class="form-group">
+                            <label for="pwd">Admin Password:</label>
+                            <input type="password" class="form-control" id="pwd">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

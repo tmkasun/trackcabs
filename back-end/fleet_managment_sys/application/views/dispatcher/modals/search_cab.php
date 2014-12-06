@@ -1,59 +1,102 @@
 <script>
 
-    var vehicle;
-    var vehicles = new Bloodhound({
-        datumTokenizer : function(d) {
-            return Bloodhound.tokenizers.whitespace(d.value);
-        },
-        queryTokenizer : Bloodhound.tokenizers.whitespace,
-        remote : {
-            url : 'dispatcher/search_cabs/%QUERY',
-            filter : function(vehicles) {
-                vehicle = vehicles;
-                return ($.map(vehicles, function(vehicles) {
-                    return {
-                        value : vehicles.vehicle_registration_number
-                    };
-                }));
+    $(
+        function () {
 
+            function getCabSearchKey() {
+                return $('#cabSearchKey').find("label.active input").val();
             }
-        }
-    });
 
-    function init_typeahead() {
-        vehicles.initialize();
-        $('#cabSearch').typeahead({
-            hint : true,
-            highlight : true,
-            minLength : 1
-        }, {
-            name : 'vehicles',
-            displayKey : 'value',
-            source : vehicles.ttAdapter()
-        }).on('typeahead:autocompleted', function($e, datum) {
-            selected_value = datum["value"];
-            for (var v in vehicle) {
-                aler(vehicle[v]);
-            }
-            alert(datum["value"]);
-        }).on('typeahead:selected', function($e, datum) {
-            selected_value = datum["value"];
-            // alert(datum["value"]);
+            var cabs_search = new Bloodhound({
+                datumTokenizer: function (d) {
+                    return Bloodhound.tokenizers.whitespace(d.value);
+                },
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: 'dispatcher/search_cabs/', //%QUERY/',
+                    filter: function (results_cabs) {
+                        results_cabs = JSON.parse(results_cabs);
+                        $('#searchCabsContainer').empty();
 
-            for (var v in vehicle) {
-                // alert(vehicle[v]);
-                if (vehicle[v].vehicle_registration_number == selected_value) {
-                    // for(var g in currentVehicleList){
-                    // alert(currentVehicleList[g].vehicle_id);
-                    // }
-                    // alert(parseInt(vehicle[v].vehicle_id));
-                    map.setView(currentVehicleList[vehicle[v].vehicle_id].marker.getLatLng(),16);
+                        return ($.map(results_cabs, function (result) {
+                            createCabDom(result);
+                            return {
+                                value: result[searchAttribute],
+                                cab: result
+                            };
+                        }));
+
+                    },
+                    replace: function (url, query) {
+                        searchAttribute = getCabSearchKey();
+                        url += encodeURIComponent(query);
+                        url += '/';
+                        url += encodeURIComponent(searchAttribute);
+                        return url;
+                    }
 
                 }
+            });
+
+
+            cabs_search.initialize();
+            $('#cabSearch').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            }, {
+                name: 'name',
+                displayKey: 'value',
+                source: cabs_search.ttAdapter()
+            }).on('typeahead:selected', function ($e, datum) {
+                console.log(datum);
+                $('#searchCabsContainer').empty();
+                createCabDom(datum.cab);
+            }).on('typeahead:change', function ($e, datum) {
+                console.log($e);
+                $('#searchCabsContainer').empty();
+                createCabDom(datum.cab);
+            });
+
+            function createCabDom(cabJson) {
+
+                var searchCabsContainer = $('#searchCabsContainer');
+
+                var $tr = $('<tr>');
+                var $tdCabId = $('<td>');
+                $tdCabId.html(cabJson.cabId);
+                $tr.append($tdCabId);
+
+                var $tdPlateNo = $('<td>');
+                $tdPlateNo.html(cabJson.plateNo);
+                $tr.append($tdPlateNo);
+
+                var $tdModel = $('<td>');
+                $tdModel.html(cabJson.model);
+                $tr.append($tdModel);
+
+                var $tdColor = $('<td>');
+                $tdColor.html(cabJson.color);
+                $tr.append($tdColor);
+
+                var $tdUserId = $('<td>');
+                $tdUserId.html(cabJson.userId);
+                $tr.append($tdUserId);
+
+                var $tdZone = $('<td>');
+                $tdZone.html(cabJson.zone);
+                $tr.append($tdZone);
+
+                var $tdInfo = $('<td>');
+                $tdInfo.html(cabJson.info);
+                $tr.append($tdInfo);
+
+                searchCabsContainer.append($tr);
             }
 
-        });
-    }
+        }
+    );
+
 
 </script>
 <div class="modal-header"
@@ -67,24 +110,80 @@
 <div class="modal-body">
 
     <div class="row">
-        <div class="input-group input-group">
-                <span class="input-group-addon" style="padding: 0px;margin: 0px;width: 120px;">
-                <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
-                    <button id="searchByCabId" type="button" class="btn btn-default active">ID</button>
-                    <button id="searchByCabModel" type="button" class="btn btn-default">Model</button>
-                    <button id="searchByCabDriver" type="button" class="btn btn-default">Driver</button>
-                    <!--                    <button id="searchByCabId" type="button" class="btn btn-default">Cab#</button>-->
+        <div class="input-group input-group col-md-5 col-md-offset-4">
+                <span class="input-group-addon" style="padding: 0px;margin: 0px;width: 180px;">
+                <div id="cabSearchKey" data-toggle="buttons" class="btn-group btn-group-xs" role="group"
+                     aria-label="Cab search">
+                    <label class="btn btn-primary active">
+                        <input type="radio" name="searchByCabId" value="cabId" autocomplete="off">ID
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="searchByCabModel" value="model" autocomplete="off">Model
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="searchByCabPlateNo" value="plateNo" autocomplete="off">Plate
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="searchByZone" value="zone" autocomplete="off">Zone
+                    </label>
+
+                    <!--                    <button id="searchByCabId" type="button" class="btn btn-default">ID</button>-->
+                    <!--                    <button id="searchByCabModel" type="button" class="btn btn-default">Model</button>-->
+                    <!--                    <button id="searchByCabPlateNo" type="button" class="btn btn-default">Driver</button>-->
+                    <!--                    <button id="searchByZone" type="button" class="btn btn-default">zone</button>-->
                 </div>
                 </span>
             <input autofocus="true" id="cabSearch" type="text" class="form-control" placeholder="Search cabs"/>
                 <span class="input-group-addon">
                 <i id="resetSearch"
-                   onclick="$('#searchCabsContainer').empty();$.each(unDispatchedOrders, function (i, order) {addNewOrder(order);});$('#orderSearch').val('');"
+                   onclick="$('#searchCabsContainer').empty();/*$.each(unDispatchedOrders, function (i, order) {addNewOrder(order);});*/$('#cabSearch').val('');"
                    style="cursor: pointer;" class="fa fa-repeat"></i>
                 </span>
         </div>
     </div>
-    <div id="searchCabsContainer" class="row" style="min-height: 100px">
+    <div class="row" style="min-height: 100px">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Cab ID</th>
+                <th>Plate No</th>
+                <th>Model</th>
+                <th>Color</th>
+                <th>UserId</th>
+                <th>Zone</th>
+                <th>Info</th>
+            </tr>
+            </thead>
+            <tbody id="searchCabsContainer">
+            <?php foreach ($cabs as $cab): ?>
+                <tr>
+                    <td>
+                        <?= $cab['cabId'] ?>
+                    </td>
+                    <td>
+                        <?= $cab['plateNo'] ?>
+                    </td>
+                    <td>
+                        <?= $cab['model'] ?>
+                    </td>
+                    <td>
+                        <?= $cab['color'] ?>
+                    </td>
+                    <td>
+                        <?= $cab['userId'] ?>
+                    </td>
+                    <td>
+                        <?= $cab['zone'] ?>
+                    </td>
+                    <td>
+                        <?= $cab['info'] ?>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+
+
+            </tbody>
+        </table>
     </div>
     <div class="row">
         <div style="margin-bottom: -15px" class="btn-group btn-group-justified">

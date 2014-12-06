@@ -1,4 +1,11 @@
 <script>
+
+    $(
+        function () {
+            $('.cabDetailsPopOver').popover({html: true});
+            $('.cancelTooltip').tooltip();
+        }
+    );
 </script>
 
 <div class="modal-header"
@@ -28,16 +35,37 @@
                         </tr>
                         <?php foreach ($history_booking as $item): ?>
                             <tr>
-                                <td><?= $item['status']; ?></td>
+                                <td>
+                                    <?php if($item['status'] == "DIS_CANCEL" or $item['status'] == "CANCEL"): ?>
+                                        <span data-toggle="tooltip" data-placement="right" title="<?= $item['cancelReason'] ?>" style="cursor: help" class="cancelTooltip text-danger"> <?= $item['status'] ?> </span>
+                                        <?php else: ?>
+                                        <?= $item['status'] ?>
+                                    <?php endif ?>
+                                </td>
                                 <td><?= $item['refId']; ?></td>
                                 <td><?= date('H:i:s Y-m-d ', $item['callTime']->sec); ?></td>
                                 <td><?= date('H:i:s Y-m-d ', $item['bookTime']->sec); ?></td>
                                 <td>
-                                        <?= implode(", ", $item['address']); ?>
+                                    <?= implode(", ", $item['address']); ?>
 
                                 </td>
                                 <td><?= $item['driverId']; ?></td>
-                                <td><?= $item['cabId']; ?></td>
+                                <td>
+                                    <?php if ($item['cabId'] != '-'): ?>
+                                        <a href="#" tabindex="0" class="btn btn-sm btn-default cabDetailsPopOver"
+                                           role="button"
+                                           data-toggle="popover" data-trigger="focus" title="Cab Details"
+                                           data-placement="left"
+                                           data-content='
+                                           Plate No: <span class="text-success"> <?= $item['cab']['plateNo'] ?> </span> <br/> <hr style="padding: 0px;margin: 0px" />
+                                           Model: <span class="text-success"> <?= $item['cab']['model'] ?> </span><br/><hr style="padding: 0px;margin: 0px" />
+                                           Info No: <span class="text-success"> <?= $item['cab']['info'] ?> </span><br/><hr style="padding: 0px;margin: 0px" />
+                                           Color: <span class="text-success"> <?= $item['cab']['color'] ?> </span><br/>
+                                           '>
+                                            <?= $item['cabId']; ?>
+                                        </a>
+                                    <?php endif ?>
+                                </td>
                                 <td><?= $item['remark']; ?></td>
                             </tr>
                         <?php endforeach; ?>

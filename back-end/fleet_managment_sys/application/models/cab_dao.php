@@ -212,10 +212,15 @@ class Cab_dao extends CI_Model
     }
 
 
-    function find($query)
+    function find($query, $attribute = 'cabId')
     {
         $collection = $this->get_collection();
-        $result = $collection->find(array("name" => new MongoRegex('/' . $query . '/i')));  //, "feature_code" => array('$in' => array("PPL","PPLL","PPLX"))
+        if($attribute == 'cabId'){
+            $result = $collection->find(array($attribute => (int)$query));  //, "feature_code" => array('$in' => array("PPL","PPLL","PPLX"))
+        }
+        else{
+            $result = $collection->find(array($attribute => new MongoRegex('/' . $query . '/i')));  //, "feature_code" => array('$in' => array("PPL","PPLL","PPLX"))
+        }
         $result->limit(10);
 
         $return = array();

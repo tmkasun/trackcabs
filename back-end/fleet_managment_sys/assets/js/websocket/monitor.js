@@ -424,8 +424,8 @@ Order.prototype.createOrderDOM = function () {
         case "START":
             return ("<tr id=\"" + this.id + "\">" +
             '<td>' + this.id + '</td>' +
-            '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' +
-            '<td>' + 'N/A' + '</td>' +
+            '<td>' + moment.unix(this.bookTime.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
+            '<td class="dynamicTimeUpdate" data-basetime="'+this.bookTime.sec+'" >' + 'N/A' + '</td>' +
             '<td>' + this.addressToString() + '</td>' +
             '<td>' + this.croId + '</td>' +
             '<td>' + 'N/A' + '</td>' +
@@ -442,7 +442,7 @@ Order.prototype.createOrderDOM = function () {
         case "MSG_NOT_COPIED":
             return ("<tr id=\"" + this.id + "\">" +
             '<td>' + this.id + '</td>' +
-            '<td>' + moment.unix(this.orderJson.callTime.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
+            '<td>' + moment.unix(this.bookTime.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
             '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' +
             '<td>' + this.cabId + '</td>' +
             '<td>' + this.orderJson.driverTp + '</td>' +

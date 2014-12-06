@@ -10,7 +10,7 @@ from gsmmodem.modem import GsmModem, SentSms
 from gsmmodem.exceptions import TimeoutException, PinRequiredError, IncorrectPinError
 
 
-def initModem(port='/dev/ttyUSB1', baud=460800):
+def initModem(port='/dev/ttyUSB0', baud=460800):
     global modem
 
     modem = GsmModem(port, baud)

@@ -357,7 +357,8 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
 
     function search_cab()
     {
-        $this->load->view('dispatcher/modals/search_cab');
+        $allCabs = $this->cab_dao->getAllCabs();
+        $this->load->view('dispatcher/modals/search_cab',array('cabs'=>$allCabs));
     }
 
     function dispatch_history()
@@ -366,9 +367,11 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->load->view('dispatcher/modals/dispatch_history', array('history_booking' => $history_booking));
     }
 
-    function search_cabs($query)
+    function search_cabs($query,$attribute)
     {
-
+        $result = $this->cab_dao->find($query,$attribute);
+        $this->output->set_content_type('application/json');
+        echo json_encode($result);
     }
 
     function cancel_reason($orderRefId)

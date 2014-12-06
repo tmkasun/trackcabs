@@ -82,7 +82,7 @@ function getSearchKey(order,q){
         //console.log("Search by townnnn");
     }
 
-    console.log(searchKey);
+    //console.log(searchKey);
     return searchKey;
 }
 
@@ -161,6 +161,8 @@ function init_typeahead() {
         map.setView([coordinates[1],coordinates[0]],15);
     });
 }
+
+
 
 // TODO: when click on a notification alert ? "Uncaught ReferenceError: KM is not defined "
 var toggled = false;

@@ -23,7 +23,6 @@ function autherizeAdmin(){
         var authnticateUrl = siteUrl + "/login/isAdmin";
         var result = ajaxPost(data, authnticateUrl, false);
         if (result.statusMsg == 'true') {
-
             operations(finalOperation,relevantData);
         }
         else{
@@ -36,9 +35,8 @@ function autherizeAdmin(){
 
 }
 function getEditBookingView(url , bookingObjId){
+
     var siteUrl = url;
-
-
     var data = {'objId' : bookingObjId};
     url = siteUrl +"/cro_controller/getEditBookingView";
     var view = ajaxPost(data,url);
@@ -314,14 +312,14 @@ function createBooking(url , tp){
     ajaxPost(bookingConfirmationData,url,true);
 }
 
-function sendBookingConfirmationDetails(url , refId){
-    url = siteUrl + '/customer_retriever/sendBookingDetails';
+function sendBookingConfirmationDetails(siteUrl, refId){
+    var controllerUrl = siteUrl + '/customer_retriever/sendBookingDetails';
     var bookingConfirmationData = {
         'tp' : tp,
         'refId' : refId,
         'isSendWebSocket' : 'false'
     };
-    ajaxPost(bookingConfirmationData,url,true);
+    ajaxPost(bookingConfirmationData,controllerUrl,true);
     alert('Confirmation SMS has been sent');
 }
 

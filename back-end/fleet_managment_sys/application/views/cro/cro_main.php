@@ -228,6 +228,7 @@
                 getCustomerInfoView( url , tp);
             }
             ///////////////////TODO: Implement To Identify a called customer
+            // WHY IS  THIS METHOD IS USED FOR ???????/ WHEN THERE IS A GETCUSTOMERFROMPABXMETHOD IS PRESENT
             if(request == 'getCalledCustomer'){
                 tp = $('#tpSearch').val();
                 getCustomerInfoView( url , tp,param1);
@@ -235,10 +236,9 @@
             ///////////////////
             if(request == 'createCusInfo'){
                 createCusInfo( url );
-                getCustomerInfoView(url , tp , customerObj,bookingObj);
+                getCustomerInfoView(url , tp );
             }
             if(request == 'validateBooking'){
-
                 if(validateBooking(url,tp)){
                     $('#modalConfirm').modal('show');
                 }
@@ -256,15 +256,16 @@
                 getCancelConfirmationView(url ,param1);
             }
             if(request == 'confirmCancel'){
-                alert(url + tp +param1);
                 confirmCancel(url , tp ,param1);
             }
+            if(request == 'resendConfirmationSms'){
+                sendBookingConfirmationDetails(url , param1);
+                getCustomerInfoView(url , tp );
+            }
             if(request == 'denyCancel'){
-                getCustomerInfoView(url, tp);
+                getCustomerInfoView(url, param1);
             }
             if(request == 'authenticateUser'){
-
-
                 var relevantData = param1;//Any data related tot he next operations to be pasased as parameters
                 var finalOperation = param2;//the next operation to be performed
                 $('#modalPass').children("span#metaRelevantData").text(param1);
@@ -273,7 +274,6 @@
             }
             if(request == 'editBooking'){
                 getEditBookingView(url,param1);
-                //getCustomerInfoView(url, tp);
             }
             if(request == 'updateBooking'){
                 updateBooking(url,param1);

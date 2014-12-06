@@ -23,7 +23,6 @@ function autherizeAdmin(){
         var authnticateUrl = siteUrl + "/login/isAdmin";
         var result = ajaxPost(data, authnticateUrl, false);
         if (result.statusMsg == 'true') {
-
             operations(finalOperation,relevantData);
         }
         else{
@@ -36,9 +35,8 @@ function autherizeAdmin(){
 
 }
 function getEditBookingView(url , bookingObjId){
+
     var siteUrl = url;
-
-
     var data = {'objId' : bookingObjId};
     url = siteUrl +"/cro_controller/getEditBookingView";
     var view = ajaxPost(data,url);
@@ -308,9 +306,21 @@ function createBooking(url , tp){
     url = siteUrl + '/customer_retriever/sendBookingDetails';
     var bookingConfirmationData = {
         'tp' : tp,
-        'refId' : result.refId
+        'refId' : result.refId,
+        'isSendWebSocket' : 'true'
         };
     ajaxPost(bookingConfirmationData,url,true);
+}
+
+function sendBookingConfirmationDetails(siteUrl, refId){
+    var controllerUrl = siteUrl + '/customer_retriever/sendBookingDetails';
+    var bookingConfirmationData = {
+        'tp' : tp,
+        'refId' : refId,
+        'isSendWebSocket' : 'false'
+    };
+    ajaxPost(bookingConfirmationData,controllerUrl,true);
+    alert('Confirmation SMS has been sent');
 }
 
 
@@ -577,54 +587,7 @@ function ajaxPostCro(data,urlLoc)    {//alert("inside ajaxPostCro");
     return result;
 }
 
-function showCalender(){
-    $('#form_datetime').datetimepicker({
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1
-    });
 
-    $('#form_date').datetimepicker({
-    weekStart: 1,
-    todayBtn:  1,
-    autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    minView: 2,
-    forceParse: 0
-    });
-    $('#form_time').datetimepicker({
-    weekStart: 1,
-    todayBtn:  1,
-    autoclose: 1,
-    todayHighlight: 1,
-    startView: 1,
-    minView: 0,
-    maxView: 1,
-    forceParse: 0
-    });
-}
-
-function uiInit(){
-
-    $(".checkBoxMakeAppear").click(function(){
-        $(this).parent().siblings('.checkBoxElementAppearing').toggle()
-    });
-
-    $(".btn-group > .btn").click(function(){
-        $(this).addClass("active").siblings().removeClass("active");
-        $(this).parent().siblings("input.customRadio").val($(this).val());
-    });
-
-    $("button.customRadio").click(function(){
-        $(this).parent().siblings("input.customRadio").val($(this).val());
-        $(this).parent().siblings("input.customRadio").text($(this).text())
-    });
-}
 
 function changeJobInfoViewByRefId(bookingObjId){
     var index = -1;
@@ -689,6 +652,7 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobInquireButtonCount').html(bookingObj[index]['inqCall']);
     $('#jobComplaintButton').attr("onclick", "operations('addComplaint',"+bookingObj[index]['refId']+")");
     $('#jobCancelButton').attr("onclick", "operations('cancel',"+bookingObj[index]['_id']['$id']+")");
+    $('#jobConfirmSmsResendButton').attr("onclick", "operations('resendConfirmationSms',"+bookingObj[index]['refId']+")");
 
 }
 
@@ -745,5 +709,54 @@ function getCabHeaderView(){
     var div = document.getElementById('dataFiled');
     div.innerHTML = result.view.table_content;
 
+}
+
+function showCalender(){
+    $('#form_datetime').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+
+    $('#form_date').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $('#form_time').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+    });
+}
+
+function uiInit(){
+
+    $(".checkBoxMakeAppear").click(function(){
+        $(this).parent().siblings('.checkBoxElementAppearing').toggle()
+    });
+
+    $(".btn-group > .btn").click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+        $(this).parent().siblings("input.customRadio").val($(this).val());
+    });
+
+    $("button.customRadio").click(function(){
+        $(this).parent().siblings("input.customRadio").val($(this).val());
+        $(this).parent().siblings("input.customRadio").text($(this).text())
+    });
 }
 

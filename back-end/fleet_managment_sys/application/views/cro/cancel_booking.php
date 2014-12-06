@@ -1,6 +1,5 @@
-<div class="col-lg-5" >
+<div class="col-lg-9" >
     <h4>Confirm Cancel For Reference ID <?= $refId?></h4>
-
     <form role="form">
 
         <div class="form-group">

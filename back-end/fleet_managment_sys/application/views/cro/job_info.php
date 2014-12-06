@@ -152,6 +152,12 @@
                             <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancel
                         </button>
                     </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default btn-sm" id="jobConfirmSmsResendButton"
+                                onclick="operations('resendConfirmationSms', '<?= $live_booking[$index]['refId'];?>')">
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Resend SMS
+                        </button>
+                    </div>
                 </div>
             </div>
             </div>

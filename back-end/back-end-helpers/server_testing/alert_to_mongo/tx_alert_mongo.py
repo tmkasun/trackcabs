@@ -1,3 +1,6 @@
+import datetime
+from twisted.web.http_headers import Headers
+from twisted.web.client import Agent
 from pymongo import MongoClient
 from twisted.internet.defer import inlineCallbacks
 from twisted.web.resource import Resource
@@ -42,21 +45,38 @@ class AlertToMongo(Resource):
         return ""
 
     def update_alert(self, jsonHash, collection='live'):
-        order_state = str(jsonHash['properties']['state'])
+        event_state = str(jsonHash['properties']['state'])
         order_id = int(jsonHash['properties']['orderId'])
+
+        if event_state == "IDLE":
+            order_state = "COMPLETED"
+        elif event_state == "AT_THE_PLACE":
+            pass
+        else:
+            order_state = event_state
 
         print(
             "DEBUG: orderId = {} orderState = {}".format(order_id,
-                                                         order_state))  # client.track['users'].update() #TODO: update cab status as-well
+                                                         event_state))  # client.track['users'].update() #TODO: update cab status as-well
 
-        client.track[collection].update({'refId': order_id}, {'$set': {'status': order_state}},
-                                        # "lastUpdatedOn": datetime.datetime.utcnow()
+        client.track[collection].update({
+                                            'refId': order_id
+                                        },
+                                        {
+                                            '$set': {
+                                                'status': order_state, "lastUpdatedOn": datetime.datetime.utcnow()
+                                            }
+                                        },
                                         upsert=False, multi=False)
-        if order_state == "IDLE":
+        if event_state == "IDLE":
             current_order = client.track[collection].find_one({'refId': order_id})
             client.track['history'].save(current_order)
             client.track[collection].remove({'refId': order_id})
 
+    @inlineCallbacks
+    def send_sms(self, number, message):
+        ag = Agent(reactor)
+        response = yield ag.request('POST', '127.0.0.1:3000/sms_service', Headers({'User-Agent': ['Twisted Web Client Example'],'Content-Type': 'application/x-www-form-urlencoded'}), None)
 
 port = 9091
 

@@ -198,6 +198,7 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
             return;
         }
         $this->live_dao->updateStatus((string)$order['_id'], "DISENGAGE");
+
         $order = $this->live_dao->getBooking($refId);
 
         $driver = $this->user_dao->getDriverByCabId($order['cabId']);

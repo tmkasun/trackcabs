@@ -85,7 +85,8 @@ var webSocketOnMessage = function processMessage(message) {
     notifyAlert(geoJsonFeature.properties.orderId);
     $.getJSON("monitor/getOrder/" + geoJsonFeature.properties.orderId, function (order) {
         geoJsonFeature.properties.order = order;
-        debugObject = geoJsonFeature.properties.order;
+        //debugObject = geoJsonFeature.properties.order;
+        console.log(geoJsonFeature);
         if (geoJsonFeature.id in currentCabsList) { // TODO: actual value properties.cabId
             console.log("DEBUG: geoJsonFeature.id in +" + geoJsonFeature.id);
             var excitingCab = currentCabsList[geoJsonFeature.id];
@@ -182,9 +183,9 @@ Cab.prototype.stateRow = function () {
             return (
             "<tr id='" + this.id + "'>" +
             '<td>' + this.geoJson.properties.orderId + '</td>' +
-            '<td>' + moment.unix(this.order.bookTime.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
-            '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' +
-            '<td class = "onHireTime" >' + moment.duration(moment().subtract(currentTime)).humanize() + '</td>' +
+            '<td>' + moment.unix(this.geoJSON.properties.order.bookTime.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
+            '<td>' + moment.unix(this.order.lastUpdatedOn.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
+            '<td class="dynamicTimeUpdate" data-basetime="'+this.order.lastUpdatedOn.sec+'" >' + 'N/A' + '</td>' +
             '<td>' + this.geoJson.properties.cabId + '</td>' +
             '<td>' + this.order.driver.tp + '</td>' +
                 /*Address*/
@@ -248,6 +249,7 @@ function addressToString(address){
 
 function setLocationName(latLng, domId) {
     $.post('testing/geoCode', {longitude: latLng[0], latitude: latLng[1]}, function (response) {
+        console.log(response);
         var geoNames = JSON.parse(response);
         $(domId).find('.locationName').html(geoNames[0].name);
     });
@@ -262,64 +264,6 @@ function notifyAlert(message) {
     });
 }
 
-/*function Alert(type, message, level) {
- this.type = type;
- this.message = message;
- if (level)
- this.level = level;
- else
- this.level = 'info';
-
- this.notify = function () {
- $.UIkit.notify({
- message: this.level + ': ' + this.type + ' ' + this.message,
- status: 'info',
- timeout: 5000,
- pos: 'bottom-left'
- });
- }
- }*/
-
-/*function LocalStorageArray(id) {
- if (typeof (sessionStorage) === 'undefined') {
- // Sorry! No Web Storage support..
- return ['speed']; // TODO: fetch this array from backend DB rather than keeping as in-memory array
- }
- if (id === undefined) {
- throw 'Should provide an id to create a local storage!';
- }
- var DELIMITER = ','; // Private variable delimiter
- this.storageId = id;
- sessionStorage.setItem(id, 'speed'); // TODO: <note> even tho we use `sessionStorage` because of this line previous it get overwritten in each page refresh
- this.getArray = function () {
- return sessionStorage.getItem(this.storageId).split(DELIMITER);
- };
-
- this.length = this.getArray().length;
-
- this.push = function (value) {
- var currentStorageValue = sessionStorage.getItem(this.storageId);
- var updatedStorageValue;
- if (currentStorageValue === null) {
- updatedStorageValue = value;
- } else {
- updatedStorageValue = currentStorageValue + DELIMITER + value;
- }
- sessionStorage.setItem(this.storageId, updatedStorageValue);
- this.length += 1;
- };
- this.isEmpty = function () {
- return (this.getArray().length === 0);
- };
- this.splice = function (index, howmany) {
- var currentArray = this.getArray();
- currentArray.splice(index, howmany);
- var updatedStorageValue = currentArray.toString();
- sessionStorage.setItem(this.storageId, updatedStorageValue);
- this.length -= howmany;
- // TODO: should return spliced section as array
- };
- }*/
 /*------------------------------ Helper methods --end ------------------------------*/
 
 /*------------------------------ Order dispatch view manipulations ------------------------------*/
@@ -369,7 +313,12 @@ function removeOrderFromMonitor(order) {
         pos: 'top-center'
     });
     delete notDispatchedOrders[order.refId];
-    $('#START > tbody').find('#' + order.refId).fadeOut().remove();
+    if(order.status == "DISENGAGE"){
+        $('#MSG_NOT_COPIED > tbody').find('#' + order.refId).fadeOut().remove();
+    }
+    else{
+        $('#START > tbody').find('#' + order.refId).fadeOut().remove();
+    }
 }
 
 /*----------------------- Order Object Definition -----------------------*/
@@ -422,14 +371,14 @@ Order.prototype.createOrderDOM = function () {
     var currentTime = moment();
     switch (this.status) {
         case "START":
+        case "DISENGAGE":
             return ("<tr id=\"" + this.id + "\">" +
             '<td>' + this.id + '</td>' +
             '<td>' + moment.unix(this.bookTime.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
             '<td class="dynamicTimeUpdate" data-basetime="'+this.bookTime.sec+'" >' + 'N/A' + '</td>' +
             '<td>' + this.addressToString() + '</td>' +
             '<td>' + this.croId + '</td>' +
-            '<td>' + 'N/A' + '</td>' +
-            '<td>' + 'N/A' + '</td>' +
+            '<td>' + this.orderJson.inqCall + '</td>' +
                 /*DIM*/
             '<td>' + this.getBadge(false) + '</td>' +
                 /*VIH*/
@@ -463,5 +412,10 @@ Order.prototype.createOrderDOM = function () {
 
 Order.prototype.addToMonitorBoard = function () {
     this.orderDOM = this.createOrderDOM();
-    $('#' + this.status + ' > tbody:last').append(this.orderDOM);
+    if(this.status == "DISENGAGE"){
+        $('#START > tbody:last').append(this.orderDOM);
+    }
+    else{
+        $('#' + this.status + ' > tbody:last').append(this.orderDOM);
+    }
 };

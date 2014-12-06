@@ -45,14 +45,19 @@
                     conn.subscribe(userid, function (topic, data) {
                         // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
                         console.log('New Message published to user "' + topic + '" : ' + data.message);
+                        console.log(data);
+
                         var order = data.message;
-                        debubObject = order;
+//                        debubObject = order;
                         if (order.status === "START") {
                             addToNotDispatch(order);
                         } else if (order.status === "MSG_NOT_COPIED") {
                             addToMsgNotCopied(order);
                         } else if (order.status === "CANCEL") {
                             removeOrderFromMonitor(order);
+                        } else if (order.status === "DISENGAGE") {
+                            removeOrderFromMonitor(order);
+                            addToNotDispatch(order);
                         }
 
                     });
@@ -144,6 +149,7 @@
 
             switch ($order['status']) {
                 case "START":
+                case "DISENGAGE":
                     empty($orders_list['START']) ? $orders_list['START'] = array($order) : array_push($orders_list['START'], $order);
                     break;
                 case "MSG_NOT_COPIED":
@@ -174,7 +180,7 @@
                     <td class="dynamicTimeUpdate" data-basetime="<?= $order['bookTime']->sec ?>" id="mr">MR</td>
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
                     <td id="agent"><?= $order['croId'] ?></td>
-                    <td>Inquiries</td>
+                    <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
                     <td><?= getBadge($order['isVip']) ?></td>
@@ -223,7 +229,7 @@
 
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
                     <td id="agent"><?= $order['croId'] ?></td>
-                    <td>Inquiries</td>
+                    <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
                     <td><?= getBadge($order['isVip']) ?></td>
@@ -272,7 +278,7 @@
 
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
                     <td id="agent"><?= $order['croId'] ?></td>
-                    <td>Inquiries</td>
+                    <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
                     <td><?= getBadge($order['isVip']) ?></td>
@@ -321,7 +327,7 @@
 
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
                     <td id="agent"><?= $order['croId'] ?></td>
-                    <td>Inquiries</td>
+                    <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
                     <td><?= getBadge($order['isVip']) ?></td>
@@ -360,7 +366,28 @@
         </tr>
         </thead>
         <tbody>
+        <?php
+        if (!empty($orders_list['POB'])):
+            foreach ($orders_list['POB'] as $order): ?>
+                <tr id="<?= $order['refId'] ?>">
+                    <td id="refId"><?= $order['refId'] ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                    <td id="mct"><?= date('jS-M-y  h:i a', $order['lastUpdatedOn']->sec) ?></td>
+                    <td class="dynamicTimeUpdate" data-basetime="<?= $order['lastUpdatedOn']->sec ?>" id="mr">ONH</td>
+                    <td id="cabId"><?= $order['cabId'] ?></td>
 
+                    <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'], 'driver');
+                        echo($driver['tp']) ?></td>
+
+                    <td id="address"><?= implode(", ", $order['address']) ?></td>
+                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td><?= $order['inqCall'] ?></td>
+                    <td><?= getBadge(false) ?></td>
+                    <td><?= getBadge($order['isVih']) ?></td>
+                    <td><?= getBadge($order['isVip']) ?></td>
+                    <td><?= getBadge(false) ?></td>
+                </tr>
+            <?php endforeach; endif; ?>
         </tbody>
     </table>
 </div>
@@ -380,7 +407,7 @@
         </tr>
         </thead>
         <tbody>
-
+<!-- TODO: Load IDLE cabs not IDLE(completed) orders-->
         </tbody>
     </table>
 </div>

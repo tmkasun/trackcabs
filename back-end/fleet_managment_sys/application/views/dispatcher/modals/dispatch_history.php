@@ -43,8 +43,8 @@
                                     <?php endif ?>
                                 </td>
                                 <td><?= $item['refId']; ?></td>
-                                <td><?= date('H:i:s Y-m-d ', $item['callTime']->sec); ?></td>
-                                <td><?= date('H:i:s Y-m-d ', $item['bookTime']->sec); ?></td>
+                                <td><?= date('H:i Y-m-d', $item['callTime']->sec); ?></td>
+                                <td><?= date('H:i Y-m-d ', $item['bookTime']->sec); ?></td>
                                 <td>
                                     <?= implode(", ", $item['address']); ?>
 

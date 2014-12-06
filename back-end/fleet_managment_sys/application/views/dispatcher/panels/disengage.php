@@ -68,12 +68,21 @@
 
         </div>
         <div class="col-md-6">
-            <img class="img-responsive center-block"
-                 src="<?= base_url() ?>assets/img/cabs/<?= $newOrder['vType'] ?>.png" alt="<?= $newOrder['vType'] ?>">
+<!--            <img class="img-responsive center-block"-->
+<!--                 src="--><?//= base_url() ?><!--assets/img/cabs/--><?//= $newOrder['vType'] ?><!--.png" alt="--><?//= $newOrder['vType'] ?><!--">-->
+<!---->
+<!--            <p class="text-center">-->
+<!--                <span class="label label-success">Type:--><?//= $newOrder['vType'] ?><!--</span>-->
+<!--            </p>-->
+            <p class="text-info text-center"> <b>Cab Details</b> </p><hr style="padding: 0px;margin: 0px" />
 
-            <p class="text-center">
-                <span class="label label-success">Type:<?= $newOrder['vType'] ?></span>
-            </p>
+            Cab ID: <span class="text-success"> <?= $newOrder['cab']['cabId'] ?> </span> <br/> <hr style="padding: 0px;margin: 0px" />
+            Plate No: <span class="text-success"> <?= $newOrder['cab']['plateNo'] ?> </span> <br/> <hr style="padding: 0px;margin: 0px" />
+            Model: <span class="text-success"> <?= $newOrder['cab']['model'] ?> </span><br/><hr style="padding: 0px;margin: 0px" />
+            Type: <span class="text-success"> <?= $newOrder['cab']['vType'] ?> </span> <br/> <hr style="padding: 0px;margin: 0px" />
+            Info No: <span class="text-success"> <?= $newOrder['cab']['info'] ?> </span><br/><hr style="padding: 0px;margin: 0px" />
+            Status: <span class="text-success"> <?= $newOrder['cab']['state'] ?> </span><br/><hr style="padding: 0px;margin: 0px" />
+            Color: <span class="text-success"> <?= $newOrder['cab']['color'] ?> </span><br/>
 
         </div>
 

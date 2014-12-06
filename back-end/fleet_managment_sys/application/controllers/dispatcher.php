@@ -60,6 +60,8 @@ class Dispatcher extends CI_Controller
             show_404();
         };
         $newOrder = $this->live_dao->getBooking($orderRefId);
+        $cab = $this->cab_dao->getCab($newOrder['cabId']);
+        $newOrder['cab'] = $cab;
         $this->load->view('dispatcher/panels/disengage', array('newOrder' => $newOrder));
 
     }

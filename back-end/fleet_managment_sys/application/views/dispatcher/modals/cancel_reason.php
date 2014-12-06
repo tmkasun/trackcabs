@@ -81,7 +81,7 @@
             $("#newLocation").html(datum["value"]);
         }).on('typeahead:autocompleted', function ($e, datum) {
             console.log("DEBUG: on auto");
-            //TODO: add cab to this location ask from dehan
+            locVM.
             $("#newLocation").html(datum["value"]);
         }
     );

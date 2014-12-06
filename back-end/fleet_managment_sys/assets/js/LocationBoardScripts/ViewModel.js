@@ -600,6 +600,51 @@ function LocationBoardViewModel(){
 
     };
 
+
+    //To set to idle manually
+    self.setToIdleFromStringParams = function(zoneName,cabId){
+
+        sendingData = {};
+        sendingData.cabId = cabId;
+        sendingData.zone = zoneName;
+        $.post(serviceUrl +"dispatcher/setIdleZone",sendingData,function(response){
+
+            gotResponse = response;
+
+            var currentCab = new Cab(gotResponse);
+            zone.pob.cabs.remove(currentCab);
+
+            var lastZone = response.lastZone;
+
+            if(gotResponse !== null || gotResponse.driver !== null){
+
+
+                self.removeCabFromAllBoards(lastZone,currentCab.id);
+
+                //Add to new Idle zone
+                var zoneObjectToAdd = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
+                    return item.name === currentCab.zone
+                });
+                var indexToAdd = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToAdd);
+                if(indexToAdd !== -1){
+                    self.zones()[indexToAdd].idle.cabs.push(currentCab);
+                }
+                else{
+                    alert("Unknown Error, Zone is undefined");
+                }
+
+            }
+            else{
+                alert('Cab Id does not exist');
+            }
+
+        });
+
+
+
+
+    };
+
     self.removeCabFromAllBoards = function(lastZone, cabId) {
         //Remove from Idle and Pob
         var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function(item) {

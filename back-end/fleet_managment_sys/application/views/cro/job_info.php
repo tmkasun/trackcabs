@@ -110,12 +110,12 @@
 
                     <span class="col-lg-3" style="padding: 1px">Book Time</span>
                     <span id="jobBookTime" class="col-lg-9" style="padding: 1px">
-                        <?php echo date('jS-M-y  h:i a', $live_booking[$index]['bookTime']->sec);?>
+                        <?php echo date('jS-M-y  H:i', $live_booking[$index]['bookTime']->sec);?>
                     </span>
 
                     <span class="col-lg-3" style="padding: 1px">Call Time</span>
                     <span id="jobCallTime" class="col-lg-9" style="padding: 1px">
-                        <?php echo date('jS-M-y  h:i a', $live_booking[$index]['callTime']->sec);?>
+                        <?php echo date('jS-M-y  H:i', $live_booking[$index]['callTime']->sec);?>
                     </span>
 
                     <span class="col-lg-3" style="padding: 1px">Dispatch</span>
@@ -178,8 +178,8 @@
                         <tr>
                             <td><a href="#" onclick="changeJobInfoViewByRefId('<?= $item['_id']?>')"><?= $item['status'];?></a></td>
                             <td><?= $item['refId'];?></td>
-                            <td><?=  date('jS-M-y  h:i a', $item['callTime']->sec);?></td>
-                            <td><?=  date('jS-M-y  h:i a', $item['bookTime']->sec);?></td>
+                            <td><?=  date('jS-M-y  H:i', $item['callTime']->sec);?></td>
+                            <td><?=  date('jS-M-y  H:i', $item['bookTime']->sec);?></td>
                             <td>
                                 <a href="#newBooking" onclick="operations('fillAddressToBooking', '<?= $item['_id']?>')">
                                     <?= implode(", ", $item['address']);?>
@@ -301,12 +301,12 @@
 
                         <span class="col-lg-3" style="padding: 1px">Book Time</span>
                     <span id="jobBookTime" class="col-lg-9" style="padding: 1px">
-                        <?php echo date('jS-M-y  h:i a', $history_booking[$index]['bookTime']->sec);?>
+                        <?php echo date('jS-M-y  H:i', $history_booking[$index]['bookTime']->sec);?>
                     </span>
 
                         <span class="col-lg-3" style="padding: 1px">Call Time</span>
                     <span id="jobCallTime" class="col-lg-9" style="padding: 1px">
-                        <?php echo date('jS-M-y  h:i a', $history_booking[$index]['callTime']->sec);?>
+                        <?php echo date('jS-M-y  H:i', $history_booking[$index]['callTime']->sec);?>
                     </span>
 
                         <span class="col-lg-3" style="padding: 1px">Dispatch</span>

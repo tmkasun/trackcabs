@@ -83,17 +83,18 @@ var webSocketOnClose = function (e) {
 var webSocketOnMessage = function processMessage(message) {
     var geoJsonFeature = $.parseJSON(message.data);
     notifyAlert(geoJsonFeature.properties.orderId);
+    console.log(geoJsonFeature);
     $.getJSON("monitor/getOrder/" + geoJsonFeature.properties.orderId, function (order) {
         geoJsonFeature.properties.order = order;
         //debugObject = geoJsonFeature.properties.order;
         console.log(geoJsonFeature);
         if (geoJsonFeature.id in currentCabsList) { // TODO: actual value properties.cabId
-            console.log("DEBUG: geoJsonFeature.id in +" + geoJsonFeature.id);
+            console.log("DEBUG: This CabID " + geoJsonFeature.id +"  **IN currentCabsList");
             var excitingCab = currentCabsList[geoJsonFeature.id];
             excitingCab.update(geoJsonFeature);
         }
         else {
-            console.log("DEBUG: geoJsonFeature.id not in =" + geoJsonFeature.id);
+            console.log("DEBUG: This CabID " + geoJsonFeature.id +"  NOT in currentCabsList");
             var newOrder = new Cab(geoJsonFeature);
             newOrder.update(geoJsonFeature);
             currentCabsList[newOrder.id] = newOrder;
@@ -124,7 +125,9 @@ function Cab(geoJSON) {
     this.locationCoordinates = [geoJSON.geometry.coordinates];
     this.geoJson = geoJSON; // TODO: why again ?
     this.order = geoJSON.properties.order;
-
+    if (typeof this.orderId != 'undefined') {
+        this.croName = geoJSON.properties.order.cro.name;
+    }
     return this;
 }
 
@@ -151,7 +154,7 @@ Cab.prototype.stateRow = function () {
             this.driver.id +
             '</td>' +
             '<td>' +
-            currentTime.format('Do-MMM-YY  hh:mm a') +
+            currentTime.format('Do-MMM-YY  H:mm') +
             '</td>' +
             '<td class = "locationName">' +
             setLocationName(this.locationCoordinates, '#' + this.id) +
@@ -162,47 +165,76 @@ Cab.prototype.stateRow = function () {
         case "MSG_COPIED":
             return (
             "<tr id='" + this.id + "'>" +
-            '<td>' +
-            this.geoJson.properties.orderId +
-            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' + '<td>' + 'N/A' + '</td>' +
-            '<td>' + this.geoJson.properties.cabId + '</td>' + '<td>' + 'N/A' + '</td>' + /*Address*/'<td>' + 'N/A' + '</td>' + /*agent*/'<td>' + 'N/A' + '</td>' +
-                /*Inquire*/'<td>' + 'N/A' + '</td>' + /*DIM*/'<td>' + 'N/A' + '</td>' + /*VIH*/'<td>' + 'N/A' + '</td>' + /*VIP*/'<td>' + 'N/A' +
-            '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
+                '<td>' + this.geoJson.properties.orderId + '</td>' +
+                '<td>' + moment.unix(this.order.bookTime.sec).format('Do-MMM-YY  H:mm') + '</td>' +
+                '<td>' + moment.unix(this.order.lastUpdatedOn.sec).format('Do-MMM-YY  H:mm') + '</td>' +
+                '<td>' + this.geoJson.properties.cabId + '</td>' +
+                '<td>' + this.order.driver.tp + '</td>' +
+                    /*Address*/
+                '<td>' + addressToString(this.order.address)  + '</td>' +
+                    /*agent*/
+                '<td>' + this.croName + '</td>' +
+                    /*Inquire*/
+                '<td>' + this.order.inqCall + '</td>' +
+                    /*DIM*/
+                '<td>' + this.getBadge(false) + '</td>' +
+                    /*VIH*/
+                '<td>' + this.getBadge(this.order.isVih) + '</td>' +
+                    /*VIP*/
+                '<td>' + this.getBadge(this.order.isVip) + '</td>' +
+                    /*COP*/
+                '<td>' + this.getBadge(false) + '</td>' +
+            '</tr>'
             );
         case "AT_THE_PLACE":
             return (
             "<tr id='" + this.id + "'>" +
-            '<td>' +
-            this.geoJson.properties.orderId +
-            '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + 'N/A' + '</td>' + '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' + '<td>' + 'N/A' + '</td>' +
-            '<td>' + this.geoJson.properties.cabId + '</td>' + '<td>' + 'N/A' + '</td>' + /*Address*/'<td>' + 'N/A' + '</td>' + /*agent*/'<td>' + 'N/A' + '</td>' +
-                /*Inquire*/'<td>' + 'N/A' + '</td>' + /*DIM*/'<td>' + 'N/A' + '</td>' + /*VIH*/'<td>' + 'N/A' + '</td>' + /*VIP*/'<td>' + 'N/A' +
-            '</td>' + '<td>' + 'N/A' + '</td>' + '</tr>'
+                '<td>' + this.geoJson.properties.orderId + '</td>' +
+                '<td>' + moment.unix(this.order.bookTime.sec).format('Do-MMM-YY  H:mm') + '</td>' +
+                '<td>' + moment.unix(this.order.lastUpdatedOn.sec).format('Do-MMM-YY  H:mm') + '</td>' +
+                '<td>' + this.geoJson.properties.cabId + '</td>' +
+                '<td>' + this.order.driver.tp + '</td>' +
+                /*Address*/
+                '<td>' + addressToString(this.order.address)  + '</td>' +
+                    /*agent*/
+                '<td>' + this.croName + '</td>' +
+                    /*Inquire*/
+                '<td>' + this.order.inqCall + '</td>' +
+                    /*DIM*/
+                '<td>' + this.getBadge(false) + '</td>' +
+                    /*VIH*/
+                '<td>' + this.getBadge(this.order.isVih) + '</td>' +
+                    /*VIP*/
+                '<td>' + this.getBadge(this.order.isVip) + '</td>' +
+                    /*COP*/
+                '<td>' + this.getBadge(false) + '</td>' +
+            '</tr>'
             );
         case "POB":
+            console.log(this.order);
             return (
             "<tr id='" + this.id + "'>" +
-            '<td>' + this.geoJson.properties.orderId + '</td>' +
-            '<td>' + moment.unix(this.geoJSON.properties.order.bookTime.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
-            '<td>' + moment.unix(this.order.lastUpdatedOn.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
-            '<td class="dynamicTimeUpdate" data-basetime="'+this.order.lastUpdatedOn.sec+'" >' + 'N/A' + '</td>' +
-            '<td>' + this.geoJson.properties.cabId + '</td>' +
-            '<td>' + this.order.driver.tp + '</td>' +
-                /*Address*/
-            '<td>' + addressToString(this.order.address)  + '</td>' +
-                /*agent*/
-            '<td>' + this.order.croId + '</td>' +
-                /*Inquire*/
-            '<td>' + this.order.inqCall + '</td>' +
-                /*DIM*/
-            '<td>' + this.getBadge(false) + '</td>' +
-                /*VIH*/
-            '<td>' + this.getBadge(this.order.isVih) + '</td>' +
-                /*VIP*/
-            '<td>' + this.getBadge(this.order.isVip) + '</td>' +
-                /*COP*/
-            '<td>' + this.getBadge(false) + '</td>' +
-            '<td class = "locationName" >' + setLocationName(this.locationCoordinates, '#' + this.id) + '</td>' +
+                '<td>' + this.geoJson.properties.orderId + '</td>' +
+                '<td>' + moment.unix(this.order.bookTime.sec).format('Do-MMM-YY  H:mm') + '</td>' +
+                '<td>' + moment.unix(this.order.lastUpdatedOn.sec).format('Do-MMM-YY  H:mm') + '</td>' +
+                '<td class="dynamicTimeUpdate" data-basetime="'+this.order.lastUpdatedOn.sec+'" >' + 'N/A' + '</td>' +
+                '<td>' + this.geoJson.properties.cabId + '</td>' +
+                '<td>' + this.order.driver.tp + '</td>' +
+                    /*Address*/
+                '<td>' + addressToString(this.order.address)  + '</td>' +
+                    /*agent*/
+                '<td>' + this.croName + '</td>' +
+                    /*Inquire*/
+                '<td>' + this.order.inqCall + '</td>' +
+                    /*DIM*/
+                '<td>' + this.getBadge(false) + '</td>' +
+                    /*VIH*/
+                '<td>' + this.getBadge(this.order.isVih) + '</td>' +
+                    /*VIP*/
+                '<td>' + this.getBadge(this.order.isVip) + '</td>' +
+                    /*COP*/
+                '<td>' + this.getBadge(false) + '</td>' +
+                '<td class = "locationName" >' + setLocationName(this.locationCoordinates, '#' + this.id) + '</td>' +
 
             '</tr>'
             );
@@ -222,16 +254,26 @@ Cab.prototype.getBadge = function (status) {
 };
 
 Cab.prototype.update = function (geoJSON) {
+    this.driver = {id: geoJSON.id};
+    this.orderId = geoJSON.properties.orderId;
+    this.order = geoJSON.properties.order;
+    if (this.order) {
+        $('#' + this.order.refId).remove();
+        this.croName = geoJSON.properties.order.cro.name;
+    }
     this.geoJson = geoJSON;
     this.locationCoordinates = geoJSON.geometry.coordinates;
     this.setSpeed(geoJSON.properties.speed);
     this.state = geoJSON.properties.state;
     this.heading = geoJSON.properties.heading;
+
     //this.orderDOM = $('#' + this.id);
-    this.orderDOM = ($('#' + this.id).length != 0) ? $('#' + this.id) : $('#' + this.order.refId) ;
-    if (this.orderDOM.length) {
-        this.orderDOM.fadeOut().remove();
-    }
+    //this.orderDOM = ($('#' + this.id).length != 0) ? $('#' + this.id) : $('#' + this.order.refId) ;
+    //if (this.orderDOM.length) {
+    //    this.orderDOM.fadeOut().remove();
+    //}
+    $('#' + this.id).remove();
+
     this.orderDOM = this.stateRow();
     if (this.state != "MSG_NOT_COPIED") {
         $('#' + this.state + ' > tbody:last').append(this.orderDOM);
@@ -249,7 +291,7 @@ function addressToString(address){
 
 function setLocationName(latLng, domId) {
     $.post('testing/geoCode', {longitude: latLng[0], latitude: latLng[1]}, function (response) {
-        console.log(response);
+        //console.log(response);
         var geoNames = JSON.parse(response);
         $(domId).find('.locationName').html(geoNames[0].name);
     });
@@ -374,7 +416,7 @@ Order.prototype.createOrderDOM = function () {
         case "DISENGAGE":
             return ("<tr id=\"" + this.id + "\">" +
             '<td>' + this.id + '</td>' +
-            '<td>' + moment.unix(this.bookTime.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
+            '<td>' + moment.unix(this.bookTime.sec).format('Do-MMM-YY  H:mm') + '</td>' +
             '<td class="dynamicTimeUpdate" data-basetime="'+this.bookTime.sec+'" >' + 'N/A' + '</td>' +
             '<td>' + this.addressToString() + '</td>' +
             '<td>' + this.croId + '</td>' +
@@ -391,8 +433,8 @@ Order.prototype.createOrderDOM = function () {
         case "MSG_NOT_COPIED":
             return ("<tr id=\"" + this.id + "\">" +
             '<td>' + this.id + '</td>' +
-            '<td>' + moment.unix(this.bookTime.sec).format('Do-MMM-YY  hh:mm a') + '</td>' +
-            '<td>' + currentTime.format('Do-MMM-YY  hh:mm a') + '</td>' +
+            '<td>' + moment.unix(this.bookTime.sec).format('Do-MMM-YY  H:mm') + '</td>' +
+            '<td>' + currentTime.format('Do-MMM-YY  H:mm') + '</td>' +
             '<td>' + this.cabId + '</td>' +
             '<td>' + this.orderJson.driverTp + '</td>' +
             '<td>' + this.addressToString() + '</td>' +

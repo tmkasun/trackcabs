@@ -176,7 +176,7 @@
             foreach ($orders_list['START'] as $order): ?>
                 <tr id="<?= $order['refId'] ?>">
                     <td id="refId"><?= $order['refId'] ?></td>
-                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  H:i', $order['bookTime']->sec) ?></td>
                     <td class="dynamicTimeUpdate" data-basetime="<?= $order['bookTime']->sec ?>" id="mr">MR</td>
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
                     <td id="agent"><?= $order['croId'] ?></td>
@@ -220,8 +220,8 @@
             foreach ($orders_list['MSG_NOT_COPIED'] as $order): ?>
                 <tr id="<?= $order['refId'] ?>">
                     <td id="refId"><?= $order['refId'] ?></td>
-                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
-                    <td id="mst"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  H:i', $order['bookTime']->sec) ?></td>
+                    <td id="mst"><?= date('jS-M-y  H:i', $order['dispatchTime']->sec) ?></td>
                     <td id="cabId"><?= $order['cabId'] ?></td>
 
                     <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'], 'driver');
@@ -269,8 +269,8 @@
             foreach ($orders_list['MSG_COPIED'] as $order): ?>
                 <tr id="<?= $order['refId'] ?>">
                     <td id="refId"><?= $order['refId'] ?></td>
-                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
-                    <td id="mct"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  H:i', $order['bookTime']->sec) ?></td>
+                    <td id="mct"><?= date('jS-M-y  H:i', $order['dispatchTime']->sec) ?></td>
                     <td id="cabId"><?= $order['cabId'] ?></td>
 
                     <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'], 'driver');
@@ -318,8 +318,8 @@
             foreach ($orders_list['AT_THE_PLACE'] as $order): ?>
                 <tr id="<?= $order['refId'] ?>">
                     <td id="refId"><?= $order['refId'] ?></td>
-                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
-                    <td id="mct"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  H:i', $order['bookTime']->sec) ?></td>
+                    <td id="mct"><?= date('jS-M-y  H:i', $order['dispatchTime']->sec) ?></td>
                     <td id="cabId"><?= $order['cabId'] ?></td>
 
                     <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'], 'driver');
@@ -371,8 +371,8 @@
             foreach ($orders_list['POB'] as $order): ?>
                 <tr id="<?= $order['refId'] ?>">
                     <td id="refId"><?= $order['refId'] ?></td>
-                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
-                    <td id="mct"><?= date('jS-M-y  h:i a', $order['lastUpdatedOn']->sec) ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  H:i', $order['dispatchTime']->sec) ?></td>
+                    <td id="mct"><?= date('jS-M-y  H:i', $order['lastUpdatedOn']->sec) ?></td>
                     <td class="dynamicTimeUpdate" data-basetime="<?= $order['lastUpdatedOn']->sec ?>" id="mr">ONH</td>
                     <td id="cabId"><?= $order['cabId'] ?></td>
 

@@ -19,8 +19,8 @@
             <tr>
                 <td><?= $item['status'];?></td>
                 <td><?= $item['refId'];?></td>
-                <td><?=  date('jS-M-y  h:i a', $item['callTime']->sec);?></td>
-                <td><?=  date('jS-M-y  h:i a', $item['bookTime']->sec);?></td>
+                <td><?=  date('jS-M-y  H:i', $item['callTime']->sec);?></td>
+                <td><?=  date('jS-M-y  H:i', $item['bookTime']->sec);?></td>
                 <td><?= implode(", ", $item['address']);?></td>
                 <td><?= $item['driverId'];?></td>
                 <td><?= $item['cabId'];?></td>

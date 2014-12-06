@@ -124,12 +124,12 @@
 
                         <span class="col-lg-3" style="padding: 1px">Book Time</span>
                     <span id="jobBookTime" class="col-lg-9" style="padding: 1px">
-                        <?php echo date('jS-M-y  h:i a', $bookTime->sec);?>
+                        <?php echo date('jS-M-y  H:i', $bookTime->sec);?>
                     </span>
 
                         <span class="col-lg-3" style="padding: 1px">Call Time</span>
                     <span id="jobCallTime" class="col-lg-9" style="padding: 1px">
-                        <?php echo date('jS-M-y  h:i a', $callTime->sec);?>
+                        <?php echo date('jS-M-y  H:i', $callTime->sec);?>
                     </span>
 
                         <span class="col-lg-3" style="padding: 1px">Dispatch</span>

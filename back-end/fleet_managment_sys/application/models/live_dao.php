@@ -227,7 +227,7 @@ class Live_dao extends CI_Model
 
     function setDispatchedTime($orderId){
 
-        $today = date("Y-m-d 00:00:00");
+        $today = date("Y-m-d H:i:s");
         $todayUTC = new MongoDate(strtotime($today));
 
         $dbName = $this->db->selectDB('track');

@@ -22,7 +22,7 @@
             <?php if($item['status'] == 'START'):?>
             <tr>
                 <td id="refId"><?= $item['refId'] ?></td>
-                <td id="rqTime"><?= date('jS-M-y  h:i a', $item['bookTime']->sec) ?></td>
+                <td id="rqTime"><?= date('jS-M-y  H:i', $item['bookTime']->sec) ?></td>
                 <td id="mr">MR</td>
                 <td id="address"><?= implode(", ", $item['address']) ?></td>
                 <td id="agent"><?= $item['croId'] ?></td>
@@ -68,8 +68,8 @@
                     <?php if($item['status'] == 'MSG_NOT_COPIED'):?>
                         <tr>
                             <td id="refId"><?= $item['refId'] ?></td>
-                            <td id="rqTime"><?= date('jS-M-y  h:i a', $item['bookTime']->sec) ?></td>
-                            <td id="mst"><?= date('jS-M-y  h:i a', $item['dispatchTime']->sec) ?></td>
+                            <td id="rqTime"><?= date('jS-M-y  H:i', $item['bookTime']->sec) ?></td>
+                            <td id="mst"><?= date('jS-M-y  H:i', $item['dispatchTime']->sec) ?></td>
                             <td id="cabId"><?= $item['cabId'] ?></td>
 
                             <td id="driverMobile"><?php $driver = $this->user_dao->getUser($item['driverId'],'driver'); echo($driver['tp']) ?></td>
@@ -113,8 +113,8 @@
                     <?php if($item['status'] == 'MSG_COPIED'):?>
                         <tr>
                             <td id="refId"><?= $item['refId'] ?></td>
-                            <td id="rqTime"><?= date('jS-M-y  h:i a', $item['bookTime']->sec) ?></td>
-                            <td id="mst"><?= date('jS-M-y  h:i a', $item['dispatchTime']->sec) ?></td>
+                            <td id="rqTime"><?= date('jS-M-y  H:i', $item['bookTime']->sec) ?></td>
+                            <td id="mst"><?= date('jS-M-y  H:i', $item['dispatchTime']->sec) ?></td>
                             <td id="cabId"><?= $item['cabId'] ?></td>
 
                             <td id="driverMobile"><?php $driver = $this->user_dao->getUser($item['driverId'],'driver'); echo($driver['tp']) ?></td>
@@ -158,8 +158,8 @@
             <?php if($item['status'] == 'POB'):?>
                 <tr>
                     <td id="refId"><?= $item['refId'] ?></td>
-                    <td id="rqTime"><?= date('jS-M-y  h:i a', $item['bookTime']->sec) ?></td>
-                    <td id="mst"><?= date('jS-M-y  h:i a', $item['dispatchTime']->sec) ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  H:i', $item['bookTime']->sec) ?></td>
+                    <td id="mst"><?= date('jS-M-y  H:i', $item['dispatchTime']->sec) ?></td>
                     <td id="cabId"><?= $item['cabId'] ?></td>
 
                     <td id="driverMobile"><?php $driver = $this->user_dao->getUser($item['driverId'],'driver'); echo($driver['tp']) ?></td>

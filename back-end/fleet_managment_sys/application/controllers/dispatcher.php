@@ -361,7 +361,7 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
     function search_cab()
     {
         $allCabs = $this->cab_dao->getAllCabs();
-        $this->load->view('dispatcher/modals/search_cab',array('cabs'=>$allCabs));
+        $this->load->view('dispatcher/modals/search_cab', array('cabs' => $allCabs));
     }
 
     function dispatch_history()
@@ -370,9 +370,9 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->load->view('dispatcher/modals/dispatch_history', array('history_booking' => $history_booking));
     }
 
-    function search_cabs($query,$attribute)
+    function search_cabs($query, $attribute)
     {
-        $result = $this->cab_dao->find($query,$attribute);
+        $result = $this->cab_dao->find($query, $attribute);
         $this->output->set_content_type('application/json');
         echo json_encode($result);
     }
@@ -410,6 +410,17 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
 //            }
         }
         $this->load->view('dispatcher/modals/cab_start_location', array('data' => $driversWithCab));
+    }
+
+    function  logout_user(){
+        $driverId = (int)$this->input->post('driverId');
+        $status = $this->input->post('status');
+        $status = ($status === "true");
+        $updateData = array(
+            'logout' => $status
+        );
+        $this->user_dao->updateUser($driverId,$updateData);
+
     }
 
 //    function sendSms($bookingCreated, $message)

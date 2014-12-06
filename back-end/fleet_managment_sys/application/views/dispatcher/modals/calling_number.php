@@ -1,4 +1,40 @@
 <script>
+//    For reference http://www.bootply.com/92189
+    $('.btn-toggle').click(function() {
+        console.log("DEBUG: JQuery onclick");
+        $(this).find('.btn').toggleClass('active');
+
+        if ($(this).find('.btn-primary').size()>0) {
+            $(this).find('.btn').toggleClass('btn-primary');
+        }
+
+        $(this).find('.btn').toggleClass('btn-default');
+
+    });
+
+    $('form').submit(function(){
+        alert($(this["options"]).val());
+        return false;
+    });
+
+    function driverLogOut(button){
+        console.log("DEBUG: JS onClick");
+        var driverid = $(button).parent().data('driverid');
+        var status = $(button).parent().data('currentstatus');
+        console.log(driverid);
+        console.log(status);
+        console.log(!status);
+
+        $.post('dispatcher/logout_user', {driverId: driverid, status: !status }, function (response) {
+            $(button).parent().data('currentstatus',!status);
+            $.UIkit.notify({
+                message: 'Driver status updated!',
+                status: (!status ? 'success' : 'danger'),
+                timeout: 3000,
+                pos: 'top-center'
+            });
+        });
+    }
 </script>
 
 <div class="modal-header"
@@ -39,7 +75,22 @@
                         <td><?= $item['userId']; ?></td>
                         <td><?= $item['name']; ?></td>
                         <td><?= $item['tp']; ?></td>
-                        <td><?= getBadge($item['logout']); ?></td>
+                        <td><?php
+                            $yes = "";
+                            $no = "";
+                            if($item['logout'] == "true"){
+                                $yes = "btn-primary";
+                                $no = "active btn-default";
+                            } else{
+                                $yes = "active btn-default";
+                                $no = "btn-primary";
+                            }
+                            ?>
+                            <div class="btn-group btn-toggle" data-driverid="<?= $item['userId']; ?>" data-currentstatus="<?= $item['logout'] ?>">
+                                <button class="btn btn-xs  <?= $yes ?>" onclick="driverLogOut(this,true)">Yes</button>
+                                <button class="btn btn-xs <?= $no ?>" onclick="driverLogOut(this,false)" >No</button>
+                            </div>
+                        </td>
                         <td><?php
                             if (!array_key_exists("cabId", $item) || $item['cabId'] === "" || $item['cabId'] == -1) {
                                 echo 'Not Assigned';
@@ -47,7 +98,7 @@
                                 echo $item['cabId'];
                             }
                             ?></td>
-                        <td><?= $item['blocked']; ?></td>
+                        <td><?= getBadge($item['blocked'] === 'true'); ?></td>
                     </tr>
 
                 <?php endforeach; ?>

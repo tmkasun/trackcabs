@@ -42,6 +42,13 @@ class Call_dao extends CI_Model
         return $callArray;
     }
 
+    function addToCallDump($totalCallArray){
+        $collection = $this->get_collection('call_dump');
+
+        $collection->insert($totalCallArray);
+
+    }
+
 
     function getCallsInLastSeconds(){
         $collection = $this->get_collection();

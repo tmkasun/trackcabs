@@ -31,7 +31,7 @@
                 message: 'Driver status updated!',
                 status: (!status ? 'success' : 'danger'),
                 timeout: 3000,
-                pos: 'top-center'
+                pos: 'bottom-right'
             });
         });
     }

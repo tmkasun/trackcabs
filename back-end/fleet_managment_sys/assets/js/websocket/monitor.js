@@ -299,7 +299,7 @@ function setLocationName(latLng, domId) {
 
 function notifyAlert(message) {
     $.UIkit.notify({
-        message: "Alert: " + message,
+        message: "Receive  an update from ID" + message,
         status: 'warning',
         timeout: 5000,
         pos: 'bottom-left'

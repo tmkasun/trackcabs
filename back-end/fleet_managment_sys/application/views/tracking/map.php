@@ -193,6 +193,17 @@
                 </form>
             </li>
         </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-xs btn-warning navbar-btn"
+                            onclick="$('#commonModal').modal('toggle').find('.modal-content').load('vehicle_tracking/login_message');return false">
+                        Usage policy
+                    </button>
+                </form>
+            </li>
+        </ul>
     </div>
 </nav>
 
@@ -623,18 +634,6 @@
 </div>
 <!-- /Modals in use -->
 
-<!-- General modal placeholder , TODO: open all the modal through this wrapper via remote AJAX calls -->
-<div class="modal" id="commonModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- This content is load by $.ajax call , pages are located at '/controllers/modals/' -->
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /Modals in use -->
-
 
 <!-- Import within-GeoJson modal -->
 <div class="modal" id="editWithinGeoJSON" tabindex="-1" role="dialog">
@@ -694,7 +693,7 @@
             <p id="information" class="bg-primary" style="margin: 0px;padding: 0px;"></p>
             <h6>Speed<span class="label label-primary pull-right"><span id="speed"></span> km/h</span></h6>
             <h6>Heading<span id="heading" class="label label-primary pull-right"></span></h6>
-<!--            <button type="button" class="btn btn-info btn-xs">Dispatch</button>-->
+            <!--            <button type="button" class="btn btn-info btn-xs">Dispatch</button>-->
         </div>
     </div>
 
@@ -735,5 +734,17 @@
     </div>
     <div id="templateLoader"></div>
 </div>
+<!-- General modal placeholder , TODO: open all the modal through this wrapper via remote AJAX calls -->
+<div class="modal" id="commonModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- This content is load by $.ajax call , pages are located at '/controllers/modals/' -->
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /Modals in use -->
+
 </body>
 </html>

@@ -26,7 +26,9 @@ $(".modal").draggable({
 $('body').on('hidden.bs.modal', '.modal', function () {
     $(this).removeData('bs.modal');
 });
-
+$(function(){
+    $('#commonModal').modal('toggle').find('.modal-content').load('vehicle_tracking/login_message');
+});
 /*Map layer configurations*/
 var map;
 

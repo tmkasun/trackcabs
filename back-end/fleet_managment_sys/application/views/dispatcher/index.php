@@ -198,7 +198,7 @@
 
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-warning navbar-btn">Vehicle Tracking</button>
+                    <a href="vehicle_tracking" class="btn btn-sm btn-warning navbar-btn" target="_blank">Vehicle Tracking</a>
                 </form>
             </li>
 

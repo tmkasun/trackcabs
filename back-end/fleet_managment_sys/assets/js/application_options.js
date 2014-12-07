@@ -69,7 +69,7 @@ function initApplicationOptions() {
                 alertedIcon: getBaseURL() + 'assets/img/markers/arrow_alerted.png',
                 offlineIcon: getBaseURL() + 'assets/img/markers/arrow_offline.png',
                 warningIcon: getBaseURL() + 'assets/img/markers/arrow_warning.png',
-                defaultIcon: getBaseURL() + 'assets/img/markers/default_icons/marker-icon.png',
+                defaultIcon: getBaseURL() + 'assets/img/markers/arrow_normal.png',
                 resizeIcon: getBaseURL() + 'assets/img/markers/resize.png'
 
             }

@@ -95,7 +95,9 @@ class Dispatcher extends CI_Controller
         $this->live_dao->setCabId($orderId, $cabId);
         $this->live_dao->updateStatus((string)$dispatchingOrder['_id'], "MSG_NOT_COPIED");
         $this->live_dao->setDispatchedTime($orderId);
+        $user = $this->session->userdata('user');
 
+        $this->live_dao->updateBooking((string)$dispatchingOrder['_id'],array('dispatcherId' => (int)$user['userId']));
         $driverId = strlen($driverId) <= 1 ? '0' . $driverId : $driverId;
 
         $sentCusto = $sms->send($custoNumber, $custoMessage);
@@ -109,7 +111,6 @@ class Dispatcher extends CI_Controller
 
         $sentDriver = $sms->send($driverNumber, $driverMessage);
 
-        $user = $this->session->userdata('user');
         $webSocket = new Websocket('localhost', '5555', $user['userId']);
         $dispatchingOrder = $this->live_dao->getBooking($orderId); // Get the updated order
         $dispatchingOrder['driverTp'] = $driverNumber;

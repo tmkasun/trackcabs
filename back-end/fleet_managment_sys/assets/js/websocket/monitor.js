@@ -235,7 +235,7 @@ Cab.prototype.stateRow = function () {
                     /*COP*/
                 '<td>' + this.getBadge(false) + '</td>' +
                 '<td class = "locationName" >' + setLocationName(this.locationCoordinates, '#' + this.id) + '</td>' +
-
+                '<td>' + this.order.dispatcherId + '</td>' +
             '</tr>'
             );
         default:

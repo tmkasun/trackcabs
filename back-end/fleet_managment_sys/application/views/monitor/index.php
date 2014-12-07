@@ -147,6 +147,9 @@
         $orders_list = array();
         foreach ($orders as $order) {
             $order['cro'] = $this->user_dao->getUser($order['croId'],'cro');
+            if(isset($order['dispatcherId'])){
+                $order['dispatcher'] = $this->user_dao->getUser($order['dispatcherId'],'cro');
+            }
 
             switch ($order['status']) {
                 case "START":
@@ -387,6 +390,9 @@
                     <td><?= getBadge($order['isVih']) ?></td>
                     <td><?= getBadge($order['isVip']) ?></td>
                     <td><?= getBadge(false) ?></td>
+                    <td>N/A</td>
+<!--                    TODO: remove isset check after all the orders have dispatcherId attribute -->
+                    <td><?= isset($order['dispatcher']) ? $order['dispatcher']['name'] : 'N/A' ?></td>
                 </tr>
             <?php endforeach; endif; ?>
         </tbody>

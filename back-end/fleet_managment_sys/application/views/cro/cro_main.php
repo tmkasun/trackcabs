@@ -288,9 +288,12 @@
             }
             if(request == 'fillAddressToBooking'){
                 fillAddressToBooking(param1);
+                // Initializing the UI Init again disables the check box reappearing for call up price in new booking
+                return;
             }
             if(request == 'fillAddressToBookingFromHistory'){
                 fillAddressToBookingFromHistory(param1);
+                return;
             }
             if(request == 'addInquireCall'){
                 addInquireCall(url ,param1);

@@ -102,8 +102,8 @@ class Dispatcher extends CI_Controller
 
         $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? '' : "\nCustomer number: $custoNumber";
         $pagingBoard = ($dispatchingOrder['pagingBoard'] != '-') ? "\nPaging Board: $dispatchingOrder[pagingBoard]" : '';
-
-        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . $custoNumber . $pagingBoard . "\nAddress: " . $custoAddress;
+        $remarks = ($dispatchingOrder['remark'] != '-') ? "\nRemarks: $dispatchingOrder[remark]" : '';
+        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . $custoNumber . $pagingBoard . $remarks . "\nAddress: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
 

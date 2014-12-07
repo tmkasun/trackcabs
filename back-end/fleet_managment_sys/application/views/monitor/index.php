@@ -146,6 +146,7 @@
         <?php
         $orders_list = array();
         foreach ($orders as $order) {
+            $order['cro'] = $this->user_dao->getUser($order['croId'],'cro');
 
             switch ($order['status']) {
                 case "START":
@@ -179,7 +180,7 @@
                     <td id="rqTime"><?= date('jS-M-y  H:i', $order['bookTime']->sec) ?></td>
                     <td class="dynamicTimeUpdate" data-basetime="<?= $order['bookTime']->sec ?>" id="mr">MR</td>
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
-                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td id="agent"><?= $order['cro']['name'] ?></td>
                     <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
@@ -228,7 +229,7 @@
                         echo($driver['tp']) ?></td>
 
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
-                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td id="agent"><?= $order['cro']['name'] ?></td>
                     <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
@@ -277,7 +278,7 @@
                         echo($driver['tp']) ?></td>
 
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
-                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td id="agent"><?= $order['cro']['name'] ?></td>
                     <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
@@ -326,7 +327,7 @@
                         echo($driver['tp']) ?></td>
 
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
-                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td id="agent"><?= $order['cro']['name'] ?></td>
                     <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
@@ -380,7 +381,7 @@
                         echo($driver['tp']) ?></td>
 
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
-                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td id="agent"><?= $order['cro']['name'] ?></td>
                     <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>

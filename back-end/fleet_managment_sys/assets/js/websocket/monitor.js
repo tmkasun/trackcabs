@@ -438,7 +438,8 @@ Order.prototype.createOrderDOM = function () {
             '<td>' + this.cabId + '</td>' +
             '<td>' + this.orderJson.driverTp + '</td>' +
             '<td>' + this.addressToString() + '</td>' +
-            '<td>' + this.croName + '(' + this.croId + ')' + '</td>' +
+            '<td>' + this.croName + '</td>' +
+            '<td>' + this.orderJson.inqCall + '</td>' +
                 /*DIM*/
             '<td>' + this.getBadge(false) + '</td>' +
                 /*VIH*/

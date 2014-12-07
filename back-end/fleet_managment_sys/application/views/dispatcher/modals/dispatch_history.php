@@ -28,6 +28,7 @@
                             <th>Ref ID</th>
                             <th>Call Time</th>
                             <th>Book Time</th>
+                            <th>Dispatched Time</th>
                             <th>Address</th>
                             <th>Driver Id</th>
                             <th>Cab Id</th>
@@ -36,15 +37,21 @@
                         <?php foreach ($history_booking as $item): ?>
                             <tr>
                                 <td>
-                                    <?php if($item['status'] == "DIS_CANCEL" or $item['status'] == "CANCEL"): ?>
-                                        <span data-toggle="tooltip" data-placement="right" title="<?= $item['cancelReason'] ?>" style="cursor: help" class="cancelTooltip text-danger"> <?= $item['status'] ?> </span>
-                                        <?php else: ?>
+                                    <?php if ($item['status'] == "DIS_CANCEL" or $item['status'] == "CANCEL"): ?>
+                                        <span data-toggle="tooltip" data-placement="right"
+                                              title="<?= $item['cancelReason'] ?>" style="cursor: help"
+                                              class="cancelTooltip text-danger"> <?= $item['status'] ?> </span>
+                                    <?php else: ?>
                                         <?= $item['status'] ?>
                                     <?php endif ?>
                                 </td>
                                 <td><?= $item['refId']; ?></td>
                                 <td><?= date('H:i Y-m-d', $item['callTime']->sec); ?></td>
                                 <td><?= date('H:i Y-m-d ', $item['bookTime']->sec); ?></td>
+                                <td><?php if (isset($item['dispatchTime'])):
+                                        echo date('H:i Y-m-d ', $item['dispatchTime']->sec);
+                                    endif ?>
+                                </td>
                                 <td>
                                     <?= implode(", ", $item['address']); ?>
 

@@ -76,7 +76,7 @@
             </div>
 
             <div class="col-md-2" style="padding: 0px;">
-                <img style="width: 100%" src="<?= base_url() ?>assets/img/hao-logo.svg" id="fit11"/>
+                <img style="width: 100%" src="<?= base_url() ?>assets/img/hao-logo.png" id="Hao"/>
             </div>
 
         </div>

@@ -23,6 +23,30 @@ class Call extends CI_Controller
         $this->call_dao->addToCallDump($postData);
     }
 
+    function modemData(){
+
+        $postData = $this->input->post();
+        $state = array_keys($postData)[0];
+        $csvCallArray = str_getcsv($postData[$state]);
+//        var_dump(trim($csvCallArray[1]));
+        $numberreplaced  = str_replace(array("\\r", "\\n"), "", $csvCallArray[1]);
+        $today = date("Y-m-d h:ia");
+        $todayUTC = new MongoDate(strtotime($today));
+
+        $dbData = array(
+            'number' => trim($numberreplaced),
+            'ext' => (int)trim($csvCallArray[2]),
+            'time' => $todayUTC,
+            'reference' => explode(" ",$csvCallArray[5])[3],
+            'rawData' => $postData[$state]
+        );
+
+        $this->call_dao->createCall($dbData);
+        echo "ok";
+    }
+
+
+
     function pabxData()
     {
         $postData = $this->input->post();

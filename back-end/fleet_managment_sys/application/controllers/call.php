@@ -30,7 +30,7 @@ class Call extends CI_Controller
         $csvCallArray = str_getcsv($postData[$state]);
 //        var_dump(trim($csvCallArray[1]));
 
-        $this->call_dao->addToCallDump($postData);
+//        $this->call_dao->addToCallDump($postData);
 
         $numberreplaced  = str_replace(array("\\r", "\\n"), "", $csvCallArray[1]);
         $today = date("Y-m-d h:ia");
@@ -45,6 +45,10 @@ class Call extends CI_Controller
         );
 
         $this->call_dao->createCall($dbData);
+
+        $webSocket = new Websocket('localhost', '5555', 'pabx');
+        $webSocket->send($dbData, 'cro1');
+
         echo "ok";
     }
 
@@ -149,7 +153,7 @@ class Call extends CI_Controller
                 "phone_number" =>trim($valueArray[3]),
                 "date" => new MongoDate(strtotime($today)),
                 "duration" => null,
-                "extension_number" => trim($valueArray[4]),
+                "extension_number" => (int)trim($valueArray[4]),
                 "raw_data" => $postData[$state]
             );
         }
@@ -169,7 +173,7 @@ class Call extends CI_Controller
                 "phone_number" =>$valueArray[9],
                 "date" => new MongoDate(strtotime($today)),
                 "duration" => $valueArray[10],
-                "extension_number" => $valueArray[8],
+                "extension_number" => (int)trim($valueArray[8]),
                 "raw_data" => $postData[$state]
             );
         }
@@ -179,7 +183,7 @@ class Call extends CI_Controller
                 "phone_number" =>$valueArray[9],
                 "date" => new MongoDate(strtotime($today)),
                 "duration" => $valueArray[10],
-                "extension_number" => $valueArray[8],
+                "extension_number" => (int)trim($valueArray[8]),
                 "raw_data" => $postData[$state]
             );
         }

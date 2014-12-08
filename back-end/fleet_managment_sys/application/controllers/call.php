@@ -29,6 +29,9 @@ class Call extends CI_Controller
         $state = array_keys($postData)[0];
         $csvCallArray = str_getcsv($postData[$state]);
 //        var_dump(trim($csvCallArray[1]));
+
+        $this->call_dao->addToCallDump($postData);
+
         $numberreplaced  = str_replace(array("\\r", "\\n"), "", $csvCallArray[1]);
         $today = date("Y-m-d h:ia");
         $todayUTC = new MongoDate(strtotime($today));

@@ -130,7 +130,7 @@
                                         <ul style="display: inline" class="cabs" data-bind="foreach:idle.cabs">
                                             <li style="display: inline">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown" >
+                                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown" data-bind="click:$root.updateStatus">
                                                         <span data-bind="text:vehicleType"></span>
                                                         <span data-bind="text:id">2342 &nbsp;</span>
                                                         <span class="caret"></span>
@@ -234,7 +234,7 @@
                                         <ul style="display: inline" class="cabs" data-bind="foreach:idle.cabs">
                                             <li style="display: inline">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown">
+                                                    <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown" data-bind="click:$root.updateStatus">
                                                         <span data-bind="text:vehicleType"></span>
                                                         <span data-bind="text:id">2342 &nbsp;</span>
                                                         <span class="caret"></span>
@@ -324,7 +324,7 @@
                         <ul style="display: inline" class="cabs" data-bind="foreach:pendingCabs">
                             <li style="display: inline">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle cabView" data-toggle="dropdown" >
+                                    <button type="button" class="btn btn-danger dropdown-toggle cabView" data-toggle="dropdown" data-bind="click:$root.updateStatus">
                                         <span data-bind="text:vehicleType"></span>
                                         <span data-bind="text:id">2342 &nbsp;</span>
                                         <span class="caret"></span>
@@ -442,7 +442,7 @@
                                         <ul style="display: inline" class="cabs" data-bind="foreach:pob.cabs">
                                             <li style="display: inline">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-warning dropdown-toggle cabView" data-toggle="dropdown">
+                                                    <button type="button" class="btn btn-warning dropdown-toggle cabView" data-toggle="dropdown" data-bind="click:$root.updateStatus">
                                                         <span data-bind="text:vehicleType"></span>
                                                         <span data-bind="text:id">2342 &nbsp;</span>
                                                         <span class="caret"></span>
@@ -555,7 +555,7 @@
                                         <ul style="display: inline" class="cabs" data-bind="foreach:pob.cabs">
                                             <li style="display: inline">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-warning dropdown-toggle cabView" data-toggle="dropdown">
+                                                    <button type="button" class="btn btn-warning dropdown-toggle cabView" data-toggle="dropdown" data-bind="click:$root.updateStatus">
                                                         <span data-bind="text:vehicleType"></span>
                                                         <span data-bind="text:id">2342 &nbsp;</span>
                                                         <span class="caret"></span>
@@ -673,7 +673,7 @@
                                         <ul style="display: inline" class="cabs" data-bind="foreach:cabs">
                                             <li style="display: inline">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-default dropdown-toggle cabView" data-toggle="dropdown">
+                                                    <button type="button" class="btn btn-default dropdown-toggle cabView" data-toggle="dropdown" data-bind="click:$root.updateStatus">
                                                         <span data-bind="text:vehicleType"></span>
                                                         <span data-bind="text:id">2342 &nbsp;</span>
                                                         <span class="caret"></span>
@@ -777,7 +777,7 @@
                                         <ul style="display: inline" class="cabs" data-bind="foreach:cabs">
                                             <li style="display: inline">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-default dropdown-toggle cabView" data-toggle="dropdown">
+                                                    <button type="button" class="btn btn-default dropdown-toggle cabView" data-toggle="dropdown" data-bind="click:$root.updateStatus">
                                                         <span data-bind="text:vehicleType"></span>
                                                         <span data-bind="text:id">2342 &nbsp;</span>
                                                         <span class="caret"></span>

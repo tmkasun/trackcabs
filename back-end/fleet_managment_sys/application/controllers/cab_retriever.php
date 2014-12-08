@@ -123,6 +123,9 @@ class Cab_retriever extends CI_Controller
     function getCab(){
 
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        if($input_data==null){
+            $input_data = $_GET;
+        }
         $result = $this->cab_dao->getCab($input_data['cabId']);
         $this->output->set_output(json_encode(array("statusMsg" => "success","data" => $result )));
 

@@ -158,6 +158,11 @@ function validateBooking(url , tp){
     var bookingType = 'Personal';
     var personalProfileTp = '-';
     var cancelReason = '-';
+    var airportPackageId = $('#airportPackage').val();
+    var airportPackageType = $('#airportPackageType').val();
+    var dayPackageId = $('#dayPackage').val();
+    var packageId = '-';
+    var packageType = '-';
 
     if($('#personalProfileTp').length != 0){
         bookingType = 'Cooperate';
@@ -196,6 +201,23 @@ function validateBooking(url , tp){
     if(payType ==  ''){
         alert('Payment method is Compulsory');
         return false;
+    }
+    if(airportPackageId != '-'){
+        if( airportPackageType != '-'){
+            packageId = airportPackageId;
+            packageType = airportPackageType;
+        }else{
+            alert('Select a Airport Package Type');
+        }
+    }
+    if(dayPackageId != '-'){
+        packageId = dayPackageId;
+        packageType = 'day';
+    }
+
+    if(airportPackageId != '-' && dayPackageId != '-' ){
+        alert("Select only one package Type [Airport / Day package]");
+        return;
     }
     //TODO : Call to load dispatcher modal conformation
     //$("#orderBuilder").load('dispatcher/newOrder/' + orderId);
@@ -778,10 +800,10 @@ function fillAirportPackageinBookings(){
     }
 
     $('#airportPackageType').empty().append('<option selected value="-"> Select Package</option>');
-    $('#airportPackageType').append('<option value="drop">'+ 'drop fee ('+airportPackagesObj['data'][index]['dropFee']+ ')'+'</option>');
-    $('#airportPackageType').append('<option value="bothWay">'+ 'drop fee ('+airportPackagesObj['data'][index]['bothwayFee']+ ')'+'</option>');
-    $('#airportPackageType').append('<option value="guestCarrier">'+ 'drop fee ('+airportPackagesObj['data'][index]['guestCarrierFee']+ ')'+'</option>');
-    $('#airportPackageType').append('<option value="outSide">'+ 'drop fee ('+airportPackagesObj['data'][index]['outsideFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="drop">'+ 'Drop ('+airportPackagesObj['data'][index]['dropFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="bothWay">'+ 'Both Way ('+airportPackagesObj['data'][index]['bothwayFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="guestCarrier">'+ 'Guest Carrier ('+airportPackagesObj['data'][index]['guestCarrierFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="outSide">'+ 'Out Side ('+airportPackagesObj['data'][index]['outsideFee']+ ')'+'</option>');
 
 }
 

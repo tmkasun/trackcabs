@@ -115,24 +115,50 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="checkbox">
-                                <label style="font-weight: bold">Day Packages</label>
-
-                                <select id="dayPackage" onchange="selectDayPackageandAddRemark()" class="form-inline checkBoxElementAppearing">
+                                <label style="font-weight: bold">Air Port Package</label>
+                                <select id="airportPackage" onchange="fillAirportPackageinBookings()" class="form-inline checkBoxElementAppearing" >
                                     <option value="-">NOT SELECTED</option>
-                                    <?php foreach($dayPackages['data'] as $package):?>
+                                    <?php foreach($airportPackages['data'] as $package):?>
                                         <option value="<?= $package['packageId']?>"
                                             <?php if(isset($packageId) && ($package['packageId'] == $packageId))echo "selected";?>>
-                                            <?= $package['km'];?> ,
-                                            <?= $package['hours'];?> (<?= $package['fee'];?>)
+                                            <?= $package['packageName']?>
                                         </option>
                                     <?php endforeach;?>
-
                                 </select>
 
-                            </div>
+                                <select id="airportPackageType" onchange="selectAirportPackageandAddRemark()" class="form-inline checkBoxElementAppearing" >
+                                    <option value="-">NOT SELECTED</option>
+                                    <?php foreach($airportPackages['data'] as $package):?>
+                                        <?php if(isset($packageId) && ($package['packageId'] == $packageId)):?>
+                                            <option value="drop" <?php if($packageType == 'drop') echo "selected"?>> Drop (<?= $package['dropFee']?>)</option>
+                                            <option value="bothWay" <?php if($packageType == 'bothWay') echo "selected"?>> Both Way (<?= $package['bothwayFee']?>)</option>
+                                            <option value="guestCarrier" <?php if($packageType == 'guestCarrier') echo "selected"?>> Guest Carrier (<?= $package['guestCarrierFee']?>)</option>
+                                            <option value="outSide" <?php if($packageType == 'outSide') echo "selected"?>> Out Side (<?= $package['outsideFee']?>)</option>
+                                        <?php endif;?>
+                                        <?= $package['packageName']?>
+                                    <?php endforeach;?>
+                                    <?php if($packageType == 'drop' || $packageType == 'bothWay' || $packageType == 'guestCarrier' || $packageType == 'outSide'):?>
+
+                                    <?php endif?>
+                                </select>
                         </div>
 
+
+                        <div class="form-group">
+                            <label style="font-weight: bold">Day Packages</label>
+
+                            <select id="dayPackage" onchange="selectDayPackageandAddRemark()" class="form-inline checkBoxElementAppearing">
+                                <option value="-">NOT SELECTED</option>
+                                <?php foreach($dayPackages['data'] as $package):?>
+                                    <option value="<?= $package['packageId']?>"
+                                        <?php if(isset($packageId) && ($package['packageId'] == $packageId))echo "selected";?>>
+                                        <?= $package['km'];?> ,
+                                        <?= $package['hours'];?> (<?= $package['fee'];?>)
+                                    </option>
+                                <?php endforeach;?>
+
+                            </select>
+                        </div>
                     </div>
                 </div>
 

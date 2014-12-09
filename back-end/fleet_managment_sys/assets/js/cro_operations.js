@@ -503,6 +503,8 @@ function getCustomerInfoView( url , tp , isFromPABX ){
     if(view.hasOwnProperty('important')){
         bookingObj=view.important.live_booking;
         historyBookingObj=view.important.history_booking;
+        airportPackagesObj=view.important.airport_packages;
+        dayPackagesObj=view.important.day_packages;
     }
 
     if(view.hasOwnProperty('important'))
@@ -716,6 +718,12 @@ function getCabHeaderView(){
     var result = ajaxPost(null,url);
     var div = document.getElementById('dataFiled');
     div.innerHTML = result.view.table_content;
+
+}
+
+function fillAirportPackageinBookings(){
+    alert('working ');
+    $('#airportPackageType').empty().append('<option value=""></option>');
 
 }
 

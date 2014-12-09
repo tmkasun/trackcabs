@@ -45,6 +45,8 @@
         var bookingObj = null;
         var historyBookingObj = null;
         var customerObj = null;
+        var airportPackagesObj = null;
+        var dayPackagesObj = null;
 
         </script>
     <style>

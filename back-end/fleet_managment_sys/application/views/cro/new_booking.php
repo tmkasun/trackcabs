@@ -139,18 +139,16 @@
                                     <input type="checkbox" name="airportTick"  id="airportTick" class="checkBoxMakeAppear"> Air Port Package
                                 </label>
 
-                                <select id="airportPackage" class="form-control checkBoxElementAppearing col-lg-6" style="display:none">
+                                <select id="airportPackage" onchange="fillAirportPackageinBookings()" class="form-inline checkBoxElementAppearing" style="display:none">
                                     <option value="-" selected>Package Name</option>
                                     <?php foreach($airportPackages['data'] as $package):?>
-                                        <option value=""><?= $package['packageName']?></option>
+                                        <option value="" ><?= $package['packageName']?></option>
                                     <?php endforeach;?>
                                 </select>
 
-                                <select id="airportPackage" class="form-control checkBoxElementAppearing col-lg-6" style="display:none">
+                                <select id="airportPackageType" class="form-inline checkBoxElementAppearing" style="display:none">
                                     <option value="-" selected>Package Type</option>
-                                    <?php foreach($airportPackages['data'] as $package):?>
-                                        <option value=""><?= $package['packageName']?></option>
-                                    <?php endforeach;?>
+
                                 </select>
                             </div>
                         </div>

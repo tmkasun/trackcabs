@@ -51,7 +51,7 @@ function initApplicationOptions() {
         },
         constance: {
             BASE_URL: getBaseURL(),
-            WEBSOCKET_URL: '127.0.0.1',
+            WEBSOCKET_URL: '192.168.0.2',
             WEBSOCKET_PORT: '8080',
 
             SPEED_HISTORY_COUNT: 20,
@@ -69,7 +69,7 @@ function initApplicationOptions() {
                 alertedIcon: getBaseURL() + 'assets/img/markers/arrow_alerted.png',
                 offlineIcon: getBaseURL() + 'assets/img/markers/arrow_offline.png',
                 warningIcon: getBaseURL() + 'assets/img/markers/arrow_warning.png',
-                defaultIcon: getBaseURL() + 'assets/img/markers/default_icons/marker-icon.png',
+                defaultIcon: getBaseURL() + 'assets/img/markers/arrow_normal.png',
                 resizeIcon: getBaseURL() + 'assets/img/markers/resize.png'
 
             }

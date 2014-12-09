@@ -46,10 +46,10 @@
 
             var $order = $("<a>", {
                 id: dispatchedOrder.refId,
-                class: "",
+                class: "list-group-item",
                 onclick: "disengageOrder(this.id);return false"
             })
-                .attr('data-bookTime', dispatchedOrderUnixTimeStamp).text(orderBookingTime.format('Do-MMM-YY  hh:mm a')).append($fromNowSpan).append($labelSpan);
+                .attr('data-bookTime', dispatchedOrderUnixTimeStamp).text(orderBookingTime.format('Do-MMM-YY  H:mm')).append($fromNowSpan).append($labelSpan);
 
             $order.appendTo('#dispatchedOrdersList .mCSB_container');
 

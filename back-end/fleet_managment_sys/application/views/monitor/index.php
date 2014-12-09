@@ -146,6 +146,10 @@
         <?php
         $orders_list = array();
         foreach ($orders as $order) {
+            $order['cro'] = $this->user_dao->getUser($order['croId'],'cro');
+            if(isset($order['dispatcherId'])){
+                $order['dispatcher'] = $this->user_dao->getUser($order['dispatcherId'],'cro');
+            }
 
             switch ($order['status']) {
                 case "START":
@@ -176,10 +180,10 @@
             foreach ($orders_list['START'] as $order): ?>
                 <tr id="<?= $order['refId'] ?>">
                     <td id="refId"><?= $order['refId'] ?></td>
-                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  H:i', $order['bookTime']->sec) ?></td>
                     <td class="dynamicTimeUpdate" data-basetime="<?= $order['bookTime']->sec ?>" id="mr">MR</td>
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
-                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td id="agent"><?= $order['cro']['name'] ?></td>
                     <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
@@ -220,15 +224,15 @@
             foreach ($orders_list['MSG_NOT_COPIED'] as $order): ?>
                 <tr id="<?= $order['refId'] ?>">
                     <td id="refId"><?= $order['refId'] ?></td>
-                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
-                    <td id="mst"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  H:i', $order['bookTime']->sec) ?></td>
+                    <td id="mst"><?= date('jS-M-y  H:i', $order['dispatchTime']->sec) ?></td>
                     <td id="cabId"><?= $order['cabId'] ?></td>
 
                     <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'], 'driver');
                         echo($driver['tp']) ?></td>
 
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
-                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td id="agent"><?= $order['cro']['name'] ?></td>
                     <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
@@ -269,15 +273,15 @@
             foreach ($orders_list['MSG_COPIED'] as $order): ?>
                 <tr id="<?= $order['refId'] ?>">
                     <td id="refId"><?= $order['refId'] ?></td>
-                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
-                    <td id="mct"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  H:i', $order['bookTime']->sec) ?></td>
+                    <td id="mct"><?= date('jS-M-y  H:i', $order['dispatchTime']->sec) ?></td>
                     <td id="cabId"><?= $order['cabId'] ?></td>
 
                     <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'], 'driver');
                         echo($driver['tp']) ?></td>
 
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
-                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td id="agent"><?= $order['cro']['name'] ?></td>
                     <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
@@ -318,15 +322,15 @@
             foreach ($orders_list['AT_THE_PLACE'] as $order): ?>
                 <tr id="<?= $order['refId'] ?>">
                     <td id="refId"><?= $order['refId'] ?></td>
-                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?></td>
-                    <td id="mct"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  H:i', $order['bookTime']->sec) ?></td>
+                    <td id="mct"><?= date('jS-M-y  H:i', $order['dispatchTime']->sec) ?></td>
                     <td id="cabId"><?= $order['cabId'] ?></td>
 
                     <td id="driverMobile"><?php $driver = $this->user_dao->getUser($order['driverId'], 'driver');
                         echo($driver['tp']) ?></td>
 
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
-                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td id="agent"><?= $order['cro']['name'] ?></td>
                     <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
@@ -371,8 +375,8 @@
             foreach ($orders_list['POB'] as $order): ?>
                 <tr id="<?= $order['refId'] ?>">
                     <td id="refId"><?= $order['refId'] ?></td>
-                    <td id="rqTime"><?= date('jS-M-y  h:i a', $order['dispatchTime']->sec) ?></td>
-                    <td id="mct"><?= date('jS-M-y  h:i a', $order['lastUpdatedOn']->sec) ?></td>
+                    <td id="rqTime"><?= date('jS-M-y  H:i', $order['dispatchTime']->sec) ?></td>
+                    <td id="mct"><?= date('jS-M-y  H:i', $order['lastUpdatedOn']->sec) ?></td>
                     <td class="dynamicTimeUpdate" data-basetime="<?= $order['lastUpdatedOn']->sec ?>" id="mr">ONH</td>
                     <td id="cabId"><?= $order['cabId'] ?></td>
 
@@ -380,12 +384,15 @@
                         echo($driver['tp']) ?></td>
 
                     <td id="address"><?= implode(", ", $order['address']) ?></td>
-                    <td id="agent"><?= $order['croId'] ?></td>
+                    <td id="agent"><?= $order['cro']['name'] ?></td>
                     <td><?= $order['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
                     <td><?= getBadge($order['isVip']) ?></td>
                     <td><?= getBadge(false) ?></td>
+                    <td>N/A</td>
+<!--                    TODO: remove isset check after all the orders have dispatcherId attribute -->
+                    <td><?= isset($order['dispatcher']) ? $order['dispatcher']['name'] : 'N/A' ?></td>
                 </tr>
             <?php endforeach; endif; ?>
         </tbody>

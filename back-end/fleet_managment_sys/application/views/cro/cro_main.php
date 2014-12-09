@@ -45,6 +45,8 @@
         var bookingObj = null;
         var historyBookingObj = null;
         var customerObj = null;
+        var airportPackagesObj = null;
+        var dayPackagesObj = null;
 
         </script>
     <style>
@@ -153,7 +155,6 @@
             <li><a href="<?= site_url('cro_controller/loadBookingsView')?>" target="_blank" >Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" target="_blank">Map</a></li>
             <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" target="_blank">Location Board</a></li>
-            <li><a href="<?= site_url('cro_controller/refresh')?>" target="_blank">Refresh</a>
             <li><a href="<?= site_url('cro_controller/getCabHeaderView')?>" target="_blank">Cabs</a>
             <li><a href="<?= site_url('cro_controller/getAllPackagesView')?>" target="_blank">Packages</a>
 <!--            <li><a href="" onclick="forCro()">Packages</a>-->
@@ -271,6 +272,7 @@
                 $('#modalPass').children("span#metaRelevantData").text(param1);
                 $('#modalPass').children("span#metaFinalOperation").text(param2);
                 $('#modalPass').modal('show');
+                initAdminAuthenticateModalUi();
             }
             if(request == 'editBooking'){
                 getEditBookingView(url,param1);
@@ -287,9 +289,12 @@
             }
             if(request == 'fillAddressToBooking'){
                 fillAddressToBooking(param1);
+                // Initializing the UI Init again disables the check box reappearing for call up price in new booking
+                return;
             }
             if(request == 'fillAddressToBookingFromHistory'){
                 fillAddressToBookingFromHistory(param1);
+                return;
             }
             if(request == 'addInquireCall'){
                 addInquireCall(url ,param1);
@@ -425,16 +430,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="row" style="padding: 35px">
-                        <form id="adminPassForm" role="form">
-
-                            <div class="form-group">
-                                <label for="pwd">Admin Password:</label>
-                                <input type="password" class="form-control" id="pwd">
-                            </div>
-
-
-                        </form>
-
+                        <div class="form-group">
+                            <label for="pwd">Admin Password:</label>
+                            <input type="password" class="form-control" id="pwd">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

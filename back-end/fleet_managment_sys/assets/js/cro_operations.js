@@ -11,12 +11,23 @@ function addInquireCall(url , objId){
 }
 
 
+var initAdminAuthenticateModalUi = function() {
+    $("input#pwd").keyup(function (event) {
+        if (event.keyCode == 13) {
+            autherizeAdmin();
+            return false;
+
+            //$(this).siblings("button").click();
+        }
+    });
+};
+
 function autherizeAdmin(){
     $('#modalPass').modal('hide');
     var relevantData =$('#modalPass').children("span#metaRelevantData").text();
     var finalOperation = $('#modalPass').children("span#metaFinalOperation").text();
-    var pass = $('#adminPassForm').children().children('input#pwd').val();
-    $('#adminPassForm').children().children('input#pwd').val('');
+    var pass = $('input#pwd').val();
+    $('input#pwd').val('');
     var siteUrl = url;
     var data={'pass' : pass};
     if ( pass != undefined) {
@@ -34,6 +45,7 @@ function autherizeAdmin(){
 
 
 }
+
 function getEditBookingView(url , bookingObjId){
 
     var siteUrl = url;
@@ -105,7 +117,6 @@ function getCancelConfirmationView( url ,  bookingObjId ){
 
     }
 }
-
 
 function confirmCancel(url , tp , bookingObjId ){
     var siteUrl = url;
@@ -323,7 +334,6 @@ function sendBookingConfirmationDetails(siteUrl, refId){
     alert('Confirmation SMS has been sent');
 }
 
-
 function updateBooking(url , objId){
 
     var baseUrl = url;
@@ -493,6 +503,8 @@ function getCustomerInfoView( url , tp , isFromPABX ){
     if(view.hasOwnProperty('important')){
         bookingObj=view.important.live_booking;
         historyBookingObj=view.important.history_booking;
+        airportPackagesObj=view.important.airport_packages;
+        dayPackagesObj=view.important.day_packages;
     }
 
     if(view.hasOwnProperty('important'))
@@ -586,8 +598,6 @@ function ajaxPostCro(data,urlLoc)    {//alert("inside ajaxPostCro");
     });
     return result;
 }
-
-
 
 function changeJobInfoViewByRefId(bookingObjId){
     var index = -1;
@@ -709,6 +719,91 @@ function getCabHeaderView(){
     var div = document.getElementById('dataFiled');
     div.innerHTML = result.view.table_content;
 
+}
+
+function fillAirportPackageinBookings(){
+    var airportPackage = $('#airportPackage').val();
+
+    if(airportPackage == '-'){
+        $('#airportPackageType').empty().append('<option selected value="-"> Select Package</option>');
+    }
+
+    var index = -1;
+    for(var i=0 ; i < airportPackagesObj['data'].length ; i++){
+        index++;
+        if( airportPackagesObj['data'][i]['packageId'] === airportPackage ){
+            break;
+        }
+    }
+
+    $('#airportPackageType').empty().append('<option selected value="-"> Select Package</option>');
+    $('#airportPackageType').append('<option value="drop">'+ 'drop fee ('+airportPackagesObj['data'][index]['dropFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="bothWay">'+ 'drop fee ('+airportPackagesObj['data'][index]['bothwayFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="guestCarrier">'+ 'drop fee ('+airportPackagesObj['data'][index]['guestCarrierFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="outSide">'+ 'drop fee ('+airportPackagesObj['data'][index]['outsideFee']+ ')'+'</option>');
+
+}
+
+function selectAirportPackageandAddRemark(){
+    var airportPackageType = $('#airportPackageType').val();
+
+    if(airportPackageType == '-'){
+        return;
+    }else{
+        var airportPackage = $('#airportPackage').val();
+        var index = -1;
+        for(var i=0 ; i < airportPackagesObj['data'].length ; i++){
+            index++;
+            if( airportPackagesObj['data'][i]['packageId'] === airportPackage ){
+                break;
+            }
+        }
+
+        var remarkAppended = airportPackagesObj['data'][index]['packageName'];
+
+        if(airportPackageType == "drop" ){
+            remarkAppended = remarkAppended + " Drop(" + airportPackagesObj['data'][index]['dropFee'] +")";
+        }
+
+        if(airportPackageType == "bothWay" ){
+            remarkAppended = remarkAppended + " Both Way(" + airportPackagesObj['data'][index]['bothwayFee'] +")";
+        }
+
+
+        if(airportPackageType == "guestCarrier" ){
+            remarkAppended = remarkAppended + " Guest Carrier(" + airportPackagesObj['data'][index]['guestCarrierFee'] +")";
+        }
+
+        if(airportPackageType == "outSide" ){
+            remarkAppended = remarkAppended + " Out Side(" + airportPackagesObj['data'][index]['outsideFee'] +")";
+        }
+
+        $('#remark').val($('#remark').val() + remarkAppended);
+
+    }
+}
+
+
+function selectDayPackageandAddRemark(){
+    var dayPackage = $('#dayPackage').val();
+
+    if(dayPackage == '-'){
+        return;
+    }else{
+        var index = -1;
+        for(var i=0 ; i < dayPackagesObj['data'].length ; i++){
+            index++;
+            if( dayPackagesObj['data'][i]['packageId'] === dayPackage ){
+                break;
+            }
+        }
+        var remarkAppended = dayPackagesObj['data'][index]['packageName'] +
+                              ' , ' + dayPackagesObj['data'][index]['km'] + '(km) ,' +
+                            dayPackagesObj['data'][index]['hours'] + '(hrs) ,' +
+                            dayPackagesObj['data'][index]['fee'] + '(/=) ,';
+
+        $('#remark').val($('#remark').val() + remarkAppended);
+    }
 }
 
 function showCalender(){

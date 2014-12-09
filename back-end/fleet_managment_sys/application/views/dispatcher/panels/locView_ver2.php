@@ -141,7 +141,7 @@
                                             <ul style="display: inline" class="cabs" data-bind="foreach:idle.cabs">
                                                 <li style="display: inline">
                                                     <div class="btn-group">
-                                                        <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown" >
+                                                        <button type="button" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown" data-bind="click:$root.updateStatus">
                                                             <span data-bind="text:vehicleType"></span>
                                                             <span data-bind="text:id">2342 &nbsp;</span>
                                                             <span class="caret"></span>
@@ -163,11 +163,11 @@
                                                                                 <th>Value</th>
                                                                             </tr>
                                                                             </thead>
-                                                                            <tbody>
+                                                                            <tbody><!--
                                                                             <tr>
                                                                                 <td><span>State</span></td>
                                                                                 <td><span data-bind="text:state"></span></td>
-                                                                            </tr>
+                                                                            </tr>-->
                                                                             <tr>
                                                                                 <td><span>Vehicle Type</span></td>
                                                                                 <td><span data-bind="text:vehicleType"></span></td>
@@ -234,7 +234,7 @@
                             <ul style="display: inline" class="cabs" data-bind="foreach:pendingCabs">
                                 <li style="display: inline">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-danger dropdown-toggle cabView" data-toggle="dropdown" >
+                                        <button type="button" class="btn btn-danger dropdown-toggle cabView" data-toggle="dropdown" data-bind="click:$root.updateStatus">
                                             <span data-bind="text:vehicleType"></span>
                                             <span data-bind="text:id">2342 &nbsp;</span>
                                             <span class="caret"></span>
@@ -335,11 +335,8 @@
                                     <tr>
                                         <td class="col-md-2" data-bind="text:name" ></td>
                                         <td class="col-md-2">
-                                            <div class="input-append bootstrap-timepicker">
-                                                <input data-bind="attr:{id:id}, value:pob.cabEta" class="form-control cabEta locPobInput timePicker input-small" type="text" placeholder="ETA" >
-                                                <span class="add-on"><i class="glyphicon glyphicon-time"></i></span>
-                                            </div>
 
+                                            <input data-bind="attr:{id:id}, value:pob.cabEta" class="form-control cabEta locPobInput" type="text" placeholder="ETA" >
                                             <input data-bind="attr:{id:id}, value:pob.cabId" class="form-control cabId locPobInput" type="text" placeholder="Cab Id">
                                             <button data-bind="click:$root.addPobCab" class="form-control cabAdd">
                                                 <span class="glyphicon glyphicon-plus"></span>
@@ -349,7 +346,7 @@
                                             <ul style="display: inline" class="cabs" data-bind="foreach:pob.cabs">
                                                 <li style="display: inline">
                                                     <div class="btn-group">
-                                                        <button type="button" class="btn btn-warning dropdown-toggle cabView" data-toggle="dropdown">
+                                                        <button type="button" class="btn btn-warning dropdown-toggle cabView" data-toggle="dropdown" data-bind="click:$root.updateStatus">
                                                             <span data-bind="text:vehicleType"></span>
                                                             <span data-bind="text:id">2342 &nbsp;</span>
                                                             <span class="caret"></span>
@@ -470,7 +467,7 @@
                                             <ul style="display: inline" class="cabs" data-bind="foreach:cabs">
                                                 <li style="display: inline">
                                                     <div class="btn-group">
-                                                        <button type="button" class="btn btn-default dropdown-toggle cabView" data-toggle="dropdown">
+                                                        <button type="button" class="btn btn-defaultdropdown-toggle cabView" data-toggle="dropdown" data-bind="click:$root.updateStatus">
                                                             <span data-bind="text:vehicleType"></span>
                                                             <span data-bind="text:id">2342 &nbsp;</span>
                                                             <span class="caret"></span>
@@ -493,14 +490,14 @@
                                                                             </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                            <tr>
+                                                                            <!--<tr>
                                                                                 <td><span>State</span></td>
                                                                                 <td><span data-bind="text:state"></span></td>
-                                                                            </tr>
+                                                                            </tr>--><!--
                                                                             <tr>
                                                                                 <td><span>ETA</span></td>
                                                                                 <td><span data-bind="text:eta"></span></td>
-                                                                            </tr>
+                                                                            </tr>-->
                                                                             <tr>
                                                                                 <td><span>Vehicle Type</span></td>
                                                                                 <td><span data-bind="text:vehicleType"></span></td>

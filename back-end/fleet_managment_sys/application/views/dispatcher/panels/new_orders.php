@@ -110,7 +110,7 @@
         var $inqCallSpan = $("<span>", {class: "label label-danger"}).css({float: 'right'}).text('Inquire: ' + newOrder.inqCall);
 
         var $listGroupHeading = $("<h4>", {class: "list-group-item-heading"})
-            .text(orderBookingTime.format('Do-MMM-YY  hh:mm a'))
+            .text(orderBookingTime.format('Do-MMM-YY  H:mm'))
             .append($fromNowSpan)
             .append($labelSpan);
 
@@ -137,7 +137,7 @@
          *
          var $listGroupHeading = $("<h4>", {class: "list-group-item-heading"})
          .attr('data-bookTime', newOrderUnixTimeStamp)
-         .text(orderBookingTime.format('Do-MMM-YY  hh:mm a'))
+         .text(orderBookingTime.format('Do-MMM-YY  H:mm'))
          .append($fromNowSpan)
          .append($labelSpan);
 
@@ -151,7 +151,7 @@
          .append($listGroupHeading).append($listGroupText);
          * */
 //        var orderBookingTime = moment.unix(newOrderUnixTimeStamp);
-//            .attr('data-bookTime', newOrderUnixTimeStamp).text(orderBookingTime.format('Do-MMM-YY  hh:mm a')).append($fromNowSpan).append($labelSpan);
+//            .attr('data-bookTime', newOrderUnixTimeStamp).text(orderBookingTime.format('Do-MMM-YY  H:mm')).append($fromNowSpan).append($labelSpan);
 
         /* Find element ref id which new element need to be insert after*/
         var liveOrdersList = $('#liveOrdersList').find('a');
@@ -215,7 +215,7 @@
                 <a id="<?= $order['refId'] ?>" onclick="dispatchOrder(this.id);return false"
                    class="list-group-item" data-bookTime="<?= $order['bookTime']->sec ?>">
                     <h4 class="list-group-item-heading">
-                        <?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?>
+                        <?= date('jS-M-y  H:i', $order['bookTime']->sec) ?>
                         <span class="text-warning fromNow"></span>
                         <span class="label label-info" style="float: right"><?= $order['refId'] ?></span>
                     </h4>
@@ -254,7 +254,7 @@
             <?php foreach ($dispatchedOrders as $order) { ?>
                 <a id="<?= $order['refId'] ?>" onclick="disengageOrder(this.id);return false"
                    class="list-group-item" data-bookTime="<?= $order['bookTime']->sec ?>">
-                    <?= date('jS-M-y  h:i a', $order['bookTime']->sec) ?>
+                    <?= date('jS-M-y  H:i', $order['bookTime']->sec) ?>
                     <span class="text-warning fromNow"></span>
                     <span class="label label-info" style="float: right"><?= $order['refId'] ?></span>
                 </a>

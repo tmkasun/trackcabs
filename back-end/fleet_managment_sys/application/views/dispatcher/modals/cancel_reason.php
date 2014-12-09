@@ -28,6 +28,9 @@
                     pos: 'top-center'
                 });
 
+                // TODO: uncomment this after fixing bug + getting the cab id
+//                locVM.setToIdleFromStringParams(datum["value"],cabId);
+
             }
         ).
             fail(
@@ -81,7 +84,6 @@
             $("#newLocation").html(datum["value"]);
         }).on('typeahead:autocompleted', function ($e, datum) {
             console.log("DEBUG: on auto");
-            locVM.
             $("#newLocation").html(datum["value"]);
         }
     );

@@ -205,7 +205,7 @@ class User_dao extends CI_Model
     {
         $collection = $this->get_collection();
 
-        $searchQuery = array('userId' => $userId);
+        $searchQuery = array('userId' => (int)$userId);
         $collection->update($searchQuery, array('$set' => $edited_data));
         //$user = $collection->findOne($searchQuery);
 

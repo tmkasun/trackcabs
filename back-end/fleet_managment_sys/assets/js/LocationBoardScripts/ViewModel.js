@@ -45,7 +45,7 @@ function Cab(data){
     this.vehicleType                =  data.vType;
     this.info                       =  data.info;
     this.zone                       =  data.zone;
-    this.state                      =  data.state;
+    this.state                      =  ko.observable(data.state);
     this.eta                        =  data.eta;
 }
 
@@ -84,7 +84,7 @@ var zone29  = new Zone(29,"Rathmalana"                  );
 var zone30  = new Zone(30,"Moratuwa"              );
 var zone31  = new Zone(31,"Panadura"                   );
 var zone32  = new Zone(32,"Dematagoda"            );
-var zone33  = new Zone(33,"Piliyandala"                  );
+var zone33  = new Zone(33,"paliyagoda"                  );
 var zone34  = new Zone(34,"Wattala"                 );
 var zone35  = new Zone(35,"Kiribathgoda"              );
 var zone36  = new Zone(36,"Ja-Ela"                );
@@ -222,8 +222,9 @@ function LocationBoardViewModel(){
             // other....
             for(var key in self.cabList()){
                 var currentCab = self.cabList()[key];
+                var currentCabState = ko.utils.unwrapObservable(currentCab.state);
 
-                /*if (currentCab.state === "IDLE" && currentCab.zone === "None") {
+                /*if (currentCabState === "IDLE" && currentCab.zone === "None") {
                     var otherObject = ko.utils.arrayFirst(LocationBoard.other, function(item) {
                         return item.name === "Unknown"
                     });
@@ -235,8 +236,17 @@ function LocationBoardViewModel(){
                 }
                 else */
 
+                if(currentCab.userId != -1 ){//If user not assigned put into not reported
+                    var otherObject = ko.utils.arrayFirst(LocationBoard.other, function(item) {
+                        return item.name === "Not Reported"
+                    });
+                    var index = ko.utils.arrayIndexOf(LocationBoard.other,otherObject);
+                    if(index != -1){
+                        self.other()[index].cabs.push(currentCab);
+                    }
+                }
                 //OTHER State and Idle|None Combinations belong to the OTHER Panel
-                if(currentCab.state === "OTHER" || currentCab.state === "IDLE" && currentCab.zone === "None"){
+                else if(currentCabState === "OTHER" || currentCab.zone === "None"){
                     var otherObject = ko.utils.arrayFirst(LocationBoard.other, function(item) {
                         return item.name === currentCab.zone
                     });
@@ -246,7 +256,7 @@ function LocationBoardViewModel(){
 
                     }
                 }
-                else if(currentCab.state === "MSG_NOT_COPIED" || currentCab.state === "MSG_COPIED"|| currentCab.state === "AT_THE_PLACE") {
+                else if(currentCabState === "MSG_NOT_COPIED" || currentCabState === "MSG_COPIED"|| currentCabState === "AT_THE_PLACE") {
                     self.pendingCabs.push(currentCab);
 
                 }
@@ -256,13 +266,14 @@ function LocationBoardViewModel(){
                     });
                     var index = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObject);
                     if(index != -1){
-                        if(currentCab.state == "IDLE"){
+                        if(currentCabState == "IDLE"){
                             self.zones()[index]["idle"].cabs.push(currentCab);
                         }
-                        else if(currentCab.state == "POB"){
+                        else if(currentCabState == "POB"){
                             self.zones()[index]["pob"].cabs.push(currentCab);
                         }
                     }
+
                 }
 
             }
@@ -270,10 +281,12 @@ function LocationBoardViewModel(){
             //Sort ETA cabs by time
             for(key in self.zones()){
                 self.zones()[key].pob.cabs.sort(function (cab1, cab2) {
-                    if (cab1.eta > cab2.eta) {
+                    cab1eta = parseInt(cab1.eta);
+                    cab2eta = parseInt(cab2.eta);
+                    if (cab1eta > cab2eta) {
                         return 1;
                     }
-                    if (cab1.eta < cab2.eta) {
+                    if (cab1eta < cab2eta) {
                         return -1;
                     }
                     return 0;
@@ -339,7 +352,7 @@ function LocationBoardViewModel(){
         return zoneList;
     });
     self.Others = ko.computed(function() {
-        var zoneList = LocationBoard.other.slice(0,Math.round(otherLength/2));
+        var zoneList = LocationBoard.other;
         return zoneList;
     });
     //end of divided view of colombo
@@ -646,7 +659,7 @@ function LocationBoardViewModel(){
     };
 
     self.removeCabFromAllBoards = function(lastZone, cabId) {
-        //Remove from Idle and Pob
+/*        //Remove from Idle and Pob
         var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
             return item.name === lastZone
         });
@@ -655,8 +668,6 @@ function LocationBoardViewModel(){
             self.zones()[indexToRemove].idle.cabs.remove(function(item) { return item.id === cabId });
             self.zones()[indexToRemove].pob.cabs.remove(function(item) { return item.id === cabId });
         }
-        //Remove From Pending
-        self.pendingCabs.remove(function(item) { return item.id === cabId});
         //Remove from Other
         var otherObject = ko.utils.arrayFirst(LocationBoard.other, function(item) {
             return item.name === lastZone
@@ -664,12 +675,31 @@ function LocationBoardViewModel(){
         var otherIndexToRemove = ko.utils.arrayIndexOf(LocationBoard.other,otherObject);
         if(otherIndexToRemove != -1){
             self.other()[otherIndexToRemove].cabs.remove(function(item) { return item.id === cabId});
+        }*/
+
+        //Remove From Pending
+        self.pendingCabs.remove(function(item) { return item.id === cabId});
+
+        for(var key in LocationBoard.zone){
+            self.zones()[key].idle.cabs.remove(function(item) { return item.id === cabId });
+            self.zones()[key].pob.cabs.remove(function(item) { return item.id === cabId });
+        }
+        for(var key in LocationBoard.other){
+            self.other()[key].cabs.remove(function(item) { return item.id === cabId});
         }
 
     };
 
 
+    self.updateStatus = function(cab){
+        var sendingData  = {};
+        sendingData.cabId= cab.id;
 
+        $.get(serviceUrl +"cab_retriever/getCab",sendingData,function(response) {
+            cab.state(JSON.parse(response).data.state);
+            console.log(JSON.parse(response).data.state);
+        });
+    };
     self.disableInputs = function () {
         $('button.cabAdd').css('display','none');
         $('button.cabManipulate').css('display','none');

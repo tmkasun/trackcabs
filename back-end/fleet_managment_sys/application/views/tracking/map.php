@@ -18,22 +18,44 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/app.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css">
+    <!-- Leaflet styles -->
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/leaflet.css"/>
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/L.Control.Locate.css"/>
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/MarkerCluster.Default.css"/>
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/leaflet_fullscreen/leaflet.fullscreen.css"/>
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/leaflet/leaflet.draw.css"/>
 
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/uikit/uikit.min.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/uikit/addons/uikit.addons.min.css"/>
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/jquery-ui.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/jquery-ui.theme.min.css">
 
+    <!-- C3 chart library styles-->
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/d3/c3.css">
 
     <script src="<?= base_url() ?>assets/js/jquery-2.1.1.min.js"></script>
     <script src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
     <script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
+
+    <!-- Leaflet plugins libries -->
+    <script src="<?= base_url() ?>assets/js/leaflet/leaflet.js"></script>
+    <script src="<?= base_url() ?>assets/js/leaflet/leaflet.markercluster.js"></script>
+    <script src="<?= base_url() ?>assets/js/leaflet/L.Control.Locate.js"></script>
+    <script src="<?= base_url() ?>assets/js/leaflet/leaflet.groupedlayercontrol.js"></script>
+    <script src="<?= base_url() ?>assets/js/leaflet/Leaflet.fullscreen.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/leaflet/Marker.Rotate.js"></script>
+    <script src="<?= base_url() ?>assets/js/leaflet/leaflet.draw.js"></script>
 
     <!-- TODO: for reference <Update lib or remove if not in use>: This `R`(RaphaelLayer: https://github.com/dynmeth/RaphaelLayer) library is dam buggy can't use it reliably -->
     <!--<script src="<?= base_url() ?>assets/js/leaflet/rlayer.js"></script>-->
     <!--<script src="<?= base_url() ?>assets/js/leaflet/raphael-min.js"></script>-->
 
     <script src="<?= base_url() ?>assets/js/typeahead.bundle.min.js"></script>
+
+
+    <!-- C3 charting library using D3 core -->
+    <script src="<?= base_url() ?>assets/js/d3/d3.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/d3/c3.min.js"></script>
 
     <!-- UIkit libraries -->
     <script src="<?= base_url() ?>assets/js/uikit/uikit.min.js"></script>
@@ -46,8 +68,35 @@
     <!-- ** comment out below imports if using minimized wso2_geo.min library **  -->
     <script src="<?= base_url() ?>assets/js/application_options.js"></script>
     <script>
-        setBaseURL('<?= base_url().'index.php/' ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
+        setBaseURL('<?= base_url() ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
+
+        function subscribe(userid) {
+            console.log("DEBUG: userid = " + userid);
+            var conn = new ab.Session('ws://' + ApplicationOptions.constance.WEBSOCKET_URL + ':' + ApplicationOptions.constance.WEBSOCKET_PORT,
+                function () {
+                    conn.subscribe(userid, function (topic, data) {
+                        // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                        console.log('New Message published to user "' + topic + '" : ' + data.message.vType);
+                        console.log(data);
+                    });
+                },
+                function () {
+                    console.warn('WebSocket connection closed');
+                },
+                {'skipSubprotocolCheck': true}
+            );
+        }
+        subscribe('tracking');
+
     </script>
+    <script src="<?= base_url() ?>assets/js/tracking/websocket.js"></script>
+    <script src="<?= base_url() ?>assets/js/geo_remote.js"></script>
+    <script src="<?= base_url() ?>assets/js/geo_fencing.js"></script>
+    <script src="<?= base_url() ?>assets/js/show_alert_in_map.js"></script>
+
+    <!-- Combined and compiled JS with google closure compile-->
+    <!--<script src="<?= base_url() ?>assets/js/wso2_geo/wso2_geo.min.js"></script>-->
+
     <style>
         /*
         TODO: Move this styles to separate CSS for clarity.
@@ -76,6 +125,7 @@
         }
 
         #container {
+            position: fixed;
             top: 0px;
         }
 
@@ -103,51 +153,30 @@
             stroke-dasharray: 3, 20;
         }
 
-        #resetSearch:hover {
-            transition: 0.9s;
-            transform: rotate(180deg);
-            color: #5d0012;
-        }
-
     </style>
-
-    <script>
-        //TODO: move this scripts to separate file like dispatcher.js in assets file
-        var currentDispatchOrderRefId;
-        function dispatchCab() {
-            if (!currentDispatchOrderRefId) {
-                $.UIkit.notify({
-                    message: '<span style="color: dodgerblue">Please select an order first!</span><br>',
-                    status: 'danger',
-                    timeout: 3000,
-                    pos: 'top-center'
-                });
-                return false;
-            }
-            $.post('dispatcher/dispatchVehicle', {refId: currentDispatchOrderRefId}, function (response) {
-                $.UIkit.notify({
-                    message: '<span style="color: dodgerblue">' + response.status + '</span><br>' + response.message,
-                    status: (response.status == 'success' ? 'success' : 'danger'),
-                    timeout: 3000,
-                    pos: 'top-center'
-                });
-            });
-            currentDispatchOrderRefId = null;
-//            location.reload(true);
-        }
-    </script>
 </head>
 
-<body style="margin: 0;padding: 0;zoom: 90%;">
+<body style="margin: 0;padding: 0;">
 
 <div id="container">
-
+    <!-- Sidebar -->
+    <div id="map"></div>
+</div>
 
 <nav class="navbar navbar-inverse" role="navigation">
     <div class="navbar-header">
         <a class="navbar-brand" href="#"><img style="max-width:50px; margin-top: -7px;"
                                               src="<?= base_url() ?>assets/img/hao-logo-small.png"/></a>
 
+        <!-- TODO: for reference, remove if not use
+        <div class="navbar-icon-container">
+            <a href="#left_side_pannel" data-uk-offcanvas class="navbar-icon pull-right visible-xs"
+                    ><i class="fa fa-bars fa-lg" style="color: #FF9900"></i></a>
+            <a href="#" class="navbar-icon pull-right visible-xs"
+               onclick="$('.navbar-collapse').collapse('toggle');return false;"><i class="fa fa-search fa-lg"
+                                                                                   style="color: #FF9900"></i></a>
+        </div>
+        -->
     </div>
     <div class="navbar-collapse collapse">
         <!-- TODO: for reference, remove if not use
@@ -160,131 +189,98 @@
 
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/calling_number');return false">Calling No.</button>
+                    <a href="/" class="btn btn-sm btn-success navbar-btn">Home</a>
                 </form>
             </li>
-            <li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/cab_start');return false" >Cab Location</button>
-                </form>
-            </li>
-            <li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModalLarger').modal('toggle').find('.modal-content').load('dispatcher/cab_info');return false" >Cab Info</button>
-                </form>
-            </li>
-            <li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModalLarger').modal('toggle').find('.modal-content').load('dispatcher/dispatch_history');return false" >Dispatch History</button>
-                </form>
-            </li>           
-            
-            <li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/search_cab');return false" >Search cab</button>
-                </form>
-            </li>
-            <li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Cab lock</button>
-                </form>
-            </li>
-
-            <!--<li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Payment</button>
-                </form>
-            </li>-->
-
-            <li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <a class="btn btn-sm btn-success navbar-btn" href="monitor"  target="_blank" >Monitor Agent</a>
-                </form>
-            </li>
-
-            <li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <a href="vehicle_tracking" class="btn btn-sm btn-warning navbar-btn" target="_blank">Vehicle Tracking</a>
-                </form>
-            </li>
-
-            <li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Cab Attendance</button>
-                </form>
-            </li>
-            <!--<li class="dropdown">
-                <form action="#" style="margin: 0px;padding-right: 5px;" class="dropdown-toggle"
-                      data-toggle="dropdown">
-                    <a class="btn btn-sm btn btn-warning navbar-btn">Reports</a>
-                </form>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Calling sheet</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Income
-                            <report></report>
-                        </a></li>
-                </ul>
-            </li>-->
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                        style="color: #f9fdff;cursor: pointer;">Dispatcher </span><i class="fa fa-angle-double-down fa-lg"></i></a>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
-                           onclick="$('#aboutModal').modal('show'); return false;">About</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a href="<?= site_url('login/logout') ?>">Logout</a></li>
-                </ul>
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-xs btn-warning navbar-btn"
+                            onclick="$('#commonModal').modal('toggle').find('.modal-content').load('vehicle_tracking/login_message');return false">
+                        Usage policy
+                    </button>
+                </form>
             </li>
         </ul>
     </div>
 </nav>
 
-<!-- Location board and dispatch menu area -->
-<div class="row">
-    <div class="col-md-3">
-        <div id="leftSidePane">
-            <div class="input-group input-group">
-                <span class="input-group-addon" style="padding: 0px;margin: 0px;width: 90px;">
-                <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
-                    <button id="searchByRefId" type="button" class="btn btn-default active">Ref#</button>
-                    <button id="searchByTown" type="button" class="btn btn-default">Town</button>
-<!--                    <button id="searchByCabId" type="button" class="btn btn-default">Cab#</button>-->
-                </div></span>
-                <input autofocus="true" id="orderSearch" type="text" class="form-control" placeholder="Search here"/>
-                <span class="input-group-addon">
-                <i id="resetSearch" onclick="$('#liveOrdersList .mCSB_container').empty();$.each(unDispatchedOrders, function (i, order) {addNewOrder(order);});$('#orderSearch').val('');" style="cursor: pointer;" class="fa fa-repeat"></i>
-                </span>
+
+<div id="objectInfo" style="background: darkgray;display: none;border-radius: 13px;height: 94%;padding: 0"
+     class="col-md-2 pull-right">
+    <div class="panel-heading text-center">
+        <h4> Spatial Object ID: <span id="objectInfoId" class="text-info"></span>
+            <i id="objectInfoCloseButton" class="fa fa-times pull-right"
+               onclick="$('#objectInfo').animate({width: ['toggle','swing']},200);toggled = false;spatialObject = currentSpatialObjects[selectedSpatialObject];spatialObject.removePath();spatialObject.marker.closePopup();selectedSpatialObject = null;">
+            </i>
+        </h4>
+    </div>
+    <div class="panel panel-default" style="max-height: 47%;overflow: auto;box-shadow: 0 0 8px 0 #635749">
+        <div class="panel-heading text-center"><h4>Speed variation</h4>
+        </div>
+        <div class="panel-body">
+            <!-- TODO:  setting `margin-left` to increase the area of the chart is a bad hack there should be a better way to do this check :P -->
+            <div style="margin: 0;border: none;margin-left: -25px" id="chart_div"></div>
+        </div>
+    </div>
+
+    <div class="panel panel-default" style="max-height: 47%;overflow: auto;box-shadow: 0px 0px 8px 0px #635749">
+        <div class="panel-heading text-center">
+            <div class="panel-title"><h4>Alerts</h4></div>
+        </div>
+        <div class="panel-body" style="padding: 0px">
+            <div id="showAlertsArea" class="list-group" style="margin-top: 15px">
+
             </div>
-            <?= $new_orders_pane ?>
+
         </div>
     </div>
-    <div class="col-md-4" style="overflow-y: auto;" >
-        <div id="rightSidePane" >
-            <div class="row" id="orderBuilder">
-                <div class="well well-sm text-center"  >
-                    Select an order for dispatch
-                </div>
+    <!--/panel-->
+</div>
+
+<div>
+
+    <form id="locationSearch" class="navbar-form" role="search"
+          onsubmit="return false;">
+        <div class="form-group has-feedback">
+            <div class="input-group">
+                        <span class="input-group-btn"><button class="btn btn-default" type="button">Location
+                            </button></span>
+                <input autofocus="true" id="locationSearchbox" type="text"
+                       placeholder="Search For location"
+                       class="form-control typeahead">
+                <span id="searchicon" class="fa fa-search form-control-feedback"></span>
             </div>
-
         </div>
-    </div>
+        <input style="visibility: hidden;position: fixed;" type="submit"/>
+    </form>
 
-    <div id="locBoardWrapper"  class="col-md-5" style="overflow-y: auto;">
-
-        <div class="row" style="max-height: 90%;" id="locationBoardPane">
-            <?= $location_board_pane ?>
+    <form id="mapSearch" class="navbar-form" role="search"
+          onsubmit="focusOnSpatialObject($(this).find('#searchbox').val());return false;">
+        <div class="form-group has-feedback">
+            <div class="input-group">
+                        <span class="input-group-btn"><button class="btn btn-default" type="button">CabId
+                            </button></span><input autofocus="true" id="searchbox"
+                                                   type="text"
+                                                   placeholder="Search for cab"
+                                                   class="form-control typeahead">
+                <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+            </div>
         </div>
-    </div>
+        <input style="visibility: hidden;position: fixed;" type="submit"/>
+    </form>
 
 </div>
 
+<div id="loading">
+    <div class="loading-indicator">
+        <div class="progress progress-striped active">
+            <div class="progress-bar progress-bar-info" style="width: 100%"></div>
+        </div>
+    </div>
+</div>
 
 <!-- Modals in use -->
 <div class="modal" id="aboutModal" tabindex="-1" role="dialog">
@@ -638,33 +634,49 @@
 </div>
 <!-- /Modals in use -->
 
-<!-- General modal placeholder , TODO: open all the modal through this wrapper via remote AJAX calls -->
-<div class="modal" id="commonModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
+
+<!-- Import within-GeoJson modal -->
+<div class="modal" id="editWithinGeoJSON" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <!-- This content is load by $.ajax call , pages are located at '/controllers/modals/' -->
+            <div class="modal-header"
+                 style="cursor: move;background: #f9f9f9;-webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);-moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);">
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">
+                    <!-- TODO: Trigger bootstrap tooltip $('#aboutTileUrl').tooltip(); to enable tooltip -->
+                    Edit GeoJson object of the selected area
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label class="text-primary" for="importGeoJsonFile">Import GeoJson</label>
+                        <input id="importGeoJsonFile" type="file">
+                        <hr/>
+
+                        <label class="text-primary" for="enterGeoJson">Enter GeoJson</label>
+                        <textarea id="enterGeoJson" class="form-control" rows="10"></textarea>
+                    </div>
+                </div>
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group">
+                        <button id="updateGeoJson" class="btn btn-primary" onclick="importGeoJson()">Import</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn  btn-default" onclick="closeAll()">Cancel</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
 </div>
-<!--commonModalLarger-->
-
-<div class="modal" id="commonModalLarger" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" style="width: 90%">
-        <div class="modal-content">
-            <!-- This content is load by $.ajax call , pages are located at '/controllers/modals/' -->
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-
 <!-- /Modals in use -->
 
 
 <!-- ** comment out below library if using minimized wso2_geo_app.min library **  -->
-<script src="<?= base_url() ?>assets/js/app.js"></script>
+<script src="<?= base_url() ?>assets/js/tracking/tracking.js"></script>
 
 <!-- Combined and compiled JS with google closure compile-->
 <!--<script src="<?= base_url() ?>assets/js/wso2_geo/wso2_geo_app.min.js"></script>-->
@@ -681,7 +693,7 @@
             <p id="information" class="bg-primary" style="margin: 0px;padding: 0px;"></p>
             <h6>Speed<span class="label label-primary pull-right"><span id="speed"></span> km/h</span></h6>
             <h6>Heading<span id="heading" class="label label-primary pull-right"></span></h6>
-            <button type="button" onclick="dispatchCab()" class="btn btn-info btn-xs">Dispatch</button>
+            <!--            <button type="button" class="btn btn-info btn-xs">Dispatch</button>-->
         </div>
     </div>
 
@@ -722,6 +734,17 @@
     </div>
     <div id="templateLoader"></div>
 </div>
+<!-- General modal placeholder , TODO: open all the modal through this wrapper via remote AJAX calls -->
+<div class="modal" id="commonModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- This content is load by $.ajax call , pages are located at '/controllers/modals/' -->
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>
+<!-- /Modals in use -->
+
 </body>
 </html>

@@ -60,6 +60,8 @@ class Dispatcher extends CI_Controller
             show_404();
         };
         $newOrder = $this->live_dao->getBooking($orderRefId);
+        $cab = $this->cab_dao->getCab($newOrder['cabId']);
+        $newOrder['cab'] = $cab;
         $this->load->view('dispatcher/panels/disengage', array('newOrder' => $newOrder));
 
     }
@@ -93,21 +95,22 @@ class Dispatcher extends CI_Controller
         $this->live_dao->setCabId($orderId, $cabId);
         $this->live_dao->updateStatus((string)$dispatchingOrder['_id'], "MSG_NOT_COPIED");
         $this->live_dao->setDispatchedTime($orderId);
+        $user = $this->session->userdata('user');
 
+        $this->live_dao->updateBooking((string)$dispatchingOrder['_id'],array('dispatcherId' => (int)$user['userId']));
         $driverId = strlen($driverId) <= 1 ? '0' . $driverId : $driverId;
 
         $sentCusto = $sms->send($custoNumber, $custoMessage);
 
         $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? '' : "\nCustomer number: $custoNumber";
         $pagingBoard = ($dispatchingOrder['pagingBoard'] != '-') ? "\nPaging Board: $dispatchingOrder[pagingBoard]" : '';
-
-        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . $custoNumber . $pagingBoard . "\nAddress: " . $custoAddress;
+        $remarks = ($dispatchingOrder['remark'] != '-') ? "\nRemarks: $dispatchingOrder[remark]" : '';
+        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . $custoNumber . $pagingBoard . $remarks . "\nAddress: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
 
         $sentDriver = $sms->send($driverNumber, $driverMessage);
 
-        $user = $this->session->userdata('user');
         $webSocket = new Websocket('localhost', '5555', $user['userId']);
         $dispatchingOrder = $this->live_dao->getBooking($orderId); // Get the updated order
         $dispatchingOrder['driverTp'] = $driverNumber;
@@ -359,7 +362,7 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
     function search_cab()
     {
         $allCabs = $this->cab_dao->getAllCabs();
-        $this->load->view('dispatcher/modals/search_cab',array('cabs'=>$allCabs));
+        $this->load->view('dispatcher/modals/search_cab', array('cabs' => $allCabs));
     }
 
     function dispatch_history()
@@ -368,9 +371,9 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->load->view('dispatcher/modals/dispatch_history', array('history_booking' => $history_booking));
     }
 
-    function search_cabs($query,$attribute)
+    function search_cabs($query, $attribute)
     {
-        $result = $this->cab_dao->find($query,$attribute);
+        $result = $this->cab_dao->find($query, $attribute);
         $this->output->set_content_type('application/json');
         echo json_encode($result);
     }
@@ -408,6 +411,17 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
 //            }
         }
         $this->load->view('dispatcher/modals/cab_start_location', array('data' => $driversWithCab));
+    }
+
+    function  logout_user(){
+        $driverId = (int)$this->input->post('driverId');
+        $status = $this->input->post('status');
+        $status = ($status === "true");
+        $updateData = array(
+            'logout' => $status
+        );
+        $this->user_dao->updateUser($driverId,$updateData);
+
     }
 
     //Functions added by Adb

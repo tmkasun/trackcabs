@@ -12,6 +12,13 @@ import cgi
 import serial
 import time
 import json
+import urllib
+
+from twisted.internet.defer import succeed
+from twisted.web.iweb import IBodyProducer
+
+from zope.interface import implements
+
 # Good article http://pedrokroger.net/getting-started-pycharm-python-ide/
 
 # client = MongoClient() #will connect on the default host and port.
@@ -21,6 +28,24 @@ import json
 client = MongoClient('localhost', 27017)
 
 debugObject = None
+
+# For reference https://twistedmatrix.com/documents/14.0.0/web/howto/client.html
+class StringProducer(object):
+    implements(IBodyProducer)
+
+    def __init__(self, body):
+        self.body = body
+        self.length = len(body)
+
+    def startProducing(self, consumer):
+        consumer.write(self.body)
+        return succeed(None)
+
+    def pauseProducing(self):
+        pass
+
+    def stopProducing(self):
+        pass
 
 
 class AlertToMongo(Resource):
@@ -48,12 +73,14 @@ class AlertToMongo(Resource):
         event_state = str(jsonHash['properties']['state'])
         order_id = int(jsonHash['properties']['orderId'])
 
+        order_state = event_state
+
         if event_state == "IDLE":
             order_state = "COMPLETED"
         elif event_state == "AT_THE_PLACE":
-            pass
-        else:
-            order_state = event_state
+            order = client.track['live'].find_one({'refId': order_id})
+            self.send_sms(order['tp'], "Your cab is at the place,\nRefNo: {} \nThank you".format(order_id))
+
 
         print(
             "DEBUG: orderId = {} orderState = {}".format(order_id,
@@ -74,11 +101,19 @@ class AlertToMongo(Resource):
             client.track[collection].remove({'refId': order_id})
 
     @inlineCallbacks
-    def send_sms(self, number, message):
-        ag = Agent(reactor)
-        response = yield ag.request('POST', '127.0.0.1:3000/sms_service', Headers({'User-Agent': ['Twisted Web Client Example'],'Content-Type': 'application/x-www-form-urlencoded'}), None)
+    def send_sms(self, mobile_number, message):
+        # for reference https://gist.github.com/lukemarsden/846545
+        urlEncodedData = urllib.urlencode({'mobile_number': mobile_number, 'message': message})
+        body = StringProducer(urlEncodedData)
+
+        yield web_agent.request('POST', 'http://127.0.0.1:3000/sms_service/',
+                          Headers({'User-Agent': ['Knnect network testing client'],
+                                   'Content-Type': ['application/x-www-form-urlencoded']}), body)
+
 
 port = 9091
+
+web_agent = Agent(reactor)
 
 root = Resource()
 root.putChild('alert_mongo', AlertToMongo())

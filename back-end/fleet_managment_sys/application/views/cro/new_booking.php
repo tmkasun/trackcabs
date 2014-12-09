@@ -131,6 +131,46 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="showCalender()"></span></span>
                             </div>
                         </div>
+
+
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label style="font-weight: bold">
+                                    <input type="checkbox" name="airportTick"  id="airportTick" class="checkBoxMakeAppear"> Air Port Package
+                                </label>
+
+                                <select id="airportPackage" onchange="fillAirportPackageinBookings()" class="form-inline checkBoxElementAppearing" style="display:none">
+                                    <option value="-" selected>Package Name</option>
+                                    <?php foreach($airportPackages['data'] as $package):?>
+                                        <option value="<?= $package['packageId']?>" ><?= $package['packageName']?></option>
+                                    <?php endforeach;?>
+                                </select>
+
+                                <select id="airportPackageType" onchange="selectAirportPackageandAddRemark()" class="form-inline checkBoxElementAppearing" style="display:none">
+                                    <option value="-" disabled selected>Package Type</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label style="font-weight: bold">
+                                    <input type="checkbox" name="dayPackageTick"  id="dayPackageTick" class="checkBoxMakeAppear"> Day Packages
+                                </label>
+
+                                <select id="dayPackage" onchange="selectDayPackageandAddRemark()" class="form-inline checkBoxElementAppearing" style="display:none">
+                                    <option value="-" selected>Select Day Package</option>
+                                    <?php foreach($dayPackages['data'] as $package):?>
+                                        <option value="<?= $package['packageId']?>" >
+                                            <?= $package['km'];?> ,
+                                            <?= $package['hours'];?> (<?= $package['fee'];?>)
+                                        </option>
+                                    <?php endforeach;?>
+                                </select>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 

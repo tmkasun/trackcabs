@@ -14,12 +14,37 @@
     <script type="text/javascript" src="<?= base_url();?>assets/js/cro_operations.js"></script>
     <script type="text/javascript" src="<?= base_url();?>assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 
+    <!-- Moment libraries -->
+    <script src="<?= base_url() ?>assets/js/moment/moment.js"></script>
+
     <script>
         var docs_per_page = 100;
         var page = 1;
         var obj = null;
         var tp;
         var url = '<?= site_url(); ?>';
+
+        function updateTime() {
+//            console.log("DEBUG: call updateTime");
+            var dynamicTimeDOMs = $('.dynamicTimeUpdate');
+            var i = 0;
+            for (; i < dynamicTimeDOMs.length; i++) {
+                var dynamicTimeDOM = $(dynamicTimeDOMs[i]);
+                //        var latestBooking = $('#liveOrdersList').find('a:first');
+                var baseTime = dynamicTimeDOM.data('basetime');
+//                console.log(dynamicTimeDOM);
+                dynamicTimeDOM.html(moment.unix(baseTime).fromNow());
+            }
+        }
+
+
+        (function ($) {
+            $(window).load(function () {
+                moment().format();
+                updateTime();
+                setInterval(updateTime, 1000);
+            });
+        })(jQuery);
     </script>
 </head>
 <body>

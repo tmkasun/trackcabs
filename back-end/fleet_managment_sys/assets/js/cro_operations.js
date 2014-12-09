@@ -256,6 +256,10 @@ function createBooking(url , tp){
     var bookingType = 'Personal';
     var personalProfileTp = '-';
     var cancelReason = '-';
+    var airportPackageId = $('#airportPackage').val();
+    var airportPackageType = $('#airportPackageType').val();
+    var dayPackageId = $('#dayPackage').val();
+    var packageId = '-';
 
     if($('#personalProfileTp').length != 0){
         bookingType = 'Cooperate';
@@ -272,6 +276,17 @@ function createBooking(url , tp){
     if (dispatchB4== ''){dispatchB4= 30}
     if (destination== ''){destination= '-'}
     if (pagingBoard== ''){pagingBoard= '-'}
+
+    if(airportPackage != '-'){
+        if( airportPackageType != '-'){
+            packageId = airportPackageId;
+        }else{
+            alert('Select a Airport Package Type');
+        }
+    }
+    if(dayPackage != '-'){
+        packageId = dayPackageId;
+    }
 
     //TODO : Call to load dispatcher modal conformation
     //$("#orderBuilder").load('dispatcher/newOrder/' + orderId);

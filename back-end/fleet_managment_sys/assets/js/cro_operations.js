@@ -260,6 +260,7 @@ function createBooking(url , tp){
     var airportPackageType = $('#airportPackageType').val();
     var dayPackageId = $('#dayPackage').val();
     var packageId = '-';
+    var packageType = '-';
 
     if($('#personalProfileTp').length != 0){
         bookingType = 'Cooperate';
@@ -277,15 +278,17 @@ function createBooking(url , tp){
     if (destination== ''){destination= '-'}
     if (pagingBoard== ''){pagingBoard= '-'}
 
-    if(airportPackage != '-'){
+    if(airportPackageId != '-'){
         if( airportPackageType != '-'){
             packageId = airportPackageId;
+            packageType = airportPackageType;
         }else{
             alert('Select a Airport Package Type');
         }
     }
-    if(dayPackage != '-'){
+    if(dayPackageId != '-'){
         packageId = dayPackageId;
+        packageType = 'day';
     }
 
     //TODO : Call to load dispatcher modal conformation
@@ -325,7 +328,9 @@ function createBooking(url , tp){
             'bookingCharge' : bookingCharge,
             'bookingType' : bookingType,
             'personalProfileTp' : personalProfileTp,
-            'cancelReason' :cancelReason
+            'cancelReason' :cancelReason,
+            'packageId' : packageId,
+            'packageType' : packageType
         }
     };
     var result = ajaxPost(data,url,false);
@@ -373,7 +378,24 @@ function updateBooking(url , objId){
     var isVip               = $('#vip')[0].checked;
     var isVih               = $('#vih')[0].checked;
     var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
+    var airportPackageId = $('#airportPackage').val();
+    var airportPackageType = $('#airportPackageType').val();
+    var dayPackageId = $('#dayPackage').val();
+    var packageId = '-';
+    var packageType = '-';
 
+    if(airportPackageId != '-'){
+        if( airportPackageType != '-'){
+            packageId = airportPackageId;
+            packageType = airportPackageType;
+        }else{
+            alert('Select a Airport Package Type');
+        }
+    }
+    if(dayPackageId != '-'){
+        packageId = dayPackageId;
+        packageType = 'day';
+    }
 
     var address = {
         'no':no ,
@@ -397,14 +419,12 @@ function updateBooking(url , objId){
             'isVih':isVih,
             'isCusNumberNotSent':isCusNumberNotSent,
 
-            'status' : 'START' ,
-            'cabId' : '-',
-            'driverId' : '-',
             'remark' : remark ,
-            'inqCall' : 0,
             'callUpPrice' : callUpPrice,
             'dispatchB4' : dispatchB4,
-            'pagingBoard' : pagingBoard
+            'pagingBoard' : pagingBoard,
+            'packageId' : packageId,
+            'packageType' : packageType
         }
     };
     ajaxPost(data,url);

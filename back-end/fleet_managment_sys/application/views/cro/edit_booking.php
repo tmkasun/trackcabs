@@ -51,28 +51,21 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="checkbox">
-                                <label style="font-weight: bold">
-                                    <input type="checkbox" name="callUp"  id="callUp" class="checkBoxMakeAppear"> Call Up Given
-                                </label>
-                                <input type="text" class="form-control checkBoxElementAppearing" id="callUpPrice" value="<?= $callUpPrice?>" name="callUpPrice" placeholder="Call Up Price" style="display:none">
-                            </div>
+                            <label for="callUpPrice" style="font-weight: bold"> Call Up Given
+                            </label>
+                            <input type="text" class="form-control" id="callUpPrice" value="<?= $callUpPrice?>" name="callUpPrice" placeholder="Call Up Price" >
                         </div>
 
                         <div class="form-group">
-                            <div class="checkbox">
-                                <label style="font-weight: bold"><input type="checkbox" name="destinationGiven"  id="destinationGiven" class="checkBoxMakeAppear"> Destination
-                                </label>
-                                <input type="text" class="form-control checkBoxElementAppearing" id="destination" value="<?= $destination?>" name="destination" placeholder="Given Destination" style="display:none">
-                            </div>
+                            <label for="destination" style="font-weight: bold"> Destination
+                            </label>
+                            <input type="text" class="form-control" id="destination" value="<?= $destination?>" name="destination" placeholder="Given Destination" >
                         </div>
 
                         <div class="form-group">
-                            <div class="checkbox">
-                                <label style="font-weight: bold"><input type="checkbox" name="pagingBoardName"  id="pagingBoardName" class="checkBoxMakeAppear"> Paging Board
-                                </label>
-                                <input type="text" class="form-control checkBoxElementAppearing" id="pagingBoard" value="<?= $pagingBoard?>" name="pagingBoard" placeholder="Paging Board Name" style="display:none">
-                            </div>
+                            <label for="pagingBoard" style="font-weight: bold"> Paging Board
+                            </label>
+                            <input type="text" class="form-control " id="pagingBoard" value="<?= $pagingBoard?>" name="pagingBoard" placeholder="Paging Board Name" >
                         </div>
                     </div>
                 </div>
@@ -120,6 +113,26 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="showCalender()"></span></span>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label style="font-weight: bold">
+                                    <input type="checkbox" name="dayPackageTick"  id="dayPackageTick" class="checkBoxMakeAppear"> Day Packages
+                                </label>
+
+                                <select id="dayPackage" onchange="selectDayPackageandAddRemark()" class="form-inline checkBoxElementAppearing" style="display:none">
+                                    <?php foreach($dayPackages['data'] as $package):?>
+                                        <option value="<?= $package['packageId']?>"
+                                            <?php if(isset($packageId) && ($package['packageId'] == $packageId))echo "selected";?>>
+                                            <?= $package['km'];?> ,
+                                            <?= $package['hours'];?> (<?= $package['fee'];?>)
+                                        </option>
+                                    <?php endforeach;?>
+                                </select>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 

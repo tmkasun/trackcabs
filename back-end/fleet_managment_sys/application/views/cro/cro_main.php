@@ -153,7 +153,6 @@
             <li><a href="<?= site_url('cro_controller/loadBookingsView')?>" target="_blank" >Bookings</a></li>
             <li><a href="<?= site_url('cro_controller/loadMapView')?>" target="_blank">Map</a></li>
             <li><a href="<?= site_url('cro_controller/loadLocationBoardView')?>" target="_blank">Location Board</a></li>
-            <li><a href="<?= site_url('cro_controller/refresh')?>" target="_blank">Refresh</a>
             <li><a href="<?= site_url('cro_controller/getCabHeaderView')?>" target="_blank">Cabs</a>
             <li><a href="<?= site_url('cro_controller/getAllPackagesView')?>" target="_blank">Packages</a>
 <!--            <li><a href="" onclick="forCro()">Packages</a>-->

@@ -60,6 +60,18 @@ class Packages_dao extends CI_Model
         return $packages;
     }
 
+    function getAllAirportPackages(){
+
+        $collection = $this->get_collection();
+        $searchQuery = array('feeType' => 'airport');
+        $cursor = $collection->find($searchQuery);
+        $packages= array('data'=> array());
+        foreach ($cursor as $package) {
+            $packages['data'][]= $package;
+        }
+        return $packages;
+    }
+
 
     function updatePackage($packageId , $data){
         $collection = $this->get_collection();

@@ -131,6 +131,31 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="showCalender()"></span></span>
                             </div>
                         </div>
+
+
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label style="font-weight: bold">
+                                    <input type="checkbox" name="airportTick"  id="airportTick" class="checkBoxMakeAppear"> Air Port Package
+                                </label>
+
+                                <select id="airportPackage" class="form-control checkBoxElementAppearing col-lg-6" style="display:none">
+                                    <option value="-" selected>Package Name</option>
+                                    <?php foreach($airportPackages['data'] as $package):?>
+                                        <option value=""><?= $package['packageName']?></option>
+                                    <?php endforeach;?>
+                                </select>
+
+                                <select id="airportPackage" class="form-control checkBoxElementAppearing col-lg-6" style="display:none">
+                                    <option value="-" selected>Package Type</option>
+                                    <?php foreach($airportPackages['data'] as $package):?>
+                                        <option value=""><?= $package['packageName']?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
 

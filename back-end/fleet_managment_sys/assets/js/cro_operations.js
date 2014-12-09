@@ -90,7 +90,13 @@ function getEditBookingView(url , bookingObjId){
         $('#paymentType').val('credit');
     }
 
+    var packageType = bookingObj[index]['packageType'];
 
+
+
+    if(packageType  == "day"){
+
+    }
 }
 
 function getCancelConfirmationView( url ,  bookingObjId ){
@@ -692,7 +698,7 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobPagingBoard').html(bookingObj[index]['pagingBoard']);
 
 
-    $('#jobEditButton').attr("onclick", "operations('editBooking',"+bookingObj[index]['_id']['$id']+")");
+    $('#jobEditButton').attr("onclick", "operations('authenticateUser',"+"'"+bookingObj[index]['_id']['$id']+"'"+",'editBooking')");
     $('#jobInquireButton').attr("onclick", "operations('addInquireCall',"+bookingObj[index]['_id']['$id']+")");
     $('#jobInquireButtonCount').html(bookingObj[index]['inqCall']);
     $('#jobComplaintButton').attr("onclick", "operations('addComplaint',"+bookingObj[index]['refId']+")");

@@ -116,11 +116,10 @@
 
                         <div class="form-group">
                             <div class="checkbox">
-                                <label style="font-weight: bold">
-                                    <input type="checkbox" name="dayPackageTick"  id="dayPackageTick" class="checkBoxMakeAppear"> Day Packages
-                                </label>
+                                <label style="font-weight: bold">Day Packages</label>
 
-                                <select id="dayPackage" onchange="selectDayPackageandAddRemark()" class="form-inline checkBoxElementAppearing" style="display:none">
+                                <select id="dayPackage" onchange="selectDayPackageandAddRemark()" class="form-inline checkBoxElementAppearing">
+                                    <option value="-">NOT SELECTED</option>
                                     <?php foreach($dayPackages['data'] as $package):?>
                                         <option value="<?= $package['packageId']?>"
                                             <?php if(isset($packageId) && ($package['packageId'] == $packageId))echo "selected";?>>
@@ -128,6 +127,7 @@
                                             <?= $package['hours'];?> (<?= $package['fee'];?>)
                                         </option>
                                     <?php endforeach;?>
+
                                 </select>
 
                             </div>

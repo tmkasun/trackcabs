@@ -395,7 +395,7 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
 
     function  cab_start()
     {
-        $drivers = $this->user_dao->getAllUsers_by_type('driver');
+        $drivers = $this->user_dao->getAllUsers_by_type('driver');//The assigned drivers can be quried by using '!= -1'
         $driversWithCab = array();
         foreach ($drivers['data'] as $driver) {
             if ($driver['cabId'] != -1) {
@@ -410,6 +410,13 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->load->view('dispatcher/modals/cab_start_location', array('data' => $driversWithCab));
     }
 
+    //Functions added by Adb
+    function cab_info()
+    {
+        $assigned_cabs = $this->cab_dao->get_assigned_cabs();
+        $this->load->view('dispatcher/modals/cab_info', array('assigned_cabs' => $assigned_cabs));
+    }
+    
 //    function sendSms($bookingCreated, $message)
 //    {
 //        $sms = new Sms();

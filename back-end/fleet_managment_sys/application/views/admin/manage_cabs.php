@@ -163,15 +163,17 @@
         var cabId = "";
         var logout = "false";
         var callingNumber = "-1";
+        var logSheetNumber = "-1";
         var startLocation = "";
         if(id.toString() === "driver" )
         {
             cabId = document.getElementById("cabId").value;
             logout = document.getElementById("logout").value;
             callingNumber = document.getElementById("callingNumber").value;
+            logSheetNumber = document.getElementById("logSheetNumber").value;
             startLocation = document.getElementById("startLocation").value;
             //json object for 'user_type' 'driver'....when driver edited, 'logout' alwys set to false
-            var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId, 'logout': logout , 'blocked':blocked , 'callingNumber':callingNumber , 'startLocation':startLocation }};
+            var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId, 'logout': logout , 'blocked':blocked , 'callingNumber':callingNumber , 'logSheetNumber':logSheetNumber, 'startLocation':startLocation }};
         }
         //jason object when for 'user_type's 'cro', and 'dispatcher'
         else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp , 'blocked':blocked}};}
@@ -210,7 +212,7 @@
         {
             cabId = document.getElementById("cabId").value;
             //json object for 'user_type' 'driver'
-            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' , 'blocked':'false' ,'lastLogout': '0' , 'callingNumber':'-1' , 'startLocation':'' };
+            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' , 'blocked':'false' ,'lastLogout': '0' , 'callingNumber':'-1' , 'logSheetNumber':'-1', 'startLocation':'' };
         }
         //jason object when for 'user_type's 'cro', and 'dispatcher'
         else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type  , 'blocked':'false' };}

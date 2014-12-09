@@ -6,8 +6,15 @@
     <div class="form-group">
         <label for="name">Calling Number</label>
         <input type="text" class="form-control" id="callingNumber" placeholder="Enter Calling Number" value="<?php
-                            if(!isset($callingNumber) || $callingNumber == -1 || trim($callingNumber) == ''){echo -1;}
+                            if(!isset($callingNumber) || $callingNumber == -1 || trim($callingNumber) === ''){echo -1;}
                             else{echo $callingNumber;}
+                            ?>">
+    </div>
+    <div class="form-group">
+        <label for="name">Log Sheet Number</label>
+        <input type="text" class="form-control" id="logSheetNumber" placeholder="Enter Log Sheet Number" value="<?php
+                            if(!isset($logSheetNumber) || $logSheetNumber == -1 || trim($logSheetNumber) === ''){echo -1;}
+                            else{echo $logSheetNumber;}
                             ?>">
     </div>
     <div class="form-group">

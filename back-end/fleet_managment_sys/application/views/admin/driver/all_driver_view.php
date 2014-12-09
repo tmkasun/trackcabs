@@ -2,6 +2,7 @@
     <tr>
         <th>Driver ID</th>
         <th>Calling Number</th>
+        <th>Log Sheet Number</th>
         <th>Name</th>
         <th>User Name</th>
         <th>Pass</th>
@@ -20,6 +21,10 @@
             <td><?php
                             if(!isset($item['callingNumber']) || $item['callingNumber'] == -1 || trim($item['callingNumber']) == ''){echo 'Not Assigned';}
                             else{echo $item['callingNumber'];}
+                            ?></td>
+            <td><?php
+                            if(!isset($item['logSheetNumber']) || $item['logSheetNumber'] == -1 || trim($item['logSheetNumber']) == ''){echo 'Not Assigned';}
+                            else{echo $item['logSheetNumber'];}
                             ?></td>
             <td><?= $item['name'];?></td>
             <td><?= $item['uName'];?></td>

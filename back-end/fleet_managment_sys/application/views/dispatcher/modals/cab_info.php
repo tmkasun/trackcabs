@@ -1,103 +1,4 @@
 <script>
-
-    $(
-        function () {
-
-            function getCabSearchKey() {
-                return $('#cabSearchKey').find("label.active input").val();
-            }
-
-            var cabs_search = new Bloodhound({
-                datumTokenizer: function (d) {
-                    return Bloodhound.tokenizers.whitespace(d.value);
-                },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: {
-                    url: 'dispatcher/search_cabs/', //%QUERY/',
-                    filter: function (results_cabs) {
-                        results_cabs = JSON.parse(results_cabs);
-                        $('#searchCabsContainer').empty();
-
-                        return ($.map(results_cabs, function (result) {
-                            createCabDom(result);
-                            return {
-                                value: result[searchAttribute],
-                                cab: result
-                            };
-                        }));
-
-                    },
-                    replace: function (url, query) {
-                        searchAttribute = getCabSearchKey();
-                        url += encodeURIComponent(query);
-                        url += '/';
-                        url += encodeURIComponent(searchAttribute);
-                        return url;
-                    }
-
-                }
-            });
-
-
-            cabs_search.initialize();
-            $('#cabSearch').typeahead({
-                hint: true,
-                highlight: true,
-                minLength: 1
-            }, {
-                name: 'name',
-                displayKey: 'value',
-                source: cabs_search.ttAdapter()
-            }).on('typeahead:selected', function ($e, datum) {
-                console.log(datum);
-                $('#searchCabsContainer').empty();
-                createCabDom(datum.cab);
-            }).on('typeahead:change', function ($e, datum) {
-                console.log($e);
-                $('#searchCabsContainer').empty();
-                createCabDom(datum.cab);
-            });
-
-            function createCabDom(cabJson) {
-
-                var searchCabsContainer = $('#searchCabsContainer');
-
-                var $tr = $('<tr>');
-                var $tdCabId = $('<td>');
-                $tdCabId.html(cabJson.cabId);
-                $tr.append($tdCabId);
-
-                var $tdPlateNo = $('<td>');
-                $tdPlateNo.html(cabJson.plateNo);
-                $tr.append($tdPlateNo);
-
-                var $tdModel = $('<td>');
-                $tdModel.html(cabJson.model);
-                $tr.append($tdModel);
-
-                var $tdColor = $('<td>');
-                $tdColor.html(cabJson.color);
-                $tr.append($tdColor);
-
-                var $tdUserId = $('<td>');
-                $tdUserId.html(cabJson.userId);
-                $tr.append($tdUserId);
-
-                var $tdZone = $('<td>');
-                $tdZone.html(cabJson.zone);
-                $tr.append($tdZone);
-
-                var $tdInfo = $('<td>');
-                $tdInfo.html(cabJson.info);
-                $tr.append($tdInfo);
-
-                searchCabsContainer.append($tr);
-            }
-
-        }
-    );
-
-
 </script>
 <div class="modal-header"
      style="cursor: move;background: #f9f9f9;-webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);-moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);">
@@ -152,10 +53,12 @@
                 <th>UserId</th>
                 <th>Zone</th>
                 <th>Info</th>
+                <th>Calling Number</th>
+                <th>Log Sheet Number</th>
             </tr>
             </thead>
             <tbody id="searchCabsContainer">
-            <?php foreach ($cabs as $cab): ?>
+            <?php foreach ($assigned_cabs as $cab): ?>
                 <tr>
                     <td>
                         <?= $cab['cabId'] ?>
@@ -178,6 +81,13 @@
                     <td>
                         <?= $cab['info'] ?>
                     </td>
+<!--                    need to validate if key exists-->
+                    <td contenteditable='true'>
+                        <?= $cab['callingNumber'] ?>
+                    </td>
+                    <td contenteditable='true'>
+                        <?= "Log Sheet Number" ?>
+                    </td>                    
                 </tr>
             <?php endforeach ?>
 
@@ -195,3 +105,4 @@
         </div>
     </div>
 </div>
+

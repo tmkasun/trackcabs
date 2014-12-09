@@ -722,8 +722,25 @@ function getCabHeaderView(){
 }
 
 function fillAirportPackageinBookings(){
-    alert('working ');
-    $('#airportPackageType').empty().append('<option value=""></option>');
+    var airportPackage = $('#airportPackage').val();
+
+    if(airportPackage == '-'){
+        $('#airportPackageType').empty().append('<option selected value="-"> Select Package</option>');
+    }
+
+    var index = -1;
+    for(var i=0 ; i < airportPackagesObj['data'].length ; i++){
+        index++;
+        if( airportPackagesObj['data'][i]['packageId'] === airportPackage ){
+            break;
+        }
+    }
+
+    $('#airportPackageType').empty().append('<option selected value="-"> Select Package</option>');
+    $('#airportPackageType')..append('<option value="drop">'+ 'drop fee ('+airportPackagesObj['data'][index]['dropFee']+ ')'+'</option>');
+    $('#airportPackageType')..append('<option value="bothWay">'+ 'drop fee ('+airportPackagesObj['data'][index]['bothwayFee']+ ')'+'</option>');
+    $('#airportPackageType')..append('<option value="guestCarrier">'+ 'drop fee ('+airportPackagesObj['data'][index]['guestCarrierFee']+ ')'+'</option>');
+    $('#airportPackageType')..append('<option value="outSide">'+ 'drop fee ('+airportPackagesObj['data'][index]['outsideFee']+ ')'+'</option>');
 
 }
 

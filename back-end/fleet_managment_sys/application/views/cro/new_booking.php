@@ -142,13 +142,12 @@
                                 <select id="airportPackage" onchange="fillAirportPackageinBookings()" class="form-inline checkBoxElementAppearing" style="display:none">
                                     <option value="-" selected>Package Name</option>
                                     <?php foreach($airportPackages['data'] as $package):?>
-                                        <option value="" ><?= $package['packageName']?></option>
+                                        <option value="<?= $package['packageId']?>" ><?= $package['packageName']?></option>
                                     <?php endforeach;?>
                                 </select>
 
                                 <select id="airportPackageType" class="form-inline checkBoxElementAppearing" style="display:none">
-                                    <option value="-" selected>Package Type</option>
-
+                                    <option value="-" disabled selected>Package Type</option>
                                 </select>
                             </div>
                         </div>

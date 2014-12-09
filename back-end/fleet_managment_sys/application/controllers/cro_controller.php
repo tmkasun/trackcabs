@@ -248,7 +248,9 @@ class Cro_controller extends CI_Controller
 
             /* Get all packages and send it to the new bookings view */
             $result['airportPackages'] = $this->packages_dao->getAllAirportPackages();
+            $result['dayPackages'] = $this->packages_dao->getAllDayPackages();
             $bookingData['airport_packages'] = $this->packages_dao->getAllAirportPackages();
+            $bookingData['day_packages'] = $this->packages_dao->getAllDayPackages();
 
             $data['customer_info_view'] = $this->load->view('cro/customer_info', $result , TRUE);
             $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);

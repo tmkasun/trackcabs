@@ -146,12 +146,30 @@
                                     <?php endforeach;?>
                                 </select>
 
-                                <select id="airportPackageType" class="form-inline checkBoxElementAppearing" style="display:none">
+                                <select id="airportPackageType" onchange="selectAirportPackageandAddRemark()" class="form-inline checkBoxElementAppearing" style="display:none">
                                     <option value="-" disabled selected>Package Type</option>
                                 </select>
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label style="font-weight: bold">
+                                    <input type="checkbox" name="dayPackageTick"  id="dayPackageTick" class="checkBoxMakeAppear"> Day Packages
+                                </label>
+
+                                <select id="dayPackage" onchange="selectDayPackageandAddRemark()" class="form-inline checkBoxElementAppearing" style="display:none">
+                                    <option value="-" selected>Select Day Package</option>
+                                    <?php foreach($dayPackages['data'] as $package):?>
+                                        <option value="<?= $package['packageId']?>" >
+                                            <?= $package['km'];?> ,
+                                            <?= $package['hours'];?> (<?= $package['fee'];?>)
+                                        </option>
+                                    <?php endforeach;?>
+                                </select>
+
+                            </div>
+                        </div>
 
                     </div>
                 </div>

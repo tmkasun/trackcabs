@@ -737,11 +737,73 @@ function fillAirportPackageinBookings(){
     }
 
     $('#airportPackageType').empty().append('<option selected value="-"> Select Package</option>');
-    $('#airportPackageType')..append('<option value="drop">'+ 'drop fee ('+airportPackagesObj['data'][index]['dropFee']+ ')'+'</option>');
-    $('#airportPackageType')..append('<option value="bothWay">'+ 'drop fee ('+airportPackagesObj['data'][index]['bothwayFee']+ ')'+'</option>');
-    $('#airportPackageType')..append('<option value="guestCarrier">'+ 'drop fee ('+airportPackagesObj['data'][index]['guestCarrierFee']+ ')'+'</option>');
-    $('#airportPackageType')..append('<option value="outSide">'+ 'drop fee ('+airportPackagesObj['data'][index]['outsideFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="drop">'+ 'drop fee ('+airportPackagesObj['data'][index]['dropFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="bothWay">'+ 'drop fee ('+airportPackagesObj['data'][index]['bothwayFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="guestCarrier">'+ 'drop fee ('+airportPackagesObj['data'][index]['guestCarrierFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="outSide">'+ 'drop fee ('+airportPackagesObj['data'][index]['outsideFee']+ ')'+'</option>');
 
+}
+
+function selectAirportPackageandAddRemark(){
+    var airportPackageType = $('#airportPackageType').val();
+
+    if(airportPackageType == '-'){
+        return;
+    }else{
+        var airportPackage = $('#airportPackage').val();
+        var index = -1;
+        for(var i=0 ; i < airportPackagesObj['data'].length ; i++){
+            index++;
+            if( airportPackagesObj['data'][i]['packageId'] === airportPackage ){
+                break;
+            }
+        }
+
+        var remarkAppended = airportPackagesObj['data'][index]['packageName'];
+
+        if(airportPackageType == "drop" ){
+            remarkAppended = remarkAppended + " Drop(" + airportPackagesObj['data'][index]['dropFee'] +")";
+        }
+
+        if(airportPackageType == "bothWay" ){
+            remarkAppended = remarkAppended + " Both Way(" + airportPackagesObj['data'][index]['bothwayFee'] +")";
+        }
+
+
+        if(airportPackageType == "guestCarrier" ){
+            remarkAppended = remarkAppended + " Guest Carrier(" + airportPackagesObj['data'][index]['guestCarrierFee'] +")";
+        }
+
+        if(airportPackageType == "outSide" ){
+            remarkAppended = remarkAppended + " Out Side(" + airportPackagesObj['data'][index]['outsideFee'] +")";
+        }
+
+        $('#remark').val($('#remark').val() + remarkAppended);
+
+    }
+}
+
+
+function selectDayPackageandAddRemark(){
+    var dayPackage = $('#dayPackage').val();
+
+    if(dayPackage == '-'){
+        return;
+    }else{
+        var index = -1;
+        for(var i=0 ; i < dayPackagesObj['data'].length ; i++){
+            index++;
+            if( dayPackagesObj['data'][i]['packageId'] === dayPackage ){
+                break;
+            }
+        }
+        var remarkAppended = dayPackagesObj['data'][index]['packageName'] +
+                              ' , ' + dayPackagesObj['data'][index]['km'] + '(km) ,' +
+                            dayPackagesObj['data'][index]['hours'] + '(hrs) ,' +
+                            dayPackagesObj['data'][index]['fee'] + '(/=) ,';
+
+        $('#remark').val($('#remark').val() + remarkAppended);
+    }
 }
 
 function showCalender(){

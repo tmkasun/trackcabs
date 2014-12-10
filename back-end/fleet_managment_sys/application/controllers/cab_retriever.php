@@ -28,7 +28,7 @@ class Cab_retriever extends CI_Controller
             if(isset($doc['userId']) && $doc['userId'] != -1) {
                 $data['data'][$i]['startLocation'] = $driverData['startLocation'];
             }else{
-                $data['data'][$i]['startLocation'] = "not assigned";
+                $data['data'][$i]['startLocation'] = "Not Assigned";
             }
         }
         $data['table_content'] = $this->load->view('admin/cabs/all_cabs_view', $data, TRUE);

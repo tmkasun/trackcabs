@@ -522,7 +522,6 @@
         var addressRoad =document.getElementById('road').value;
         var address = {'addressId':'','addressName' : addressName , 'city' : addressCity ,'town' :addressTown , 'road' : addressRoad };
         var url =  '<?php echo site_url("packages_controller/createAddress"); ?>';
-        alert(JSON.stringify(address));
         ajaxPost(address,url);
         getAddressView();
 

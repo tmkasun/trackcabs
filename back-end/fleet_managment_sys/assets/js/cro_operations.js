@@ -90,7 +90,13 @@ function getEditBookingView(url , bookingObjId){
         $('#paymentType').val('credit');
     }
 
+    var packageType = bookingObj[index]['packageType'];
 
+
+
+    if(packageType  == "day"){
+
+    }
 }
 
 function getCancelConfirmationView( url ,  bookingObjId ){
@@ -152,6 +158,11 @@ function validateBooking(url , tp){
     var bookingType = 'Personal';
     var personalProfileTp = '-';
     var cancelReason = '-';
+    var airportPackageId = $('#airportPackage').val();
+    var airportPackageType = $('#airportPackageType').val();
+    var dayPackageId = $('#dayPackage').val();
+    var packageId = '-';
+    var packageType = '-';
 
     if($('#personalProfileTp').length != 0){
         bookingType = 'Cooperate';
@@ -190,6 +201,23 @@ function validateBooking(url , tp){
     if(payType ==  ''){
         alert('Payment method is Compulsory');
         return false;
+    }
+    if(airportPackageId != '-'){
+        if( airportPackageType != '-'){
+            packageId = airportPackageId;
+            packageType = airportPackageType;
+        }else{
+            alert('Select a Airport Package Type');
+        }
+    }
+    if(dayPackageId != '-'){
+        packageId = dayPackageId;
+        packageType = 'day';
+    }
+
+    if(airportPackageId != '-' && dayPackageId != '-' ){
+        alert("Select only one package Type [Airport / Day package]");
+        return;
     }
     //TODO : Call to load dispatcher modal conformation
     //$("#orderBuilder").load('dispatcher/newOrder/' + orderId);
@@ -256,6 +284,11 @@ function createBooking(url , tp){
     var bookingType = 'Personal';
     var personalProfileTp = '-';
     var cancelReason = '-';
+    var airportPackageId = $('#airportPackage').val();
+    var airportPackageType = $('#airportPackageType').val();
+    var dayPackageId = $('#dayPackage').val();
+    var packageId = '-';
+    var packageType = '-';
 
     if($('#personalProfileTp').length != 0){
         bookingType = 'Cooperate';
@@ -272,6 +305,19 @@ function createBooking(url , tp){
     if (dispatchB4== ''){dispatchB4= 30}
     if (destination== ''){destination= '-'}
     if (pagingBoard== ''){pagingBoard= '-'}
+
+    if(airportPackageId != '-'){
+        if( airportPackageType != '-'){
+            packageId = airportPackageId;
+            packageType = airportPackageType;
+        }else{
+            alert('Select a Airport Package Type');
+        }
+    }
+    if(dayPackageId != '-'){
+        packageId = dayPackageId;
+        packageType = 'day';
+    }
 
     //TODO : Call to load dispatcher modal conformation
     //$("#orderBuilder").load('dispatcher/newOrder/' + orderId);
@@ -310,7 +356,9 @@ function createBooking(url , tp){
             'bookingCharge' : bookingCharge,
             'bookingType' : bookingType,
             'personalProfileTp' : personalProfileTp,
-            'cancelReason' :cancelReason
+            'cancelReason' :cancelReason,
+            'packageId' : packageId,
+            'packageType' : packageType
         }
     };
     var result = ajaxPost(data,url,false);
@@ -358,7 +406,24 @@ function updateBooking(url , objId){
     var isVip               = $('#vip')[0].checked;
     var isVih               = $('#vih')[0].checked;
     var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
+    var airportPackageId = $('#airportPackage').val();
+    var airportPackageType = $('#airportPackageType').val();
+    var dayPackageId = $('#dayPackage').val();
+    var packageId = '-';
+    var packageType = '-';
 
+    if(airportPackageId != '-'){
+        if( airportPackageType != '-'){
+            packageId = airportPackageId;
+            packageType = airportPackageType;
+        }else{
+            alert('Select a Airport Package Type');
+        }
+    }
+    if(dayPackageId != '-'){
+        packageId = dayPackageId;
+        packageType = 'day';
+    }
 
     var address = {
         'no':no ,
@@ -382,14 +447,12 @@ function updateBooking(url , objId){
             'isVih':isVih,
             'isCusNumberNotSent':isCusNumberNotSent,
 
-            'status' : 'START' ,
-            'cabId' : '-',
-            'driverId' : '-',
             'remark' : remark ,
-            'inqCall' : 0,
             'callUpPrice' : callUpPrice,
             'dispatchB4' : dispatchB4,
-            'pagingBoard' : pagingBoard
+            'pagingBoard' : pagingBoard,
+            'packageId' : packageId,
+            'packageType' : packageType
         }
     };
     ajaxPost(data,url);
@@ -657,7 +720,7 @@ function changeJobInfoViewByRefId(bookingObjId){
     $('#jobPagingBoard').html(bookingObj[index]['pagingBoard']);
 
 
-    $('#jobEditButton').attr("onclick", "operations('editBooking',"+bookingObj[index]['_id']['$id']+")");
+    $('#jobEditButton').attr("onclick", "operations('authenticateUser',"+"'"+bookingObj[index]['_id']['$id']+"'"+",'editBooking')");
     $('#jobInquireButton').attr("onclick", "operations('addInquireCall',"+bookingObj[index]['_id']['$id']+")");
     $('#jobInquireButtonCount').html(bookingObj[index]['inqCall']);
     $('#jobComplaintButton').attr("onclick", "operations('addComplaint',"+bookingObj[index]['refId']+")");
@@ -737,10 +800,10 @@ function fillAirportPackageinBookings(){
     }
 
     $('#airportPackageType').empty().append('<option selected value="-"> Select Package</option>');
-    $('#airportPackageType').append('<option value="drop">'+ 'drop fee ('+airportPackagesObj['data'][index]['dropFee']+ ')'+'</option>');
-    $('#airportPackageType').append('<option value="bothWay">'+ 'drop fee ('+airportPackagesObj['data'][index]['bothwayFee']+ ')'+'</option>');
-    $('#airportPackageType').append('<option value="guestCarrier">'+ 'drop fee ('+airportPackagesObj['data'][index]['guestCarrierFee']+ ')'+'</option>');
-    $('#airportPackageType').append('<option value="outSide">'+ 'drop fee ('+airportPackagesObj['data'][index]['outsideFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="drop">'+ 'Drop ('+airportPackagesObj['data'][index]['dropFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="bothWay">'+ 'Both Way ('+airportPackagesObj['data'][index]['bothwayFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="guestCarrier">'+ 'Guest Carrier ('+airportPackagesObj['data'][index]['guestCarrierFee']+ ')'+'</option>');
+    $('#airportPackageType').append('<option value="outSide">'+ 'Out Side ('+airportPackagesObj['data'][index]['outsideFee']+ ')'+'</option>');
 
 }
 

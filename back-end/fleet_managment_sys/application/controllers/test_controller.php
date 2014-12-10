@@ -153,9 +153,5 @@ class Test_controller extends CI_Controller
         var_dump($this->cab_dao->get_assigned_cabs());
     }
 
-    function get_assigned_cabs()
-    {
-        var_dump($this->cab_dao->get_assigned_cabs());
-    }
 
 }

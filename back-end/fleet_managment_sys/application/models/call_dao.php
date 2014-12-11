@@ -52,8 +52,8 @@ class Call_dao extends CI_Model
 
     function getCallsInLastSeconds(){
         $collection = $this->get_collection();
-        $SecondsBeforeNow = strtotime("now")-150;
-        $SecondsBeforeNowinMongo = new MongoDate(strtotime($SecondsBeforeNow));
+        //$SecondsBeforeNow = strtotime("now")-150;
+        $SecondsBeforeNowinMongo = new MongoDate(strtotime("-2 minutes"));
         $cursor =$collection->find(array('time'=> array('$gte' => $SecondsBeforeNowinMongo)));
         $callArray = array();
         foreach ($cursor as $doc) {

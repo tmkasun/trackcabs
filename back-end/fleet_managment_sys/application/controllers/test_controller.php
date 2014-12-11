@@ -1,6 +1,60 @@
 <?php
 class Test_controller extends CI_Controller
 {//var cro = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp };
+
+    function get_collection($collection = 'calls')
+    {
+        $conn = new MongoClient();
+        $collection = $conn->selectDB('track')->selectCollection($collection);
+        return $collection;
+
+    }
+
+    public function index()
+    {
+        $today = date("Y-m-d 00:00:00");
+        $todayUTC = new MongoDate(strtotime($today));
+        $todayUTCLess = new MongoDate(strtotime("+5 hours 30 minutes"));
+
+        $date = new DateTime();
+        $date->modify("+30 minutes"); //or whatever value you want
+
+        //$todayUTC = new MongoDate(strtotime($date));
+        //echo $date->sec;
+
+        $insert = array("ts" => $todayUTCLess);
+
+        $collection = $this->get_collection();
+        $collection->insert($insert);
+
+        echo $today;
+        echo $todayUTC->sec;
+        echo "ended";
+        echo $todayUTCLess->sec;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     function createUser()
     {
         $userId = $this->counters_dao->getNextId('test_collection');echo $userId;

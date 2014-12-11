@@ -51,28 +51,21 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="checkbox">
-                                <label style="font-weight: bold">
-                                    <input type="checkbox" name="callUp"  id="callUp" class="checkBoxMakeAppear"> Call Up Given
-                                </label>
-                                <input type="text" class="form-control checkBoxElementAppearing" id="callUpPrice" value="<?= $callUpPrice?>" name="callUpPrice" placeholder="Call Up Price" style="display:none">
-                            </div>
+                            <label for="callUpPrice" style="font-weight: bold"> Call Up Given
+                            </label>
+                            <input type="text" class="form-control" id="callUpPrice" value="<?= $callUpPrice?>" name="callUpPrice" placeholder="Call Up Price" >
                         </div>
 
                         <div class="form-group">
-                            <div class="checkbox">
-                                <label style="font-weight: bold"><input type="checkbox" name="destinationGiven"  id="destinationGiven" class="checkBoxMakeAppear"> Destination
-                                </label>
-                                <input type="text" class="form-control checkBoxElementAppearing" id="destination" value="<?= $destination?>" name="destination" placeholder="Given Destination" style="display:none">
-                            </div>
+                            <label for="destination" style="font-weight: bold"> Destination
+                            </label>
+                            <input type="text" class="form-control" id="destination" value="<?= $destination?>" name="destination" placeholder="Given Destination" >
                         </div>
 
                         <div class="form-group">
-                            <div class="checkbox">
-                                <label style="font-weight: bold"><input type="checkbox" name="pagingBoardName"  id="pagingBoardName" class="checkBoxMakeAppear"> Paging Board
-                                </label>
-                                <input type="text" class="form-control checkBoxElementAppearing" id="pagingBoard" value="<?= $pagingBoard?>" name="pagingBoard" placeholder="Paging Board Name" style="display:none">
-                            </div>
+                            <label for="pagingBoard" style="font-weight: bold"> Paging Board
+                            </label>
+                            <input type="text" class="form-control " id="pagingBoard" value="<?= $pagingBoard?>" name="pagingBoard" placeholder="Paging Board Name" >
                         </div>
                     </div>
                 </div>
@@ -119,6 +112,52 @@
                                 <input id="bDate" name="bDate" class="form-control" size="16" type="text" value="<?php echo date('Y-m-d ', $bookTime->sec);?>" readonly="readonly">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" onclick="showCalender()"></span></span>
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                                <label style="font-weight: bold">Air Port Package</label>
+                                <select id="airportPackage" onchange="fillAirportPackageinBookings()" class="form-inline checkBoxElementAppearing" >
+                                    <option value="-">NOT SELECTED</option>
+                                    <?php foreach($airportPackages['data'] as $package):?>
+                                        <option value="<?= $package['packageId']?>"
+                                            <?php if(isset($packageId) && ($package['packageId'] == $packageId))echo "selected";?>>
+                                            <?= $package['packageName']?>
+                                        </option>
+                                    <?php endforeach;?>
+                                </select>
+
+                                <select id="airportPackageType" onchange="selectAirportPackageandAddRemark()" class="form-inline checkBoxElementAppearing" >
+                                    <option value="-">NOT SELECTED</option>
+                                    <?php foreach($airportPackages['data'] as $package):?>
+                                        <?php if(isset($packageId) && ($package['packageId'] == $packageId)):?>
+                                            <option value="drop" <?php if($packageType == 'drop') echo "selected"?>> Drop (<?= $package['dropFee']?>)</option>
+                                            <option value="bothWay" <?php if($packageType == 'bothWay') echo "selected"?>> Both Way (<?= $package['bothwayFee']?>)</option>
+                                            <option value="guestCarrier" <?php if($packageType == 'guestCarrier') echo "selected"?>> Guest Carrier (<?= $package['guestCarrierFee']?>)</option>
+                                            <option value="outSide" <?php if($packageType == 'outSide') echo "selected"?>> Out Side (<?= $package['outsideFee']?>)</option>
+                                        <?php endif;?>
+                                        <?= $package['packageName']?>
+                                    <?php endforeach;?>
+                                    <?php if($packageType == 'drop' || $packageType == 'bothWay' || $packageType == 'guestCarrier' || $packageType == 'outSide'):?>
+
+                                    <?php endif?>
+                                </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label style="font-weight: bold">Day Packages</label>
+
+                            <select id="dayPackage" onchange="selectDayPackageandAddRemark()" class="form-inline checkBoxElementAppearing">
+                                <option value="-">NOT SELECTED</option>
+                                <?php foreach($dayPackages['data'] as $package):?>
+                                    <option value="<?= $package['packageId']?>"
+                                        <?php if(isset($packageId) && ($package['packageId'] == $packageId))echo "selected";?>>
+                                        <?= $package['km'];?> ,
+                                        <?= $package['hours'];?> (<?= $package['fee'];?>)
+                                    </option>
+                                <?php endforeach;?>
+
+                            </select>
                         </div>
                     </div>
                 </div>

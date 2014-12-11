@@ -7,7 +7,7 @@ class Test_controller extends CI_Controller
         $user_details = array('userId' => $userId, 'name' => 'test_user_1', 'uName' => 'uname1', 'pass' => '1234', 'nic' => '852003674', 'tp' => '665488105', 'state'=> 'inactive');
         $this->test_dao->createUser($user_details);
     }
-    
+
     function getUSer(){}
     function getAllUSer()
     {
@@ -19,7 +19,7 @@ class Test_controller extends CI_Controller
         $user_data = $this->test_dao->update_and_get_user(array('address' => ''),array('address' => 'test address 2'));
         print_r($user_data);
     }
-    function getCRONavBarView(){       
+    function getCRONavBarView(){
         $table_data['x'] = 1;
         $data['table_content'] = $this->load->view('admin/cro/cro_navbar', $table_data, TRUE);//, $table_data, TRUE
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
@@ -29,15 +29,15 @@ class Test_controller extends CI_Controller
         $data['table_content'] = $this->load->view('admin/driver/driver_navbar', $table_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
-    
-     function getAllUsersView(){
+
+    function getAllUsersView(){
 
         //$input_data = json_decode(trim(file_get_contents('php://input')), true);
         //$limit = $input_data['limit'];
         //$skip = $input_data['skip'];
         $user_type = 'driver';//$input_data['user_type'];
-        
-        
+
+
         $data = $this->user_dao->getAllUsers_by_type($user_type);
         var_dump($data);
         print_r($data);
@@ -47,18 +47,18 @@ class Test_controller extends CI_Controller
     }
     function getNewFormUserView(){
         //$table_data['x'] = 1;
-        
+
         //$input_data = json_decode(trim(file_get_contents('php://input')), true);
         $user_type = 'driver';
         $cab_ids = array();
         if($user_type === 'driver')
-            {
-                $cursor = $this->cab_dao->get_unassigned_cabs();
-                foreach($cursor as $cab_id){$cab_ids[] = $cab_id;}
-            }
-            print_r($cab_ids);
-             $this->load->view('admin/'.$user_type.'/new_'.$user_type.'_view',array('cab_ids' => $cab_ids,TRUE));// ,array('cab_ids' => $cab_ids), TRUE
-            //var_dump($var);
+        {
+            $cursor = $this->cab_dao->get_unassigned_cabs();
+            foreach($cursor as $cab_id){$cab_ids[] = $cab_id;}
+        }
+        print_r($cab_ids);
+        $this->load->view('admin/'.$user_type.'/new_'.$user_type.'_view',array('cab_ids' => $cab_ids,TRUE));// ,array('cab_ids' => $cab_ids), TRUE
+        //var_dump($var);
 //        $data['table_content'] = $this->load->view('admin/'.$user_type.'/new_'.$user_type.'_view', array('cab_ids' => $cab_ids), TRUE);
 //        $this->output->set_output(json_encode(array("statusMsg" => "success","view" => $data)));
     }
@@ -73,7 +73,7 @@ class Test_controller extends CI_Controller
         $userId = $_GET['id'];$userId = 3;
         $cursor= $this->cab_dao->get_unassigned_cabs();
         foreach($cursor as $cab_id){$cab_ids[] = $cab_id;}//print_r($cab_ids);
-        $data = $this->user_dao->getUser($userId);//print_r($data); 
+        $data = $this->user_dao->getUser($userId);//print_r($data);
         //$data = array_merge($data,$cab_ids);
         $data['cab_ids'] = $cab_ids;//array_fill_keys(array('cab_ids'), $cab_ids);
         var_dump($data);
@@ -86,37 +86,37 @@ class Test_controller extends CI_Controller
     {
         var_dump($this->test_dao->updateCab(1,array('userId' => 3)));
     }
-    
+
     function get_all_complaints()
     {
         $complaints = $this->complaint_dao->get_all_complaints();
         $complaints['table_content'] = $this->load->view('admin/reports/complaint_reports_view', $complaints, TRUE);
-                var_dump($complaints);
+        var_dump($complaints);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $complaints)));
-       //print_r($complaints);//comment the array print and load complaints to a view with jason encode
-        
+        //print_r($complaints);//comment the array print and load complaints to a view with jason encode
+
     }
-    
+
     function get_users_and_complaints()
     {
         $users_cursor = $this->user_dao->getAllUsers();
         $users = array();
         foreach($users_cursor as $user){$users[] = $user;}
-        
+
         $complaints_cursor = $this->complaint_dao->get_all_complaints();
         $complaints = array();
         foreach($complaints_cursor as $complaint){$complaints[] = $complaint;}
         var_dump($users);
         var_dump($complaints);
     }
-    
+
     function get_all_complaints_by_driver()
     {//$complaint_data['userId_driver']//this line is for testing
         //$complaint_data = json_decode(trim(file_get_contents('php://input')), true);
         $complaint_data['userId_driver'] = '4';
         $complaints_by_driver = $this->complaint_dao->get_all_complaints_by_driver($complaint_data['userId_driver']);
         $complaints_by_driver['table_content'] = $this->load->view('admin/reports/complaint_reports_view', $complaints_by_driver, TRUE);
-                var_dump($complaints_by_driver);
+        var_dump($complaints_by_driver);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $complaints_by_driver)));
         //var_dump($complaints_by_driver);//comment the array print and load complaints to a view with jason encode
     }
@@ -127,9 +127,9 @@ class Test_controller extends CI_Controller
         $complaints_by_refId = $this->complaint_dao->get_complaint_by_refId($complaint_data['refId']);
         $complaints_by_refId['table_content'] = $this->load->view('admin/reports/complaint_reports_view', $complaints_by_refId, TRUE);var_dump($complaints_by_refId);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $complaints_by_refId)));
-        //var_dump($complaints_by_refId);//comment the array print and load complaints to a view with jason encode       
+        //var_dump($complaints_by_refId);//comment the array print and load complaints to a view with jason encode
     }
-    
+
     function get_complaint_by_complaintId()
     {//$complaint_data['complaintId'] = 12;//this line is for testing
         //$complaint_data = json_decode(trim(file_get_contents('php://input')), true);
@@ -137,9 +137,9 @@ class Test_controller extends CI_Controller
         $complaints['complaints'] = $this->complaint_dao->get_complaint_by_complaintId($complaint_data['complaintId']);var_dump($complaints);//$complaints_by_complaintId
         $complaints['table_content'] = $this->load->view('admin/reports/complaint_reports_view', $complaints, TRUE);var_dump($complaints);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $complaints)));
-        //var_dump($complaints_by_complaintId);//comment the array print and load complaints to a view with jason encode        
+        //var_dump($complaints_by_complaintId);//comment the array print and load complaints to a view with jason encode
     }
-    
+
     function get_all_cancel_reports()
     {
         $type = 'DIS_CANCEL';//json_decode(trim(file_get_contents('php://input')), true);
@@ -153,5 +153,5 @@ class Test_controller extends CI_Controller
         var_dump($this->cab_dao->get_assigned_cabs());
     }
 
-}
 
+}

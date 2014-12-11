@@ -404,7 +404,6 @@
         getPackagesView();
     }
 
-
     function getPackagesView(){
 
         var url = '<?php echo site_url("packages_controller/getPackagesNavBarView") ?>';
@@ -543,6 +542,72 @@
         div.innerHTML = view.view.table_content;        
     }
     
+</script>
+
+<script>
+    function createNewAddress(){
+        var addressName =document.getElementById('addressName').value;
+        var addressTown =document.getElementById('town').value;
+        var addressCity =document.getElementById('city').value;
+        var addressRoad =document.getElementById('road').value;
+        var address = {'addressId':'','addressName' : addressName , 'city' : addressCity ,'town' :addressTown , 'road' : addressRoad };
+        var url =  '<?php echo site_url("packages_controller/createAddress"); ?>';
+        ajaxPost(address,url);
+        getAddressView();
+
+    }
+
+    function makeAddressFormEditable(addressId ){//alert("in makeCROFormEditable "+user_type);
+
+        var data = {'addressId' : addressId };
+        var url = '<?php echo site_url("packages_controller/getAddressEditView") ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.address_edit_view;//result.view.type_edit_view;
+    }
+
+    function getAddressView(){
+        url ='<?php echo site_url("packages_controller/getAllAddressView") ?>'//url + "/accounts_controller/getAllAccountsView";
+        var skip = docs_per_page * (page-1);
+        var data = {"skip" : skip , "limit" : docs_per_page};
+        var view = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;
+    }
+
+    function getNewAddressView(url){
+
+        var data = {};
+        url ='<?php echo site_url("/packages_controller/getNewAddressView"); ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.new_address_view;
+
+    }
+
+    function updateAddress(addressId) {
+        var addressId = document.getElementById("addressId").value;
+        var addressName = document.getElementById("addressName").value;
+        var addressTown =document.getElementById('town').value;
+        var addressCity =document.getElementById('city').value;
+        var addressRoad =document.getElementById('road').value;
+        var address = {'addressId':addressId,'addressName' : addressName , 'city' : addressCity ,'town' :addressTown , 'road' : addressRoad };
+        var url =  '<?php echo site_url("packages_controller/updateAddress"); ?>';
+        ajaxPost(address,url);
+        getAddressView();
+    }
+
+    function deleteAddress(addressId){
+        // Confirm Msg Box
+        var data = {'addressId' : addressId };
+        var url = '<?php echo site_url("packages_controller/deleteAddress") ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        getAddressView();
+    }
+
 </script>
 
 <script>

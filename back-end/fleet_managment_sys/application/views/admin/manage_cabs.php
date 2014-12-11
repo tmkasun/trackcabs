@@ -512,7 +512,36 @@
         var div = document.getElementById('dataFiled');
         div.innerHTML = "";
         div.innerHTML = view.view.table_content;//alert("ok2");
-    }    
+    }
+    
+    //Funcions for Missed call report
+    
+    function getMissedCallReportView()
+    {
+        var url = '<?php echo site_url("complaint_controller/get_missed_calls_today")?>';
+        var view = ajaxPost(null,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;        
+    }
+    function getAllMissedCallReportView()
+    {
+        var url = '<?php echo site_url("complaint_controller/get_all_missed_calls")?>';
+        var view = ajaxPost(null,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;        
+    }
+    function getMissedCallReportViewByDate()
+    {
+        var date = document.getElementById("date_needed").value;//alert(date);
+        var date_needed = {'date': date};
+        var url = '<?php echo site_url("complaint_controller/get_all_missed_calls_by_date")?>';
+        var view = ajaxPost(date_needed,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;        
+    }
     
 </script>
 

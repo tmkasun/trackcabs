@@ -44,9 +44,7 @@ class Call_dao extends CI_Model
 
     function addToCallDump($totalCallArray){
         $collection = $this->get_collection('call_dump');
-
         $collection->insert($totalCallArray);
-
     }
 
 
@@ -60,6 +58,41 @@ class Call_dao extends CI_Model
             array_push($callArray,$doc);
         }
         return $callArray;
+    }
+    
+    function get_missed_calls_today()
+    {
+        $collection = $this->get_collection('call_dump');
+        $missed_calls = array();
+        $today = new MongoDate(strtotime(date("y-m-d")));
+        $searchQuery = array('state' => "Missed",'date' => array('$gt' => $today));
+        $feilds = array('phone_number' => true, 'date' => true);
+        $missed_calls_cursor = $collection->find($searchQuery,$feilds);
+        foreach($missed_calls_cursor as $missed_call){$missed_calls[] = $missed_call;}
+        return $missed_calls;
+    }
+    
+    function get_all_missed_calls()
+    {
+        $collection = $this->get_collection('call_dump');
+        $missed_calls = array();        
+        $searchQuery = array('state' => "Missed");
+        $feilds = array('phone_number' => true, 'date' => true);
+        $missed_calls_cursor = $collection->find($searchQuery,$feilds);
+        foreach($missed_calls_cursor as $missed_call){$missed_calls[] = $missed_call;}
+        return $missed_calls;
+    }
+    function get_all_missed_calls_by_date($date)
+    {
+        $collection = $this->get_collection('call_dump');
+        $missed_calls = array();
+        $date_needed = new MongoDate(strtotime($date));//new MongoDate(strtotime(date("y-m-d")));
+        $next_day = new MongoDate(($date_needed->sec + 86400));//var_dump($next_day);
+        $searchQuery = array('state' => "Missed",'date' => array('$gt' => $date_needed, '$lt' => $next_day));
+        $feilds = array('phone_number' => true, 'date' => true);
+        $missed_calls_cursor = $collection->find($searchQuery,$feilds);
+        foreach($missed_calls_cursor as $missed_call){$missed_calls[] = $missed_call;}
+        return $missed_calls;
     }
 
 }

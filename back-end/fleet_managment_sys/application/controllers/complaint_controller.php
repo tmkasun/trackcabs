@@ -97,4 +97,29 @@ class Complaint_controller extends CI_Controller
         $cancel_report_data['table_content'] = $this->load->view('admin/reports/cancel_reports_view', $cancel_report_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $cancel_report_data)));
     }
+    
+    //Functions for missed calls
+    
+    function get_missed_calls_today()
+    {
+        $missed_calls['missed_call'] = $this->call_dao->get_missed_calls_today();
+        $missed_calls_info['table_content'] = $this->load->view('admin/reports/missed_call_report_view', $missed_calls, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $missed_calls_info)));
+        //var_dump($missed_calls);
+    }
+    
+    function get_all_missed_calls()
+    {
+        $missed_calls['missed_call'] = $this->call_dao->get_all_missed_calls();
+        $missed_calls_info['table_content'] = $this->load->view('admin/reports/missed_call_report_view', $missed_calls, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $missed_calls_info)));
+    }
+    
+    function get_all_missed_calls_by_date()
+    {//$date = array('date' => "2014-12-10");
+        $date = json_decode(trim(file_get_contents('php://input')), true);//var_dump($date);
+        $missed_calls['missed_call'] = $this->call_dao->get_all_missed_calls_by_date($date['date']);
+        $missed_calls_info['table_content'] = $this->load->view('admin/reports/missed_call_report_view', $missed_calls, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $missed_calls_info)));        
+    }
 }

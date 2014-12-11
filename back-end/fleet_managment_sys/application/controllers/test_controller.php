@@ -22,15 +22,20 @@ class Test_controller extends CI_Controller
         //$todayUTC = new MongoDate(strtotime($date));
         //echo $date->sec;
 
-        $insert = array("ts" => $todayUTCLess);
+        $insert = array("ts" => $todayUTC);
 
         $collection = $this->get_collection();
         $collection->insert($insert);
 
-        echo $today;
-        echo $todayUTC->sec;
-        echo "ended";
-        echo $todayUTCLess->sec;
+        $searchQuery = array("ts" => array('$lt' => $today));
+
+        $result = $collection->findOne($searchQuery);
+        var_dump($result);
+
+//        echo $today;
+//        echo $todayUTC->sec;
+//        echo "ended";
+//        echo $todayUTCLess->sec;
 
     }
 

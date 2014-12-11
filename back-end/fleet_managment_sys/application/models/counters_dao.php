@@ -17,6 +17,13 @@ class Counters_dao extends CI_Model
         $this->mongodb = new MongoClient();
     }
 
+    function get_collection($collection = 'counters')
+    {
+        $conn = new MongoClient();
+        $collection = $conn->selectDB('track')->selectCollection($collection);
+        return $collection;
+    }
+
     function getNextId($modelName)
     {
 
@@ -30,5 +37,13 @@ class Counters_dao extends CI_Model
             );
         // TODO: do error handling
         return (int)$refSequence['sequence_value'];
+    }
+
+    function resetNextId($modelName){
+
+        $collection = $this->get_collection();
+        $result = $collection->findOne(array('_id' => $modelName));
+        $result['sequence_value'] = 1;
+        $collection->save($result);
     }
 }

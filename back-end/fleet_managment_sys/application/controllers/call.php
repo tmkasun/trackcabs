@@ -166,6 +166,10 @@ class Call extends CI_Controller
                 "extension_number" => null,
                 "raw_data" => $postData[$state]
             );
+            $status = $this->call_dao->isNewDay($callInfo);
+            if($status){
+                $this->counters_dao->resetNextId($callInfo);
+            }
         }
         else if($callState == "AnsweredEnded"){
             $callInfo = array(
@@ -195,6 +199,8 @@ class Call extends CI_Controller
         }
 
         $this->call_dao->addToCallDump($callInfo);
+
+
 
         /*$webSocket = new Websocket('localhost', '5555', 'pabx');
         $webSocket->send($callInfo, 'cro1');

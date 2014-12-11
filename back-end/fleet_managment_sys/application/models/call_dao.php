@@ -43,14 +43,14 @@ class Call_dao extends CI_Model
     }
 
     function addToCallDump($totalCallArray){
+
         $collection = $this->get_collection('call_dump');
-
         $collection->insert($totalCallArray);
-
     }
 
 
     function getCallsInLastSeconds(){
+
         $collection = $this->get_collection();
         //$SecondsBeforeNow = strtotime("now")-150;
         $SecondsBeforeNowinMongo = new MongoDate(strtotime("-2 minutes"));
@@ -60,6 +60,29 @@ class Call_dao extends CI_Model
             array_push($callArray,$doc);
         }
         return $callArray;
+    }
+
+    function isNewDay(){
+
+        $collection = $this->get_collection("callStat");
+        $result = $collection->findOne(array("reference" => "lastDate"));
+        $today = date("Y-m-d 00:00:00");
+
+        if($result ==null){
+            $data = array("reference" => "lastDate" , "timeStamp" => new MongoDate($today));
+            $collection->insert($data);
+            return true;
+        }else{
+            $result = $collection->findOne(array("reference" => "lastDate" , "timeStamp" => array('$lt'=>$today)));
+            if($result == null){
+                $data['timeStamp'] =  new MongoDate($today);
+                $collection->save($data);
+                return true;
+            }
+            else
+                return false;
+        }
+
     }
 
 }

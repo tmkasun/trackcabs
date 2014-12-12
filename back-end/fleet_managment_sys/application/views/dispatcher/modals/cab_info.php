@@ -4,7 +4,7 @@
         var userId = document.getElementById("userId"+id).innerHTML;//alert(userId);
         var cabId = document.getElementById("cabId"+id).innerHTML;//alert(cabId);
         var callingNumber = document.getElementById("callingNumber"+id).innerHTML.trim();
-        var logSheetNumber = document.getElementById("logSheetNumber"+id).innerHTML.trim();alert(userId+","+cabId+","+callingNumber+","+logSheetNumber);
+        var logSheetNumber = document.getElementById("logSheetNumber"+id).innerHTML.trim();//alert(userId+","+cabId+","+callingNumber+","+logSheetNumber);
         if(isNaN(callingNumber)){alert("Invalid Calling Number!"+callingNumber);return;}
         if(isNaN(logSheetNumber)){alert("Invalid Log Sheet Number!"); return;}
         else

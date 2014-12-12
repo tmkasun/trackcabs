@@ -6,6 +6,8 @@
         <th>Model</th>
         <th>Info</th>
         <th>Driver ID</th>
+        <th>Calling Number</th>
+        <th>Log Sheet Number</th>
         <th>Cab Start Location</th>       
 
     </tr>
@@ -16,7 +18,9 @@
         <td><?= $vType?></td>
         <td><?= $model?></td>
         <td><?= $info;?></td>
-        <td><?php if(!isset($userId) || $userId === 'empty' ){echo 'empty';}else {echo $userId;}?></td>
+        <td><?php if(!isset($userId) || $userId === 'empty' || $userId == -1){echo 'empty';}else {echo $userId;}?></td>
+        <td><?php if(!isset($callingNumber) || $callingNumber == -1 ){echo 'empty';}else {echo $callingNumber;}?></td>
+        <td><?php if(!isset($logSheetNumber) || $logSheetNumber == -1 ){echo 'empty';}else {echo $logSheetNumber;}?></td>
         <td><?= $startLocation;?></td>
         <td><button type="button" class="btn btn-success" onclick="makeCabFormEditable(<?php echo $cabId;?>,url)">Edit</button></td>
         <?php } ?>

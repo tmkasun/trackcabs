@@ -1,104 +1,56 @@
 <script>
-
-    $(
-        function () {
-
-            function getCabSearchKey() {
-                return $('#cabSearchKey').find("label.active input").val();
-            }
-
-            var cabs_search = new Bloodhound({
-                datumTokenizer: function (d) {
-                    return Bloodhound.tokenizers.whitespace(d.value);
-                },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: {
-                    url: 'dispatcher/search_cabs/', //%QUERY/',
-                    filter: function (results_cabs) {
-                        results_cabs = JSON.parse(results_cabs);
-                        $('#searchCabsContainer').empty();
-
-                        return ($.map(results_cabs, function (result) {
-                            createCabDom(result);
-                            return {
-                                value: result[searchAttribute],
-                                cab: result
-                            };
-                        }));
-
-                    },
-                    replace: function (url, query) {
-                        searchAttribute = getCabSearchKey();
-                        url += encodeURIComponent(query);
-                        url += '/';
-                        url += encodeURIComponent(searchAttribute);
-                        return url;
-                    }
-
-                }
-            });
-
-
-            cabs_search.initialize();
-            $('#cabSearch').typeahead({
-                hint: true,
-                highlight: true,
-                minLength: 1
-            }, {
-                name: 'name',
-                displayKey: 'value',
-                source: cabs_search.ttAdapter()
-            }).on('typeahead:selected', function ($e, datum) {
-                console.log(datum);
-                $('#searchCabsContainer').empty();
-                createCabDom(datum.cab);
-            }).on('typeahead:change', function ($e, datum) {
-                console.log($e);
-                $('#searchCabsContainer').empty();
-                createCabDom(datum.cab);
-            });
-
-            function createCabDom(cabJson) {
-
-                var searchCabsContainer = $('#searchCabsContainer');
-
-                var $tr = $('<tr>');
-                var $tdCabId = $('<td>');
-                $tdCabId.html(cabJson.cabId);
-                $tr.append($tdCabId);
-
-                var $tdPlateNo = $('<td>');
-                $tdPlateNo.html(cabJson.plateNo);
-                $tr.append($tdPlateNo);
-
-                var $tdModel = $('<td>');
-                $tdModel.html(cabJson.model);
-                $tr.append($tdModel);
-
-                var $tdColor = $('<td>');
-                $tdColor.html(cabJson.color);
-                $tr.append($tdColor);
-
-                var $tdUserId = $('<td>');
-                $tdUserId.html(cabJson.userId);
-                $tr.append($tdUserId);
-
-                var $tdZone = $('<td>');
-                $tdZone.html(cabJson.zone);
-                $tr.append($tdZone);
-
-                var $tdInfo = $('<td>');
-                $tdInfo.html(cabJson.info);
-                $tr.append($tdInfo);
-
-                searchCabsContainer.append($tr);
-            }
-
+    function save_details(id)
+    {
+        var userId = document.getElementById("userId"+id).innerHTML;//alert(userId);
+        var cabId = document.getElementById("cabId"+id).innerHTML;//alert(cabId);
+        var callingNumber = document.getElementById("callingNumber"+id).innerHTML.trim();
+        var logSheetNumber = document.getElementById("logSheetNumber"+id).innerHTML.trim();//alert(userId+","+cabId+","+callingNumber+","+logSheetNumber);
+        if(isNaN(callingNumber)){alert("Invalid Calling Number!"+callingNumber);return;}
+        if(isNaN(logSheetNumber)){alert("Invalid Log Sheet Number!"); return;}
+        else
+        {
+            var urlLoc = '<?php echo site_url("user_controller/updateUser")?>';
+            var data = {'userId': parseInt(userId) , 'details':{'cabId':cabId, 'callingNumber': callingNumber, 'logSheetNumber': logSheetNumber}};
+            ajaxPost_disp(data,urlLoc);
         }
-    );
-
-
+    }
+    function ajaxPost_disp(data,urlLoc)    {
+        var result=null;
+        $.ajax({
+            type: 'POST', url: urlLoc,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify(data),
+            async: false,
+            success: function(data, textStatus, jqXHR) {
+                result = JSON.parse(jqXHR.responseText);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                if(jqXHR.status == 400) {
+                    var message= JSON.parse(jqXHR.responseText);
+                    $('#messages').empty();
+                    $.each(messages, function(i, v) {
+                        var item = $('<li>').append(v);
+                        $('#messages').append(item);
+                    });
+                } else {
+                    alert('Unexpected server error.');
+                }
+            }
+        });
+        return result;
+    }
 </script>
+<!--<script>
+    var cells = document.getElementsByTagName('tr');
+for(var i = 0; i <= cells.length; i++){
+    cells[i].addEventListener('click', clickHandler);
+}
+
+function clickHandler()
+{
+    alert(this.textContent);
+}</script>-->
 <div class="modal-header"
      style="cursor: move;background: #f9f9f9;-webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);-moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);">
     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -152,12 +104,14 @@
                 <th>UserId</th>
                 <th>Zone</th>
                 <th>Info</th>
+                <th>Calling Number</th>
+                <th>Log Sheet Number</th>
             </tr>
             </thead>
             <tbody id="searchCabsContainer">
-            <?php foreach ($cabs as $cab): ?>
+            <?php $i=0; foreach ($assigned_cabs as $cab): ?>
                 <tr>
-                    <td>
+                    <td id="cabId<?= $i?>">
                         <?= $cab['cabId'] ?>
                     </td>
                     <td>
@@ -169,7 +123,7 @@
                     <td>
                         <?= $cab['color'] ?>
                     </td>
-                    <td>
+                    <td id="userId<?= $i?>">
                         <?php if(!isset($cab['userId']) || $cab['userId'] == -1){echo "Not Assigned";}else{echo $cab['userId']; }  ?>
                     </td>
                     <td>
@@ -178,8 +132,16 @@
                     <td>
                         <?= $cab['info'] ?>
                     </td>
+<!--                    need to validate if key exists-->
+                    <td contenteditable='true' id="callingNumber<?= $i?>">
+                        <?php if(!isset($cab['callingNumber']) || $cab['callingNumber'] == -1){echo "Not Assigned";}else{echo $cab['callingNumber'];} ?>
+                    </td>
+                    <td contenteditable='true' id="logSheetNumber<?= $i?>">
+                        <?php if(!isset($cab['logSheetNumber']) || $cab['logSheetNumber'] == -1){echo "Not Assigned";}else{echo $cab['logSheetNumber'];} ?>
+                    </td>
+                    <td><button type="button" class="btn btn-success" id="<?= $i?>" onclick="save_details(this.id)">Save</button></td>
                 </tr>
-            <?php endforeach ?>
+            <?php $i++; endforeach ?>
 
 
             </tbody>
@@ -195,3 +157,4 @@
         </div>
     </div>
 </div>
+

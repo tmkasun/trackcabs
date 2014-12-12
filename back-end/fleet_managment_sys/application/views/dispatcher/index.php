@@ -170,9 +170,15 @@
             </li>
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModalLarger').modal('toggle').find('.modal-content').load('dispatcher/dispatch_history');return false" >Dispatch History</button>
+                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModalLarger').modal('toggle').find('.modal-content').load('dispatcher/cab_info');return false" >Cab Info</button>
                 </form>
             </li>
+            <li>
+                <form action="#" style="margin: 0px;padding-right: 5px;">
+                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModalLarger').modal('toggle').find('.modal-content').load('dispatcher/dispatch_history');return false" >Dispatch History</button>
+                </form>
+            </li>           
+            
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
                     <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/search_cab');return false" >Search cab</button>

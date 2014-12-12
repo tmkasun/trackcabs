@@ -163,15 +163,17 @@
         var cabId = "";
         var logout = "false";
         var callingNumber = "-1";
+        var logSheetNumber = "-1";
         var startLocation = "";
         if(id.toString() === "driver" )
         {
             cabId = document.getElementById("cabId").value;
             logout = document.getElementById("logout").value;
             callingNumber = document.getElementById("callingNumber").value;
+            logSheetNumber = document.getElementById("logSheetNumber").value;
             startLocation = document.getElementById("startLocation").value;
             //json object for 'user_type' 'driver'....when driver edited, 'logout' alwys set to false
-            var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId, 'logout': logout , 'blocked':blocked , 'callingNumber':callingNumber , 'startLocation':startLocation }};
+            var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'cabId' : cabId, 'logout': logout , 'blocked':blocked , 'callingNumber':callingNumber , 'logSheetNumber':logSheetNumber, 'startLocation':startLocation }};
         }
         //jason object when for 'user_type's 'cro', and 'dispatcher'
         else{var user =  {'userId': parseInt(userId) , 'details' : {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp , 'blocked':blocked}};}
@@ -210,7 +212,7 @@
         {
             cabId = document.getElementById("cabId").value;
             //json object for 'user_type' 'driver'
-            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' , 'blocked':'false' ,'lastLogout': '0' , 'callingNumber':'-1' , 'startLocation':'' };
+            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' , 'blocked':'false' ,'lastLogout': '0' , 'callingNumber':'-1' , 'logSheetNumber':'-1', 'startLocation':'' };
         }
         //jason object when for 'user_type's 'cro', and 'dispatcher'
         else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type  , 'blocked':'false' };}
@@ -402,7 +404,6 @@
         getPackagesView();
     }
 
-
     function getPackagesView(){
 
         var url = '<?php echo site_url("packages_controller/getPackagesNavBarView") ?>';
@@ -510,8 +511,103 @@
         var div = document.getElementById('dataFiled');
         div.innerHTML = "";
         div.innerHTML = view.view.table_content;//alert("ok2");
-    }    
+    }
     
+    //Funcions for Missed call report
+    
+    function getMissedCallReportView()
+    {
+        var url = '<?php echo site_url("complaint_controller/get_missed_calls_today")?>';
+        var view = ajaxPost(null,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;        
+    }
+    function getAllMissedCallReportView()
+    {
+        var url = '<?php echo site_url("complaint_controller/get_all_missed_calls")?>';
+        var view = ajaxPost(null,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;        
+    }
+    function getMissedCallReportViewByDate()
+    {
+        var date = document.getElementById("date_needed").value;//alert(date);
+        var date_needed = {'date': date};
+        var url = '<?php echo site_url("complaint_controller/get_all_missed_calls_by_date")?>';
+        var view = ajaxPost(date_needed,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;        
+    }
+    
+</script>
+
+<script>
+    function createNewAddress(){
+        var addressName =document.getElementById('addressName').value;
+        var addressTown =document.getElementById('town').value;
+        var addressCity =document.getElementById('city').value;
+        var addressRoad =document.getElementById('road').value;
+        var address = {'addressId':'','addressName' : addressName , 'city' : addressCity ,'town' :addressTown , 'road' : addressRoad };
+        var url =  '<?php echo site_url("packages_controller/createAddress"); ?>';
+        ajaxPost(address,url);
+        getAddressView();
+
+    }
+
+    function makeAddressFormEditable(addressId ){//alert("in makeCROFormEditable "+user_type);
+
+        var data = {'addressId' : addressId };
+        var url = '<?php echo site_url("packages_controller/getAddressEditView") ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.address_edit_view;//result.view.type_edit_view;
+    }
+
+    function getAddressView(){
+        url ='<?php echo site_url("packages_controller/getAllAddressView") ?>'//url + "/accounts_controller/getAllAccountsView";
+        var skip = docs_per_page * (page-1);
+        var data = {"skip" : skip , "limit" : docs_per_page};
+        var view = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        div.innerHTML = view.view.table_content;
+    }
+
+    function getNewAddressView(url){
+
+        var data = {};
+        url ='<?php echo site_url("/packages_controller/getNewAddressView"); ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.new_address_view;
+
+    }
+
+    function updateAddress(addressId) {
+        var addressId = document.getElementById("addressId").value;
+        var addressName = document.getElementById("addressName").value;
+        var addressTown =document.getElementById('town').value;
+        var addressCity =document.getElementById('city').value;
+        var addressRoad =document.getElementById('road').value;
+        var address = {'addressId':addressId,'addressName' : addressName , 'city' : addressCity ,'town' :addressTown , 'road' : addressRoad };
+        var url =  '<?php echo site_url("packages_controller/updateAddress"); ?>';
+        ajaxPost(address,url);
+        getAddressView();
+    }
+
+    function deleteAddress(addressId){
+        // Confirm Msg Box
+        var data = {'addressId' : addressId };
+        var url = '<?php echo site_url("packages_controller/deleteAddress") ?>';
+        var result = ajaxPost(data,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = "";
+        getAddressView();
+    }
+
 </script>
 
 <script>

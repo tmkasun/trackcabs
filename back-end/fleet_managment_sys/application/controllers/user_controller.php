@@ -110,7 +110,6 @@ class User_controller extends CI_Controller
     }
 
     function createUser(){
-
         $statusMsg = 'success';
         $input_data = json_decode(trim(file_get_contents('php://input')), true); //TODO: change to this structure $this->input->post(NULL,true); //
 
@@ -126,47 +125,50 @@ class User_controller extends CI_Controller
                     $input_data['status'] = 'out';
                     $input_data['lastLogout'] = new MongoDate(strtotime("2010-01-15 00:00:00"));
                     $input_data['lastLogin'] = new MongoDate();
-                    $input_data['callingNumber'] = (int)$input_data['callingNumber'];
-                  
+                    $input_data['callingNumber'] = (int)$input_data['callingNumber'];                  
                 }
         $result = $this->user_dao->createUser($input_data);
 
         if(!$result){
             $statusMsg = 'fail';
         }
-
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg)));
-
     }
 
     function updateUser(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $input_data['userId'] = (int)$input_data['userId'];
-        if(array_key_exists('cabId',$input_data['details']))
+        if(array_key_exists('cabId',$input_data['details']))//better to set the condition of the 'if' using the 'userType'
                 {
                     if($input_data['details']['cabId'] === "" || $input_data['details']['cabId'] == -1)
                         {
-                            $input_data['details']['cabId']= (int)-1;
-                            
+                            $input_data['details']['cabId']= (int)-1;                            
                         }
                         $input_data['details']['cabId']= (int)$input_data['details']['cabId'];
-                        $this->cab_dao->updateCab($input_data['details']['cabId'],array('userId' => $input_data["userId"] ));
+                        
+                        
+                        $timeStamp = new MongoDate();
+                        if(array_key_exists('callingNumber', $input_data['details']))
+                            {//Add front end validation for calling number to be numeric and also add condition for acalling number to be assigned only if a user is assigned to a cab
+                                if($input_data['details']['callingNumber'] == "" || !is_numeric($input_data['details']['callingNumber'])){$input_data['details']['callingNumber'] = (int)-1;}
+                                else {$input_data['details']['callingNumber'] = (int)$input_data['details']['callingNumber'];}
+                                
+                                if($input_data['details']['logSheetNumber'] == "" || !is_numeric($input_data['details']['logSheetNumber'])){$input_data['details']['logSheetNumber'] = (int)-1;}
+                                else {$input_data['details']['logSheetNumber'] = (int)$input_data['details']['logSheetNumber'];}
+                                //$input_data['details']['callingNumber'] = (int)$input_data['details']['callingNumber'];
+                                //need to 'insert' insted of update and also update the 'Log Sheet Number'
+                                $this->log_dao->updateCallingNumber(date('Y-m-d', $timeStamp->sec),$input_data['userId'],$input_data['details']['callingNumber']);
+                            }
+                        $this->cab_dao->updateCab($input_data['details']['cabId'],array('userId' => $input_data["userId"], 'callingNumber' => $input_data['details']['callingNumber'], 'logSheetNumber' => $input_data['details']['logSheetNumber']));
 //                    else
 //                        {
 //                            $input_data['details']['cabId']= (int)$input_data['details']['cabId'];
 //                            $this->cab_dao->updateCab($input_data['details']['cabId'],array('userId' => $input_data["userId"] ));
 //                        }
                         //add relese_cab() here
-            $timeStamp = new MongoDate();
-        }
-        if(array_key_exists('callingNumber', $input_data['details']))
-        {
-            if($input_data['details']['callingNumber'] == ""){$input_data['details']['callingNumber'] = (int)-1;}
-            else {$input_data['details']['callingNumber'] = (int)$input_data['details']['callingNumber'];}
-            //$input_data['details']['callingNumber'] = (int)$input_data['details']['callingNumber'];
-            $this->log_dao->updateCallingNumber(date('Y-m-d', $timeStamp->sec),$input_data['userId'],$input_data['details']['callingNumber']);
-
-        }
+            
+                }
+        
         $this->user_dao->updateUser($input_data['userId'],$input_data['details']);
         $this->output->set_output(json_encode(array("statusMsg" => "success")));
     }

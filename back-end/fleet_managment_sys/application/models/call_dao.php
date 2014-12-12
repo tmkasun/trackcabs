@@ -44,22 +44,79 @@ class Call_dao extends CI_Model
 
     function addToCallDump($totalCallArray){
         $collection = $this->get_collection('call_dump');
-
         $collection->insert($totalCallArray);
-
     }
 
 
     function getCallsInLastSeconds(){
+
         $collection = $this->get_collection();
-        $SecondsBeforeNow = strtotime("now")-150;
-        $SecondsBeforeNowinMongo = new MongoDate(strtotime($SecondsBeforeNow));
+        //$SecondsBeforeNow = strtotime("now")-150;
+        $SecondsBeforeNowinMongo = new MongoDate(strtotime("-2 minutes"));
         $cursor =$collection->find(array('time'=> array('$gte' => $SecondsBeforeNowinMongo)));
         $callArray = array();
         foreach ($cursor as $doc) {
             array_push($callArray,$doc);
         }
         return $callArray;
+    }
+    
+    function get_missed_calls_today()
+    {
+        $collection = $this->get_collection('call_dump');
+        $missed_calls = array();
+        $today = new MongoDate(strtotime(date("y-m-d")));
+        $searchQuery = array('state' => "Missed",'date' => array('$gt' => $today));
+        $feilds = array('phone_number' => true, 'date' => true);
+        $missed_calls_cursor = $collection->find($searchQuery,$feilds);
+        foreach($missed_calls_cursor as $missed_call){$missed_calls[] = $missed_call;}
+        return $missed_calls;
+    }
+    
+    function get_all_missed_calls()
+    {
+        $collection = $this->get_collection('call_dump');
+        $missed_calls = array();        
+        $searchQuery = array('state' => "Missed");
+        $feilds = array('phone_number' => true, 'date' => true);
+        $missed_calls_cursor = $collection->find($searchQuery,$feilds);
+        foreach($missed_calls_cursor as $missed_call){$missed_calls[] = $missed_call;}
+        return $missed_calls;
+    }
+    function get_all_missed_calls_by_date($date)
+    {
+        $collection = $this->get_collection('call_dump');
+        $missed_calls = array();
+        $date_needed = new MongoDate(strtotime($date));//new MongoDate(strtotime(date("y-m-d")));
+        $next_day = new MongoDate(($date_needed->sec + 86400));//var_dump($next_day);
+        $searchQuery = array('state' => "Missed",'date' => array('$gt' => $date_needed, '$lt' => $next_day));
+        $feilds = array('phone_number' => true, 'date' => true);
+        $missed_calls_cursor = $collection->find($searchQuery,$feilds);
+        foreach($missed_calls_cursor as $missed_call){$missed_calls[] = $missed_call;}
+        return $missed_calls;
+    }
+
+    function isNewDay(){
+
+        $collection = $this->get_collection("callStat");
+        $result = $collection->findOne(array("reference" => "lastDate"));
+        $today = date("Y-m-d 00:00:00");
+
+        if($result ==null){
+            $data = array("reference" => "lastDate" , "timeStamp" => new MongoDate($today));
+            $collection->insert($data);
+            return true;
+        }else{
+            $result = $collection->findOne(array("reference" => "lastDate" , "timeStamp" => array('$lt'=>$today)));
+            if($result == null){
+                $data['timeStamp'] =  new MongoDate($today);
+                $collection->save($data);
+                return true;
+            }
+            else
+                return false;
+        }
+
     }
 
 }

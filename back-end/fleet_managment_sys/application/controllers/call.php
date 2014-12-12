@@ -64,14 +64,14 @@ class Call extends CI_Controller
         $csvCallArray = str_getcsv($postData[$state]);
 //        var_dump($csvCallArray);
 
-/*        $callInfo = array(
-            "state" => $state,
-            "phone_number" => trim($csvCallArray[7]),
-            "date" => new MongoDate(strtotime($today)),
-            "parameter1" => $csvCallArray[2],
-            "extension_number" => trim($csvCallArray[6]),
-            "raw_data" => $postData[$state]
-        );*/
+        /*        $callInfo = array(
+                    "state" => $state,
+                    "phone_number" => trim($csvCallArray[7]),
+                    "date" => new MongoDate(strtotime($today)),
+                    "parameter1" => $csvCallArray[2],
+                    "extension_number" => trim($csvCallArray[6]),
+                    "raw_data" => $postData[$state]
+                );*/
 
         $counter = 1;
         $valueArray = array();
@@ -85,47 +85,47 @@ class Call extends CI_Controller
 
         }
         //Data Structure
-/*
-        "2" : "Incoming",
-        "3" : "0329312121845",
-        "5" : "06/12/2014",
-        "6" : "12:17 ",
-        "8" : "0779823445",
-        "9" : "Missed Call",
-        "12" : "\\\"submit\\\"",
-        "13" : "\\\"POST\\\" /",
-        "14" : "controller"
+        /*
+                "2" : "Incoming",
+                "3" : "0329312121845",
+                "5" : "06/12/2014",
+                "6" : "12:17 ",
+                "8" : "0779823445",
+                "9" : "Missed Call",
+                "12" : "\\\"submit\\\"",
+                "13" : "\\\"POST\\\" /",
+                "14" : "controller"
 
-        "2" : "Incoming",
-        "3" : "064012124316",
-        "5" : "06/12/2014",
-        "6" : "12:42 ",
-        "7" : "14 ",
-        "8" : "0112696948",
-        "9" : "00:01:08",
-        "12" : "\\\"submit\\\"",
-        "13" : "\\\"POST\\\" /",
-        "14" : "controller"
+                "2" : "Incoming",
+                "3" : "064012124316",
+                "5" : "06/12/2014",
+                "6" : "12:42 ",
+                "7" : "14 ",
+                "8" : "0112696948",
+                "9" : "00:01:08",
+                "12" : "\\\"submit\\\"",
+                "13" : "\\\"POST\\\" /",
+                "14" : "controller"
 
-        "2" : "Outgoing",
-        "3" : "0925312125027",
-        "5" : "06/12/2014",
-        "6" : "12:49 ",
-        "7" : "16 ",
-        "8" : "0112696948",
-        "9" : "00:00:24",
-        "12" : "\\\"submit\\\"",
-        "13" : "\\\"POST\\\" /",
-        "14" : "controller"
+                "2" : "Outgoing",
+                "3" : "0925312125027",
+                "5" : "06/12/2014",
+                "6" : "12:49 ",
+                "7" : "16 ",
+                "8" : "0112696948",
+                "9" : "00:00:24",
+                "12" : "\\\"submit\\\"",
+                "13" : "\\\"POST\\\" /",
+                "14" : "controller"
 
-        "2" : " 0112077333\\r\\n",
-        "3" : "11",
-        "4" : "12:03:01 PM",
-        "5" : "12/6/2014",
-        "6" : "SmartConnet Reference : 210121231",
-        "8" : "\\\"submit\\\"",
-        "9" : "\\\"POST\\\" />\"
-    */
+                "2" : " 0112077333\\r\\n",
+                "3" : "11",
+                "4" : "12:03:01 PM",
+                "5" : "12/6/2014",
+                "6" : "SmartConnet Reference : 210121231",
+                "8" : "\\\"submit\\\"",
+                "9" : "\\\"POST\\\" />\"
+            */
         $callState = null;
         //Deduce Call State: Live,AnsweredEnded, Missed, Outgoing
         if($valueArray[10] == "Missed Call"){
@@ -166,6 +166,10 @@ class Call extends CI_Controller
                 "extension_number" => null,
                 "raw_data" => $postData[$state]
             );
+            $status = $this->call_dao->isNewDay($callInfo);
+            if($status){
+                $this->counters_dao->resetNextId($callInfo);
+            }
         }
         else if($callState == "AnsweredEnded"){
             $callInfo = array(
@@ -195,6 +199,8 @@ class Call extends CI_Controller
         }
 
         $this->call_dao->addToCallDump($callInfo);
+
+
 
         /*$webSocket = new Websocket('localhost', '5555', 'pabx');
         $webSocket->send($callInfo, 'cro1');

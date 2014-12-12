@@ -113,6 +113,17 @@ class Cab_dao extends CI_Model
         $unassigned_cabs = $collection->find($searchQuery,array('cabId' => true,'plateNo' => true, 'vType' => true));
         return $unassigned_cabs;
     }
+    
+    function get_assigned_cabs()
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array('userId' => array('$nin'=> array(-1)));//array(-1) - the '-1' should be given as an array
+        $assigned_cabs = array();
+        $assigned_cabs_cursor = $collection->find($searchQuery);
+        foreach($assigned_cabs_cursor as $cab){$assigned_cabs[] = $cab;}
+        return $assigned_cabs;
+    }
+    
     function  getCab($cabId){
         
         $collection = $this->get_collection();
@@ -211,7 +222,7 @@ class Cab_dao extends CI_Model
 
     }
 
-
+//????????????
     function find($query, $attribute = 'cabId')
     {
         $collection = $this->get_collection();

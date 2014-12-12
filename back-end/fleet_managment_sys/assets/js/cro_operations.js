@@ -794,7 +794,7 @@ function fillAirportPackageinBookings(){
     var index = -1;
     for(var i=0 ; i < airportPackagesObj['data'].length ; i++){
         index++;
-        if( airportPackagesObj['data'][i]['packageId'] === airportPackage ){
+        if( airportPackagesObj['data'][i]['packageId'] == airportPackage ){
             break;
         }
     }
@@ -817,7 +817,7 @@ function selectAirportPackageandAddRemark(){
         var index = -1;
         for(var i=0 ; i < airportPackagesObj['data'].length ; i++){
             index++;
-            if( airportPackagesObj['data'][i]['packageId'] === airportPackage ){
+            if( airportPackagesObj['data'][i]['packageId'] == airportPackage ){
                 break;
             }
         }
@@ -849,14 +849,13 @@ function selectAirportPackageandAddRemark(){
 
 function selectDayPackageandAddRemark(){
     var dayPackage = $('#dayPackage').val();
-
     if(dayPackage == '-'){
         return;
     }else{
         var index = -1;
         for(var i=0 ; i < dayPackagesObj['data'].length ; i++){
             index++;
-            if( dayPackagesObj['data'][i]['packageId'] === dayPackage ){
+            if( dayPackagesObj['data'][i]['packageId'] == dayPackage ){
                 break;
             }
         }

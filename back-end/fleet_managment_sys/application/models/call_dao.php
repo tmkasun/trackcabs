@@ -99,18 +99,19 @@ class Call_dao extends CI_Model
     function isNewDay(){
 
         $collection = $this->get_collection("callStat");
-        $result = $collection->findOne(array("reference" => "lastDate"));
+        $result = $collection->findOne(array("reference" => "nextDay"));
         $nextDay = date('Y-m-d 00:00:00', strtotime(' +1 day'));
+        //$test = date('Y-m-d 00:00:00', strtotime(' +3 day'));
 
         if($result ==null){
-            $data = array("reference" => "nextDay" , "timeStamp" => new MongoDate($nextDay));
+            $data = array("reference" => "nextDay" , "timeStamp" => new MongoDate(strtotime($nextDay)));
             $collection->insert($data);
             return true;
         }else{
-            $result = $collection->findOne(array("reference" => "nextDay" , "timeStamp" => array('$lt'=>new MongoDate())));
-            if($result != null){
-                $result['timeStamp'] =  new MongoDate($nextDay);
-                $collection->save($result);
+            $isNewDay = $collection->findOne(array("reference" => "nextDay" , "timeStamp" => array('$lt'=>new MongoDate())));
+            if($isNewDay != null){
+                $isNewDay['timeStamp'] =  new MongoDate(strtotime($nextDay));
+                $collection->save($isNewDay);
                 return true;
             }
             else

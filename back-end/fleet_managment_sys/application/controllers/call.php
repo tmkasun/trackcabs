@@ -187,9 +187,9 @@ class Call extends CI_Controller
 
             $isNewDay = $this->call_dao->isNewDay($callInfo);
             if($isNewDay){
-                $this->counters_dao->resetNextId("missedCalls");
+                $this->counters_dao->resetNextId("AnsweredEnded");
             }else{
-                $this->counters_dao->getNextId("missedCalls");
+                $this->counters_dao->getNextId("AnsweredEnded");
             }
         }
         else if($callState == "Outgoing"){
@@ -222,14 +222,9 @@ class Call extends CI_Controller
         }
 
         $this->call_dao->addToCallDump($callInfo);
-
-
-
         /*$webSocket = new Websocket('localhost', '5555', 'pabx');
         $webSocket->send($callInfo, 'cro1');
         $this->call_dao->createCall($callInfo);*/
-
-
 
     }
 

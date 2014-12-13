@@ -86,6 +86,13 @@ class Customer_retriever extends CI_Controller
             $this->customer_dao->addBooking($customerProfile2['tp'],$bookingObjId);
         }
 
+        $isNewDay = $this->call_dao->isNewDay();
+        if($isNewDay){
+            $this->counters_dao->resetNextId("activeCalls");
+        }else{
+            $this->counters_dao->getNextId("activeCalls");
+        }
+
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg, 'tp' => $input_data["tp"] ,
                                     'refId' => $input_data["data"]["refId"])));
 

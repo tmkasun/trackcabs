@@ -25,7 +25,11 @@ class Test_controller extends CI_Controller
         foreach($cursor as $doc){
             $data['data'][]= $doc;
         }
-        var_dump($data['data']);
+
+        $data = array("reference" => "nextDay" , "timeStamp" => new MongoDate(strtotime($today)));
+        $collection->insert($data);
+
+        //var_dump($data['data']);
     }
 
     function test(){

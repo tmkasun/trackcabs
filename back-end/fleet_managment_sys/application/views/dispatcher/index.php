@@ -53,12 +53,12 @@
         TODO: Move this styles to separate CSS for clarity.
         */
         .navbar {
-            background: rgba(1, 32, 0, 0.80) none repeat scroll 0% 0%;
+            background: rgba(58, 179, 165, 0.7) none repeat scroll 0% 0%;;
             color: rgba(0, 0, 0, 0.8);
             border-radius: 0px 0px 0px 0px;
             -webkit-box-shadow: 0px 16px 29px -17px rgba(33, 20, 4, 1);
             -moz-box-shadow: 0px 16px 29px -17px rgba(33, 20, 4, 1);
-            box-shadow: 0px 16px 29px -17px rgba(33, 20, 4, 1);
+            box-shadow: 0px 16px 29px -17px rgba(51, 208, 131, 1);
             border: none;
             margin: auto;
             z-index: 1000;

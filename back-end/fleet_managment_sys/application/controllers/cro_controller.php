@@ -8,6 +8,13 @@ class Cro_controller extends CI_Controller
         if (is_user_logged_in() && $this->isUserRoleCRO()) {
             $userData = $this->session->userdata('user');
 
+            $isNewDay = $this->call_dao->isNewDay();
+            if($isNewDay){
+                $this->counters_dao->resetNextId("answeredCalls");
+            }else{
+                $this->counters_dao->getNextId("answeredCalls");
+            }
+
             $callStat['activeCalls'] = $this->counters_dao->getCounterValue("activeCalls");
             $callStat['missedCalls'] = $this->counters_dao->getCounterValue("missedCalls");
             $callStat['answeredCalls'] = $this->counters_dao->getCounterValue("answeredCalls");

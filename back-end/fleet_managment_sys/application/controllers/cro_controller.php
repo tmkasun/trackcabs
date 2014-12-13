@@ -11,13 +11,16 @@ class Cro_controller extends CI_Controller
             $isNewDay = $this->call_dao->isNewDay();
             if($isNewDay){
                 $this->counters_dao->resetNextId("answeredCalls");
+                $this->counters_dao->resetNextId("missedCalls");
+                $this->counters_dao->resetNextId("activeCalls");
+                $this->counters_dao->resetNextId("totalHires");
             }
 
             $callStat['activeCalls'] = $this->counters_dao->getCounterValue("activeCalls");
             $callStat['missedCalls'] = $this->counters_dao->getCounterValue("missedCalls");
             $callStat['answeredCalls'] = $this->counters_dao->getCounterValue("answeredCalls");
             $callStat['totalCalls'] = $callStat['missedCalls'] + $callStat['answeredCalls'];
-            $callStat['totalHires'] = $this->counters_dao->getCounterValue("answeredCalls");
+            $callStat['totalHires'] = $this->counters_dao->getCounterValue("totalHires");
 
             $userData['callStat']=$callStat;
 
@@ -176,9 +179,19 @@ class Cro_controller extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $result = $this->customer_dao->getCustomer($input_data['tp']);
 
+        $isNewDay = $this->call_dao->isNewDay();
+        if($isNewDay){
+            $this->counters_dao->resetNextId("answeredCalls");
+            $this->counters_dao->resetNextId("missedCalls");
+            $this->counters_dao->resetNextId("activeCalls");
+            $this->counters_dao->resetNextId("totalHires");
+        }
+
         $callStat['activeCalls'] = $this->counters_dao->getCounterValue("activeCalls");
         $callStat['missedCalls'] = $this->counters_dao->getCounterValue("missedCalls");
         $callStat['answeredCalls'] = $this->counters_dao->getCounterValue("answeredCalls");
+        $callStat['totalCalls'] = $callStat['missedCalls'] + $callStat['answeredCalls'];
+        $callStat['totalHires'] = $this->counters_dao->getCounterValue("totalHires");
 
         if($result == null){
             $result =array('tp' => $input_data['tp']);

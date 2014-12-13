@@ -9,18 +9,18 @@
         </div>
 
         <div class="col-lg-4">
-            <p style="margin: 0 0 3px;"><span class="label label-default" style="font-size: 83%; ">Total Calls <?= $activeCalls?></span> </p>
-            <p style="margin: 0 0 3px;"><span class="label label-info" style="font-size: 83%; ">Total Answered Calls <?= $activeCalls?></span></p>
+            <p style="margin: 0 0 3px;"><span class="label label-default" style="font-size: 83%; ">Total Calls <?= $totalCalls?></span> </p>
+            <p style="margin: 0 0 3px;"><span class="label label-info" style="font-size: 83%; ">Total Answered Calls <?= $answeredCalls?></span></p>
             <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">Total Active Calls <?= $activeCalls?></span></p>
             <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">CRO Active Calls <?= $activeCalls?></span></p>
-            <p style="margin: 0 0 3px;"><span class="label label-danger" style="font-size: 83%; ">Total Missed Calls <?= $activeCalls?></span></p>
-            <p style="margin: 0 0 3px;">CRO Hires <span class="badge">42</span></p>
+            <p style="margin: 0 0 3px;"><span class="label label-danger" style="font-size: 83%; ">Total Missed Calls <?= $missedCalls?></span></p>
+            <p style="margin: 0 0 3px;">CRO Hires <span class="badge"><?= $totalHires?></span></p>
 
         </div>
 
         <div class="col-lg-4">
             <h1>Total Hires
-                <span class="glyphicon glyphicon-circle-arrow-up" aria-hidden="true"> 12 </span></h1>
+                <span class="glyphicon glyphicon-circle-arrow-up" aria-hidden="true"> <?= $totalHires?></span></h1>
         </div>
     </div>
 </div>

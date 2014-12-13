@@ -217,9 +217,9 @@
 
 
         <div class="col-lg-12" style="margin-top: 10px"  id="newBooking">
-            <div class="col-lg-offset-3 col-lg-7" style="margin-top: 10%">
+            <!--div class="col-lg-offset-3 col-lg-7" style="margin-top: 10%">
                 <img style="width: 80%" src="<?= base_url() ?>assets/img/hao-logo-small.png">
-            </div>
+            </div-->
         </div>
 
         <div class="col-lg-8" style="margin-top: 10px" id="bookingHistory">

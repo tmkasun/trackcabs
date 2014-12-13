@@ -144,8 +144,6 @@ class Call extends CI_Controller
             $callState = "Garbage";
         }
 
-
-
         $callInfo = null;
         if($callState == "Live"){
             $callInfo = array(
@@ -166,10 +164,16 @@ class Call extends CI_Controller
                 "extension_number" => null,
                 "raw_data" => $postData[$state]
             );
+
+
             $status = $this->call_dao->isNewDay($callInfo);
             if($status){
                 $this->counters_dao->resetNextId($callInfo);
+            }else{
+                $this->counters_dao->getNextId("missedCalls");
             }
+
+
         }
         else if($callState == "AnsweredEnded"){
             $callInfo = array(
@@ -196,6 +200,15 @@ class Call extends CI_Controller
                 "state" => $callState,
                 "raw_data" => $postData[$state]
             );
+        }
+
+        if($callState != "Garbage" ) {
+            $result = $this->customer_dao->getCustomer($callInfo['phone_number']);
+            $result['call_history'][] = array('callTime' => $callInfo['date'],
+                'extension_number' => $callInfo['extension_number'],
+                'state' => $callInfo['$callState'],
+                'duration' => $callInfo['duration']);
+            $this->customer_dao->updateCustomer($callInfo['phone_number'], $result);
         }
 
         $this->call_dao->addToCallDump($callInfo);

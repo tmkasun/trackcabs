@@ -12,6 +12,19 @@ class Test_controller extends CI_Controller
 
     public function index()
     {
+
+        $collection = $this->get_collection();
+        $today = date("Y-m-d 00:00:00");
+        $insertQuery = array('ts' => new MongoDate(strtotime($today)));
+        $collection->insert($insertQuery);
+
+        $searchQuery = array('ts' => array('$gte' => new MongoDate(strtotime($today))));
+        $result = $collection->findOne($searchQuery);
+
+        var_dump($result);
+    }
+
+    function test(){
         $today = date("Y-m-d 00:00:00");
         $todayUTC = new MongoDate(strtotime($today));
         $todayUTCLess = new MongoDate(strtotime("+5 hours 30 minutes"));
@@ -36,7 +49,6 @@ class Test_controller extends CI_Controller
 //        echo $todayUTC->sec;
 //        echo "ended";
 //        echo $todayUTCLess->sec;
-
     }
 
 

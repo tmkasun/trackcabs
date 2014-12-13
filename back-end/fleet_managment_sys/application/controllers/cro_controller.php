@@ -178,10 +178,10 @@ class Cro_controller extends CI_Controller
             /* TODO ADD PABX DATA TO CALL TIME */
             $user = $this->session->userdata('user');
 
-            if($input_data['isFromPABX'] == 'true'){
-                $result['call_history'][] = array('callTime' => new MongoDate() , 'croId' => $user['userId'] , 'croUname' => $user['uName']);
-                $this->customer_dao->updateCustomer($input_data["tp"], $result);
-            }
+//            if($input_data['isFromPABX'] == 'true'){
+//                $result['call_history'][] = array('callTime' => new MongoDate() , 'croId' => $user['userId'] , 'croUname' => $user['uName']);
+//                $this->customer_dao->updateCustomer($input_data["tp"], $result);
+//            }
 
             foreach($result as $key => $value){
                 if($key == 'history'){

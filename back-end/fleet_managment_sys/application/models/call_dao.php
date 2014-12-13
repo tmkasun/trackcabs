@@ -100,17 +100,17 @@ class Call_dao extends CI_Model
 
         $collection = $this->get_collection("callStat");
         $result = $collection->findOne(array("reference" => "lastDate"));
-        $today = date("Y-m-d 00:00:00");
+        $nextDay = date('Y-m-d 00:00:00', strtotime(' +1 day'));
 
         if($result ==null){
-            $data = array("reference" => "lastDate" , "timeStamp" => new MongoDate($today));
+            $data = array("reference" => "nextDay" , "timeStamp" => new MongoDate($nextDay));
             $collection->insert($data);
             return true;
         }else{
-            $result = $collection->findOne(array("reference" => "lastDate" , "timeStamp" => array('$lt'=>$today)));
-            if($result == null){
-                $data['timeStamp'] =  new MongoDate($today);
-                $collection->save($data);
+            $result = $collection->findOne(array("reference" => "nextDay" , "timeStamp" => array('$lt'=>new MongoDate())));
+            if($result != null){
+                $result['timeStamp'] =  new MongoDate($nextDay);
+                $collection->save($result);
                 return true;
             }
             else

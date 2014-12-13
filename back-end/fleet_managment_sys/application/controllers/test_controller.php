@@ -14,14 +14,18 @@ class Test_controller extends CI_Controller
     {
 
         $collection = $this->get_collection();
-        $today = date("Y-m-d 00:00:00");
+        $today =date('Y-m-d 00:00:00' , strtotime(' +2 day'));
         $insertQuery = array('ts' => new MongoDate(strtotime($today)));
-        $collection->insert($insertQuery);
+        //$collection->insert($insertQuery);
 
-        $searchQuery = array('ts' => array('$gte' => new MongoDate(strtotime($today))));
-        $result = $collection->findOne($searchQuery);
+        $searchQuery = array('ts' => array('$lt' => new MongoDate(strtotime($today))));
+        $cursor = $collection->find($searchQuery);
 
-        var_dump($result);
+        $data= array('data' => array());
+        foreach($cursor as $doc){
+            $data['data'][]= $doc;
+        }
+        var_dump($data['data']);
     }
 
     function test(){

@@ -166,9 +166,9 @@ class Call extends CI_Controller
             );
 
 
-            $status = $this->call_dao->isNewDay($callInfo);
-            if($status){
-                $this->counters_dao->resetNextId($callInfo);
+            $isNewDay = $this->call_dao->isNewDay($callInfo);
+            if($isNewDay){
+                $this->counters_dao->resetNextId("missedCalls");
             }else{
                 $this->counters_dao->getNextId("missedCalls");
             }
@@ -184,6 +184,13 @@ class Call extends CI_Controller
                 "extension_number" => (int)trim($valueArray[8]),
                 "raw_data" => $postData[$state]
             );
+
+            $isNewDay = $this->call_dao->isNewDay($callInfo);
+            if($isNewDay){
+                $this->counters_dao->resetNextId("missedCalls");
+            }else{
+                $this->counters_dao->getNextId("missedCalls");
+            }
         }
         else if($callState == "Outgoing"){
             $callInfo = array(
@@ -204,11 +211,14 @@ class Call extends CI_Controller
 
         if($callState != "Garbage" ) {
             $result = $this->customer_dao->getCustomer($callInfo['phone_number']);
-            $result['call_history'][] = array('callTime' => $callInfo['date'],
-                'extension_number' => $callInfo['extension_number'],
-                'state' => $callInfo['$callState'],
-                'duration' => $callInfo['duration']);
-            $this->customer_dao->updateCustomer($callInfo['phone_number'], $result);
+            /* If there is a customer record exists only input */
+            if($result != null){
+                $result['call_history'][] = array('callTime' => $callInfo['date'],
+                    'extension_number' => $callInfo['extension_number'],
+                    'state' => $callInfo['$callState'],
+                    'duration' => $callInfo['duration']);
+                $this->customer_dao->updateCustomer($callInfo['phone_number'], $result);
+            }
         }
 
         $this->call_dao->addToCallDump($callInfo);

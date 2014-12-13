@@ -91,9 +91,6 @@
             display: inline;
         }
 
-
-
-
     </style>
 </head>
 <body>
@@ -106,8 +103,6 @@
 
         <ul class="nav navbar-nav">
             <li class="navbar-form navbar-left" style="padding: 0">  <!--<a href="<?/*= site_url('cro_controller')*/?>">CRO</a>-->
-
-
 
                 <div class="btn-group">
                     <button type="button" data-bind="click:updateNumbers" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown" >
@@ -134,14 +129,9 @@
                                 </tr>
                                 </tbody>
                             </table>
-
                         </div>
-
                     </div>
                 </div>
-
-
-
             </li>
 
             <form class="navbar-form navbar-left" role="search">
@@ -181,18 +171,34 @@
     <div class="row" style="background: #d7ddeb; min-height: 1000px">
 
         <div class="col-lg-12" style="margin-top: 10px">
-            <!--div class="panel panel-default">
-                <div class="panel-body" style="padding: 3px"-->
-                    <div class="col-lg-6" style="margin-top: 10px; padding: 2px" id="customerInformation">
 
+            <div class="col-lg-6" style="margin-top: 10px; padding: 2px" id="jobInfo" >
+
+            </div>
+
+            <div class="col-lg-6" style="padding: 2px;">
+
+                <div class="col-lg-12" style="margin-top: 10px; padding: 2px" id="callCenterInfo">
+                    <div class="panel panel-default" xmlns="http://www.w3.org/1999/html">
+                        <div class="panel-heading" style="padding: 1px">
+                            <h5 class="panel-title">Customer Information</h5>
+                        </div>
+                        <div class="panel-body" >
+
+                            <img style='float:left;width:134px;height:128px' src="<?= base_url() ?>assets/img/phone.png" />
+                            <p>Active Calls : <?= $callStat['activeCalls']?></p>
+                            <p>Missed Calls : <?= 'test'?></p>
+                            <p>Non Active Calls Calls : <?= 'test'?></p>
+                        </div>
                     </div>
+                </div>
 
-                    <div class="col-lg-6" style="margin-top: 10px; padding: 2px" id="jobInfo" >
+                <div class="col-lg-12" style="margin-top: 10px; padding: 2px" id="customerInformation">
 
-                    </div>
+                </div>
 
-                <!--/div>
-            </div-->
+            </div>
+
         </div>
 
 

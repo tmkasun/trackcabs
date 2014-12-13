@@ -187,9 +187,9 @@ class Call extends CI_Controller
 
             $isNewDay = $this->call_dao->isNewDay($callInfo);
             if($isNewDay){
-                $this->counters_dao->resetNextId("AnsweredEnded");
+                $this->counters_dao->resetNextId("answeredCalls");
             }else{
-                $this->counters_dao->getNextId("AnsweredEnded");
+                $this->counters_dao->getNextId("answeredCalls");
             }
         }
         else if($callState == "Outgoing"){

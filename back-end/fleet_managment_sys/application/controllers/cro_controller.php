@@ -7,6 +7,13 @@ class Cro_controller extends CI_Controller
     {
         if (is_user_logged_in() && $this->isUserRoleCRO()) {
             $userData = $this->session->userdata('user');
+
+            $callStat['activeCalls'] = $this->counters_dao->getCounterValue("activeCalls");
+            $callStat['missedCalls'] = $this->counters_dao->getCounterValue("missedCalls");
+            $callStat['answeredCalls'] = $this->counters_dao->getCounterValue("answeredCalls");
+
+            $userData['callStat']=$callStat;
+
             $this->load->view('cro/cro_main',$userData);
             $location_board_pane = $this->load->view("dispatcher/panels/locView", NULL, TRUE);
         }else{
@@ -162,10 +169,15 @@ class Cro_controller extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $result = $this->customer_dao->getCustomer($input_data['tp']);
 
+        $callStat['activeCalls'] = $this->counters_dao->getCounterValue("activeCalls");
+        $callStat['missedCalls'] = $this->counters_dao->getCounterValue("missedCalls");
+        $callStat['answeredCalls'] = $this->counters_dao->getCounterValue("answeredCalls");
+
         if($result == null){
             $result =array('tp' => $input_data['tp']);
             $data['customer_info_view'] = $this->load->view('cro/new_customer_form', $result , TRUE);
             /* Customer is new so send empty to to the JOB Info View */
+            $data['call_center_info_view'] = $this->load->view('cro/call_center_info', $callStat , TRUE);
             $data['job_info_view'] = '';
             $data['new_booking_view'] = '';
             $data['booking_history_view']= '';
@@ -254,6 +266,7 @@ class Cro_controller extends CI_Controller
             $bookingData['airport_packages'] = $this->packages_dao->getAllAirportPackages();
             $bookingData['day_packages'] = $this->packages_dao->getAllDayPackages();
 
+            $data['call_center_info_view'] = $this->load->view('cro/call_center_info', $callStat , TRUE);
             $data['customer_info_view'] = $this->load->view('cro/customer_info', $result , TRUE);
             $data['job_info_view'] = $this->load->view('cro/job_info', $bookingData , TRUE);
             $data['new_booking_view'] = $this->load->view('cro/new_booking', $result , TRUE);

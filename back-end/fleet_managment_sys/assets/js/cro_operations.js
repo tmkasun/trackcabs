@@ -573,6 +573,9 @@ function getCustomerInfoView( url , tp , isFromPABX ){
     if(view.hasOwnProperty('important'))
     customerObj=view.important.customerInfo;
 
+    /*  Populate the call center information view */
+    $('#callCenterInfo').html(view.view.call_center_info_view);
+
     /*  Populate the customer information view */
     $('#customerInformation').html(view.view.customer_info_view);
 

@@ -190,8 +190,8 @@
                             </div>
 
                             <div class="col-lg-4">
-                                <p style="margin: 0 0 3px;"><span class="label label-default" style="font-size: 83%; ">Total Calls <?= $callStat['activeCalls']?></span> </p>
-                                <p style="margin: 0 0 3px;"><span class="label label-info" style="font-size: 83%; ">Total Answered Calls <?= $callStat['activeCalls']?></span></p>
+                                <p style="margin: 0 0 3px;"><span class="label label-default" style="font-size: 83%; ">Total Calls <?= $callStat['totalCalls']?></span> </p>
+                                <p style="margin: 0 0 3px;"><span class="label label-info" style="font-size: 83%; ">Total Answered Calls <?= $callStat['answeredCalls']?></span></p>
                                 <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">Total Active Calls <?= $callStat['activeCalls']?></span></p>
                                 <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">CRO Active Calls <?= $callStat['activeCalls']?></span></p>
                                 <p style="margin: 0 0 3px;"><span class="label label-default" style="font-size: 83%; ">Total Missed Calls <?= $callStat['missedCalls']?></span></p>

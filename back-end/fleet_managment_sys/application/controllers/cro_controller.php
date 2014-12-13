@@ -11,13 +11,13 @@ class Cro_controller extends CI_Controller
             $isNewDay = $this->call_dao->isNewDay();
             if($isNewDay){
                 $this->counters_dao->resetNextId("answeredCalls");
-            }else{
-                $this->counters_dao->getNextId("answeredCalls");
             }
-
+            
             $callStat['activeCalls'] = $this->counters_dao->getCounterValue("activeCalls");
             $callStat['missedCalls'] = $this->counters_dao->getCounterValue("missedCalls");
             $callStat['answeredCalls'] = $this->counters_dao->getCounterValue("answeredCalls");
+            $callStat['totalCalls'] = $callStat['missedCalls'] + $callStat['answeredCalls'];
+            $callStat['totalHires'] = $this->counters_dao->getCounterValue("answeredCalls");
 
             $userData['callStat']=$callStat;
 

@@ -13,18 +13,15 @@ class Test_controller extends CI_Controller
     public function index()
     {
 
-        $collection = $this->get_collection("test");
-        $test = date(strtotime(' +3 day'));
-        $date = new MongoDate(strtotime("+3 minutes"));
-        $collection->insert(array('date' => $date));
+        $collection = $this->get_collection("live");
+        $result['live'] = $this->live_dao->getBookingsByTown("f");
+        $result['history'] = $this->history_dao->getBookingsByTown("f");
 
-        //$result = $this->customer_dao->getSimilarNames("n");
-//
-//        foreach( $result['data'] as $data){
+        foreach( $result['live']['data'] as $data){
 //            unset($data['call_history']);
-//            unset($data['history']);
-//            //var_dump($data);
-//        }
+ //           unset($data['history']);
+            var_dump($data);
+        }
         //$result= $collection->find(array("name" => new MongoRegex('/' . "5" . '/i')));
         //$result->limit(10);
 

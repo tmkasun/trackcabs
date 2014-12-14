@@ -162,7 +162,7 @@ class Customer_dao extends CI_Model
 
         $collection = $this->get_collection();
         $result= $collection->find(array("name" => new MongoRegex('/' . $name . '/i')));
-        $result->limit(10);
+        $result->limit(20);
         $data= array();
         foreach ($result as $doc) {
             $data['data'][]= $doc;

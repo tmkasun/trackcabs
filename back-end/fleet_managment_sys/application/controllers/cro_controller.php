@@ -143,6 +143,18 @@ class Cro_controller extends CI_Controller
 
     }
 
+    function getSearchByTownView(){
+        $statusMsg = 'true';
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+
+        $result['live'] = $this->live_dao->getBookingsByTown($input_data["town"]);
+        $result['history'] = $this->history_dao->getBookingsByTown($input_data["town"]);
+
+        $view_data['bookings_by_address_view'] = $this->load->view('cro/bookings/bookings_by_address', $result, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , 'view' => $view_data)));
+
+    }
+
     function getTodayMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $user = $this->session->userdata('user');

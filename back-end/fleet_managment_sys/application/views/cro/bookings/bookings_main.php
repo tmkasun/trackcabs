@@ -127,6 +127,19 @@
         }
 
         function bookingsOperations(request){
+
+            if(request == 'getBookingByTown'){
+                url = url + '/cro_controller/getSearchByTownView';
+                var town= $('#townSearch').val();
+                var  data={'town' : town};
+                var result = ajaxPost(data , url , false);
+                if(result.statusMsg == 'true')
+                    $('#searchDetails').html(result.view.bookings_by_address_view);
+                else
+                    alert('Bookings for the Town Not Available ');
+            }
+
+
             if(request == 'getCustomerNames'){
                 url = url + '/cro_controller/getSearchByNamesViews';
                 var name= $('#customerName').val();
@@ -147,17 +160,6 @@
                     $('#searchDetails').html(result.view.advanced_bookings_view);
                 else
                     alert('Booking ID does not exists');
-
-
-            }
-
-            if(request == 'getBookingByTown'){
-                url = url + '/customer_retriever/getBookingByRefTown';
-                alert(url);
-                var town= $('#townSearch').val();
-                var  data={'town' : town}
-                var result = ajaxPost(data , url , false);
-                alert(JSON.stringify(result));
             }
 
         }

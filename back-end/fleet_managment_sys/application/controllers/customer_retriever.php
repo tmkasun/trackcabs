@@ -176,6 +176,10 @@ class Customer_retriever extends CI_Controller
 
         $user = $this->session->userdata('user');
         $bookingData = $this->live_dao->getBookingByMongoId($input_data['_id']);
+        $bookingData['cancelUserId'] = $user['userId'];
+        $bookingData['cancelTime'] = new MongoDate();
+        $this->live_dao->updateBooking($input_data['_id'] ,  $bookingData );
+
         $result = $bookingData['status'];
 
         if ($bookingData != null) {

@@ -117,6 +117,15 @@ class Live_dao extends CI_Model
         $collection->update($searchQuery ,array('$set' => array('status' => $status)));
     }
 
+    /*   Adds the user Id to the record who made the cancellation  */
+    function updateCancelUserId($id , $userId){
+
+        $collection = $this->get_collection();
+        $searchQuery= array('_id' => new MongoId($id));
+
+        $collection->update($searchQuery ,array('$set' => array('cancelUserId' => (int)$userId)));
+    }
+
     function setDriverId($orderId, $driverId){
         $collection = $this->get_collection();
         $searchQuery= array('refId' => (int)$orderId);

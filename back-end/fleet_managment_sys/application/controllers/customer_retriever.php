@@ -89,11 +89,11 @@ class Customer_retriever extends CI_Controller
         $isNewDay = $this->call_dao->isNewDay();
         if($isNewDay){
             $this->counters_dao->resetNextId("activeCalls");
-            $this->counters_dao->getNextId("activeCalls");
             $this->counters_dao->resetNextId("totalHires");
-            $this->counters_dao->getNextId("totalHires");
         }else{
-            $this->counters_dao->getNextId("activeCalls");
+            if($input_data["data"]["sessionFirstBooking"] == "true" ){
+                $this->counters_dao->getNextId("activeCalls");
+            }
             $this->counters_dao->getNextId("totalHires");
         }
 

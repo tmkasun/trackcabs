@@ -47,6 +47,7 @@
         var customerObj = null;
         var airportPackagesObj = null;
         var dayPackagesObj = null;
+        var sessionFirstBooking = null;
 
         </script>
     <style>
@@ -241,16 +242,19 @@
             }
             if(request == 'getCustomerFromPABX'){
                 tp = param1;
+                sessionFirstBooking = true;
                 getCustomerInfoView( url , tp , true);
             }
             if(request == 'getCustomer'){
                 tp = $('#tpSearch').val();
+                sessionFirstBooking = true;
                 getCustomerInfoView( url , tp);
             }
             ///////////////////TODO: Implement To Identify a called customer
             // WHY IS  THIS METHOD IS USED FOR ???????/ WHEN THERE IS A GETCUSTOMERFROMPABXMETHOD IS PRESENT
             if(request == 'getCalledCustomer'){
                 tp = $('#tpSearch').val();
+                sessionFirstBooking = true;
                 getCustomerInfoView( url , tp,param1);
             }
             ///////////////////

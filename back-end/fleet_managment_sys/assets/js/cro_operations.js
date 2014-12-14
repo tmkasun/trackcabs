@@ -358,10 +358,12 @@ function createBooking(url , tp){
             'personalProfileTp' : personalProfileTp,
             'cancelReason' :cancelReason,
             'packageId' : packageId,
-            'packageType' : packageType
+            'packageType' : packageType,
+            'sessionFirstBooking' : sessionFirstBooking
         }
     };
     var result = ajaxPost(data,url,false);
+    sessionFirstBooking = false;
     url = siteUrl + '/customer_retriever/sendBookingDetails';
     var bookingConfirmationData = {
         'tp' : tp,

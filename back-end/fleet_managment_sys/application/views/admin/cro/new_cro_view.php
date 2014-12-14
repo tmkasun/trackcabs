@@ -19,5 +19,6 @@
         <label for="tp">Telephone Number</label>
         <input type="text" class="form-control" id="tp" placeholder="Enter Telephone Number">
     </div>
-    <button type="submit" id="cro" class="btn btn-default" onclick="createNewCRO(this.id)">Save</button>
+    <button type="submit" id="cro" class="btn btn-default" onclick="createNewCRO(this.id);return false;"
+            onsubmit="createNewCRO(this.id);return false;">Save</button>
 </form>

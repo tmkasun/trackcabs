@@ -132,7 +132,6 @@
                 var refId= $('#refIdSearch').val();
                 var  data={'refId' : refId}
                 var result = ajaxPost(data , url , false);
-                alert(JSON.stringify(result));
                 if(result.statusMsg == 'true')
                     $('#searchDetails').html(result.view.advanced_bookings_view);
                 else
@@ -151,7 +150,12 @@
             }
 
             if(request == 'getBookingByCustomer'){
-
+                url = url + '/customer_retriever/getBookingByRefTown';
+                alert(url);
+                var town= $('#townSearch').val();
+                var  data={'town' : town}
+                var result = ajaxPost(data , url , false);
+                alert(JSON.stringify(result));
             }
         }
 

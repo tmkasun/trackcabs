@@ -12,7 +12,7 @@
             <p style="margin: 0 0 3px;"><span class="label label-default" style="font-size: 83%; ">Total Calls <?= $totalCalls?></span> </p>
             <p style="margin: 0 0 3px;"><span class="label label-info" style="font-size: 83%; ">Total Answered Calls <?= $answeredCalls?></span></p>
             <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">Total Active Calls <?= $activeCalls?></span></p>
-            <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">CRO Active Calls <?= $activeCalls?></span></p>
+            <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">CRO Active Calls <?= $croActiveCalls?></span></p>
             <p style="margin: 0 0 3px;"><span class="label label-danger" style="font-size: 83%; ">Total Missed Calls <?= $missedCalls?></span></p>
             <p style="margin: 0 0 3px;">CRO Hires <span class="badge"><?= $croHires?></span></p>
 

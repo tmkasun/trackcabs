@@ -13,26 +13,36 @@ class Test_controller extends CI_Controller
     public function index()
     {
 
-        $collection = $this->get_collection();
-        $today =date('Y-m-d 00:00:00' , strtotime(' +2 day'));
-        $insertQuery = array('ts' => new MongoDate(strtotime($today)));
-        //$collection->insert($insertQuery);
+        //$collection = $this->get_collection("customers");
+        $result = $this->customer_dao->getSimilarNames("n");
 
-        $searchQuery = array('ts' => array('$lt' => new MongoDate(strtotime($today))));
-        $cursor = $collection->find($searchQuery);
-
-        $data= array('data' => array());
-        foreach($cursor as $doc){
-            $data['data'][]= $doc;
+        foreach( $result['data'] as $data){
+            unset($data['call_history']);
+            unset($data['history']);
+            var_dump($data);
         }
+        //$result= $collection->find(array("name" => new MongoRegex('/' . "5" . '/i')));
+        //$result->limit(10);
 
-        $data = array("reference" => "nextDay" , "timeStamp" => new MongoDate(strtotime($today)));
-        $collection->insert($data);
 
-        //var_dump($data['data']);
     }
 
     function test(){
+
+        //        $today =date('Y-m-d 00:00:00' , strtotime(' +2 day'));
+//        $insertQuery = array('ts' => new MongoDate(strtotime($today)));
+//        //$collection->insert($insertQuery);
+//
+//        $searchQuery = array('ts' => array('$lt' => new MongoDate(strtotime($today))));
+//        $cursor = $collection->find($searchQuery);
+//
+//        $data= array('data' => array());
+//        foreach($cursor as $doc){
+//            $data['data'][]= $doc;
+//        }
+//
+//        $data = array("reference" => "nextDay" , "timeStamp" => new MongoDate(strtotime($today)));
+//        $collection->insert($data);
         $today = date("Y-m-d 00:00:00");
         $todayUTC = new MongoDate(strtotime($today));
         $todayUTCLess = new MongoDate(strtotime("+5 hours 30 minutes"));

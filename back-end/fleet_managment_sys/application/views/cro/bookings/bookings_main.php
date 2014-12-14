@@ -91,7 +91,8 @@
                                 <label for="customerName" class="sr-only">Customer Name</label>
                                 <input type="text" class="form-control" id="customerName" placeholder="Customer Name">
                             </div>
-                            <button type="submit" class="btn btn-default" onsubmit="bookingsOperations('getCustomerNames');return false;" >Search</button>
+                            <button type="submit" class="btn btn-default" onsubmit="bookingsOperations('getCustomerNames');return false;"
+                                    onclick="bookingsOperations('getCustomerNames');return false;">Search</button>
                         </form>
                     </div>
 
@@ -126,15 +127,11 @@
         }
 
         function bookingsOperations(request){
-
-
             if(request == 'getCustomerNames'){
                 url = url + '/cro_controller/getSearchByNamesViews';
-                alert(url);
                 var name= $('#customerName').val();
                 var  data={'name' : name};
                 var result = ajaxPost(data , url , false);
-                alert(JSON.stringify(result));
                 if(result.statusMsg == 'true')
                     $('#searchDetails').html(result.view.customers_by_name_view);
                 else

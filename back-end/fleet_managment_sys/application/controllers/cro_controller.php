@@ -126,17 +126,19 @@ class Cro_controller extends CI_Controller
     }
 
     function getSearchByNamesViews(){
-        $statusMsg = 'false';
+        $statusMsg = 'true';
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
 
         $result = $this->customer_dao->getSimilarNames($input_data["name"]);
-        foreach( $result['data'] as $data){
-            unset($data['call_history']);
-            unset($data['history']);
-            var_dump($data);
+
+        if(isset($result['data'])){
+            foreach( $result['data'] as $data){
+                if(isset($data['call_history']))unset($data['call_history']);
+                if(isset($data['history']))unset($data['history']);
+            }
         }
 
-        $view_data['customers_by_name_view'] = $this->load->view('cro/bookings/customers_by_name', $data, TRUE);
+        $view_data['customers_by_name_view'] = $this->load->view('cro/bookings/customers_by_name', $result, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , 'view' => $view_data)));
 
     }

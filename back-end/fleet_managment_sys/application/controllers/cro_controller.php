@@ -7,13 +7,16 @@ class Cro_controller extends CI_Controller
     {
         if (is_user_logged_in() && $this->isUserRoleCRO()) {
             $userData = $this->session->userdata('user');
+            $counterModelName = $userData['userId'] . '-hires';
 
             $isNewDay = $this->call_dao->isNewDay();
+            /* Reset all the counter to zero if it is a new day */
             if($isNewDay){
                 $this->counters_dao->resetNextId("answeredCalls");
                 $this->counters_dao->resetNextId("missedCalls");
                 $this->counters_dao->resetNextId("activeCalls");
                 $this->counters_dao->resetNextId("totalHires");
+                $this->counters_dao->resetNextId($counterModelName);
             }
 
             $callStat['activeCalls'] = $this->counters_dao->getCounterValue("activeCalls");
@@ -21,6 +24,7 @@ class Cro_controller extends CI_Controller
             $callStat['answeredCalls'] = $this->counters_dao->getCounterValue("answeredCalls");
             $callStat['totalCalls'] = $callStat['missedCalls'] + $callStat['answeredCalls'];
             $callStat['totalHires'] = $this->counters_dao->getCounterValue("totalHires");
+            $callStat['croHires'] = $this->counters_dao->getCounterValue($counterModelName);
 
             $userData['callStat']=$callStat;
 
@@ -177,6 +181,9 @@ class Cro_controller extends CI_Controller
 
     function getCustomerInfoView(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $userData = $this->session->userdata('user');
+        $counterModelName = $userData['userId'] . '-hires';
+
         $result = $this->customer_dao->getCustomer($input_data['tp']);
 
         $isNewDay = $this->call_dao->isNewDay();
@@ -192,6 +199,7 @@ class Cro_controller extends CI_Controller
         $callStat['answeredCalls'] = $this->counters_dao->getCounterValue("answeredCalls");
         $callStat['totalCalls'] = $callStat['missedCalls'] + $callStat['answeredCalls'];
         $callStat['totalHires'] = $this->counters_dao->getCounterValue("totalHires");
+        $callStat['croHires'] = $this->counters_dao->getCounterValue($counterModelName);
 
         if($result == null){
             $result =array('tp' => $input_data['tp']);

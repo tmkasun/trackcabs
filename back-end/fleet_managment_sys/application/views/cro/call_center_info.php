@@ -14,7 +14,7 @@
             <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">Total Active Calls <?= $activeCalls?></span></p>
             <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">CRO Active Calls <?= $activeCalls?></span></p>
             <p style="margin: 0 0 3px;"><span class="label label-danger" style="font-size: 83%; ">Total Missed Calls <?= $missedCalls?></span></p>
-            <p style="margin: 0 0 3px;">CRO Hires <span class="badge"><?= $totalHires?></span></p>
+            <p style="margin: 0 0 3px;">CRO Hires <span class="badge"><?= $croHires?></span></p>
 
         </div>
 

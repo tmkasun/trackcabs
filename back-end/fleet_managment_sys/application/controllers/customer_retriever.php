@@ -86,15 +86,23 @@ class Customer_retriever extends CI_Controller
             $this->customer_dao->addBooking($customerProfile2['tp'],$bookingObjId);
         }
 
+        $counterModelName = $user['userId'] . '-hires';
         $isNewDay = $this->call_dao->isNewDay();
+        /* Reset all the counter to zero if it is a new day */
         if($isNewDay){
+
+            $this->counters_dao->resetNextId("answeredCalls");
+            $this->counters_dao->resetNextId("missedCalls");
             $this->counters_dao->resetNextId("activeCalls");
             $this->counters_dao->resetNextId("totalHires");
+            $this->counters_dao->resetNextId($counterModelName);
+
         }else{
             if($input_data["data"]["sessionFirstBooking"] == "true" ){
                 $this->counters_dao->getNextId("activeCalls");
             }
             $this->counters_dao->getNextId("totalHires");
+            $this->counters_dao->getNextId($counterModelName );
         }
 
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg, 'tp' => $input_data["tp"] ,

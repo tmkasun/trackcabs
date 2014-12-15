@@ -830,20 +830,20 @@ function selectAirportPackageandAddRemark(){
         var remarkAppended = airportPackagesObj['data'][index]['packageName'];
 
         if(airportPackageType == "drop" ){
-            remarkAppended = remarkAppended + " Drop(" + airportPackagesObj['data'][index]['dropFee'] +")";
+            remarkAppended = remarkAppended + "Airport Drop(" + airportPackagesObj['data'][index]['dropFee'] +" /=)";
         }
 
         if(airportPackageType == "bothWay" ){
-            remarkAppended = remarkAppended + " Both Way(" + airportPackagesObj['data'][index]['bothwayFee'] +")";
+            remarkAppended = remarkAppended + "Airport Bothway(" + airportPackagesObj['data'][index]['bothwayFee'] +" /=)";
         }
 
 
         if(airportPackageType == "guestCarrier" ){
-            remarkAppended = remarkAppended + " Guest Carrier(" + airportPackagesObj['data'][index]['guestCarrierFee'] +")";
+            remarkAppended = remarkAppended + "Airport Guest Carrier(" + airportPackagesObj['data'][index]['guestCarrierFee'] +" /=)";
         }
 
         if(airportPackageType == "outSide" ){
-            remarkAppended = remarkAppended + " Out Side(" + airportPackagesObj['data'][index]['outsideFee'] +")";
+            remarkAppended = remarkAppended + "Airport Outside(" + airportPackagesObj['data'][index]['outsideFee'] +" /=)";
         }
 
         $('#remark').val($('#remark').val() + remarkAppended);

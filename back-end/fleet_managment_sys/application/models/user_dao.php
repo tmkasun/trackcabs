@@ -241,7 +241,7 @@ class User_dao extends CI_Model
     function setDriverCallingNumberMinus($userId)
     {
         $collection = $this->get_collection();
-        $searchQuery = array('userId' => $userId);
+        $searchQuery = array('userId' => new MongoInt32($userId));
         $collection->update($searchQuery, array('$set' => array('callingNumber' => -1)));
     }
 

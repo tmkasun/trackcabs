@@ -7,13 +7,18 @@ class Cro_controller extends CI_Controller
     {
         if (is_user_logged_in() && $this->isUserRoleCRO()) {
             $userData = $this->session->userdata('user');
+            $counterHireName = $userData['userId'] . '-hires';
+            $counterActiveName = $userData['userId'] . '-activeCalls';
 
             $isNewDay = $this->call_dao->isNewDay();
+            /* Reset all the counter to zero if it is a new day */
             if($isNewDay){
                 $this->counters_dao->resetNextId("answeredCalls");
                 $this->counters_dao->resetNextId("missedCalls");
                 $this->counters_dao->resetNextId("activeCalls");
                 $this->counters_dao->resetNextId("totalHires");
+                $this->counters_dao->resetNextId($counterHireName);
+                $this->counters_dao->resetNextId($counterActiveName);
             }
 
             $callStat['activeCalls'] = $this->counters_dao->getCounterValue("activeCalls");
@@ -21,6 +26,8 @@ class Cro_controller extends CI_Controller
             $callStat['answeredCalls'] = $this->counters_dao->getCounterValue("answeredCalls");
             $callStat['totalCalls'] = $callStat['missedCalls'] + $callStat['answeredCalls'];
             $callStat['totalHires'] = $this->counters_dao->getCounterValue("totalHires");
+            $callStat['croHires'] = $this->counters_dao->getCounterValue($counterHireName);
+            $callStat['croActiveCalls'] = $this->counters_dao->getCounterValue($counterActiveName);
 
             $userData['callStat']=$callStat;
 
@@ -118,6 +125,36 @@ class Cro_controller extends CI_Controller
         $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , "data" => $data , 'view' => $view_data)));
     }
 
+    function getSearchByNamesViews(){
+        $statusMsg = 'true';
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+
+        $result = $this->customer_dao->getSimilarNames($input_data["name"]);
+
+        if(isset($result['data'])){
+            foreach( $result['data'] as $data){
+                if(isset($data['call_history']))unset($data['call_history']);
+                if(isset($data['history']))unset($data['history']);
+            }
+        }
+
+        $view_data['customers_by_name_view'] = $this->load->view('cro/bookings/customers_by_name', $result, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , 'view' => $view_data)));
+
+    }
+
+    function getSearchByTownView(){
+        $statusMsg = 'true';
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+
+        $result['live'] = $this->live_dao->getBookingsByTown($input_data["town"]);
+        $result['history'] = $this->history_dao->getBookingsByTown($input_data["town"]);
+
+        $view_data['bookings_by_address_view'] = $this->load->view('cro/bookings/bookings_by_address', $result, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => $statusMsg , 'view' => $view_data)));
+
+    }
+
     function getTodayMyBookings(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $user = $this->session->userdata('user');
@@ -177,6 +214,10 @@ class Cro_controller extends CI_Controller
 
     function getCustomerInfoView(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $userData = $this->session->userdata('user');
+        $counterHireName = $userData['userId'] . '-hires';
+        $counterActiveName = $userData['userId'] . '-activeCalls';
+
         $result = $this->customer_dao->getCustomer($input_data['tp']);
 
         $isNewDay = $this->call_dao->isNewDay();
@@ -185,6 +226,8 @@ class Cro_controller extends CI_Controller
             $this->counters_dao->resetNextId("missedCalls");
             $this->counters_dao->resetNextId("activeCalls");
             $this->counters_dao->resetNextId("totalHires");
+            $this->counters_dao->resetNextId($counterHireName);
+            $this->counters_dao->resetNextId($counterActiveName);
         }
 
         $callStat['activeCalls'] = $this->counters_dao->getCounterValue("activeCalls");
@@ -192,6 +235,9 @@ class Cro_controller extends CI_Controller
         $callStat['answeredCalls'] = $this->counters_dao->getCounterValue("answeredCalls");
         $callStat['totalCalls'] = $callStat['missedCalls'] + $callStat['answeredCalls'];
         $callStat['totalHires'] = $this->counters_dao->getCounterValue("totalHires");
+
+        $callStat['croHires'] = $this->counters_dao->getCounterValue($counterHireName);
+        $callStat['croActiveCalls'] = $this->counters_dao->getCounterValue($counterActiveName);
 
         if($result == null){
             $result =array('tp' => $input_data['tp']);

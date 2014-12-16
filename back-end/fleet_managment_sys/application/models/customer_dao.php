@@ -158,6 +158,21 @@ class Customer_dao extends CI_Model
         return $data;
     }
 
+    function getSimilarNames($name){
+
+        $collection = $this->get_collection();
+        $result= $collection->find(array("name" => new MongoRegex('/' . $name . '/i')));
+        $result->limit(20);
+        $data= array();
+        foreach ($result as $doc) {
+            $data['data'][]= $doc;
+        }
+        return $data;
+    }
+
+
+
+
     /*
     * @returns null if record doesn't exist , if exist sends the first record
     */

@@ -28,6 +28,17 @@ class History_dao extends CI_Model
         return $collection->findOne($searchQuery);
     }
 
+    function getBookingsByTown($town){
+        $collection = $this->get_collection();
+        $result= $collection->find(array("address.town" => new MongoRegex('/' . $town . '/i')));
+        $result->limit(20);
+        $data= array();
+        foreach ($result as $doc) {
+            $data['data'][]= $doc;
+        }
+        return $data;
+    }
+
     function getBookingByRefId($refId){
         $collection = $this->get_collection();
         $searchQuery= array('refId' => (int)$refId);

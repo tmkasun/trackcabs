@@ -53,7 +53,7 @@ class Call_dao extends CI_Model
         $collection = $this->get_collection();
         //$SecondsBeforeNow = strtotime("now")-150;
         $SecondsBeforeNowinMongo = new MongoDate(strtotime("-2 minutes"));
-        $cursor =$collection->find(array('time'=> array('$gte' => $SecondsBeforeNowinMongo)));
+        $cursor =$collection->find(array('time'=> array('$gte' => new MongoDate(strtotime("-2 minutes")))));
         $callArray = array();
         foreach ($cursor as $doc) {
             array_push($callArray,$doc);

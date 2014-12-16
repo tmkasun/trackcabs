@@ -18,6 +18,20 @@
     <script type="text/javascript" src="<?= base_url();?>assets/webLibs/bootstrapvalidator-dist-0.5.2/dist/js/bootstrapValidator.js" charset="UTF-8"></script>
 
 
+    <!-- UIkit libraries -->
+    <script src="<?= base_url() ?>assets/js/uikit/uikit.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/uikit/addons/notify.min.js"></script>
+
+    <!-- autobahn websocket and WAMP -->
+    <script src="<?= base_url() ?>assets/js/autobahn/autobahn.min.js"></script>
+
+    <script src="<?= base_url() ?>assets/js/application_options.js"></script>
+    <script src="<?= base_url() ?>assets/js/websocket/cro.js"></script>
+
+    <script>
+        setBaseURL('<?= base_url().'index.php/' ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
+    </script>
+
     <script>
         var docs_per_page= 100 ;
         var page = 1 ;
@@ -88,10 +102,11 @@
                     <div class="col-lg-4">
                         <form class="form-inline" role="form">
                             <div class="form-group">
-                                <label for="inputPassword2" class="sr-only">Password</label>
-                                <input type="text" class="form-control" id="inputPassword2" placeholder="Customer Name">
+                                <label for="customerName" class="sr-only">Customer Name</label>
+                                <input type="text" class="form-control" id="customerName" placeholder="Customer Name">
                             </div>
-                            <button type="submit" class="btn btn-default">Search</button>
+                            <button type="submit" class="btn btn-default" onsubmit="bookingsOperations('getCustomerNames');return false;"
+                                    onclick="bookingsOperations('getCustomerNames');return false;">Search</button>
                         </form>
                     </div>
 
@@ -127,32 +142,40 @@
 
         function bookingsOperations(request){
 
+            if(request == 'getBookingByTown'){
+                url = url + '/cro_controller/getSearchByTownView';
+                var town= $('#townSearch').val();
+                var  data={'town' : town};
+                var result = ajaxPost(data , url , false);
+                if(result.statusMsg == 'true')
+                    $('#searchDetails').html(result.view.bookings_by_address_view);
+                else
+                    alert('Bookings for the Town Not Available ');
+            }
+
+
+            if(request == 'getCustomerNames'){
+                url = url + '/cro_controller/getSearchByNamesViews';
+                var name= $('#customerName').val();
+                var  data={'name' : name};
+                var result = ajaxPost(data , url , false);
+                if(result.statusMsg == 'true')
+                    $('#searchDetails').html(result.view.customers_by_name_view);
+                else
+                    alert('Customer Name Does Not Exists');
+            }
+
             if(request == 'getBookingById'){
                 url = url + '/cro_controller/getBookingByRefIdView';
                 var refId= $('#refIdSearch').val();
                 var  data={'refId' : refId}
                 var result = ajaxPost(data , url , false);
-                alert(JSON.stringify(result));
                 if(result.statusMsg == 'true')
                     $('#searchDetails').html(result.view.advanced_bookings_view);
                 else
                     alert('Booking ID does not exists');
-
-
             }
 
-            if(request == 'getBookingByTown'){
-                url = url + '/customer_retriever/getBookingByRefTown';
-                alert(url);
-                var town= $('#townSearch').val();
-                var  data={'town' : town}
-                var result = ajaxPost(data , url , false);
-                alert(JSON.stringify(result));
-            }
-
-            if(request == 'getBookingByCustomer'){
-
-            }
         }
 
 

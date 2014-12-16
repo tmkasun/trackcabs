@@ -43,6 +43,17 @@ class Live_dao extends CI_Model
 
     }
 
+    function getBookingsByTown($town){
+        $collection = $this->get_collection();
+        $result= $collection->find(array("address.town" => new MongoRegex('/' . $town . '/i')));
+        $result->limit(30);
+        $data= array();
+        foreach ($result as $doc) {
+            $data['data'][]= $doc;
+        }
+        return $data;
+    }
+
     function getBooking($refId){
         $collection = $this->get_collection();
         $searchQuery= array('refId' => (int)$refId);
@@ -104,6 +115,15 @@ class Live_dao extends CI_Model
         $searchQuery= array('_id' => new MongoId($id));
 
         $collection->update($searchQuery ,array('$set' => array('status' => $status)));
+    }
+
+    /*   Adds the user Id to the record who made the cancellation  */
+    function updateCancelUserId($id , $userId){
+
+        $collection = $this->get_collection();
+        $searchQuery= array('_id' => new MongoId($id));
+
+        $collection->update($searchQuery ,array('$set' => array('cancelUserId' => (int)$userId)));
     }
 
     function setDriverId($orderId, $driverId){

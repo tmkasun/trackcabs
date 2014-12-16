@@ -43,6 +43,17 @@ class Live_dao extends CI_Model
 
     }
 
+    function getBookingsByTown($town){
+        $collection = $this->get_collection();
+        $result= $collection->find(array("address.town" => new MongoRegex('/' . $town . '/i')));
+        $result->limit(30);
+        $data= array();
+        foreach ($result as $doc) {
+            $data['data'][]= $doc;
+        }
+        return $data;
+    }
+
     function getBooking($refId){
         $collection = $this->get_collection();
         $searchQuery= array('refId' => (int)$refId);
@@ -104,6 +115,15 @@ class Live_dao extends CI_Model
         $searchQuery= array('_id' => new MongoId($id));
 
         $collection->update($searchQuery ,array('$set' => array('status' => $status)));
+    }
+
+    /*   Adds the user Id to the record who made the cancellation  */
+    function updateCancelUserId($id , $userId){
+
+        $collection = $this->get_collection();
+        $searchQuery= array('_id' => new MongoId($id));
+
+        $collection->update($searchQuery ,array('$set' => array('cancelUserId' => (int)$userId)));
     }
 
     function setDriverId($orderId, $driverId){
@@ -247,6 +267,35 @@ class Live_dao extends CI_Model
         $bookings = $collection->find($searchQuery);
 
         return $bookings;
+    }
+
+    function getHireTypesSummaryByDate($startTime,$endTime,$userId){
+
+        $collection = $this->get_collection();
+        $searchQuery = array('bookTime' => array('$gt' => $startTime, '$lte' => $endTime),'driverId' => new MongoInt32($userId));
+        $bookings = $collection->find($searchQuery);
+        $hireTypes= array('data'=> array('hires'=>0,'cancel'=>0,'drop' => 0 , 'bothway' => 0, 'guestCarrier' => 0, 'outside' => 0, 'day' => 0, 'normal' => 0, 'cabId' => -1));
+        foreach ($bookings as $booking) {
+            $hireTypes['data']['hires']++;
+            if($booking['status']=='CANCEL' || $booking['status']=='DIS_CANCEL'){
+                $hireTypes['data']['cancel']++;
+            }
+            if($booking['packageType']=='drop'){
+                $hireTypes['data']['drop']++;
+            }else if($booking['packageType']=='bothWay'){
+                $hireTypes['data']['bothway']++;
+            }else if($booking['packageType']=='guestCarrier'){
+                $hireTypes['data']['guestCarrier']++;
+            }else if($booking['packageType']=='outSide'){
+                $hireTypes['data']['outside']++;
+            }else if($booking['packageType']=='day'){
+                $hireTypes['data']['day']++;
+            }else{
+                $hireTypes['data']['normal']++;
+            }
+
+        }
+        return $hireTypes;
     }
 
 

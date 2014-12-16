@@ -7,7 +7,7 @@
         <th>Info</th>
         <th>Colour</th>
         <th>Cab Start Location</th>
-        <th>User ID</th>
+        <th>Driver ID</th>
     </tr>
 
     <?php foreach ($data as $item):?>

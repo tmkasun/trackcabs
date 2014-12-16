@@ -53,7 +53,7 @@ class Call_dao extends CI_Model
         $collection = $this->get_collection();
         //$SecondsBeforeNow = strtotime("now")-150;
         $SecondsBeforeNowinMongo = new MongoDate(strtotime("-2 minutes"));
-        $cursor =$collection->find(array('time'=> array('$gte' => $SecondsBeforeNowinMongo)));
+        $cursor =$collection->find(array('time'=> array('$gte' => new MongoDate(strtotime("-2 minutes")))));
         $callArray = array();
         foreach ($cursor as $doc) {
             array_push($callArray,$doc);
@@ -99,18 +99,20 @@ class Call_dao extends CI_Model
     function isNewDay(){
 
         $collection = $this->get_collection("callStat");
-        $result = $collection->findOne(array("reference" => "lastDate"));
-        $today = date("Y-m-d 00:00:00");
+        $result = $collection->findOne(array("reference" => "nextDay"));
+        $nextDay = date('Y-m-d 00:00:00', strtotime(' +1 day'));
+        $test = date('Y-m-d 00:00:00', strtotime(' +3 day'));
 
-        if($result ==null){
-            $data = array("reference" => "lastDate" , "timeStamp" => new MongoDate($today));
+        if($result == null){
+            $data = array("reference" => "nextDay" , "timeStamp" => new MongoDate(strtotime($nextDay)));
             $collection->insert($data);
             return true;
         }else{
-            $result = $collection->findOne(array("reference" => "lastDate" , "timeStamp" => array('$lt'=>$today)));
-            if($result == null){
-                $data['timeStamp'] =  new MongoDate($today);
-                $collection->save($data);
+            $isNewDay = $collection->findOne(array("reference" => "nextDay" ,
+                                                    "timeStamp" => array('$lt'=>new MongoDate())));
+            if($isNewDay != null){
+                $isNewDay['timeStamp'] =  new MongoDate(strtotime($nextDay));
+                $collection->save($isNewDay);
                 return true;
             }
             else

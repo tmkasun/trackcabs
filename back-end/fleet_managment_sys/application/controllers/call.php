@@ -144,8 +144,6 @@ class Call extends CI_Controller
             $callState = "Garbage";
         }
 
-
-
         $callInfo = null;
         if($callState == "Live"){
             $callInfo = array(
@@ -166,10 +164,17 @@ class Call extends CI_Controller
                 "extension_number" => null,
                 "raw_data" => $postData[$state]
             );
-            $status = $this->call_dao->isNewDay($callInfo);
-            if($status){
-                $this->counters_dao->resetNextId($callInfo);
+
+
+            $isNewDay = $this->call_dao->isNewDay($callInfo);
+            if($isNewDay){
+                $this->counters_dao->resetNextId("missedCalls");
+                $this->counters_dao->getNextId("answeredCalls");
+            }else{
+                $this->counters_dao->getNextId("missedCalls");
             }
+
+
         }
         else if($callState == "AnsweredEnded"){
             $callInfo = array(
@@ -180,6 +185,14 @@ class Call extends CI_Controller
                 "extension_number" => (int)trim($valueArray[8]),
                 "raw_data" => $postData[$state]
             );
+
+            $isNewDay = $this->call_dao->isNewDay($callInfo);
+            if($isNewDay){
+                $this->counters_dao->resetNextId("answeredCalls");
+                $this->counters_dao->getNextId("answeredCalls");
+            }else{
+                $this->counters_dao->getNextId("answeredCalls");
+            }
         }
         else if($callState == "Outgoing"){
             $callInfo = array(
@@ -198,15 +211,22 @@ class Call extends CI_Controller
             );
         }
 
+        if($callState != "Garbage" ) {
+            $result = $this->customer_dao->getCustomer($callInfo['phone_number']);
+            /* If there is a customer record exists only input */
+            if($result != null){
+                $result['call_history'][] = array('callTime' => $callInfo['date'],
+                    'extension_number' => $callInfo['extension_number'],
+                    'state' => $callInfo['$callState'],
+                    'duration' => $callInfo['duration']);
+                $this->customer_dao->updateCustomer($callInfo['phone_number'], $result);
+            }
+        }
+
         $this->call_dao->addToCallDump($callInfo);
-
-
-
         /*$webSocket = new Websocket('localhost', '5555', 'pabx');
         $webSocket->send($callInfo, 'cro1');
         $this->call_dao->createCall($callInfo);*/
-
-
 
     }
 

@@ -43,7 +43,24 @@ class Counters_dao extends CI_Model
 
         $collection = $this->get_collection();
         $result = $collection->findOne(array('_id' => $modelName));
-        $result['sequence_value'] = 1;
-        $collection->save($result);
+        if($result == null){
+            $inserQuery = array( '_id' => $modelName , 'sequence_value' => 0);
+            $collection->insert($inserQuery);
+        }else{
+            $result['sequence_value'] = 0;
+            $collection->save($result);
+        }
     }
+
+    function getCounterValue($modelName){
+        $collection = $this->get_collection();
+        $result = $collection->findOne(array('_id' => $modelName));
+
+        iF($result != null){
+            return $result['sequence_value'];
+        }else{
+            return 0;
+        }
+    }
+
 }

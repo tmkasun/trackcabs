@@ -47,6 +47,7 @@
         var customerObj = null;
         var airportPackagesObj = null;
         var dayPackagesObj = null;
+        var sessionFirstBooking = null;
 
         </script>
     <style>
@@ -91,9 +92,6 @@
             display: inline;
         }
 
-
-
-
     </style>
 </head>
 <body>
@@ -106,8 +104,6 @@
 
         <ul class="nav navbar-nav">
             <li class="navbar-form navbar-left" style="padding: 0">  <!--<a href="<?/*= site_url('cro_controller')*/?>">CRO</a>-->
-
-
 
                 <div class="btn-group">
                     <button type="button" data-bind="click:updateNumbers" class="btn btn-success dropdown-toggle cabView" data-toggle="dropdown" >
@@ -134,14 +130,9 @@
                                 </tr>
                                 </tbody>
                             </table>
-
                         </div>
-
                     </div>
                 </div>
-
-
-
             </li>
 
             <form class="navbar-form navbar-left" role="search">
@@ -181,26 +172,55 @@
     <div class="row" style="background: #d7ddeb; min-height: 1000px">
 
         <div class="col-lg-12" style="margin-top: 10px">
-            <!--div class="panel panel-default">
-                <div class="panel-body" style="padding: 3px"-->
-                    <div class="col-lg-6" style="margin-top: 10px; padding: 2px" id="customerInformation">
 
+            <div class="col-lg-6" style="margin-top: 10px; padding: 2px" id="jobInfo" >
+
+            </div>
+
+            <div class="col-lg-6" style="padding: 2px;">
+
+                <div class="col-lg-12" style="margin-top: 10px; padding: 2px" id="callCenterInfo">
+                    <div class="panel panel-default" xmlns="http://www.w3.org/1999/html">
+                        <div class="panel-heading" style="padding: 1px">
+                            <h5 class="panel-title">Call Center Information</h5>
+                        </div>
+                        <div class="panel-body" >
+
+                            <div class="col-lg-3">
+                                <img style='float:left;width:134px;height:128px' src="<?= base_url() ?>assets/img/phone.png" />
+                            </div>
+
+                            <div class="col-lg-4">
+                                <p style="margin: 0 0 3px;"><span class="label label-default" style="font-size: 83%; ">Total Calls <?= $callStat['totalCalls']?></span> </p>
+                                <p style="margin: 0 0 3px;"><span class="label label-info" style="font-size: 83%; ">Total Answered Calls <?= $callStat['answeredCalls']?></span></p>
+                                <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">Total Active Calls <?= $callStat['activeCalls']?></span></p>
+                                <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">CRO Active Calls <?= $callStat['croActiveCalls']?></span></p>
+                                <p style="margin: 0 0 3px;"><span class="label label-default" style="font-size: 83%; ">Total Missed Calls <?= $callStat['missedCalls']?></span></p>
+                                <p style="margin: 0 0 3px;">CRO Hires <span class="badge"><?= $callStat['croHires']?></span></p>
+                            </div>
+
+                            <div class="col-lg-5">
+                                <h1>Total Hires
+                                <span class="glyphicon glyphicon-circle-arrow-up" aria-hidden="true"> <?= $callStat['totalHires']?></span></h1>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <div class="col-lg-6" style="margin-top: 10px; padding: 2px" id="jobInfo" >
+                <div class="col-lg-12" style="margin-top: 10px; padding: 2px" id="customerInformation">
 
-                    </div>
+                </div>
 
-                <!--/div>
-            </div-->
+            </div>
+
         </div>
 
 
 
         <div class="col-lg-12" style="margin-top: 10px"  id="newBooking">
-            <div class="col-lg-offset-3 col-lg-7" style="margin-top: 10%">
+            <!--div class="col-lg-offset-3 col-lg-7" style="margin-top: 10%">
                 <img style="width: 80%" src="<?= base_url() ?>assets/img/hao-logo-small.png">
-            </div>
+            </div-->
         </div>
 
         <div class="col-lg-8" style="margin-top: 10px" id="bookingHistory">
@@ -222,16 +242,19 @@
             }
             if(request == 'getCustomerFromPABX'){
                 tp = param1;
+                sessionFirstBooking = true;
                 getCustomerInfoView( url , tp , true);
             }
             if(request == 'getCustomer'){
                 tp = $('#tpSearch').val();
+                sessionFirstBooking = true;
                 getCustomerInfoView( url , tp);
             }
             ///////////////////TODO: Implement To Identify a called customer
             // WHY IS  THIS METHOD IS USED FOR ???????/ WHEN THERE IS A GETCUSTOMERFROMPABXMETHOD IS PRESENT
             if(request == 'getCalledCustomer'){
                 tp = $('#tpSearch').val();
+                sessionFirstBooking = true;
                 getCustomerInfoView( url , tp,param1);
             }
             ///////////////////

@@ -358,10 +358,12 @@ function createBooking(url , tp){
             'personalProfileTp' : personalProfileTp,
             'cancelReason' :cancelReason,
             'packageId' : packageId,
-            'packageType' : packageType
+            'packageType' : packageType,
+            'sessionFirstBooking' : sessionFirstBooking
         }
     };
     var result = ajaxPost(data,url,false);
+    sessionFirstBooking = false;
     url = siteUrl + '/customer_retriever/sendBookingDetails';
     var bookingConfirmationData = {
         'tp' : tp,
@@ -572,6 +574,9 @@ function getCustomerInfoView( url , tp , isFromPABX ){
 
     if(view.hasOwnProperty('important'))
     customerObj=view.important.customerInfo;
+
+    /*  Populate the call center information view */
+    $('#callCenterInfo').html(view.view.call_center_info_view);
 
     /*  Populate the customer information view */
     $('#customerInformation').html(view.view.customer_info_view);
@@ -825,20 +830,20 @@ function selectAirportPackageandAddRemark(){
         var remarkAppended = airportPackagesObj['data'][index]['packageName'];
 
         if(airportPackageType == "drop" ){
-            remarkAppended = remarkAppended + " Drop(" + airportPackagesObj['data'][index]['dropFee'] +")";
+            remarkAppended = remarkAppended + "Airport Drop(" + airportPackagesObj['data'][index]['dropFee'] +" /=)";
         }
 
         if(airportPackageType == "bothWay" ){
-            remarkAppended = remarkAppended + " Both Way(" + airportPackagesObj['data'][index]['bothwayFee'] +")";
+            remarkAppended = remarkAppended + "Airport Bothway(" + airportPackagesObj['data'][index]['bothwayFee'] +" /=)";
         }
 
 
         if(airportPackageType == "guestCarrier" ){
-            remarkAppended = remarkAppended + " Guest Carrier(" + airportPackagesObj['data'][index]['guestCarrierFee'] +")";
+            remarkAppended = remarkAppended + "Airport Guest Carrier(" + airportPackagesObj['data'][index]['guestCarrierFee'] +" /=)";
         }
 
         if(airportPackageType == "outSide" ){
-            remarkAppended = remarkAppended + " Out Side(" + airportPackagesObj['data'][index]['outsideFee'] +")";
+            remarkAppended = remarkAppended + "Airport Outside(" + airportPackagesObj['data'][index]['outsideFee'] +" /=)";
         }
 
         $('#remark').val($('#remark').val() + remarkAppended);

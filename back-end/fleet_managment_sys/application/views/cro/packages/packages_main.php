@@ -21,6 +21,21 @@
     <script type="text/javascript" src="<?= base_url();?>assets/webLibs/knockout/knockout-3.2.0.js"></script>
 
     <script src="<?= base_url() ?>assets/js/application_options.js"></script>
+
+
+    <!-- UIkit libraries -->
+    <script src="<?= base_url() ?>assets/js/uikit/uikit.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/uikit/addons/notify.min.js"></script>
+
+    <!-- autobahn websocket and WAMP -->
+    <script src="<?= base_url() ?>assets/js/autobahn/autobahn.min.js"></script>
+
+    <script src="<?= base_url() ?>assets/js/websocket/cro.js"></script>
+
+    <script>
+        setBaseURL('<?= base_url().'index.php/' ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
+    </script>
+
     <script>
 
         var docs_per_page= 100;

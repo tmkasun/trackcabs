@@ -42,7 +42,7 @@
     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title text-center">
         <!-- TODO: Trigger bootstrap tooltip $('#aboutTileUrl').tooltip(); to enable tooltip -->
-        Calling Numbers
+        Cab Details and User Lock
     </h4>
 </div>
 <div class="modal-body">

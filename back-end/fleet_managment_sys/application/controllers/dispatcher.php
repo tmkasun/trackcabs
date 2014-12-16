@@ -148,6 +148,12 @@ class Dispatcher extends CI_Controller
             $this->live_dao->updateStatus($order['_id'], "DIS_CANCEL");
         }
 
+        $user = $this->session->userdata('user');
+        $this->live_dao->updateBooking((string)$order['_id'],array('cancelUserId' => (int)$user['userId']));
+        $today = date("Y-m-d H:i:s");
+        $todayUTC = new MongoDate(strtotime($today));
+        $this->live_dao->updateBooking((string)$order['_id'],array('cancelTime' => $todayUTC));
+
         /* Adds +1 to the tot_cancel in customers collection */
         $this->customer_dao->addCanceledTotal($order["tp"]);
 

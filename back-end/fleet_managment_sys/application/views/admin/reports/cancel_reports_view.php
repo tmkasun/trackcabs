@@ -27,15 +27,23 @@
         <td><?= $item['status']?></td>
         <td><?php if(isset($item['cancelReason'])){echo $item['cancelReason'];}else{echo "Not Available";}?></td>
         <td><?= date('H:m Y-m-d',$item['bookTime']->sec)?></td>
-        <?      $seconds_diff = (float)$item['cancelTime']->sec - (float)$item['callTime']->sec;
+        <?php    $seconds_diff = (float)$item['cancelTime']->sec - (float)$item['callTime']->sec;
                 $min_diff = $seconds_diff / 60;?>
         <td><?php if(isset($item['dispatchTime'])){echo date('H:m Y-m-d',$item['dispatchTime']->sec);}else{echo "Not Available";}?></td>
         <td><?php if(isset($item['cancelTime'])){echo date('H:m Y-m-d',$item['cancelTime']->sec);}else{echo "Not Available";}?></td>
-        <td><?php if(isset($item['cancelTime'])){echo $min_diff ;}else{echo "Not Available";}?></td>
+        <td><?php if(isset($item['cancelTime'])){
+                $seconds_diff = (float)$item['cancelTime']->sec - (float)$item['callTime']->sec;
+                $timeDiff1 = $seconds_diff / 60;
+                echo $timeDiff1 . ' (mins)';
+            }else{
+                echo "Not Available";
+            }?></td>
         <td>
             <?php if(isset($item['dispatchTime'])){echo
                 $seconds_diff = (float)$item['cancelTime']->sec - (float)$item['dispatchTime']->sec;
-                echo $seconds_diff / 60;}
+                $timeDiff2 = $seconds_diff / 60;
+                echo $timeDiff2  . "(mins)";
+            }
             else{
                 echo "Not Available";}?>
         </td>

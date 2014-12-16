@@ -57,8 +57,8 @@ class Log_dao extends CI_Model
 
     function updateLoginOnLogout($date,$time,$driverId){
         $collection = $this->get_collection();
-        $searchQuery = array('userId' => $driverId,'user_type' => 'driver','logged_out' => 'no'); //remove the date here if date is a problem
-        $collection->update($searchQuery,array('$set' => array('logged_out' => 'yes')),array('multiple' => true));
+        $searchQuery = array('user_type' => 'driver','logged_out' => 'no'); //remove the date here if date is a problem
+        $collection->update($searchQuery,array('$set' => array('logged_out' => 'yes','logout_time' => $time)),array('multiple' => true));
     }
 
 

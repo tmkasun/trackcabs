@@ -33,7 +33,7 @@
                             <td><?= $pass;?></td>
                             <td><?= $nic;?></td>
                             <td><?= $tp;?></td>
-                            <td><?= $logout;?></td>
+                            <td><?php if($logout==true){echo "true";}else{echo "false";}?></td>
                             <td><?php
                                 if(!isset($cabId) || trim($cabId)=='' || $cabId == -1){
                                     echo "empty";

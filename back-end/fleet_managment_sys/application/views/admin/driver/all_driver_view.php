@@ -31,7 +31,7 @@
             <td><?= $item['pass'];?></td>
             <td><?= $item['nic'];?></td>
             <td><?= $item['tp'];?></td>
-            <td><?= $item['logout'];?></td>
+            <td><?php if($item['logout']==true){echo "true";}else{echo "false";}?></td>
             <td><?php
                 if(!array_key_exists("cabId", $item) || $item['cabId'] === "" || $item['cabId']==-1){
                     echo 'Not Assigned';

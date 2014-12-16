@@ -202,12 +202,12 @@
                     <a href="vehicle_tracking" class="btn btn-sm btn-warning navbar-btn" target="_blank">Vehicle Tracking</a>
                 </form>
             </li>
-
+<!--
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
                     <button class="btn btn-sm btn-success navbar-btn">Cab Attendance</button>
                 </form>
-            </li>
+            </li>-->
             <!--<li class="dropdown">
                 <form action="#" style="margin: 0px;padding-right: 5px;" class="dropdown-toggle"
                       data-toggle="dropdown">

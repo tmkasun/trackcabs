@@ -1,11 +1,13 @@
 #!/bin/bash
 
+#http://sheharyar.me/blog/regular-mongo-backups-using-cron/
+
 echo "Hao City Cabs Server bootup.."
 
 echo "Starting tx_sms_service.py"
 
 echo "" > nohup.out
-nohup sudo python tx_sms_service.py &
+sudo nohup python tx_sms_service.py &
 sudo ps -aux | grep tx_sms_service
 
 echo "Starting tx_alert_mongo.py"

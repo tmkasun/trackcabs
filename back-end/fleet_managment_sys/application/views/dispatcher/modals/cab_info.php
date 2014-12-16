@@ -56,43 +56,10 @@ function clickHandler()
     <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title text-center">
         <!-- TODO: Trigger bootstrap tooltip $('#aboutTileUrl').tooltip(); to enable tooltip -->
-        Search Cab
+        Calling Numbers
     </h4>
 </div>
 <div class="modal-body">
-
-    <div class="row">
-        <div class="input-group input-group col-md-5 col-md-offset-4">
-                <span class="input-group-addon" style="padding: 0px;margin: 0px;width: 180px;">
-                <div id="cabSearchKey" data-toggle="buttons" class="btn-group btn-group-xs" role="group"
-                     aria-label="Cab search">
-                    <label class="btn btn-primary active">
-                        <input type="radio" name="searchByCabId" value="cabId" autocomplete="off">ID
-                    </label>
-                    <label class="btn btn-primary">
-                        <input type="radio" name="searchByCabModel" value="model" autocomplete="off">Model
-                    </label>
-                    <label class="btn btn-primary">
-                        <input type="radio" name="searchByCabPlateNo" value="plateNo" autocomplete="off">Plate
-                    </label>
-                    <label class="btn btn-primary">
-                        <input type="radio" name="searchByZone" value="zone" autocomplete="off">Zone
-                    </label>
-
-                    <!--                    <button id="searchByCabId" type="button" class="btn btn-default">ID</button>-->
-                    <!--                    <button id="searchByCabModel" type="button" class="btn btn-default">Model</button>-->
-                    <!--                    <button id="searchByCabPlateNo" type="button" class="btn btn-default">Driver</button>-->
-                    <!--                    <button id="searchByZone" type="button" class="btn btn-default">zone</button>-->
-                </div>
-                </span>
-            <input autofocus="true" id="cabSearch" type="text" class="form-control" placeholder="Search cabs"/>
-                <span class="input-group-addon">
-                <i id="resetSearch"
-                   onclick="$('#searchCabsContainer').empty();/*$.each(unDispatchedOrders, function (i, order) {addNewOrder(order);});*/$('#cabSearch').val('');"
-                   style="cursor: pointer;" class="fa fa-repeat"></i>
-                </span>
-        </div>
-    </div>
     <div class="row" style="min-height: 100px">
         <table class="table table-hover">
             <thead>

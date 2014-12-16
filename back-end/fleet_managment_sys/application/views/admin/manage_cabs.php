@@ -161,7 +161,7 @@
         var tp = document.getElementById("tp").value;
         var blocked = document.getElementById("blocked").value;
         var cabId = "";
-        var logout = "false";
+        var logout = false;
         var callingNumber = "-1";
         var logSheetNumber = "-1";
         var startLocation = "";
@@ -169,6 +169,11 @@
         {
             cabId = document.getElementById("cabId").value;
             logout = document.getElementById("logout").value;
+            if(logout == "true"){
+                logout = true;
+            }else{
+                logout= false;
+            }
             callingNumber = document.getElementById("callingNumber").value;
             logSheetNumber = document.getElementById("logSheetNumber").value;
             startLocation = document.getElementById("startLocation").value;
@@ -212,7 +217,7 @@
         {
             cabId = document.getElementById("cabId").value;
             //json object for 'user_type' 'driver'
-            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':'false' , 'blocked':'false' ,'lastLogout': '0' , 'callingNumber':'-1' , 'logSheetNumber':'-1', 'startLocation':'' };
+            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':false , 'blocked':'false' ,'lastLogout': '0' , 'callingNumber':'-1' , 'logSheetNumber':'-1', 'startLocation':'' };
         }
         //jason object when for 'user_type's 'cro', and 'dispatcher'
         else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type  , 'blocked':'false' };}

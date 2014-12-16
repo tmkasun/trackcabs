@@ -167,9 +167,9 @@ class User_dao extends CI_Model
         $searchQuery = array('userId' => $userId);
         $user = $collection->findOne($searchQuery);
         $lastLogout = new MongoDate(strtotime($user['lastLogout']));
-        $seconds_diff = $timeStamp - (float)$lastLogout->sec;
-        $hour_diff = $seconds_diff / 3600;
-        return $hour_diff;
+        $seconds_diff = (float)$timeStamp->sec - (float)$lastLogout->sec;
+        $hour_diff = (float)$seconds_diff / 3600;
+        return (float)$hour_diff;
 
     }
 

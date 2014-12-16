@@ -33,7 +33,7 @@ class Authenticate extends CI_Controller {
         $authenticationResult = $this->user_dao->logout($userId);
         $log_input_data = array('userId' => new MongoInt32($userId) , 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp , 'callingNumber' => $authenticationResult['callingNumber'] , 'user_type' => 'driver' , 'log_type' => 'logout');
         $this->log_dao->createLog($log_input_data);
-        $this->log_dao->updateLoginOnLogout(date('Y-m-d', $timeStamp->sec),$timeStamp,$userId);
+        $this->log_dao->updateLoginOnLogout(date('Y-m-d', $timeStamp->sec),$timeStamp,new MongoInt32($userId));
         if (!$authenticationResult) {
             $authentication = array('isAuthorized' => false);
         }else {

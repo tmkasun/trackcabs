@@ -52,7 +52,7 @@ class Authenticate extends CI_Controller {
         $authenticationResult = $this->user_dao->driverAuthenticate($userId,$inputArray['pass']);
         $hoursAfterLastLogin = $this->user_dao->hoursAfterLastLogin($authenticationResult['userId'],$timeStamp->sec);
                // $this->log_dao->updateCallingNumber(date('YYYY-mm-dd', $timeStamp->sec),$authenticationResult['userId'],$timeStamp->sec);
-        if (!$authenticationResult || $hoursAfterLastLogin<5) {
+        if (!$authenticationResult && $hoursAfterLastLogin>5) {
             $authentication = array('isAuthorized' => false);
         }else {
 

@@ -85,7 +85,7 @@ class Accounts_controller extends CI_Controller
 
     }
 
-    function getCallingNumberSummaryView(){
+    /*function getCallingNumberSummaryView(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $date = $input_data['date'];
         $historyCursor = $this->history_dao->getHireSummaryByDate($date);
@@ -137,5 +137,38 @@ class Accounts_controller extends CI_Controller
         $data['table_content'] = $this->load->view('admin/reports/hire_summary_table', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
 
+    }*/
+
+    function getCallingNumberSummaryView(){
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $date = $input_data['date'];
+        $loginCursor=$this->log_dao->getLoginByDate($date);
+        $data= array('data'=> array());
+        $i = 0;
+        foreach ($loginCursor as $entry) {
+            $data['data'][$i]= $entry;
+            $timeOut=$entry['logout_time'];//$this->log_dao->getLogoutForLogin($entry['date'],$entry['userId']);
+            $data['data'][$i]['timeOut'] = date('h:i:s', $timeOut->sec);
+            $timeOn = $entry['time'];
+            $data['data'][$i]['timeOn'] = date('h:i:s', $timeOn->sec);
+            $historyHireTypes=$this->history_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);
+            $liveHireTypes=$this->live_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);
+                $data['data'][$i]['drop']=$historyHireTypes['data']['drop'] + $liveHireTypes['data']['drop'];
+                $data['data'][$i]['bothway']=$historyHireTypes['data']['bothway'] + $liveHireTypes['data']['bothway'];
+                $data['data'][$i]['guestCarrier']=$historyHireTypes['data']['guestCarrier'] + $liveHireTypes['data']['guestCarrier'];
+                $data['data'][$i]['outside']=$historyHireTypes['data']['outside'] + $liveHireTypes['data']['outside'];
+                $data['data'][$i]['day']=$historyHireTypes['data']['day'] + $liveHireTypes['data']['day'];
+                $data['data'][$i]['normal']=$historyHireTypes['data']['normal'] + $liveHireTypes['data']['normal'];
+                $data['data'][$i]['cabId']=$historyHireTypes['data']['cabId'];
+                $data['data'][$i]['hires']=$historyHireTypes['data']['hires'];
+                $data['data'][$i]['cancel']=$historyHireTypes['data']['cancel'];
+            $i++;
+        }
+
+        $data['table_content'] = $this->load->view('admin/reports/hire_summary_table', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
+
     }
+
+
 }

@@ -12,18 +12,25 @@ class Test_controller extends CI_Controller
 
     public function index()
     {
+        $collection = $this->get_collection("test");
 
-        $collection = $this->get_collection("live");
-        $result['live'] = $this->live_dao->getBookingsByTown("f");
-        $result['history'] = $this->history_dao->getBookingsByTown("f");
+        $lastLogout = new MongoDate(strtotime("+1 days"));
+        $new = new MongoDate(strtotime("+2 days"));
+        $seconds_diff = (float)$new->sec - (float)$lastLogout->sec;
+        $hour_diff = $seconds_diff / 60 ;
+        echo $hour_diff;
 
-        foreach( $result['live']['data'] as $data){
-//            unset($data['call_history']);
- //           unset($data['history']);
-            var_dump($data);
-        }
-        //$result= $collection->find(array("name" => new MongoRegex('/' . "5" . '/i')));
-        //$result->limit(10);
+//        $collection = $this->get_collection("live");
+//        $result['live'] = $this->live_dao->getBookingsByTown("f");
+//        $result['history'] = $this->history_dao->getBookingsByTown("f");
+//
+//        foreach( $result['live']['data'] as $data){
+////            unset($data['call_history']);
+// //           unset($data['history']);
+//            var_dump($data);
+//        }
+//        //$result= $collection->find(array("name" => new MongoRegex('/' . "5" . '/i')));
+//        //$result->limit(10);
 
 
     }

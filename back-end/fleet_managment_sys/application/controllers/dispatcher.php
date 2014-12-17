@@ -27,6 +27,12 @@ class Dispatcher extends CI_Controller
         }
     }
 
+    public function new_orders_pane(){
+        $new_orders = $this->live_dao->getNotDispatchedBookings();
+        $dispatchedOrders = $this->live_dao->getDispatchedBookings();
+        $this->load->view("dispatcher/panels/new_orders", array('orders' => $new_orders, 'dispatchedOrders' => $dispatchedOrders));
+    }
+
     public function get_coordinates()
     {
         if ($this->input->is_ajax_request()) {

@@ -217,7 +217,7 @@
                         echo($driver['tp']) ?></td>
 
                     <td id="address"><?= implode(", ", $item['address']) ?></td>
-                    <td id="agent"><?= $item['cro']['name'] ?></td>
+                    <td id="agent"><?php if(isset($item['cro']['name'] ))echo $item['cro']['name']; else '-' ?></td>
                     <td><?= $item['inqCall'] ?></td>
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($item['isVih']) ?></td>

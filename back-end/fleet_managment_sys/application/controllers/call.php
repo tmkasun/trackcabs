@@ -165,7 +165,6 @@ class Call extends CI_Controller
                 "raw_data" => $postData[$state]
             );
 
-
             $isNewDay = $this->call_dao->isNewDay($callInfo);
             if($isNewDay){
                 $this->counters_dao->resetNextId("answeredCalls");

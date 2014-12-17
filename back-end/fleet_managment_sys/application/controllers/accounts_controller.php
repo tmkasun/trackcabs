@@ -148,7 +148,7 @@ class Accounts_controller extends CI_Controller
         foreach ($loginCursor as $entry) {
             $data['data'][$i]= $entry;
             $timeOut=$entry['logout_time']; //$this->log_dao->getLogoutForLogin($entry['date'],$entry['userId']);
-            if($timeOut=='-' || $$entry['logged_out']=='no'){
+            if($$entry['logged_out']=='no'){
                 $timeOut= new MongoDate();
                 $data['data'][$i]['timeOut'] = "Not Logged Out";
             }else{

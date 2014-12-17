@@ -158,7 +158,7 @@ class Accounts_controller extends CI_Controller
             $timeOn = $entry['time'];
             $data['data'][$i]['timeOn'] = date('h:i:s', $timeOn->sec);
             $historyHireTypes=$this->history_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);
-          //  $liveHireTypes=$this->live_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);
+            $liveHireTypes=$this->live_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);
                 $data['data'][$i]['drop']=$historyHireTypes['data']['drop'] + $liveHireTypes['data']['drop'];
                 $data['data'][$i]['bothway']=$historyHireTypes['data']['bothway'] + $liveHireTypes['data']['bothway'];
                 $data['data'][$i]['guestCarrier']=$historyHireTypes['data']['guestCarrier'] + $liveHireTypes['data']['guestCarrier'];
@@ -166,8 +166,8 @@ class Accounts_controller extends CI_Controller
                 $data['data'][$i]['day']=$historyHireTypes['data']['day'] + $liveHireTypes['data']['day'];
                 $data['data'][$i]['normal']=$historyHireTypes['data']['normal'] + $liveHireTypes['data']['normal'];
                 $data['data'][$i]['cabId']=$historyHireTypes['data']['cabId'];
-                $data['data'][$i]['hires']=$historyHireTypes['data']['hires'];
-                $data['data'][$i]['cancel']=$historyHireTypes['data']['cancel'];
+                $data['data'][$i]['hires']=$historyHireTypes['data']['hires']+$historyHireTypes['data']['hires'];
+                $data['data'][$i]['cancel']=$historyHireTypes['data']['cancel']+$historyHireTypes['data']['cancel'];
             $i++;
         }
 

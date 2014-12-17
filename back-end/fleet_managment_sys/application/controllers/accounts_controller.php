@@ -147,8 +147,13 @@ class Accounts_controller extends CI_Controller
         $i = 0;
         foreach ($loginCursor as $entry) {
             $data['data'][$i]= $entry;
-            $timeOut=$entry['logout_time'];//$this->log_dao->getLogoutForLogin($entry['date'],$entry['userId']);
-            $data['data'][$i]['timeOut'] = date('h:i:s', $timeOut->sec);
+            $timeOut=$entry['logout_time']; //$this->log_dao->getLogoutForLogin($entry['date'],$entry['userId']);
+            if($timeOut=='-' || $$entry['logged_out']=='no'){
+                $timeOut= new MongoDate();
+                $data['data'][$i]['timeOut'] = "Not Logged Out";
+            }else{
+                $data['data'][$i]['timeOut'] = date('h:i:s', $timeOut->sec);
+            }
             $timeOn = $entry['time'];
             $data['data'][$i]['timeOn'] = date('h:i:s', $timeOn->sec);
             $historyHireTypes=$this->history_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);

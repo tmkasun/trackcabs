@@ -158,7 +158,7 @@ class Accounts_controller extends CI_Controller
             $timeOn = $entry['time'];
             $data['data'][$i]['timeOn'] = date('h:i:s', $timeOn->sec);
             $historyHireTypes=$this->history_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);
-            $liveHireTypes=$this->live_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);
+          //  $liveHireTypes=$this->live_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);
                 $data['data'][$i]['drop']=$historyHireTypes['data']['drop'] + $liveHireTypes['data']['drop'];
                 $data['data'][$i]['bothway']=$historyHireTypes['data']['bothway'] + $liveHireTypes['data']['bothway'];
                 $data['data'][$i]['guestCarrier']=$historyHireTypes['data']['guestCarrier'] + $liveHireTypes['data']['guestCarrier'];

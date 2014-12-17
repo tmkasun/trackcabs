@@ -169,7 +169,7 @@ class Call extends CI_Controller
             $isNewDay = $this->call_dao->isNewDay($callInfo);
             if($isNewDay){
                 $this->counters_dao->resetNextId("missedCalls");
-                $this->counters_dao->getNextId("answeredCalls");
+                $this->counters_dao->resetNextId("answeredCalls");
             }else{
                 $this->counters_dao->getNextId("missedCalls");
             }
@@ -188,8 +188,8 @@ class Call extends CI_Controller
 
             $isNewDay = $this->call_dao->isNewDay($callInfo);
             if($isNewDay){
+                $this->counters_dao->resetNextId("missedCalls");
                 $this->counters_dao->resetNextId("answeredCalls");
-                $this->counters_dao->getNextId("answeredCalls");
             }else{
                 $this->counters_dao->getNextId("answeredCalls");
             }

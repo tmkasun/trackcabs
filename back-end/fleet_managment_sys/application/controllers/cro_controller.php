@@ -17,8 +17,13 @@ class Cro_controller extends CI_Controller
                 $this->counters_dao->resetNextId("missedCalls");
                 $this->counters_dao->resetNextId("activeCalls");
                 $this->counters_dao->resetNextId("totalHires");
-                $this->counters_dao->resetNextId($counterHireName);
-                $this->counters_dao->resetNextId($counterActiveName);
+                $userIds = $this->user_dao->getUserIds_by_type("cro");
+                foreach($userIds as $userId){
+                    $hireUserId = $userId . '-hires';
+                    $activeUserId= $userId . '-activeCalls';
+                    $this->counters_dao->resetNextId($hireUserId);
+                    $this->counters_dao->resetNextId($activeUserId);
+                }
             }
 
             $callStat['activeCalls'] = $this->counters_dao->getCounterValue("activeCalls");
@@ -226,8 +231,13 @@ class Cro_controller extends CI_Controller
             $this->counters_dao->resetNextId("missedCalls");
             $this->counters_dao->resetNextId("activeCalls");
             $this->counters_dao->resetNextId("totalHires");
-            $this->counters_dao->resetNextId($counterHireName);
-            $this->counters_dao->resetNextId($counterActiveName);
+            $userIds = $this->user_dao->getUserIds_by_type("cro");
+            foreach($userIds as $userId){
+                $hireUserId = $userId . '-hires';
+                $activeUserId= $userId . '-activeCalls';
+                $this->counters_dao->resetNextId($hireUserId);
+                $this->counters_dao->resetNextId($activeUserId);
+            }
         }
 
         $callStat['activeCalls'] = $this->counters_dao->getCounterValue("activeCalls");

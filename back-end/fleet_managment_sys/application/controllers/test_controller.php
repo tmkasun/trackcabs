@@ -12,92 +12,21 @@ class Test_controller extends CI_Controller
 
     public function index()
     {
-        $collection = $this->get_collection("test");
 
-        $lastLogout = new MongoDate(strtotime("+1 days"));
-        $new = new MongoDate(strtotime("+2 days"));
-        $seconds_diff = (float)$new->sec - (float)$lastLogout->sec;
-        $hour_diff = $seconds_diff / 60 ;
-        echo $hour_diff;
-
-//        $collection = $this->get_collection("live");
-//        $result['live'] = $this->live_dao->getBookingsByTown("f");
-//        $result['history'] = $this->history_dao->getBookingsByTown("f");
-//
-//        foreach( $result['live']['data'] as $data){
-////            unset($data['call_history']);
-// //           unset($data['history']);
-//            var_dump($data);
-//        }
-//        //$result= $collection->find(array("name" => new MongoRegex('/' . "5" . '/i')));
-//        //$result->limit(10);
+        $userIds = $this->user_dao->getUserIds_by_type("cro");
+        foreach($userIds as $userId){
+            $hireUserId = $userId . '-hires';
+            $activeUserId= $userId . '-activeCalls';
+            $this->counters_dao->resetNextId($hireUserId);
+            $this->counters_dao->resetNextId($activeUserId);
+        }
 
 
     }
 
     function test(){
 
-        //        $today =date('Y-m-d 00:00:00' , strtotime(' +2 day'));
-//        $insertQuery = array('ts' => new MongoDate(strtotime($today)));
-//        //$collection->insert($insertQuery);
-//
-//        $searchQuery = array('ts' => array('$lt' => new MongoDate(strtotime($today))));
-//        $cursor = $collection->find($searchQuery);
-//
-//        $data= array('data' => array());
-//        foreach($cursor as $doc){
-//            $data['data'][]= $doc;
-//        }
-//
-//        $data = array("reference" => "nextDay" , "timeStamp" => new MongoDate(strtotime($today)));
-//        $collection->insert($data);
-        $today = date("Y-m-d 00:00:00");
-        $todayUTC = new MongoDate(strtotime($today));
-        $todayUTCLess = new MongoDate(strtotime("+5 hours 30 minutes"));
-
-        $date = new DateTime();
-        $date->modify("+30 minutes"); //or whatever value you want
-
-        //$todayUTC = new MongoDate(strtotime($date));
-        //echo $date->sec;
-
-        $insert = array("ts" => $todayUTC);
-
-        $collection = $this->get_collection();
-        $collection->insert($insert);
-
-        $searchQuery = array("ts" => array('$lt' => $today));
-
-        $result = $collection->findOne($searchQuery);
-        var_dump($result);
-
-//        echo $today;
-//        echo $todayUTC->sec;
-//        echo "ended";
-//        echo $todayUTCLess->sec;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     function createUser()
     {
         $userId = $this->counters_dao->getNextId('test_collection');echo $userId;

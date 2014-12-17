@@ -272,7 +272,7 @@ class Live_dao extends CI_Model
     function getHireTypesSummaryByDate($startTime,$endTime,$userId){
 
         $collection = $this->get_collection();
-        $searchQuery = array('bookTime' => array('$gt' => $startTime, '$lte' => $endTime),'driverId' => new MongoInt32($userId));
+        $searchQuery = array('driverId' => new MongoInt32($userId));
         $bookings = $collection->find($searchQuery);
         $hireTypes= array('data'=> array('hires'=>0,'cancel'=>0,'drop' => 0 , 'bothway' => 0, 'guestCarrier' => 0, 'outside' => 0, 'day' => 0, 'normal' => 0, 'cabId' => -1));
         foreach ($bookings as $booking) {

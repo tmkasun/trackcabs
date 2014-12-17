@@ -33,7 +33,7 @@
         <td><?php if(isset($item['cancelTime'])){echo date('H:m Y-m-d',$item['cancelTime']->sec);}else{echo "Not Available";}?></td>
         <td><?php if(isset($item['cancelTime'])){
                 $seconds_diff = (float)$item['cancelTime']->sec - (float)$item['callTime']->sec;
-                $timeDiff1 = $seconds_diff / 60;
+                $timeDiff1 = $seconds_diff / 60*60;
                 echo round($timeDiff1,0) . ' (mins)';
             }else{
                 echo "Not Available";
@@ -41,7 +41,7 @@
         <td>
             <?php if(isset($item['dispatchTime'])){echo
                 $seconds_diff = (float)$item['cancelTime']->sec - (float)$item['dispatchTime']->sec;
-                $timeDiff2 = $seconds_diff / 60;
+                $timeDiff2 = $seconds_diff / 60*60;
                 echo round($timeDiff2,0)  . "(mins)";
             }
             else{

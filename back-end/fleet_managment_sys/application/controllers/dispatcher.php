@@ -105,7 +105,7 @@ class Dispatcher extends CI_Controller
         $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? '' : "\nCustomer number: $custoNumber";
         $pagingBoard = ($dispatchingOrder['pagingBoard'] != '-') ? "\nPaging Board: $dispatchingOrder[pagingBoard]" : '';
         $remarks = ($dispatchingOrder['remark'] != '-') ? "\nRemarks: $dispatchingOrder[remark]" : '';
-        $driverMessage = "#" . $driverId . '1' . $dispatchingOrder['refId'] . $custoNumber . $pagingBoard . $remarks . "\nAddress: " . $custoAddress;
+        $driverMessage = "#" . str_pad($driverId,3,'0',STR_PAD_LEFT) . '1' . $dispatchingOrder['refId'] . $custoNumber . $pagingBoard . $remarks . "\nAddress: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
 
@@ -148,6 +148,12 @@ class Dispatcher extends CI_Controller
             $this->live_dao->updateStatus($order['_id'], "DIS_CANCEL");
         }
 
+        $user = $this->session->userdata('user');
+        $this->live_dao->updateBooking((string)$order['_id'],array('cancelUserId' => (int)$user['userId']));
+        $today = date("Y-m-d H:i:s");
+        $todayUTC = new MongoDate(strtotime($today));
+        $this->live_dao->updateBooking((string)$order['_id'],array('cancelTime' => $todayUTC));
+
         /* Adds +1 to the tot_cancel in customers collection */
         $this->customer_dao->addCanceledTotal($order["tp"]);
 
@@ -179,7 +185,7 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         if ($alreadyDispatched) {
             $driver = $this->user_dao->getUser($order['driverId'], 'driver');
 
-            $driverMessage = "#" . $driver['userId'] . '2' . $order['refId'] . "Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.\nReasons: $cancelReason";
+            $driverMessage = "#" . str_pad($driver['userId'],3,'0',STR_PAD_LEFT) . '2' . $order['refId'] . "Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.\nReasons: $cancelReason";
 
             $driverNumber = $driver['tp'];
             $sentDriver = $sms->send($driverNumber, $driverMessage);
@@ -206,7 +212,7 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
 
         $driver = $this->user_dao->getDriverByCabId($order['cabId']);
         $sms = new Sms();
-        $driverMessage = "#" . $driver['userId'] . '2' . $order['refId'] . " Order has been disengaged. Do not proceed to hire. Sorry for the inconvenience.\nReason: $disengageReason";
+        $driverMessage = "#" . str_pad($driver['userId'],3,'0',STR_PAD_LEFT) . '2' . $order['refId'] . " Order has been disengaged. Do not proceed to hire. Sorry for the inconvenience.\nReason: $disengageReason";
         $driverNumber = $driver['tp'];
         $sentDriver = $sms->send($driverNumber, $driverMessage);
 

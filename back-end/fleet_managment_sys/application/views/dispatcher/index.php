@@ -160,7 +160,7 @@
 
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/calling_number');return false">Calling No.</button>
+                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/calling_number');return false">Cab Info</button>
                 </form>
             </li>
             <li>
@@ -170,7 +170,7 @@
             </li>
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModalLarger').modal('toggle').find('.modal-content').load('dispatcher/cab_info');return false" >Cab Info</button>
+                    <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModalLarger').modal('toggle').find('.modal-content').load('dispatcher/cab_info');return false" >Calling No.</button>
                 </form>
             </li>
             <li>
@@ -182,11 +182,6 @@
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
                     <button class="btn btn-sm btn-success navbar-btn" onclick="$('#commonModal').modal('toggle').find('.modal-content').load('dispatcher/search_cab');return false" >Search cab</button>
-                </form>
-            </li>
-            <li>
-                <form action="#" style="margin: 0px;padding-right: 5px;">
-                    <button class="btn btn-sm btn-success navbar-btn">Cab lock</button>
                 </form>
             </li>
 
@@ -207,12 +202,12 @@
                     <a href="vehicle_tracking" class="btn btn-sm btn-warning navbar-btn" target="_blank">Vehicle Tracking</a>
                 </form>
             </li>
-
+<!--
             <li>
                 <form action="#" style="margin: 0px;padding-right: 5px;">
                     <button class="btn btn-sm btn-success navbar-btn">Cab Attendance</button>
                 </form>
-            </li>
+            </li>-->
             <!--<li class="dropdown">
                 <form action="#" style="margin: 0px;padding-right: 5px;" class="dropdown-toggle"
                       data-toggle="dropdown">

@@ -166,8 +166,8 @@ class Accounts_controller extends CI_Controller
                 $data['data'][$i]['day']=$historyHireTypes['data']['day'] + $liveHireTypes['data']['day'];
                 $data['data'][$i]['normal']=$historyHireTypes['data']['normal'] + $liveHireTypes['data']['normal'];
                 $data['data'][$i]['cabId']=$historyHireTypes['data']['cabId'];
-                $data['data'][$i]['hires']=$historyHireTypes['data']['hires'];
-                $data['data'][$i]['cancel']=$historyHireTypes['data']['cancel'];
+                $data['data'][$i]['hires']=$historyHireTypes['data']['hires']+$liveHireTypes['data']['hires'];
+                $data['data'][$i]['cancel']=$historyHireTypes['data']['cancel']+$liveHireTypes['data']['cancel'];
             $i++;
         }
 

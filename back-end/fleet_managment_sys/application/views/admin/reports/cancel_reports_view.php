@@ -27,7 +27,7 @@
         <td id="status"><?= $item['status']?></td>
         <td id="cancelReason"><?php if(isset($item['cancelReason'])){echo $item['cancelReason'];}else{echo "Not Available";}?></td>
         <td id="bookTime"><?= date('jS-M-y  H:i',$item['bookTime']->sec)?></td>
-        <td id="dispatchTime"><?php if(isset($item['dispatchTime'])){echo date('H:m Y-m-d',$item['dispatchTime']->sec);}else{echo "Not Available";}?></td>
+        <td id="dispatchTime"><?php if(isset($item['dispatchTime'])){echo date('jS-M-y  H:i',$item['dispatchTime']->sec);}else{echo "Not Available";}?></td>
         <td id="cancelTime"><?= date('jS-M-y  H:i',$item['cancelTime']->sec);?></td>
         <td id="timeDiff1"><?php if(isset($item['cancelTime'])){
                 $seconds_diff = (float)$item['cancelTime']->sec - (float)$item['callTime']->sec;

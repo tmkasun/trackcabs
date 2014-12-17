@@ -168,8 +168,17 @@ class Call extends CI_Controller
 
             $isNewDay = $this->call_dao->isNewDay($callInfo);
             if($isNewDay){
+                $this->counters_dao->resetNextId("answeredCalls");
                 $this->counters_dao->resetNextId("missedCalls");
-                $this->counters_dao->getNextId("answeredCalls");
+                $this->counters_dao->resetNextId("activeCalls");
+                $this->counters_dao->resetNextId("totalHires");
+                $userIds = $this->user_dao->getUserIds_by_type("cro");
+                foreach($userIds as $userId){
+                    $hireUserId = $userId . '-hires';
+                    $activeUserId= $userId . '-activeCalls';
+                    $this->counters_dao->resetNextId($hireUserId);
+                    $this->counters_dao->resetNextId($activeUserId);
+                }
             }else{
                 $this->counters_dao->getNextId("missedCalls");
             }
@@ -189,7 +198,16 @@ class Call extends CI_Controller
             $isNewDay = $this->call_dao->isNewDay($callInfo);
             if($isNewDay){
                 $this->counters_dao->resetNextId("answeredCalls");
-                $this->counters_dao->getNextId("answeredCalls");
+                $this->counters_dao->resetNextId("missedCalls");
+                $this->counters_dao->resetNextId("activeCalls");
+                $this->counters_dao->resetNextId("totalHires");
+                $userIds = $this->user_dao->getUserIds_by_type("cro");
+                foreach($userIds as $userId){
+                    $hireUserId = $userId . '-hires';
+                    $activeUserId= $userId . '-activeCalls';
+                    $this->counters_dao->resetNextId($hireUserId);
+                    $this->counters_dao->resetNextId($activeUserId);
+                }
             }else{
                 $this->counters_dao->getNextId("answeredCalls");
             }

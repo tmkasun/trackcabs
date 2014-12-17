@@ -194,9 +194,9 @@
                                 <p style="margin: 0 0 3px;"><span class="label label-default" style="font-size: 83%; ">Total Calls <?= $callStat['totalCalls']?></span> </p>
                                 <p style="margin: 0 0 3px;"><span class="label label-info" style="font-size: 83%; ">Total Answered Calls <?= $callStat['answeredCalls']?></span></p>
                                 <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">Total Active Calls <?= $callStat['activeCalls']?></span></p>
-                                <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">CRO Active Calls <?= $callStat['croActiveCalls']?></span></p>
+                                <p style="margin: 0 0 3px;"><span class="label label-success" style="font-size: 83%;">My Active Calls <?= $callStat['croActiveCalls']?></span></p>
                                 <p style="margin: 0 0 3px;"><span class="label label-default" style="font-size: 83%; ">Total Missed Calls <?= $callStat['missedCalls']?></span></p>
-                                <p style="margin: 0 0 3px;">CRO Hires <span class="badge"><?= $callStat['croHires']?></span></p>
+                                <p style="margin: 0 0 3px;">My Hires <span class="badge"><?= $callStat['croHires']?></span></p>
                             </div>
 
                             <div class="col-lg-5">

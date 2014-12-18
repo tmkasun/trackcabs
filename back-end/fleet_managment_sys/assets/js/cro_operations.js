@@ -155,7 +155,7 @@ function validateBooking(url , tp){
     var isVih               = $('#vih')[0].checked;
     var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
     var bookingCharge = '-';
-    var bookingType = 'Personal';
+    var bookingType = customerObj.profileType;
     var personalProfileTp = '-';
     var cancelReason = '-';
     var airportPackageId = $('#airportPackage').val();
@@ -281,7 +281,7 @@ function createBooking(url , tp){
     var isVih               = $('#vih')[0].checked;
     var isCusNumberNotSent  = $('#cusNumberNotSent')[0].checked;
     var bookingCharge = '-';
-    var bookingType = 'Personal';
+    var bookingType = customerObj.profileType;
     var personalProfileTp = '-';
     var cancelReason = '-';
     var airportPackageId = $('#airportPackage').val();

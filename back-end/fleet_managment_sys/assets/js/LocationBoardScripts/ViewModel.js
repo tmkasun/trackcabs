@@ -624,7 +624,7 @@ function LocationBoardViewModel() {
             gotResponse = response;
 
             var currentCab = new Cab(gotResponse);
-            zone.pob.cabs.remove(currentCab);
+            //zone.pob.cabs.remove(currentCab);
 
             var lastZone = response.lastZone;
 

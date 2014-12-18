@@ -16,6 +16,8 @@
         function (disengagedOrder) {
             console.log(disengagedOrder);
             console.log("DEBUG: response");
+            var newLocation = $('#newLocation').data('location');
+            var cabId = $('#newLocation').data('cabid');
 
             var orderDOM = $('#dispatchedOrdersList').find('#' + orderRefId);
             $(orderDOM).fadeOut();
@@ -29,6 +31,8 @@
                 timeout: 3000,
                 pos: 'top-center'
             });
+            locVM.setToIdleFromStringParams(newLocation,cabId);
+
         }
 
     ).

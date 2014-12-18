@@ -27,7 +27,8 @@ class Dispatcher extends CI_Controller
         }
     }
 
-    public function new_orders_pane(){
+    public function new_orders_pane()
+    {
         $new_orders = $this->live_dao->getNotDispatchedBookings();
         $dispatchedOrders = $this->live_dao->getDispatchedBookings();
         $this->load->view("dispatcher/panels/new_orders", array('orders' => $new_orders, 'dispatchedOrders' => $dispatchedOrders));
@@ -103,7 +104,7 @@ class Dispatcher extends CI_Controller
         $this->live_dao->setDispatchedTime($orderId);
         $user = $this->session->userdata('user');
 
-        $this->live_dao->updateBooking((string)$dispatchingOrder['_id'],array('dispatcherId' => (int)$user['userId']));
+        $this->live_dao->updateBooking((string)$dispatchingOrder['_id'], array('dispatcherId' => (int)$user['userId']));
         $driverId = strlen($driverId) <= 1 ? '0' . $driverId : $driverId;
 
         $sentCusto = $sms->send($custoNumber, $custoMessage);
@@ -111,7 +112,7 @@ class Dispatcher extends CI_Controller
         $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? '' : "\nCustomer number: $custoNumber";
         $pagingBoard = ($dispatchingOrder['pagingBoard'] != '-') ? "\nPaging Board: $dispatchingOrder[pagingBoard]" : '';
         $remarks = ($dispatchingOrder['remark'] != '-') ? "\nRemarks: $dispatchingOrder[remark]" : '';
-        $driverMessage = "#" . str_pad($driverId,3,'0',STR_PAD_LEFT) . '1' . $dispatchingOrder['refId'] . $custoNumber . $pagingBoard . $remarks . "\nAddress: " . $custoAddress;
+        $driverMessage = "#" . str_pad($driverId, 3, '0', STR_PAD_LEFT) . '1' . $dispatchingOrder['refId'] . $custoNumber . $pagingBoard . $remarks . "\nAddress: " . $custoAddress;
         $driverNumber = $dispatchingDriver['tp'];
 
 
@@ -155,10 +156,10 @@ class Dispatcher extends CI_Controller
         }
 
         $user = $this->session->userdata('user');
-        $this->live_dao->updateBooking((string)$order['_id'],array('cancelUserId' => (int)$user['userId']));
+        $this->live_dao->updateBooking((string)$order['_id'], array('cancelUserId' => (int)$user['userId']));
         $today = date("Y-m-d H:i:s");
         $todayUTC = new MongoDate(strtotime($today));
-        $this->live_dao->updateBooking((string)$order['_id'],array('cancelTime' => $todayUTC));
+        $this->live_dao->updateBooking((string)$order['_id'], array('cancelTime' => $todayUTC));
 
         /* Adds +1 to the tot_cancel in customers collection */
         $this->customer_dao->addCanceledTotal($order["tp"]);
@@ -191,7 +192,7 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         if ($alreadyDispatched) {
             $driver = $this->user_dao->getUser($order['driverId'], 'driver');
 
-            $driverMessage = "#" . str_pad($driver['userId'],3,'0',STR_PAD_LEFT) . '2' . $order['refId'] . "Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.\nReasons: $cancelReason";
+            $driverMessage = "#" . str_pad($driver['userId'], 3, '0', STR_PAD_LEFT) . '2' . $order['refId'] . "Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.\nReasons: $cancelReason";
 
             $driverNumber = $driver['tp'];
             $sentDriver = $sms->send($driverNumber, $driverMessage);
@@ -218,7 +219,7 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
 
         $driver = $this->user_dao->getDriverByCabId($order['cabId']);
         $sms = new Sms();
-        $driverMessage = "#" . str_pad($driver['userId'],3,'0',STR_PAD_LEFT) . '2' . $order['refId'] . " Order has been disengaged. Do not proceed to hire. Sorry for the inconvenience.\nReason: $disengageReason";
+        $driverMessage = "#" . str_pad($driver['userId'], 3, '0', STR_PAD_LEFT) . '2' . $order['refId'] . " Order has been disengaged. Do not proceed to hire. Sorry for the inconvenience.\nReason: $disengageReason";
         $driverNumber = $driver['tp'];
         $sentDriver = $sms->send($driverNumber, $driverMessage);
 
@@ -393,13 +394,15 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
     function cancel_reason($orderRefId)
     {
         $cancelOrder = $this->live_dao->getBooking($orderRefId);
-        $this->load->view('dispatcher/modals/cancel_reason', array('order' => $cancelOrder));
+        $cab = $this->cab_dao->getCab($cancelOrder['cabId']);
+        $this->load->view('dispatcher/modals/cancel_reason', array('order' => $cancelOrder, 'cab' => $cab));
     }
 
     function disengage_reason($orderRefId)
     {
         $cancelOrder = $this->live_dao->getBooking($orderRefId);
-        $this->load->view('dispatcher/modals/disengage_reason', array('order' => $cancelOrder));
+        $cab = $this->cab_dao->getCab($cancelOrder['cabId']);
+        $this->load->view('dispatcher/modals/disengage_reason', array('order' => $cancelOrder, 'cab' => $cab));
     }
 
     function calling_number()
@@ -425,14 +428,15 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->load->view('dispatcher/modals/cab_start_location', array('data' => $driversWithCab));
     }
 
-    function  logout_user(){
+    function  logout_user()
+    {
         $driverId = (int)$this->input->post('driverId');
         $status = $this->input->post('status');
         $status = ($status === "true");
         $updateData = array(
             'logout' => $status
         );
-        $this->user_dao->updateUser($driverId,$updateData);
+        $this->user_dao->updateUser($driverId, $updateData);
 
     }
 
@@ -442,7 +446,7 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $assigned_cabs = $this->cab_dao->get_assigned_cabs();
         $this->load->view('dispatcher/modals/cab_info', array('assigned_cabs' => $assigned_cabs));
     }
-    
+
 //    function sendSms($bookingCreated, $message)
 //    {
 //        $sms = new Sms();

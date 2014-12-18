@@ -15,6 +15,10 @@
         $.post('dispatcher/cancelOrder', {refId: orderRefId, 'cancelReason': cancelReason}).done(
             function () {
                 $("#orderBuilder").html('');
+
+                var newLocation = $('#newLocation').data('location');
+                var cabId = $('#newLocation').data('cabid');
+
                 closeAll();
                 var orderDOM = $('#liveOrdersList').find('#' + orderRefId);
                 $(orderDOM).fadeOut();
@@ -28,8 +32,7 @@
                     pos: 'top-center'
                 });
 
-                // TODO: uncomment this after fixing bug + getting the cab id
-//                locVM.setToIdleFromStringParams(datum["value"],cabId);
+                locVM.setToIdleFromStringParams(newLocation,cabId);
 
             }
         ).
@@ -158,7 +161,7 @@
 
         <div class="row text-center">
             <br/>
-            <button id="newLocation" type="button" class="btn btn-info"></button>
+            <button id="newLocation" data-cabid="<?= $order['cabId'] ?>" data-location="<?= $cab['zone'] ?>" type="button" class="btn btn-info"></button>
         </div>
     </div>
     <div class="row">

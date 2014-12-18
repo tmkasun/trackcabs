@@ -12,7 +12,7 @@ function subscribe(userid) {
                     var incommingCall = $.UIkit.notify({
                         message: "Incomming call from <span onclick='$(\"#tpSearch\").val(\""+messageData.number+"\")' style='cursor: pointer;color: red'>"+messageData.number+"</span> <br/>To extension<span style='color: #0000FF'>"+ messageData.ext+"</span>",
                         status: 'success',
-                        timeout: 0,
+                        timeout: 20000,
                         pos: 'top-center'
                     });
                     $(incommingCall.element).children().filter(":not(.uk-close)").on('click', function(e) {e.preventDefault();return false;});

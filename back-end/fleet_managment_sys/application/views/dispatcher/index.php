@@ -257,7 +257,10 @@
                 <i id="resetSearch" onclick="$('#liveOrdersList .mCSB_container').empty();$.each(unDispatchedOrders, function (i, order) {addNewOrder(order);});$('#orderSearch').val('');" style="cursor: pointer;" class="fa fa-repeat"></i>
                 </span>
             </div>
-            <?= $new_orders_pane ?>
+            <div id="new_orders_pane">
+                <?= $new_orders_pane ?>
+            </div>
+
         </div>
     </div>
     <div class="col-md-4" style="overflow-y: auto;" >

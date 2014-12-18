@@ -248,6 +248,17 @@
     <div class="list-group">
         <a href="#" class="list-group-item active text-center">
             Dispatched Orders
+            <i style="float: right;color: #a7ff4c" class="fa fa-refresh" onclick="
+            /*$('#new_orders_pane').empty();$('#new_orders_pane').load('dispatcher/new_orders_pane');
+            $.UIkit.notify({
+            message: 'Operation complete',
+            status: 'info',
+            timeout: 1000,
+            pos: 'bottom-right'
+            });*/
+            location.reload(true);// use reload(true) to load from server instead of cache
+            return false;
+            "></i>
         </a>
 
         <div id="dispatchedOrdersList" class="mscroll" style="overflow-y: auto;height: 90%;">
@@ -256,6 +267,7 @@
                    class="list-group-item" data-bookTime="<?= $order['bookTime']->sec ?>">
                     <?= date('jS-M-y  H:i', $order['bookTime']->sec) ?>
                     <span class="text-warning fromNow"></span>
+                    <span class="text-info fromNow"><?= $order['status'] ?></span>
                     <span class="label label-info" style="float: right"><?= $order['refId'] ?></span>
                 </a>
             <?php } ?>

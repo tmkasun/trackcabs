@@ -42,6 +42,7 @@
             var orderBookingTime = moment.unix(dispatchedOrderUnixTimeStamp);
 
             var $fromNowSpan = $("<span>", {class: "text-warning fromNow"});
+            var $orderStatus = $("<span>", {class: "label label-info"}).text(dispatchedOrder.status);
             var $labelSpan = $("<span>", {class: "label label-info"}).css({float: 'right'}).text(dispatchedOrder.refId);
 
             var $order = $("<a>", {
@@ -49,7 +50,7 @@
                 class: "list-group-item",
                 onclick: "disengageOrder(this.id);return false"
             })
-                .attr('data-bookTime', dispatchedOrderUnixTimeStamp).text(orderBookingTime.format('Do-MMM-YY  H:mm')).append($fromNowSpan).append($labelSpan);
+                .attr('data-bookTime', dispatchedOrderUnixTimeStamp).text(orderBookingTime.format('Do-MMM-YY  H:mm')).append($fromNowSpan).append($orderStatus).append($labelSpan);
 
             $order.appendTo('#dispatchedOrdersList .mCSB_container');
 

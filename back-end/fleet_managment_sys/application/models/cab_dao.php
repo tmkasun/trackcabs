@@ -244,5 +244,12 @@ class Cab_dao extends CI_Model
         return json_encode($return);
     }
 
+    function getCabsByState($state = "IDLE"){
+
+        $collection = $this->get_collection();
+        $searchQuery= array('state' => $state);
+        return $collection->find($searchQuery);
+
+    }
 
 }

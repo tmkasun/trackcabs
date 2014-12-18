@@ -188,7 +188,7 @@
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
                     <td><?= getBadge($order['isVip']) ?></td>
-                    <td><?= getBadge(false) ?></td>
+                    <td><?= getBadge($order['bookingType'] == "Cooperate") ?></td>
                 </tr>
             <?php endforeach; endif ?>
         </tbody>
@@ -237,7 +237,7 @@
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
                     <td><?= getBadge($order['isVip']) ?></td>
-                    <td><?= getBadge(false) ?></td>
+                    <td><?= getBadge($order['bookingType'] == "Cooperate") ?></td>
                 </tr>
             <?php endforeach; endif; ?>
         </tbody>
@@ -286,7 +286,7 @@
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
                     <td><?= getBadge($order['isVip']) ?></td>
-                    <td><?= getBadge(false) ?></td>
+                    <td><?= getBadge($order['bookingType'] == "Cooperate") ?></td>
                 </tr>
             <?php endforeach; endif; ?>
         </tbody>
@@ -335,7 +335,7 @@
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
                     <td><?= getBadge($order['isVip']) ?></td>
-                    <td><?= getBadge(false) ?></td>
+                    <td><?= getBadge($order['bookingType'] == "Cooperate") ?></td>
                 </tr>
             <?php endforeach; endif; ?>
         </tbody>
@@ -389,7 +389,7 @@
                     <td><?= getBadge(false) ?></td>
                     <td><?= getBadge($order['isVih']) ?></td>
                     <td><?= getBadge($order['isVip']) ?></td>
-                    <td><?= getBadge(false) ?></td>
+                    <td><?= getBadge($order['bookingType'] == "Cooperate") ?></td>
                     <td>N/A</td>
 <!--                    TODO: remove isset check after all the orders have dispatcherId attribute -->
                     <td><?= isset($order['dispatcher']) ? $order['dispatcher']['name'] : 'N/A' ?></td>
@@ -414,7 +414,13 @@
         </tr>
         </thead>
         <tbody>
-<!-- TODO: Load IDLE cabs not IDLE(completed) orders-->
+        <?php foreach($idle_cabs as $idle_cab): ?>
+            <tr id="<?= $idle_cab['cabId'] ?>">
+                <td><?= $idle_cab['userId'] ?></td>
+                <td><?= isset($idle_cab['lastUpdatedOn']) ? date('jS-M-y  H:i', $idle_cab['lastUpdatedOn']->sec) : "N/A" ?></td>
+                <td><?= $idle_cab['zone'] ?></td>
+            </tr>
+        <?php endforeach ?>
         </tbody>
     </table>
 </div>

@@ -77,9 +77,9 @@ class Simple(Resource):
 
     def render_POST(self, request):
         print "Got POST a request from {}".format(request.getClientIP())
-        global debugObject
+        # global debugObject
         # reactor.callLater(2,reactor.stop)
-        debugObject = request
+        # debugObject = request
         print(request.args)
 
         # TODO: Return JSON with status and ACK of sending message

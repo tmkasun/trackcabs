@@ -116,7 +116,7 @@ initializeWebSocket(); //TODO: uncomment to work websockets
 /*----------------------- Cab Object Definition -----------------------*/
 
 function Cab(geoJSON) {
-    this.id = geoJSON.id; // TODO: actual ID geoJSON.properties.cabId;
+    this.id = geoJSON.properties.cabId; // TODO: actual ID geoJSON.properties.cabId;
     this.driver = {id: geoJSON.id};
     this.state = geoJSON.properties.state;
     this.speed = geoJSON.properties.speed;
@@ -125,8 +125,8 @@ function Cab(geoJSON) {
     this.locationCoordinates = [geoJSON.geometry.coordinates];
     this.geoJson = geoJSON; // TODO: why again ?
     this.order = geoJSON.properties.order;
-    if (typeof this.orderId != 'undefined') {
-        this.croName = geoJSON.properties.order.cro.name;
+    if (typeof this.order != null) {
+        this.croName = this.order.cro.name;
     }
     return this;
 }

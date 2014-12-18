@@ -7,7 +7,8 @@
      public function index() {
          if (is_user_logged_in()) {
              $new_orders = $this->live_dao->getAllBookings();
-             $this -> load -> view('monitor/index',array('orders' => $new_orders));
+             $idle_cabs = $this->cab_dao->getCabsByState();
+             $this -> load -> view('monitor/index',array('orders' => $new_orders,'idle_cabs'=>$idle_cabs));
          } else {
              //If no session, redirect to login page
              $this -> load -> library('form_validation');

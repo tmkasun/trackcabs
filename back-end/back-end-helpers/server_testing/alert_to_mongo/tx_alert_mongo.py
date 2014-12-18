@@ -72,15 +72,25 @@ class AlertToMongo(Resource):
     def update_alert(self, jsonHash, collection='live'):
         event_state = str(jsonHash['properties']['state'])
         order_id = int(jsonHash['properties']['orderId'])
+        cab_id = int(jsonHash['properties']['cabId'])
 
         order_state = event_state
+
+        client.track['cabs'].update({
+                                        'cabId': cab_id
+                                    },
+                                    {
+                                        '$set': {
+                                            'state': order_state, "lastUpdatedOn": datetime.datetime.utcnow()
+                                        }
+                                    },
+                                    upsert=False, multi=False)
 
         if event_state == "IDLE":
             order_state = "COMPLETED"
         elif event_state == "AT_THE_PLACE":
             order = client.track['live'].find_one({'refId': order_id})
             self.send_sms(order['tp'], "Your cab is at the place,\nRefNo: {} \nThank you".format(order_id))
-
 
         print(
             "DEBUG: orderId = {} orderState = {}".format(order_id,
@@ -107,8 +117,8 @@ class AlertToMongo(Resource):
         body = StringProducer(urlEncodedData)
 
         yield web_agent.request('POST', 'http://127.0.0.1:3000/sms_service/',
-                          Headers({'User-Agent': ['Knnect network testing client'],
-                                   'Content-Type': ['application/x-www-form-urlencoded']}), body)
+                                Headers({'User-Agent': ['Knnect network testing client'],
+                                         'Content-Type': ['application/x-www-form-urlencoded']}), body)
 
 
 port = 9091

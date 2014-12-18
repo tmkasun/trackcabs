@@ -14,7 +14,7 @@
         <th>Time of Cancellation</th>
         <th>Time Diff (REQ/Cancel)</th>
         <th>Time Diff (DISP/Cancel)</th>
-        <th>CRO ID (Made Booking)</th>
+        <th>USR ID (Made Booking)</th>
         <th>USR ID (Made Cancel)</th>
         <th>Driver ID</th>
 
@@ -23,22 +23,20 @@
     <?php foreach ($cancellations as $item):?>
 
     <tr>
-        <td><?= $item['refId']?></td>
-        <td><?= $item['status']?></td>
-        <td><?php if(isset($item['cancelReason'])){echo $item['cancelReason'];}else{echo "Not Available";}?></td>
-        <td><?= date('H:m Y-m-d',$item['bookTime']->sec)?></td>
-        <?php    $seconds_diff = (float)$item['cancelTime']->sec - (float)$item['callTime']->sec;
-                $min_diff = $seconds_diff / 60;?>
-        <td><?php if(isset($item['dispatchTime'])){echo date('H:m Y-m-d',$item['dispatchTime']->sec);}else{echo "Not Available";}?></td>
-        <td><?php if(isset($item['cancelTime'])){echo date('H:m Y-m-d',$item['cancelTime']->sec);}else{echo "Not Available";}?></td>
-        <td><?php if(isset($item['cancelTime'])){
+        <td id="bookingRefId"><?= $item['refId']?></td>
+        <td id="status"><?= $item['status']?></td>
+        <td id="cancelReason"><?php if(isset($item['cancelReason'])){echo $item['cancelReason'];}else{echo "Not Available";}?></td>
+        <td id="bookTime"><?= date('jS-M-y  H:i',$item['bookTime']->sec)?></td>
+        <td id="dispatchTime"><?php if(isset($item['dispatchTime'])){echo date('jS-M-y  H:i',$item['dispatchTime']->sec);}else{echo "Not Available";}?></td>
+        <td id="cancelTime"><?= date('jS-M-y  H:i',$item['cancelTime']->sec);?></td>
+        <td id="timeDiff1"><?php if(isset($item['cancelTime'])){
                 $seconds_diff = (float)$item['cancelTime']->sec - (float)$item['callTime']->sec;
                 $timeDiff1 = $seconds_diff / 60;
                 echo round($timeDiff1,0) . ' (mins)';
             }else{
                 echo "Not Available";
             }?></td>
-        <td>
+        <td id="timeDiff2">
             <?php if(isset($item['dispatchTime'])){echo
                 $seconds_diff = (float)$item['cancelTime']->sec - (float)$item['dispatchTime']->sec;
                 $timeDiff2 = $seconds_diff / 60;
@@ -47,9 +45,9 @@
             else{
                 echo "Not Available";}?>
         </td>
-        <td><?= $item['croId']?></td>
-        <td><?php if(isset($item['cancelUserId'])){echo $item['cancelUserId'];}else{echo "Not Available";}?></td>
-        <td><?php if(isset($item['driverId'])){echo $item['driverId'];}else{echo "Not Available";}?></td>
+        <td id="bookingUserId"><?= $item['croId']?></td>
+        <td id="cancelUserId"><?php if(isset($item['cancelUserId'])){echo $item['cancelUserId'];}else{echo "Not Available";}?></td>
+        <td id="driverId"><?php if(isset($item['driverId'])){echo $item['driverId'];}else{echo "Not Available";}?></td>
     </tr>
 
     <?php endforeach;?>

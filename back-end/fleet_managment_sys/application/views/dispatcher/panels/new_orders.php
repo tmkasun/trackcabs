@@ -256,7 +256,7 @@
             timeout: 1000,
             pos: 'bottom-right'
             });*/
-            location.reload(true);// use reload(true) to load from server instead of cache 
+            location.reload(true);// use reload(true) to load from server instead of cache
             return false;
             "></i>
         </a>
@@ -267,6 +267,7 @@
                    class="list-group-item" data-bookTime="<?= $order['bookTime']->sec ?>">
                     <?= date('jS-M-y  H:i', $order['bookTime']->sec) ?>
                     <span class="text-warning fromNow"></span>
+                    <span class="text-info fromNow"><?= $order['status'] ?></span>
                     <span class="label label-info" style="float: right"><?= $order['refId'] ?></span>
                 </a>
             <?php } ?>

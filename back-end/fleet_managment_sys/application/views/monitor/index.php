@@ -417,7 +417,7 @@
         <?php foreach($idle_cabs as $idle_cab): ?>
             <tr id="<?= $idle_cab['cabId'] ?>">
                 <td><?= $idle_cab['userId'] ?></td>
-                <td><?= date('jS-M-y  H:i', $idle_cab['lastUpdatedOn']->sec) ?></td>
+                <td><?= isset($idle_cab['lastUpdatedOn']) ? date('jS-M-y  H:i', $idle_cab['lastUpdatedOn']->sec) : "N/A" ?></td>
                 <td><?= $idle_cab['zone'] ?></td>
             </tr>
         <?php endforeach ?>

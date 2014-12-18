@@ -152,7 +152,7 @@ class Accounts_controller extends CI_Controller
                 $timeOut = new MongoDate();
                 $data['data'][$i]['timeOut'] = 'not logged out';
             }else{
-                $timeOut=new MongoDate(strtotime($entry['logout_time']));
+                $timeOut=new MongoDate($entry['logout_time']);
                 $data['data'][$i]['timeOut'] = date('h:i:s', $timeOut->sec);
             }
 

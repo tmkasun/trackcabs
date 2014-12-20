@@ -364,15 +364,13 @@ function LocationBoardViewModel() {
 
         var gotResponse = null;
         $.post(serviceUrl + "dispatcher/setIdleZone", sendingData, function (response) {
-            console.log(response);
             gotResponse = response;
-            gotResponse.state = "IDLE";
-            var currentCab = new Cab(gotResponse);
+            if (gotResponse !== null ) {
 
-            var lastZone = response.lastZone;
+                gotResponse.state = "IDLE";
+                var currentCab = new Cab(gotResponse);
 
-            if (gotResponse !== null || gotResponse.driver !== null) {
-
+                var lastZone = response.lastZone;
 
                 //Remove from last zone and all other places
                 var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function (item) {

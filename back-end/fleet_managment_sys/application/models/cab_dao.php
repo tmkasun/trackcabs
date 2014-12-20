@@ -26,7 +26,7 @@ class Cab_dao extends CI_Model
 
         if( $record == null) {
             $cabArray["state"] = "IDLE";
-            $cabArray["zone"] = "null";
+            $cabArray["zone"] = "None";
 
             $collection->insert($cabArray);
         }

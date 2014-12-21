@@ -233,7 +233,7 @@ function LocationBoardViewModel() {
                  }
                  else */
 
-                if (currentCab.userId != -1) {//If user not assigned put into not reported
+                if (currentCab.userId === -1) {//If user not assigned put into not reported
                     var otherObject = ko.utils.arrayFirst(LocationBoard.other, function (item) {
                         return item.name === "Not Reported"
                     });

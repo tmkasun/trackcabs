@@ -36,6 +36,13 @@
 </div>
 
 <div class="col-lg-3">
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" id="sendSms"> Dont Send SMS
+            </label>
+        </div>
+    </div>
     <div class="btn-group btn-group-justified">
         <div class="btn-group">
             <button type="button" class="btn btn-danger" onclick="operations('confirmCancel', '<?php echo $_id; ?>')">Confirm Cancel</button>

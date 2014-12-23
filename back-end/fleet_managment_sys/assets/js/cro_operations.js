@@ -128,8 +128,18 @@ function confirmCancel(url , tp , bookingObjId ){
     var siteUrl = url;
     url = siteUrl +"/customer_retriever/canceled";
 
+    var sendSms = "true";
+    if(document.getElementById('sendSms').checked) {
+        sendSms='false';
+    }
+
     var cancelReason =$('input[name=cancelReason]:checked').val();
-    var data = {'_id' : bookingObjId , 'cancelReason' : cancelReason, 'tp' : tp};
+    var data = {
+        '_id' : bookingObjId ,
+        'cancelReason' : cancelReason,
+        'tp' : tp ,
+        'sendSms' : sendSms
+    };
     ajaxPost(data,url);
     getCustomerInfoView(siteUrl , tp);
 }

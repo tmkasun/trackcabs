@@ -148,7 +148,7 @@
                     </div>
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default btn-sm" id="jobCancelButton"
-                                onclick="operations('cancel', '<?= $live_booking[$index]['_id'];?>')">
+                                onclick="operations('authenticateUser','<?= $live_booking[$index]['_id'];?>','cancel')">
                             <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancel
                         </button>
                     </div>

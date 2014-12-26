@@ -161,7 +161,7 @@
                 </button>
             </div>
             <div class="btn-group">
-            <button style="background-color: #f4f4f4;" type="button" class="btn  btn-default" onclick="$('#commonModal').modal('show').find('.modal-content').load('dispatcher/finish_order/<?= $newOrder['refId'] ?>');return false;">Finish Order</button>
+            <button style="background-color: #f4f4f4;" type="button" class="btn  btn-default" onclick="$('#commonModal').modal('show').find('.modal-content').load('dispatcher/finish_confirm/<?= $newOrder['refId'] ?>');return false;">Finish Order</button>
             </div>
         </div>
     </div>

@@ -456,8 +456,13 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $finishOrder = $this->live_dao->getBooking($orderRefId);
         $this->live_dao->deleteBookingByMongoId($finishOrder['_id']);
         $this->history_dao->createBooking($finishOrder);
+    }
 
+    function finish_confirm($orderRefId){
+        $finishOrder = $this->live_dao->getBooking($orderRefId);
+        $cab = $this->cab_dao->getCab($finishOrder['cabId']);
         $this->load->view('dispatcher/modals/finish_reason', array('order' => $finishOrder, 'cab' => $cab));
+
     }
 
 //    function sendSms($bookingCreated, $message)

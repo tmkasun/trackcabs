@@ -520,6 +520,30 @@ function LocationBoardViewModel() {
 
     };
 
+/*    self.removeCabFromPending = function (vm, cab) {
+        sendingData = {};
+        sendingData.cabId = cab.id;
+        $.post(serviceUrl + "dispatcher/setInactive", sendingData, function (response) {
+            self.pendingCabs.remove(cab);
+            gotResponse = response;
+            gotResponse.state = "OTHER";
+            var lastZone = response.lastZone;
+            var currentCab = new Cab(gotResponse);
+
+            var otherObject = ko.utils.arrayFirst(LocationBoard.other, function (item) {
+                return item.name === currentCab.zone
+            });
+
+            var otherIndexToAdd = ko.utils.arrayIndexOf(LocationBoard.other, otherObject);
+            if (otherIndexToAdd != -1) {
+                self.other()[otherIndexToAdd].cabs.push(currentCab);
+            }
+
+        });
+
+
+    };*/
+
     self.removeCabFromPending = function (vm, cab) {
         sendingData = {};
         sendingData.cabId = cab.id;
@@ -543,6 +567,8 @@ function LocationBoardViewModel() {
 
 
     };
+
+
 
     self.removeCabFromPob = function (zone, cab) {
         sendingData = {};
@@ -622,7 +648,7 @@ function LocationBoardViewModel() {
             gotResponse = response;
 
             var currentCab = new Cab(gotResponse);
-            //zone.pob.cabs.remove(currentCab);
+            zone.pob.cabs.remove(currentCab);
 
             var lastZone = response.lastZone;
 
@@ -677,7 +703,7 @@ function LocationBoardViewModel() {
             return item.id === cabId
         });
 
-        for (var key in LocationBoard.zone) {
+        for (var key in LocationBoard.zones) {
             self.zones()[key].idle.cabs.remove(function (item) {
                 return item.id === cabId
             });

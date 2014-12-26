@@ -447,6 +447,19 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->load->view('dispatcher/modals/cab_info', array('assigned_cabs' => $assigned_cabs));
     }
 
+    function finish_order($orderRefId){
+        $finishOrder = $this->live_dao->getBooking($orderRefId);
+        $cab = $this->cab_dao->getCab($finishOrder['cabId']);
+        $this->live_dao->updateStatus($finishOrder['_id'], "COMPLETED");
+        $this->cab_dao->setState($finishOrder['cabId'], "IDLE");
+
+        $finishOrder = $this->live_dao->getBooking($orderRefId);
+        $this->live_dao->deleteBookingByMongoId($finishOrder['_id']);
+        $this->history_dao->createBooking($finishOrder);
+
+        $this->load->view('dispatcher/modals/finish_reason', array('order' => $finishOrder, 'cab' => $cab));
+    }
+
 //    function sendSms($bookingCreated, $message)
 //    {
 //        $sms = new Sms();

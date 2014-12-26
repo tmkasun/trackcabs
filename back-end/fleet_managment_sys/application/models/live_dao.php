@@ -293,7 +293,7 @@ class Live_dao extends CI_Model
             }else{
                 $hireTypes['data']['normal']++;
             }
-
+            $hireTypes['data']['cabId'] = $booking['cabId'];
         }
         return $hireTypes;
     }

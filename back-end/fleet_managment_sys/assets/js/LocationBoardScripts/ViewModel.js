@@ -45,7 +45,10 @@ function Cab(data) {
     this.zone = data.zone;
     this.state = ko.observable(data.state);
     this.eta = data.eta;
+    this.callingNumber = data.callingNumber;
+    this.logSheetNumber = data.logSheetNumber;
 }
+
 
 
 var zone1 = new Zone(1, "Fort");
@@ -233,7 +236,7 @@ function LocationBoardViewModel() {
                  }
                  else */
 
-                if (currentCab.userId === -1) {//If user not assigned put into not reported
+                if (currentCab.userId === -1 || currentCab.callingNumber === -1) {//If user or calling number not assigned put into not reported
                     var otherObject = ko.utils.arrayFirst(LocationBoard.other, function (item) {
                         return item.name === "Not Reported"
                     });
@@ -363,59 +366,72 @@ function LocationBoardViewModel() {
         sendingData.zone = zone.name;
 
         var gotResponse = null;
-        $.post(serviceUrl + "dispatcher/setIdleZone", sendingData, function (response) {
-            gotResponse = response;
-            if (gotResponse !== null ) {
+        $.ajax({
+            url: serviceUrl + "cab_retriever/getCab",
+            data: sendingData,
+            async:false,
+            dataType:"json"
+        }).done(function(validationResponse) {
+            if (validationResponse.data.cabId !== undefined ) {
+                var callingNumber = validationResponse.data.callingNumber;
+                if (callingNumber !== -1) {
+                    $.post(serviceUrl + "dispatcher/setIdleZone", sendingData, function (response) {
+                        gotResponse = response;
+                        gotResponse.state = "IDLE";
+                        var currentCab = new Cab(gotResponse);
 
-                gotResponse.state = "IDLE";
-                var currentCab = new Cab(gotResponse);
+                        var lastZone = response.lastZone;
 
-                var lastZone = response.lastZone;
+                        //Remove from last zone and all other places
+                        var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function (item) {
+                            return item.name === lastZone
+                        });
+                        var indexToRemove = ko.utils.arrayIndexOf(LocationBoard.zones, zoneObjectToRemove);
+                        //If cab was not other [when other, state = IDLE, zone = null]
+                        if (indexToRemove != -1) {
+                            self.zones()[indexToRemove].idle.cabs.remove(function (item) {
+                                return item.id === currentCab.id
+                            });
+                            self.zones()[indexToRemove].pob.cabs.remove(function (item) {
+                                return item.id === currentCab.id
+                            });
+                        }
+                        self.pendingCabs.remove(function (item) {
+                            return item.id === currentCab.id
+                        });
+                        //Remove from other
+                        var otherObject = ko.utils.arrayFirst(LocationBoard.other, function (item) {
+                            return item.name === lastZone
+                        });
+                        var otherIndexToRemove = ko.utils.arrayIndexOf(LocationBoard.other, otherObject);
+                        if (otherIndexToRemove != -1) {
+                            self.other()[otherIndexToRemove].cabs.remove(function (item) {
+                                return item.id === currentCab.id
+                            });
+                        }
 
-                //Remove from last zone and all other places
-                var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function (item) {
-                    return item.name === lastZone
-                });
-                var indexToRemove = ko.utils.arrayIndexOf(LocationBoard.zones, zoneObjectToRemove);
-                //If cab was not other [when other, state = IDLE, zone = null]
-                if (indexToRemove != -1) {
-                    self.zones()[indexToRemove].idle.cabs.remove(function (item) {
-                        return item.id === currentCab.id
+
+                        //Add to new zone
+                        var zoneObjectToAdd = ko.utils.arrayFirst(LocationBoard.zones, function (item) {
+                            return item.name === currentCab.zone
+                        });
+                        var indexToAdd = ko.utils.arrayIndexOf(LocationBoard.zones, zoneObjectToAdd);
+                        if (indexToAdd !== -1) {
+                            self.zones()[indexToAdd].idle.cabs.push(currentCab);
+                        }
+                        else {
+                            alert("Unknown Error, Zone is undefined");
+                        }
+
+
                     });
-                    self.zones()[indexToRemove].pob.cabs.remove(function (item) {
-                        return item.id === currentCab.id
-                    });
-                }
-                self.pendingCabs.remove(function (item) {
-                    return item.id === currentCab.id
-                });
-                //Remove from other
-                var otherObject = ko.utils.arrayFirst(LocationBoard.other, function (item) {
-                    return item.name === lastZone
-                });
-                var otherIndexToRemove = ko.utils.arrayIndexOf(LocationBoard.other, otherObject);
-                if (otherIndexToRemove != -1) {
-                    self.other()[otherIndexToRemove].cabs.remove(function (item) {
-                        return item.id === currentCab.id
-                    });
-                }
-
-
-                //Add to new zone
-                var zoneObjectToAdd = ko.utils.arrayFirst(LocationBoard.zones, function (item) {
-                    return item.name === currentCab.zone
-                });
-                var indexToAdd = ko.utils.arrayIndexOf(LocationBoard.zones, zoneObjectToAdd);
-                if (indexToAdd !== -1) {
-                    self.zones()[indexToAdd].idle.cabs.push(currentCab);
                 }
                 else {
-                    alert("Unknown Error, Zone is undefined");
+                    alert("Calling Number is not assigned");
                 }
-
             }
-            else {
-                alert('Cab Id does not exist');
+            else{
+                alert("Cab does not exist");
             }
 
         });
@@ -437,38 +453,57 @@ function LocationBoardViewModel() {
 
         zone.pob.cabEta('');
         zone.pob.cabId('');
-        $.post('dispatcher/setPobDestinationZoneTime', sendingData, function (response) {
-            gotResponse = response;
-            gotResponse.state = "POB";
-            var lastZone = response.lastZone;
-            var currentCab = new Cab(gotResponse);
 
-            self.removeCabFromAllBoards(lastZone, currentCab.id);
+        $.ajax({
+            url: serviceUrl + "cab_retriever/getCab",
+            data: sendingData,
+            async:false,
+            dataType:"json"
+        }).done(function(validationResponse) {
+            if (validationResponse.data.cabId !== undefined ) {
+                var callingNumber = validationResponse.data.callingNumber;
+                if (callingNumber !== -1) {
+                    $.post('dispatcher/setPobDestinationZoneTime', sendingData, function (response) {
+                        gotResponse = response;
+                        gotResponse.state = "POB";
+                        var lastZone = response.lastZone;
+                        var currentCab = new Cab(gotResponse);
+
+                        self.removeCabFromAllBoards(lastZone, currentCab.id);
 
 
-            //Add to new zone
-            var zoneObjectToAdd = ko.utils.arrayFirst(LocationBoard.zones, function (item) {
-                return item.name === currentCab.zone
-            });
-            var indexToAdd = ko.utils.arrayIndexOf(LocationBoard.zones, zoneObjectToAdd);
-            if (indexToAdd !== -1) {
-                self.zones()[indexToAdd].pob.cabs.push(currentCab);
+                        //Add to new zone
+                        var zoneObjectToAdd = ko.utils.arrayFirst(LocationBoard.zones, function (item) {
+                            return item.name === currentCab.zone
+                        });
+                        var indexToAdd = ko.utils.arrayIndexOf(LocationBoard.zones, zoneObjectToAdd);
+                        if (indexToAdd !== -1) {
+                            self.zones()[indexToAdd].pob.cabs.push(currentCab);
+                        }
+
+                        //Sort ETA cabs by time
+                        self.zones()[indexToAdd].pob.cabs.sort(function (cab1, cab2) {
+                            if (cab1.eta > cab2.eta) {
+                                return 1;
+                            }
+                            if (cab1.eta < cab2.eta) {
+                                return -1;
+                            }
+                            return 0;
+                        });
+
+
+                    });
+                }
+                else {
+                    alert("Calling Number is not assigned");
+                }
+            }
+            else{
+                alert("Cab does not exist");
             }
 
-            //Sort ETA cabs by time
-            self.zones()[indexToAdd].pob.cabs.sort(function (cab1, cab2) {
-                if (cab1.eta > cab2.eta) {
-                    return 1;
-                }
-                if (cab1.eta < cab2.eta) {
-                    return -1;
-                }
-                return 0;
-            });
-
-
         });
-
 
     };
 

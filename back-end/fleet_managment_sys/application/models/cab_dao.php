@@ -127,9 +127,20 @@ class Cab_dao extends CI_Model
     function  getCab($cabId){
         
         $collection = $this->get_collection();
-
         $searchQuery= array('cabId' => (int)$cabId);
-        return $collection->findOne($searchQuery);
+        $cab = $collection->findOne($searchQuery);
+
+        $driver = $this->user_dao->getDriverByCabId((int)$cab['cabId']);
+        if($driver['callingNumber'] != null){
+            $cab['callingNumber'] = $driver['callingNumber'];
+        }
+        else{
+            $cab['callingNumber'] = -1;
+        }
+        $cab['logSheetNumber'] = $driver['logSheetNumber'];
+        $cab['driverId'] = $driver['userId'];
+
+        return $cab;
     }
 
     function getAllCabs(){
@@ -150,6 +161,13 @@ class Cab_dao extends CI_Model
         $data = array();
         foreach ($allCabs as $cab) {
             $driver = $this->user_dao->getDriverByCabId((int)$cab['cabId']);
+            if($driver['callingNumber'] != null){
+                $cab['callingNumber'] = $driver['callingNumber'];
+            }
+            else{
+                $cab['callingNumber'] = -1;
+            }
+            $cab['logSheetNumber'] = $driver['logSheetNumber'];
             $cab['driverId'] = $driver['userId'];
             array_push($data,$cab);
         }
@@ -222,7 +240,6 @@ class Cab_dao extends CI_Model
 
     }
 
-//????????????
     function find($query, $attribute = 'cabId')
     {
         $collection = $this->get_collection();

@@ -485,7 +485,7 @@ function LocationBoardViewModel() {
             var lastZone = response.lastZone;
             var currentCab = new Cab(gotResponse);
 
-            self.removeCabFromAllBoards(lastZone, currentCab.id)
+            self.removeCabFromAllBoards(lastZone, currentCab.id);
 
             //Remove from other
             var otherObject = ko.utils.arrayFirst(LocationBoard.other, function (item) {
@@ -520,29 +520,7 @@ function LocationBoardViewModel() {
 
     };
 
-/*    self.removeCabFromPending = function (vm, cab) {
-        sendingData = {};
-        sendingData.cabId = cab.id;
-        $.post(serviceUrl + "dispatcher/setInactive", sendingData, function (response) {
-            self.pendingCabs.remove(cab);
-            gotResponse = response;
-            gotResponse.state = "OTHER";
-            var lastZone = response.lastZone;
-            var currentCab = new Cab(gotResponse);
-
-            var otherObject = ko.utils.arrayFirst(LocationBoard.other, function (item) {
-                return item.name === currentCab.zone
-            });
-
-            var otherIndexToAdd = ko.utils.arrayIndexOf(LocationBoard.other, otherObject);
-            if (otherIndexToAdd != -1) {
-                self.other()[otherIndexToAdd].cabs.push(currentCab);
-            }
-
-        });
-
-
-    };*/
+/*
 
     self.removeCabFromPending = function (vm, cab) {
         sendingData = {};
@@ -567,17 +545,18 @@ function LocationBoardViewModel() {
 
 
     };
+*/
 
 
-
-    self.removeCabFromPob = function (zone, cab) {
+    //Removes cab from given place and persists it to the none zone in the inactive board
+    self.removeCabAndSetToNone = function (zone, cab) {
         sendingData = {};
         sendingData.cabId = cab.id;
         $.post(serviceUrl + "dispatcher/setInactive", sendingData, function (response) {
-            zone.pob.cabs.remove(cab);
+            self.removeCabFromAllBoards(zone.name, cab.id);
             gotResponse = response;
             gotResponse.state = "OTHER";
-            var lastZone = response.lastZone;
+
             var currentCab = new Cab(gotResponse);
             //ADD TO OTHER
             var otherObject = ko.utils.arrayFirst(LocationBoard.other, function (item) {
@@ -594,6 +573,31 @@ function LocationBoardViewModel() {
 
 
     };
+
+    //A function that just removes the ui cab object from the location board ui
+    self.removeCabFromAllBoards = function (lastZone, cabId) {
+
+        self.pendingCabs.remove(function (item) {
+            return item.id === cabId
+        });
+
+        for (var key in LocationBoard.zones) {
+            self.zones()[key].idle.cabs.remove(function (item) {
+                return item.id === cabId
+            });
+            self.zones()[key].pob.cabs.remove(function (item) {
+                return item.id === cabId
+            });
+        }
+        for (var key in LocationBoard.other) {
+            self.other()[key].cabs.remove(function (item) {
+                return item.id === cabId
+            });
+        }
+
+    };
+
+
 
     // To set from pob to live automatically
     self.setToIdleFromPob = function (zone, cab) {
@@ -679,45 +683,6 @@ function LocationBoardViewModel() {
 
     };
 
-    self.removeCabFromAllBoards = function (lastZone, cabId) {
-        /*        //Remove from Idle and Pob
-         var zoneObjectToRemove = ko.utils.arrayFirst(LocationBoard.zones, function(item) {
-         return item.name === lastZone
-         });
-         var indexToRemove = ko.utils.arrayIndexOf(LocationBoard.zones,zoneObjectToRemove);
-         if(indexToRemove != -1){
-         self.zones()[indexToRemove].idle.cabs.remove(function(item) { return item.id === cabId });
-         self.zones()[indexToRemove].pob.cabs.remove(function(item) { return item.id === cabId });
-         }
-         //Remove from Other
-         var otherObject = ko.utils.arrayFirst(LocationBoard.other, function(item) {
-         return item.name === lastZone
-         });
-         var otherIndexToRemove = ko.utils.arrayIndexOf(LocationBoard.other,otherObject);
-         if(otherIndexToRemove != -1){
-         self.other()[otherIndexToRemove].cabs.remove(function(item) { return item.id === cabId});
-         }*/
-
-        //Remove From Pending
-        self.pendingCabs.remove(function (item) {
-            return item.id === cabId
-        });
-
-        for (var key in LocationBoard.zones) {
-            self.zones()[key].idle.cabs.remove(function (item) {
-                return item.id === cabId
-            });
-            self.zones()[key].pob.cabs.remove(function (item) {
-                return item.id === cabId
-            });
-        }
-        for (var key in LocationBoard.other) {
-            self.other()[key].cabs.remove(function (item) {
-                return item.id === cabId
-            });
-        }
-
-    };
 
 
     self.updateStatus = function (cab) {

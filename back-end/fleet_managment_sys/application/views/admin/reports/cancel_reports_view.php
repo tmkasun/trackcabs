@@ -12,8 +12,8 @@
         <th>Time Vehicle REQ</th>
         <th>Time Vehicle Dispatched</th>
         <th>Time of Cancellation</th>
-        <th>Time Diff (REQ/Cancel)</th>
-        <th>Time Diff (DISP/Cancel)</th>
+        <th>Time Diff (CALLTIME/CANCEL)</th>
+        <th>Time Diff (DISP/CANCEL)</th>
         <th>USR ID (Made Booking)</th>
         <th>USR ID (Made Cancel)</th>
         <th>Driver ID</th>
@@ -37,7 +37,7 @@
                 echo "Not Available";
             }?></td>
         <td id="timeDiff2">
-            <?php if(isset($item['dispatchTime'])){echo
+            <?php if(isset($item['dispatchTime'])){
                 $seconds_diff = (float)$item['cancelTime']->sec - (float)$item['dispatchTime']->sec;
                 $timeDiff2 = $seconds_diff / 60;
                 echo round($timeDiff2,0)  . "(mins)";

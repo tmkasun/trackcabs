@@ -20,6 +20,7 @@
             <td><?= $item['nic'];?></td>
             <td><?= $item['tp'];?></td>
             <td><?= $item['blocked'];?></td>
+            <td><button type="button" class="btn btn-success" onclick="makeCROFormEditable(<?= $item['userId']; ?>,url, '<?php echo $item['user_type']; ?>')">Edit</button></td>
         </tr>
 
     <?php endforeach;?>

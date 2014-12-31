@@ -44,7 +44,7 @@ class Notice extends CI_Controller
                         'type' => 'to'
                     ),
                     array(
-                        'email' => 'fleet_management@googlegroups.com',
+                        'email' => 'mypossibelemail@gmail.com',
                         'name' => 'Kasun Thennakoon',
                         'type' => 'to'
                     )

@@ -3,5 +3,5 @@
  */
 
 $(function(){
-    $('#commonModal').modal('toggle').find('.modal-content').load('notice/trial_expire');
+    //$('#commonModal').modal('toggle').find('.modal-content').load('notice/trial_expire');
 });

@@ -723,5 +723,6 @@
     <div id="templateLoader"></div>
 </div>
 </div>
+<div class="btn btn-sm btn-default" style="position: fixed;bottom: 0px;right: 0px;" onclick="$('#commonModal').modal('show').find('.modal-content').load('<?= site_url('notice/feedback_form') ?>');return false" href="#" >Feedback</div>
 </body>
 </html>

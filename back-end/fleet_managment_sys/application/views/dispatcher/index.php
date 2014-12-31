@@ -48,6 +48,8 @@
     <script>
         setBaseURL('<?= base_url().'index.php/' ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
     </script>
+
+    <script src="<?= base_url() ?>assets/js/notice/notice.js"></script>
     <style>
         /*
         TODO: Move this styles to separate CSS for clarity.

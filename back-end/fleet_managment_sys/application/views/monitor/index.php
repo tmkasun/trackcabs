@@ -93,6 +93,8 @@
         subscribe('monitor1');
 
     </script>
+    <!-- Show notices to user -->
+    <script src="<?= base_url() ?>assets/js/notice/notice.js"></script>
 
 </head>
 <body>

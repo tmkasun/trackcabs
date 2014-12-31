@@ -20,6 +20,15 @@
     <script src="<?= base_url() ?>assets/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="<?= base_url() ?>assets/js/login.js"></script>
     <script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
+
+    <script>
+        $(function(){
+            $('#commonModal').modal('toggle').find('.modal-content').load('<?= site_url('notice/trial_expire')?>');
+        });
+    </script>
+    <!-- Moment libraries -->
+    <script src="<?= base_url() ?>assets/js/moment/moment.js"></script>
+
 </head>
 <body id="body_first">
 <div class="row fixer">
@@ -86,6 +95,16 @@
 </div>
 
 </div>
+<div class="modal" id="commonModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- This content is load by $.ajax call , pages are located at '/controllers/modals/' -->
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!--commonModalLarger-->
 
 <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
     <div class="container">

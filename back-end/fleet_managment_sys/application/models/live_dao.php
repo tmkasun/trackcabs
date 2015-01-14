@@ -300,5 +300,16 @@ class Live_dao extends CI_Model
         return $hireTypes;
     }
 
+    function getRunningHire($driverId){
 
+        $collection = $this->get_collection();
+        $searchQuery= array('driverId' =>$driverId);
+        $bookings = $collection->find($searchQuery);
+        if(!$bookings){
+            $runningHire=false;
+        }else{
+            $runningHire=true;
+        }
+        return $runningHire;
+    }
 }

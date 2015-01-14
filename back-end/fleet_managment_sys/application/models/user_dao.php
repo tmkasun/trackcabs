@@ -201,6 +201,15 @@ class User_dao extends CI_Model
 
     }
 
+    function status($driverId)//the variable $dirverId refers to the 'userId' atrribute of a single driver(user)
+    {
+        $collection = $this->get_collection();
+        $searchQuery = array("userId" => new MongoInt32($driverId), 'logout' => true);
+        $user = $collection->findOne($searchQuery);
+        return $user;
+
+    }
+
     function updateUser($userId, $edited_data)
     {
         $collection = $this->get_collection();

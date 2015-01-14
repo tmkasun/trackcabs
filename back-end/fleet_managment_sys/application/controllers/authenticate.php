@@ -25,6 +25,26 @@ class Authenticate extends CI_Controller {
 
 	}
 
+    function checkStatus(){
+        $input = file_get_contents('php://input');
+        $inputArray = json_decode(trim($input), true);
+        $userId = $inputArray['id'];
+        $timeStamp = new MongoDate();
+        $authenticationResult = $this->user_dao->status($userId);
+        $orderResult = $this->live_dao->getRunningHire($userId);
+        if (!$authenticationResult) {
+            $authentication = array('loggedOut' => false,'isIdle' =>$orderResult);
+        }else {
+            $authentication = array('loggedOut' => true,'isIdle' =>$orderResult);
+            $log_input_data = array('userId' => new MongoInt32($userId) , 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp , 'callingNumber' => $authenticationResult['callingNumber'] , 'user_type' => 'driver' , 'log_type' => 'logout');
+            $this->log_dao->createLog($log_input_data);
+            $this->log_dao->updateLoginOnLogout(date('Y-m-d', $timeStamp->sec),$timeStamp,new MongoInt32($userId));
+            $this->user_dao->setLastLogout($userId,$timeStamp);
+            $this->user_dao->setDriverCallingNumberMinus($userId);
+        }
+        $this -> output -> set_content_type('application/json') -> set_output(json_encode($authentication));
+    }
+
     function logout(){
         $input = file_get_contents('php://input');
         $inputArray = json_decode(trim($input), true);

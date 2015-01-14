@@ -49,7 +49,7 @@
                         <div class="col-lg-12">
                             <span class="col-lg-4" style="padding: 1px">Cab ID</span>
                     <span id="jobCabId" class="col-lg-8" style="padding: 1px">
-                        <?php if($cabId == '-' )echo 'NOT_ASSIGNED';else $cabId; ?>
+                        <?php if($cabId == '-' )echo 'NOT_ASSIGNED';else echo $cabId; ?>
                     </span>
                         </div>
 

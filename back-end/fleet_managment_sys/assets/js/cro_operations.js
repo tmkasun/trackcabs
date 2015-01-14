@@ -102,26 +102,12 @@ function getEditBookingView(url , bookingObjId){
 function getCancelConfirmationView( url ,  bookingObjId ){
 
     var siteUrl = url;
-    //var pass = prompt("Please enter Admin Password", "");
-    //if ( pass != "") {
-    //    url = siteUrl + "/login/isAdmin";
-    //    var adminData = {'pass': pass};
-    //    var result = ajaxPost(adminData  , url, false);
-    //    /* If admin is authenticated */
-    //    if (result.statusMsg == 'true') {
+    var data = {'_id' : bookingObjId };
+    url = siteUrl + "/cro_controller/getCancelConfirmationView";
+    var view = ajaxPost(data,url);
+    /*  Populate the job information view with cancel confirmation view*/
+    $('#bookingStatus').html(view.view.cancel_confirmation_view);
 
-            var data = {'_id' : bookingObjId };
-            url = siteUrl + "/cro_controller/getCancelConfirmationView";
-            var view = ajaxPost(data,url);
-            /*  Populate the job information view with cancel confirmation view*/
-            $('#bookingStatus').html(view.view.cancel_confirmation_view);
-    //    }
-    //    else{ /* If admin is not authenticated */
-    //        alert('Admin Password Entered is Invalid. Please contact Admin')
-    //    }
-    //}else{ /* Prompt input field is Empty */
-    //
-    //}
 }
 
 function confirmCancel(url , tp , bookingObjId ){

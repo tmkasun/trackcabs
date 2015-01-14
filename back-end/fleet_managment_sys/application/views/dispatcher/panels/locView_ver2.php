@@ -204,6 +204,7 @@
 
                                                                         <div class="row" style="float:right; margin:0">
                                                                             <button class="btn btn-success cabManipulate" data-bind="click:$root.dispatchCab.bind($data , $parent )">Assign Cab</button>
+                                                                            <button class="btn btn-success cabManipulate" data-bind="click:$root.removeCabAndSetToNone.bind($data , $parent )">Remove</button>
                                                                         </div>
 
                                                                     </div>
@@ -296,7 +297,7 @@
                                                         </table>
 
                                                         <div class="row" style="float:right; margin:0">
-                                                            <button class="btn btn-danger cabManipulate" data-bind="click:$root.removeCabFromPending.bind($data , $parent )">Remove Cab</button>
+                                                            <button class="btn btn-danger cabManipulate" data-bind="click:$root.removeCabAndSetToNone.bind($data , $parent )">Remove Cab</button>
                                                         </div>
 
                                                     </div>
@@ -413,7 +414,7 @@
 
                                                                         <div class="row" style="float:right; margin:0">
                                                                             <button class="btn btn-warning cabManipulate" data-bind="click:$root.setToIdleFromPob.bind($data , $parent )">Set Idle</button>
-                                                                            <button class="btn btn-warning cabManipulate" data-bind="click:$root.removeCabFromPob.bind($data , $parent )">Remove</button>
+                                                                            <button class="btn btn-warning cabManipulate" data-bind="click:$root.removeCabAndSetToNone.bind($data , $parent )">Remove</button>
                                                                         </div>
 
                                                                     </div>

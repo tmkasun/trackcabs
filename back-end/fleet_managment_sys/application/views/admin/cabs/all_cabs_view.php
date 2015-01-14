@@ -39,6 +39,7 @@
             <td><?php if(array_key_exists('callingNumber', $item)){if($item['callingNumber'] == -1){echo 'Not Assigned';}else{echo $item['callingNumber'];}}else {echo 'Not Assigned';}?></td>
             <td><?php if(array_key_exists('logSheetNumber', $item)){if($item['logSheetNumber'] == -1){echo 'Not Assigned';}else{echo $item['logSheetNumber'];}}else {echo 'Not Assigned';}?></td>
             <td><?php if(array_key_exists('startLocation', $item)){if($item['startLocation'] === ""){echo 'Not Assigned';}else{echo $item['startLocation'];}}else {echo 'Not Assigned';}?></td>
+            <td><button type="button" class="btn btn-success" onclick="makeCabFormEditable(<?php echo $item['cabId'];?>,url)">Edit</button></td>
         </tr>
 
 

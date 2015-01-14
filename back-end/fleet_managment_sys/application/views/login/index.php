@@ -23,7 +23,7 @@
 
     <script>
         $(function(){
-            $('#commonModal').modal('toggle').find('.modal-content').load('<?= site_url('notice/trial_expire')?>');
+//            $('#commonModal').modal('toggle').find('.modal-content').load('<?//= site_url('notice/trial_expire')?>//');
         });
     </script>
     <!-- Moment libraries -->

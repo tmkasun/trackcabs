@@ -20,7 +20,7 @@
 
     function history_week(element){
         var key = $(element).data('history_type');
-        var path = 'dispatcher/dispatch_history?history='+key;
+        var path = 'dispatcher/dispatch_history/'+key;
         var pagination_wrapper = $('#pagination_wrapper');
         pagination_wrapper.html();
         pagination_wrapper.load(path);

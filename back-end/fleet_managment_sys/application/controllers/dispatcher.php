@@ -378,15 +378,15 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->load->view('dispatcher/modals/search_cab', array('cabs' => $allCabs));
     }
 
-    function dispatch_history($history = null,$page=0)
+    function dispatch_history($page=0)
     {
-//        $history = $this->input->get('history');
+        $history = $this->input->get('history');
         $this->load->library('pagination');
         $this->pagination->per_page = 10;
         $this->pagination->uri_segment = 3;
 
         if($history){
-            $this->pagination->base_url = base_url() . "index.php/dispatcher/dispatch_history/".$history;
+            $this->pagination->base_url = base_url() . "index.php/dispatcher/dispatch_history?history=".$history;
             $this->pagination->total_rows =  count($this->history_dao->getBookings(null,null,$history));
         }
         else{

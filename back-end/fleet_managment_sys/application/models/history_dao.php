@@ -45,9 +45,9 @@ class History_dao extends CI_Model
         return $collection->findOne($searchQuery);
     }
 
-    function getBookings($limit = null){
+    function getBookings($limit = null, $start = null){
         $collection = $this->get_collection();
-        $bookings = $collection->find()->limit($limit);
+        $bookings = $collection->find()->skip($start)->limit($limit);
         $bookings_with_cab = array();
         foreach ($bookings as $booking) {
             $cab = $this->cab_dao->getCab($booking['cabId']);
@@ -55,6 +55,13 @@ class History_dao extends CI_Model
             array_push($bookings_with_cab,$booking);
         }
         return $bookings_with_cab;
+    }
+
+
+    function bookingsCount(){
+        $collection = $this->get_collection();
+        $count = $collection->count();
+        return $count;
     }
     /**
      * @param $id = mongoId String

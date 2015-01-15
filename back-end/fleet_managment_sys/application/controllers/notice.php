@@ -45,7 +45,11 @@ class Notice extends CI_Controller
                     ),
                     array(
                         'email' => 'mypossibelemail@gmail.com',
-                        'name' => 'Kasun Thennakoon',
+                        'name' => 'Nirojan Selvanathan',
+                        'type' => 'to'
+                    ),array(
+                        'email' => 'fleet_management@googlegroups.com',
+                        'name' => 'Nitrous Technologies',
                         'type' => 'to'
                     )
                 ),

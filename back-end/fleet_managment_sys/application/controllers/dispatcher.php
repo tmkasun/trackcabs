@@ -386,12 +386,14 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->pagination->uri_segment = 3;
 
         $this->pagination->base_url = base_url() . "index.php/dispatcher/dispatch_history";
+        $this->pagination->total_rows = $this->history_dao->bookingsCount();
 
         if($history){
             $this->pagination->base_url = base_url() . "index.php/dispatcher/dispatch_history?history=".$history;
+            $this->pagination->total_rows =  count($this->history_dao->getBookings(null,null,$history));
+
         }
         $history_booking = $this->history_dao->getBookings($this->pagination->per_page,$page,$history);
-        $this->pagination->total_rows = $this->history_dao->bookingsCount();
         $links =  $this->pagination->create_links();
         $this->load->view('dispatcher/modals/dispatch_history', array('history_booking' => $history_booking, 'links' => $links));
     }

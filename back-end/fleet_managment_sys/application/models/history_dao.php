@@ -77,16 +77,29 @@ class History_dao extends CI_Model
             }
 
             $key = '$' . $name;
-            $bookings = $collection->aggregate(array(
+
+            $pipeline = array();
+            $pipeline[] = array(
                 '$project' => array(
                     $name => array(
                         $key => '$bookTime'
                     ),
                     'refId' => 1
                 )
-            ), array(
+            );
+            $pipeline[] = array(
                 '$match' => $match
-            ));
+            );
+
+            if ($limit or $start) {
+                $pipeline[] = array(
+                    '$skip' => $start
+                );
+                $pipeline[] = array(
+                    '$limit' => $limit
+                );
+            }
+            $bookings = $collection->aggregate($pipeline);
 
             foreach ($bookings['result'] as $booking) {
                 $bk = $this->getBookingByRefId($booking['refId']);

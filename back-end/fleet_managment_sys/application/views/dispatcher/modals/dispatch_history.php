@@ -17,6 +17,15 @@
             });
         }
     );
+
+    function history_week(element){
+        var key = $(element).data('history_type');
+        var path = 'dispatcher/dispatch_history?history='+key;
+        var pagination_wrapper = $('#pagination_wrapper');
+        pagination_wrapper.html();
+        pagination_wrapper.load(path);
+        return false;
+    }
 </script>
 
 <div id="pagination_wrapper">
@@ -29,7 +38,24 @@
         </h4>
     </div>
     <div class="modal-body">
-
+        <div class="row-fluid text-center">
+            <div class="well well-sm col-md-2">
+                <span class="badge">
+                    This:
+                </span>
+                <button onclick="history_week(this)" data-history_type="week" type="button" class="btn btn-primary btn-xs">Week</button>
+                <button onclick="history_week(this)" data-history_type="month" type="button" class="btn btn-primary btn-xs">Month</button>
+                <button onclick="history_week(this)" data-history_type="year" type="button" class="btn btn-primary btn-xs">Year</button>
+            </div>
+            <div class="well well-sm col-md-3 col-md-offset-1">
+                <span class="badge">
+                    Status:
+                </span>
+                <button type="button" class="btn btn-primary btn-xs">DIS_CANCEL</button>
+                <button type="button" class="btn btn-primary btn-xs">COMPLETED</button>
+                <button type="button" class="btn btn-primary btn-xs">Other</button>
+            </div>
+        </div>
         <div class="panel panel-default" style="border: none;height: 80%;">
             <div class="panel-body">
                 <div class="col-lg-12" style=" overflow: auto">

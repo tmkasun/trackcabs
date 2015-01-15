@@ -96,11 +96,11 @@
 
         </div>
 
-        <?php if($order['status'] == "POB"): ?>
+        <?php if($order['status'] == "POB" or $order['status'] == "AT_THE_PLACE"): ?>
             <br/>
             <div class="alert alert-warning alert-dismissible fade in" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <strong>WARNING!</strong> This order state is POB, cancel if you are sure about the cancelation.
+                <strong>WARNING!</strong> This order state is <span class="label label-info" > <?= $order['status'] ?> </span>, cancel if you are sure about the cancellation.
             </div>
         <?php endif ?>
     </div>

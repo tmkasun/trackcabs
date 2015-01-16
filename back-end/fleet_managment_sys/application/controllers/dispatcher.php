@@ -382,7 +382,7 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
     {
         $history = $this->input->get('history');
         $this->load->library('pagination');
-        $this->pagination->per_page = 2;
+        $this->pagination->per_page = 8;
         $this->pagination->uri_segment = 3;
 
         if ($history) {

@@ -400,7 +400,7 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
 
         $history_booking = $this->history_dao->getBookings($this->pagination->per_page, (int)$page, $history);
         $links = $this->pagination->create_links();
-        $this->load->view('dispatcher/modals/dispatch_history', array('history_booking' => $history_booking, 'links' => $links));
+        $this->load->view('dispatcher/modals/dispatch_history', array('history_booking' => $history_booking, 'links' => $links, 'total_records' => $this->pagination->total_rows));
     }
 
     function search_cabs($query, $attribute)

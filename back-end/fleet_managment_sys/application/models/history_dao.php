@@ -88,6 +88,9 @@ class History_dao extends CI_Model
                 )
             );
             $pipeline[] = array(
+                '$sort' => array('bookTime' => -1)
+            );
+            $pipeline[] = array(
                 '$match' => $match
             );
 
@@ -108,7 +111,7 @@ class History_dao extends CI_Model
                 array_push($bookings_with_cab, $bk);
             }
         } else {
-            $bookings = $collection->find()->skip($start)->limit($limit);
+            $bookings = $collection->find()->sort(array('bookTime' => -1))->skip($start)->limit($limit);
             foreach ($bookings as $booking) {
                 $cab = $this->cab_dao->getCab($booking['cabId']);
                 $booking['cab'] = $cab;

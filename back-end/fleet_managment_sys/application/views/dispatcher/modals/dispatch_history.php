@@ -47,14 +47,14 @@
                 <button onclick="history_week(this)" data-history_type="month" type="button" class="btn btn-primary btn-xs">Month</button>
                 <button onclick="history_week(this)" data-history_type="year" type="button" class="btn btn-primary btn-xs">Year</button>
             </div>
-            <div class="well well-sm col-md-3 col-md-offset-1">
-                <span class="badge">
-                    Status:
-                </span>
-                <button type="button" class="btn btn-primary btn-xs">DIS_CANCEL</button>
-                <button type="button" class="btn btn-primary btn-xs">COMPLETED</button>
-                <button type="button" class="btn btn-primary btn-xs">Other</button>
-            </div>
+<!--            <div class="well well-sm col-md-3 col-md-offset-1">-->
+<!--                <span class="badge">-->
+<!--                    Status:-->
+<!--                </span>-->
+<!--                <button type="button" class="btn btn-primary btn-xs">DIS_CANCEL</button>-->
+<!--                <button type="button" class="btn btn-primary btn-xs">COMPLETED</button>-->
+<!--                <button type="button" class="btn btn-primary btn-xs">Other</button>-->
+<!--            </div>-->
         </div>
         <div class="panel panel-default" style="border: none;height: 80%;">
             <div class="panel-body">

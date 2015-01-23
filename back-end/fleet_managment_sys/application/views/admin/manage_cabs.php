@@ -511,7 +511,8 @@
     //Functions for Cancel Reports
     function getCancelReportsView(type)
     {type = typeof type !== 'undefined' ? type : "ALL";//alert(type);
-        var url ='<?php echo site_url("complaint_controller/get_all_cancel_reports") ?>'//url + "/accounts_controller/getAllAccountsView";
+        //create jason object with 'type' and 'date'. get date as an input
+        var url ='<?php echo site_url("complaint_controller/get_all_cancel_reports") ?>';//url + "/accounts_controller/getAllAccountsView";
         var view = ajaxPost(type,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = "";

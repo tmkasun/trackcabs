@@ -3,6 +3,7 @@
     <button type="submit" class="btn btn-default" id="CANCEL" onclick="getCancelReportsView('CANCEL')">CANCEL-REPORTS</button>
     <button type="submit" class="btn btn-default" id="DIS_CANCEL" onclick="getCancelReportsView('DIS_CANCEL')">DIS-CANCEL-REPORTS</button>
     <button type="submit" class="btn btn-default" id="ALL" onclick="getCancelReportsView('ALL')">ALL</button>
+    <input type="text" placeholder="yyy-mm-dd" id="date_needed">
     
     </tr>
     <tr>        

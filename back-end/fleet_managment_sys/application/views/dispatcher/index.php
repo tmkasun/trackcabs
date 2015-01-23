@@ -48,6 +48,8 @@
     <script>
         setBaseURL('<?= base_url().'index.php/' ?>'); // TODO: use better method to set BASE_URL infact set all dynamic vars, in here order matters caz initializing applicatioOptions
     </script>
+
+    <script src="<?= base_url() ?>assets/js/notice/notice.js"></script>
     <style>
         /*
         TODO: Move this styles to separate CSS for clarity.
@@ -721,5 +723,6 @@
     <div id="templateLoader"></div>
 </div>
 </div>
+<div class="btn btn-sm btn-default" style="position: fixed;bottom: 0px;right: 0px;" onclick="$('#commonModal').modal('show').find('.modal-content').load('<?= site_url('notice/feedback_form') ?>');return false" href="#" >Feedback</div>
 </body>
 </html>

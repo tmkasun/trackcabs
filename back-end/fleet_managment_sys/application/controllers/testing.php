@@ -163,4 +163,11 @@ class Testing extends CI_Controller
         log_message('info',$refId);
         echo "ok";
     }
+
+    function thisYear($year = 'year'){
+        $result = $this->history_dao->getBookings(null,null,$year);
+//        var_dump($result);
+        $this->output->set_content_type('application/json');
+        echo json_encode($result);
+    }
 }

@@ -237,7 +237,7 @@ class Live_dao extends CI_Model
     function getDispatchedBookings(){
         $collection = $this->get_collection();
 
-        $cursor = $collection->find(array("status" => array('$in' => array("MSG_COPIED","MSG_NOT_COPIED","ON_THE_WAY","AT_THE_PLACEa"))))->sort(array('bookTime' => 1,'address.town' => 1));
+        $cursor = $collection->find(array("status" => array('$in' => array("MSG_COPIED","MSG_NOT_COPIED","ON_THE_WAY","AT_THE_PLACE","POB"))))->sort(array('bookTime' => 1,'address.town' => 1));
         $data= array();
         foreach ($cursor as $doc) {
             $data[]= $doc;
@@ -300,5 +300,16 @@ class Live_dao extends CI_Model
         return $hireTypes;
     }
 
+    function getRunningHire($driverId){
 
+        $collection = $this->get_collection();
+        $searchQuery= array('driverId' =>$driverId);
+        $bookings = $collection->find($searchQuery);
+        if(!$bookings){
+            $runningHire=false;
+        }else{
+            $runningHire=true;
+        }
+        return $runningHire;
+    }
 }

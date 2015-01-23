@@ -378,10 +378,29 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->load->view('dispatcher/modals/search_cab', array('cabs' => $allCabs));
     }
 
-    function dispatch_history()
+    function dispatch_history($page = 0)
     {
-        $history_booking = $cab = $this->history_dao->getBookings();
-        $this->load->view('dispatcher/modals/dispatch_history', array('history_booking' => $history_booking));
+        $history = $this->input->get('history');
+        $this->load->library('pagination');
+        $this->pagination->per_page = 8;
+        $this->pagination->uri_segment = 3;
+
+        if ($history) {
+            $spited_values = explode('/', $history);
+            if (count($spited_values) > 1) {
+                $page = $spited_values[1];
+            }
+            $history = $spited_values[0];
+            $this->pagination->base_url = base_url() . "index.php/dispatcher/dispatch_history?history=" . $history;
+            $this->pagination->total_rows = count($this->history_dao->getBookings(null, null, $history));
+        } else {
+            $this->pagination->base_url = base_url() . "index.php/dispatcher/dispatch_history";
+            $this->pagination->total_rows = $this->history_dao->bookingsCount();
+        }
+
+        $history_booking = $this->history_dao->getBookings($this->pagination->per_page, (int)$page, $history);
+        $links = $this->pagination->create_links();
+        $this->load->view('dispatcher/modals/dispatch_history', array('history_booking' => $history_booking, 'links' => $links, 'total_records' => $this->pagination->total_rows));
     }
 
     function search_cabs($query, $attribute)
@@ -447,7 +466,8 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->load->view('dispatcher/modals/cab_info', array('assigned_cabs' => $assigned_cabs));
     }
 
-    function finish_order($orderRefId){
+    function finish_order($orderRefId)
+    {
         $finishOrder = $this->live_dao->getBooking($orderRefId);
         $cab = $this->cab_dao->getCab($finishOrder['cabId']);
         $this->live_dao->updateStatus($finishOrder['_id'], "COMPLETED");
@@ -458,7 +478,8 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         $this->history_dao->createBooking($finishOrder);
     }
 
-    function finish_confirm($orderRefId){
+    function finish_confirm($orderRefId)
+    {
         $finishOrder = $this->live_dao->getBooking($orderRefId);
         $cab = $this->cab_dao->getCab($finishOrder['cabId']);
         $this->load->view('dispatcher/modals/finish_reason', array('order' => $finishOrder, 'cab' => $cab));

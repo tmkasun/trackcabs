@@ -54,8 +54,6 @@
 
 
 <div class="modal-body">
-
-
     <div class="col-md-5">
         <form role="form">
 
@@ -95,7 +93,16 @@
         <div class="row text-center">
             <br/>
             <button id="newLocation" type="button" data-cabid="<?= $order['cabId'] ?>" data-location="<?= $cab['zone'] ?>" class="btn btn-info"></button>
+
         </div>
+
+        <?php if($order['status'] == "POB" or $order['status'] == "AT_THE_PLACE"): ?>
+            <br/>
+            <div class="alert alert-warning alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <strong>WARNING!</strong> This order state is <span class="label label-info" > <?= $order['status'] ?> </span>, cancel if you are sure about the cancellation.
+            </div>
+        <?php endif ?>
     </div>
 
     <div class="row">

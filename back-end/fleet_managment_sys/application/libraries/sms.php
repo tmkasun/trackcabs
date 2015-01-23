@@ -17,7 +17,7 @@ class Sms
      * @param string $serviceUri : End point of the SMS REST service, currently using python service , in default port 3000
      * You may obtain a copy of python script in $self repo
      */
-    function Sms($serviceUri = 'http://localhost:3000/sms_service')
+    function Sms($serviceUri = 'http://localhost:3000/service/sms/send')
     {
 
         $this->CI =& get_instance();
@@ -40,7 +40,7 @@ class Sms
             'message' => $message,
             CURLOPT_USERAGENT => true
         );
-        $response = $this->CI->curl->simple_post('http://localhost:3000/sms_service', $POSTData);
+        $response = $this->CI->curl->simple_post('http://localhost:3000/service/sms/send', $POSTData);
 
 //        return json_decode($response); // TODO: return status rather than string received from python daemon, change python code accordingly to return JSON string
         return $response;

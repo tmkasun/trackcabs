@@ -53,9 +53,17 @@
             Color: <span class="text-success"> <?= $cab['color'] ?> </span><br/>
 
         </div>
-
     </div>
     <div class="row">
+
+        <?php if($order['status'] == "POB" or $order['status'] == "AT_THE_PLACE"): ?>
+            <br/>
+            <div class="alert alert-warning alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <strong>WARNING!</strong> This order state is <span class="label label-info" > <?= $order['status'] ?> </span>, cancel if you are sure about the cancellation.
+            </div>
+        <?php endif ?>
+
         <div style="margin-bottom: -15px" class="btn-group btn-group-justified">
             <div class="btn-group">
                 <button style="background-color: #d9534f;" type="button" class="btn btn-default"

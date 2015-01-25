@@ -19,11 +19,10 @@ class History(object, Resource):
     isLeaf = True
 
     def render_POST(self, request):
-        print "DEBUG: Got POST a request from {}".format(request.getClientIP())
+        # print "DEBUG: Got POST a request from {}".format(request.getClientIP())
         # global debugObject
         # reactor.callLater(2,reactor.stop)
         # debugObject = request
-        print "DEBUG: ",
         content = cgi.escape(request.content.read())
         content_dict = json.loads(content)
 

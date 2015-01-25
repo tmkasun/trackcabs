@@ -168,8 +168,10 @@ class Test_controller extends CI_Controller
 
     function get_all_cancel_reports()
     {
-        $type = 'DIS_CANCEL';//json_decode(trim(file_get_contents('php://input')), true);
-        $cancel_report_data = $this->complaint_dao->get_all_cancel_reports($type);
+        //$input = json_decode(trim(file_get_contents('php://input')), true);
+        $type = 'ALL';//$input['type'];
+        $date_needed = 'today';
+        $cancel_report_data = $this->complaint_dao->get_all_cancel_reports($type,$date_needed);
         $cancel_report_data['table_content'] = $this->load->view('admin/reports/cancel_reports_view', $cancel_report_data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $cancel_report_data)));
     }

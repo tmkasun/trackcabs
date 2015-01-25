@@ -18,14 +18,9 @@
     });
 
     function driverLogOut(button) {
-
-
         console.log("DEBUG: JS onClick");
-        var driverid = $(button).parent().data('driverid');
-        var status = $(button).parent().data('currentstatus');
+        var driverid = $(button).data('driverid');
         console.log(driverid);
-        console.log(status);
-        console.log(!status);
         var data = {"uName": driverid};
         $.ajax({
             type: "POST",
@@ -35,14 +30,23 @@
             data: JSON.stringify(data),
             success: function (response) {
                 console.log(response);
-                $(button).parent().data('currentstatus', !status);
-                $.UIkit.notify({
-                    message: 'Driver status updated!',
-                    status: (!status ? 'success' : 'danger'),
-                    timeout: 3000,
-                    pos: 'bottom-right'
-                });
-
+                if(response.isAuthorized){
+                    $(button).addClass('disabled');
+                    $.UIkit.notify({
+                        message: 'Driver status updated!',
+                        status: 'success',
+                        timeout: 3000,
+                        pos: 'bottom-right'
+                    });
+                }
+                else{
+                    $.UIkit.notify({
+                        message: 'Driver status updated FAILED!',
+                        status: 'danger',
+                        timeout: 3000,
+                        pos: 'bottom-right'
+                    });
+                }
             }
 
         });
@@ -87,22 +91,31 @@
                         <td><?= $item['userId']; ?></td>
                         <td><?= $item['name']; ?></td>
                         <td><?= $item['tp']; ?></td>
-                        <td><?php
-                            $yes = "";
-                            $no = "";
-                            if ($item['logout'] == "true") {
-                                $yes = "btn-primary";
-                                $no = "active btn-default";
+                        <td>
+                            <?php
+                            if ($item['isLogout'] == "true") {
+                                ?>
+
+                                <button type="button" class="btn btn-primary btn-sm disabled"
+                                        data-driverid="<?= $item['userId']; ?>">
+                                    Not Logged
+                                </button>
+                            <?php
                             } else {
-                                $yes = "active btn-default";
-                                $no = "btn-primary";
+                                ?>
+                                <button type="button" class="btn btn-danger btn-sm"
+                                        data-driverid="<?= $item['userId']; ?>" onclick="driverLogOut(this)">
+                                    <span class=" glyphicon glyphicon-off" aria-hidden="true"></span> Logout
+                                </button>
+                            <?php
                             }
                             ?>
-                            <div class="btn-group btn-toggle" data-driverid="<?= $item['userId']; ?>"
-                                 data-currentstatus="<?= $item['logout'] ?>">
-                                <button class="btn btn-xs  <?= $yes ?>" onclick="driverLogOut(this,true)">Yes</button>
-                                <button class="btn btn-xs <?= $no ?>" onclick="driverLogOut(this,false)">No</button>
-                            </div>
+
+                            <!--<div class="btn-group btn-toggle" data-driverid="<? /*= $item['userId']; */ ?>"
+                                 data-currentstatus="<? /*= $item['logout'] */ ?>">
+                                <button class="btn btn-xs  <? /*= $yes */ ?>" onclick="driverLogOut(this,true)">Yes</button>
+                                <button class="btn btn-xs <? /*= $no */ ?>" onclick="driverLogOut(this,false)">No</button>
+                            </div>-->
                         </td>
                         <td><?php
                             if (!array_key_exists("cabId", $item) || $item['cabId'] === "" || $item['cabId'] == -1) {

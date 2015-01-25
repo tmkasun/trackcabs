@@ -59,15 +59,21 @@ class Complaint_dao extends CI_Model
     
     //Fucnitons for cancel reports
     
-    function get_all_cancel_reports($type)
+    function get_all_cancel_reports($type,$date)
     {
+        if($date === 'today'){$date_needed = new MongoDate(strtotime(date('Y-m-d')));}
+        else{$date_needed = new MongoDate(strtotime($date));}//var_dump(date('Y-m-d H:i:s',$date_needed->sec));
+        //new MongoDate(strtotime(date("y-m-d")));
+        $next_day = new MongoDate(($date_needed->sec + 86400));//var_dump(date("Y-m-d H:i:s",$next_day->sec));
+        
         $collection = $this->get_collection("history");
-        if($type === 'ALL'){$searchQuery = array('$or' => array(array('status' => 'DIS_CANCEL'),array('status' => 'CANCEL')));}
-        elseif($type === 'CANCEL'){$searchQuery = array('status' => 'CANCEL');}
-        elseif($type === 'DIS_CANCEL'){$searchQuery = array('status' => 'DIS_CANCEL');}
+        if($type === 'ALL'){$searchQuery = array('$or' => array(array('status' => 'DIS_CANCEL'),array('status' => 'CANCEL')), 'cancelTime' => array('$gte' => $date_needed, '$lt' => $next_day));}
+        elseif($type === 'CANCEL'){$searchQuery = array('status' => 'CANCEL', 'cancelTime' => array('$gte' => $date_needed, '$lt' => $next_day));}
+        elseif($type === 'DIS_CANCEL'){$searchQuery = array('status' => 'DIS_CANCEL', 'cancelTime' => array('$gte' => $date_needed, '$lt' => $next_day));}//, 'cancelTime' => array('$gt' => $date_needed, '$lt' => $next_day)
         $cancel_cursor = $collection->find($searchQuery);
         $cancellations = array('cancellations' => array());
         foreach($cancel_cursor as $cancel_report){$cancellations['cancellations'][] = $cancel_report;}
+        //var_dump($cancellations);
         return $cancellations;
     }
   

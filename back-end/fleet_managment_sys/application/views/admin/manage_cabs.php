@@ -510,10 +510,14 @@
     
     //Functions for Cancel Reports
     function getCancelReportsView(type)
-    {type = typeof type !== 'undefined' ? type : "ALL";//alert(type);
+    {
+        type = typeof type !== 'undefined' ? type : "ALL";//alert(type);
+        var date_needed_cr = 'today';
+        if(document.contains(document.getElementById('date_needed_cr'))){date_needed_cr = document.getElementById('date_needed_cr').value;}        
+        input_data = {'type' : type, 'date_needed' : date_needed_cr};
         //create jason object with 'type' and 'date'. get date as an input
         var url ='<?php echo site_url("complaint_controller/get_all_cancel_reports") ?>';//url + "/accounts_controller/getAllAccountsView";
-        var view = ajaxPost(type,url);
+        var view = ajaxPost(input_data,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = "";
         div.innerHTML = view.view.table_content;//alert("ok2");
@@ -539,10 +543,10 @@
     }
     function getMissedCallReportViewByDate()
     {
-        var date = document.getElementById("date_needed").value;//alert(date);
-        var date_needed = {'date': date};
+        var date = document.getElementById("date_needed").value;//alert("vv"+date+"nnn");
+        var date_needed_mc = {'date': date};
         var url = '<?php echo site_url("complaint_controller/get_all_missed_calls_by_date")?>';
-        var view = ajaxPost(date_needed,url);
+        var view = ajaxPost(date_needed_mc,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = "";
         div.innerHTML = view.view.table_content;        

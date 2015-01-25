@@ -46,6 +46,7 @@ class Authenticate extends CI_Controller {
     }
 
     function logout(){
+
         $input = file_get_contents('php://input');
         $inputArray = json_decode(trim($input), true);
         $userId = $inputArray['uName'];
@@ -54,6 +55,10 @@ class Authenticate extends CI_Controller {
         $log_input_data = array('userId' => new MongoInt32($userId) , 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp , 'callingNumber' => $authenticationResult['callingNumber'] , 'user_type' => 'driver' , 'log_type' => 'logout');
         $this->log_dao->createLog($log_input_data);
         $this->log_dao->updateLoginOnLogout(date('Y-m-d', $timeStamp->sec),$timeStamp,new MongoInt32($userId));
+
+
+        $this->user_dao->setIsLogout($userId,True);
+
         if (!$authenticationResult) {
             $authentication = array('isAuthorized' => false);
         }else {

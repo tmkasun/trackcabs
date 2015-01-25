@@ -1,10 +1,10 @@
 <script>
-//    For reference http://www.bootply.com/92189
-    $('.btn-toggle').click(function() {
+    //    For reference http://www.bootply.com/92189
+    $('.btn-toggle').click(function () {
         console.log("DEBUG: JQuery onclick");
         $(this).find('.btn').toggleClass('active');
 
-        if ($(this).find('.btn-primary').size()>0) {
+        if ($(this).find('.btn-primary').size() > 0) {
             $(this).find('.btn').toggleClass('btn-primary');
         }
 
@@ -12,28 +12,42 @@
 
     });
 
-    $('form').submit(function(){
+    $('form').submit(function () {
         alert($(this["options"]).val());
         return false;
     });
 
-    function driverLogOut(button){
+    function driverLogOut(button) {
+
+
         console.log("DEBUG: JS onClick");
         var driverid = $(button).parent().data('driverid');
         var status = $(button).parent().data('currentstatus');
         console.log(driverid);
         console.log(status);
         console.log(!status);
+        var data = {"uName": driverid};
+        $.ajax({
+            type: "POST",
+            url: "authenticate/logout",
+            processData: false,
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+                console.log(response);
+                $(button).parent().data('currentstatus', !status);
+                $.UIkit.notify({
+                    message: 'Driver status updated!',
+                    status: (!status ? 'success' : 'danger'),
+                    timeout: 3000,
+                    pos: 'bottom-right'
+                });
 
-        $.post('dispatcher/logout_user', {driverId: driverid, status: !status }, function (response) {
-            $(button).parent().data('currentstatus',!status);
-            $.UIkit.notify({
-                message: 'Driver status updated!',
-                status: (!status ? 'success' : 'danger'),
-                timeout: 3000,
-                pos: 'bottom-right'
-            });
+            }
+
         });
+
+
     }
 </script>
 
@@ -56,13 +70,11 @@
                     <th>Driver ID</th>
                     <th>Name</th>
                     <th>tp</th>
-                    <th>Can Logout</th>
+                    <th>Logout</th>
                     <th>Cab ID</th>
                     <th>Blocked</th>
                 </tr>
-
                 <?php foreach ($data as $item): ?>
-
                     <tr>
                         <td><?php
                             if (!isset($item['callingNumber']) || $item['callingNumber'] == -1 || trim($item['callingNumber']) == '') {
@@ -78,17 +90,18 @@
                         <td><?php
                             $yes = "";
                             $no = "";
-                            if($item['logout'] == "true"){
+                            if ($item['logout'] == "true") {
                                 $yes = "btn-primary";
                                 $no = "active btn-default";
-                            } else{
+                            } else {
                                 $yes = "active btn-default";
                                 $no = "btn-primary";
                             }
                             ?>
-                            <div class="btn-group btn-toggle" data-driverid="<?= $item['userId']; ?>" data-currentstatus="<?= $item['logout'] ?>">
+                            <div class="btn-group btn-toggle" data-driverid="<?= $item['userId']; ?>"
+                                 data-currentstatus="<?= $item['logout'] ?>">
                                 <button class="btn btn-xs  <?= $yes ?>" onclick="driverLogOut(this,true)">Yes</button>
-                                <button class="btn btn-xs <?= $no ?>" onclick="driverLogOut(this,false)" >No</button>
+                                <button class="btn btn-xs <?= $no ?>" onclick="driverLogOut(this,false)">No</button>
                             </div>
                         </td>
                         <td><?php

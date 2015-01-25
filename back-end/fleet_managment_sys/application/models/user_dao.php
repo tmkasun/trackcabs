@@ -195,7 +195,7 @@ class User_dao extends CI_Model
     function logout($driverId)//the variable $dirverId refers to the 'userId' atrribute of a single driver(user)
     {
         $collection = $this->get_collection();
-        $searchQuery = array("userId" => new MongoInt32($driverId), 'logout' => true);
+        $searchQuery = array("userId" => new MongoInt32($driverId), 'isLogout' => false); // Need to be a login user to logout
         $user = $collection->findOne($searchQuery);
         return $user;
 
@@ -272,11 +272,25 @@ class User_dao extends CI_Model
     function getDriversSortedByCallingNumber()
     {
         $collection = $this->get_collection();
-        $searchQuery = array('user_type' => 'driver', "callingNumber" => array('$ne' => -1));
+        $searchQuery = array('user_type' => 'driver'); // TODO: why need to have a calling number? "callingNumber" => array('$ne' => -1)
         $drivers = $collection->find($searchQuery)->sort(array("callingNumber", 1));
         return $drivers;
 
 
+    }
+
+ function setIsLogout($userId, $logoutStatus){
+     $collection = $this->get_collection();
+     $searchQuery = array('userId' => new MongoInt32($userId));
+     $collection->update($searchQuery, array('$set' => array('isLogout' => $logoutStatus)));
+
+ }
+
+    function checkIsLogout($userId){
+        $collection = $this->get_collection();
+        $searchQuery = array("userId" => new MongoInt32($userId), 'isLogout' => true);
+        $user = $collection->findOne($searchQuery);
+        return $user;
     }
 
 

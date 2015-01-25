@@ -217,7 +217,7 @@
         {
             cabId = document.getElementById("cabId").value;
             //json object for 'user_type' 'driver'
-            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':false , 'blocked':'false' ,'lastLogout': '0' , 'callingNumber':'-1' , 'logSheetNumber':'-1', 'startLocation':'' };
+            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':false , 'blocked':'false' ,'lastLogout': '0' , 'callingNumber':'-1' , 'logSheetNumber':'-1', 'startLocation':'', 'isLogout':true};
         }
         //jason object when for 'user_type's 'cro', and 'dispatcher'
         else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type  , 'blocked':'false' };}

@@ -81,6 +81,7 @@ class Authenticate extends CI_Controller {
         }else {
 
             $driver = $this->user_dao->getUserById($userId);
+            $this->user_dao->setIsLogout($userId, false);
             $log_input_data = array('userId' => new MongoInt32($userId) , 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp , 'callingNumber' => $driver['callingNumber'] , 'user_type' => 'driver' , 'log_type' => 'login' , 'logged_out' => 'no','logout_time' => '-');
             $this->log_dao->createLog($log_input_data);
             // For reference $driver->role->cab->id and $driver->role->id and $driver->role->cab->type

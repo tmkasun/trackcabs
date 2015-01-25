@@ -31,7 +31,7 @@ class History(object, Resource):
         content_dict['properties']['cabId'] = int(content_dict['properties']['cabId'])
         content_dict['properties']['orderId'] = int(content_dict['properties']['orderId'])
 
-        print(content_dict)
+        # print(content_dict)
         self.insert_to_mongo_DB(content_dict)
 
         request.responseHeaders.addRawHeader(b"content-type", b"application/json")

@@ -23,7 +23,7 @@
 
     <script>
         $(function(){
-            $('#commonModal').modal('toggle').find('.modal-content').load('<?= site_url('notice/service_down')?>');
+//            $('#commonModal').modal('toggle').find('.modal-content').load('<?//= site_url('notice/service_down')?>//');
         });
     </script>
     <!-- Moment libraries -->

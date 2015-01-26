@@ -28,7 +28,9 @@ class History(object, Resource):
 
         content_dict['id'] = int(content_dict['id'])
         content_dict['properties']['cabId'] = int(content_dict['properties']['cabId'])
-        content_dict['properties']['orderId'] = int(content_dict['properties']['orderId'])
+
+        if content_dict['properties']['orderId']:
+            content_dict['properties']['orderId'] = int(content_dict['properties']['orderId'])
 
         # print(content_dict)
         self.insert_to_mongo_DB(content_dict)

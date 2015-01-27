@@ -274,7 +274,7 @@ class User_dao extends CI_Model
     function getDriversSortedByCallingNumber()
     {
         $collection = $this->get_collection();
-        $searchQuery = array('user_type' => 'driver'); // TODO: why need to have a calling number? "callingNumber" => array('$ne' => -1)
+        $searchQuery = array('user_type' => 'driver', "callingNumber" => array('$ne' => -1)); // TODO: why need to have a calling number? "callingNumber" => array('$ne' => -1)
         $drivers = $collection->find($searchQuery)->sort(array("callingNumber", 1));
         return $drivers;
 
@@ -287,6 +287,13 @@ class User_dao extends CI_Model
      $collection->update($searchQuery, array('$set' => array('isLogout' => $logoutStatus)));
 
  }
+
+    function checkIsLogout($userId){
+        $collection = $this->get_collection();
+        $searchQuery = array("userId" => new MongoInt32($userId), 'isLogout' => true);
+        $user = $collection->findOne($searchQuery);
+        return $user;
+    }
 
 
 }

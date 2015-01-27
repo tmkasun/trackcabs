@@ -217,7 +217,7 @@
         {
             cabId = document.getElementById("cabId").value;
             //json object for 'user_type' 'driver'
-            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':false , 'blocked':'false' ,'lastLogout': '0' , 'callingNumber':'-1' , 'logSheetNumber':'-1', 'startLocation':'' };
+            var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type, 'cabId' : cabId, 'logout':false , 'blocked':'false' ,'lastLogout': '0' , 'callingNumber':'-1' , 'logSheetNumber':'-1', 'startLocation':'', 'isLogout':true};
         }
         //jason object when for 'user_type's 'cro', and 'dispatcher'
         else{var user = {'name' : name , 'uName' : uName , 'pass' : pass , 'nic' : nic ,'tp' : tp, 'user_type' : user_type  , 'blocked':'false' };}
@@ -492,6 +492,19 @@
         div.innerHTML = result.view.table_content;
     }
 
+    function getWorkingHoursByDate(id){
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+        var userId = document.getElementById("driverId").value;
+
+        var dates = {'startDate':startDate,'endDate': endDate};
+        var url = '<?php echo site_url("accounts_controller/getWorkingHoursByDate") ?>';
+
+        var result = ajaxPost(dates,url);
+        var div = document.getElementById('tableDiv');
+        div.innerHTML = result.view.table_content;
+    }
+
     function getSummaryView(){
         var url = '<?php echo site_url("accounts_controller/getSummaryView") ?>';
         var result = ajaxPost(null,url);
@@ -502,6 +515,14 @@
 
     function getHireSummaryView(){
         var url = '<?php echo site_url("accounts_controller/getHireSummaryView") ?>';
+        var result = ajaxPost(null,url);
+        var div = document.getElementById('dataFiled');
+        div.innerHTML = result.view.table_content;
+
+    }
+
+    function getWorkingHoursView(){
+        var url = '<?php echo site_url("accounts_controller/getWorkingHoursView") ?>';
         var result = ajaxPost(null,url);
         var div = document.getElementById('dataFiled');
         div.innerHTML = result.view.table_content;

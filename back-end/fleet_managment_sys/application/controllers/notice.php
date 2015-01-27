@@ -10,6 +10,10 @@ class Notice extends CI_Controller
         $this->load->view('notices/trial_expire');
     }
 
+    public function service_down(){
+        $this->load->view('notices/service_down');
+    }
+
     public function feedback_form(){
         $this->load->view("notices/feedback");
     }

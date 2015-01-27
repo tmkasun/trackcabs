@@ -2,16 +2,17 @@
 from pymongo import MongoClient
 from pymongo import GEOSPHERE
 import time
-#client = MongoClient() #will connect on the default host and port. 
-                        # We can also specify the host and port explicitly, as 
-                        #follows.
-                        # Or use the MongoDB URI format
+# client = MongoClient() #will connect on the default host and port.
+# We can also specify the host and port explicitly, as
+#follows.
+# Or use the MongoDB URI format
 client = MongoClient('localhost', 27017)
 
-def getGeoNameFile(fileName = 'LK.txt'):
-    return open(fileName,'r')
-    
-    
+
+def getGeoNameFile(fileName='LK.txt'):
+    return open(fileName, 'r')
+
+
 def createMongoHash(splitedList):
     """The main 'geoname' table has the following fields :
     ---------------------------------------------------
@@ -34,52 +35,59 @@ def createMongoHash(splitedList):
     [16]dem               : digital elevation model, srtm3 or gtopo30, average elevation of 3''x3'' (ca 90mx90m) or 30''x30'' (ca 900mx900m) area in meters, integer. srtm processed by cgiar/ciat.
     [17]timezone          : the timezone id (see file timeZone.txt) varchar(40)
     [18]modification date : date of last modification in yyyy-MM-dd format"""
-    
+
     hashTemplate = {
-    '_id':int(splitedList[0]),#geonameid
-    'name':splitedList[1],
-    'asciiname':splitedList[2],
-    'alternatenames':splitedList[3],
-    'location': createGeoJson('Point',float(splitedList[5]),float(splitedList[4])), 
-    'feature_class':splitedList[6],
-    'feature_code':splitedList[7],
-    'elevation':splitedList[15],
-    'dem':splitedList[16]
+        '_id': int(splitedList[0]),  #geonameid
+        'name': splitedList[1],
+        'asciiname': splitedList[2],
+        'alternatenames': splitedList[3],
+        'location': createGeoJson('Point', float(splitedList[5]), float(splitedList[4])),
+        'feature_class': splitedList[6],
+        'feature_code': splitedList[7],
+        'elevation': splitedList[15],
+        'dem': splitedList[16]
     }
     return hashTemplate
-    
-def insertToMongoDb(jsonLikeHash,dataBase = 'lk'):
+
+
+def insertToMongoDb(jsonLikeHash, dataBase='lk'):
     return client.geo_names[dataBase].insert(jsonLikeHash)
 
+
 debugObject = None
+
+
 def main():
     fileName = 'LK.txt'
     dataBase = 'lk_test'
-    print "Start inserting data from {} file to {} database......".format(fileName,dataBase)
+    print "Start inserting data from {} file to {} database......".format(fileName, dataBase)
     geoNames = getGeoNameFile(fileName)
     recordsCount = 0
     startTime = time.time()
     for line in geoNames:
-        recordsCount +=1
+        recordsCount += 1
         line = line.strip()
-        dataList = line.split('\t') # Assuming data is comma seperated
+        dataList = line.split('\t')  # Assuming data is comma seperated
         mongoHash = createMongoHash(dataList)
-        mongoObjectId = insertToMongoDb(mongoHash,dataBase)
+        mongoObjectId = insertToMongoDb(mongoHash, dataBase)
         #print "mongoObjectId {} added to Db sucsussfully.".format(mongoObjectId)
     endTime = time.time()
     print "Creating location index using R-Tree..."
-    client.geo_names[dataBase].create_index([('location' , GEOSPHERE )])# pymongo.GEOSPHERE = '2dsphere' more info http://stackoverflow.com/questions/16908675/does-anyone-know-a-working-example-of-2dsphere-index-in-pymongo
-    print "{} records from {} sucsussfully added to {} in {} seconds.".format(recordsCount,fileName,dataBase,(endTime - startTime))
-    
-def createGeoJson(geoJsonType,longitude,latitude):
+    client.geo_names[dataBase].create_index([('location',
+                                              GEOSPHERE )])  # pymongo.GEOSPHERE = '2dsphere' more info http://stackoverflow.com/questions/16908675/does-anyone-know-a-working-example-of-2dsphere-index-in-pymongo
+    print "{} records from {} sucsussfully added to {} in {} seconds.".format(recordsCount, fileName, dataBase,
+                                                                              (endTime - startTime))
+
+
+def createGeoJson(geoJsonType, longitude, latitude):
     if not geoJsonType.lower() == "point":
         raise Exception("GeoJson type {} not supported!".format(geoJsonType))
-    
-    return {
-    'point': {'type': geoJsonType.capitalize(), 'coordinates': [longitude,latitude]},
-    'linestring': None,
-    }.get(geoJsonType.lower(), None) 
 
-    
+    return {
+        'point': {'type': geoJsonType.capitalize(), 'coordinates': [longitude, latitude]},
+        'linestring': None,
+    }.get(geoJsonType.lower(), None)
+
+
 if __name__ == '__main__':
     main()

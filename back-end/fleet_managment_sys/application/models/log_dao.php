@@ -35,6 +35,13 @@ class Log_dao extends CI_Model
         return $log;
     }
 
+    function getLoginByDateRange($start,$end){
+        $collection = $this->get_collection();
+        $searchQuery = array('date' => array('$gt' => $start, '$lte' => $end) ,'user_type' => 'driver', 'log_type' => 'login' );
+        $log = $collection->find($searchQuery);
+        return $log;
+    }
+
     function getLogoutForLogin($date,$driverId){
         $collection = $this->get_collection();
         $searchQuery = array('userId' => $driverId,'date' => $date ,'user_type' => 'driver', 'log_type' => 'failed' );

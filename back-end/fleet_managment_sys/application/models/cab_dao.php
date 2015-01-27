@@ -148,8 +148,9 @@ class Cab_dao extends CI_Model
         $collection = $this->get_collection();
 
         $cursor = $collection->find();
+        $sorted_cursor = $cursor->sort(array('cabId' => 1));
         $data= array();
-        foreach ($cursor as $doc) {
+        foreach ($sorted_cursor as $doc) {
             $data[]= $doc;
         }
         return $data;
@@ -180,8 +181,9 @@ class Cab_dao extends CI_Model
         $collection = $this->get_collection();
 
         $cursor = $collection->find()->limit($limit)->skip($skip);
+        $sorted_cursor = $cursor->sort(array('cabId' => 1));
         $data= array('data' => array());
-        foreach ($cursor as $doc ) {
+        foreach ($sorted_cursor as $doc ) {
             $data['data'][]= $doc;
         }
         return $data;

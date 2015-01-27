@@ -101,8 +101,9 @@ class User_dao extends CI_Model
 
         $user_type = array('user_type' => $type);
         $cursor = $collection->find($user_type);
+        $sorted_cursor = $cursor->sort(array('userId' => -1));
         $users = array('data' => array());
-        foreach ($cursor as $user) {
+        foreach ($sorted_cursor as $user) {
             $users['data'][] = $user;
         }
 
@@ -130,8 +131,9 @@ class User_dao extends CI_Model
 
         $user_type = array('user_type' => $type);
         $cursor = $collection->find($user_type)->limit($limit)->skip($skip);//$user_type
+        $sorted_cursor = $cursor->sort(array('userId' => 1));
         $users = array('data' => array());
-        foreach ($cursor as $user) {
+        foreach ($sorted_cursor as $user) {
             $users['data'][] = $user;
         }
         return $users;

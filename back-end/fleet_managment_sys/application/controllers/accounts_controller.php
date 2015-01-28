@@ -188,11 +188,23 @@ class Accounts_controller extends CI_Controller
         $endDate = new MongoDate(strtotime($input_data['endDate']));
         $cursor = $this->log_dao->getLoginByDateRange($startDate,$endDate);
         $data= array('data'=> array());
-        $i = 0;
+
         foreach ($cursor as $booking) {
-            $data['data'][$i]= $booking;
+            //$data['data'][$i]= $booking;
+            $timeOut=$booking['logout_time'];
+            $timeIn=$booking['time'];
+            if($timeOut=='-'){
+
+            }else{
+                $driverId=$booking['userId'];
+                $preWorkingHours = $timeOut->sec - $timeIn->sec;
+                $workingHour=(int)($preWorkingHours/3600);
+                $data['data'][$driverId]['userId'] =$driverId;
+                $data['data'][$driverId]['workingHours'] +=$workingHour;
+            }
+
             //$data['data'][$i]['workingHours'] = $booking['logout_time']-$booking['time'];
-            $i++;
+
         }
 
         $data['table_content'] = $this->load->view('admin/reports/working_hours_table', $data, TRUE);

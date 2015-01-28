@@ -11,7 +11,7 @@
         <tr>
             <td><?= $item['userId'];?></td>
             <td><?= $item['workingHours'];?></td>
-            <td><button type="submit" class="btn btn-default" onclick="getDetailedWorkingHoursByDate('<?= $item['userId'];?>')">Edit</button></td>
+            <td><button type="submit" class="btn btn-default" onclick="getDetailedWorkingHoursByDate('<?= $item['userId'];?>')">Details</button></td>
         </tr>
 
     <?php endforeach;?>

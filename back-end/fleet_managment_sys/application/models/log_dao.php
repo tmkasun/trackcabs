@@ -44,7 +44,7 @@ class Log_dao extends CI_Model
 
     function getLoginByDateRangeAndDriver($start,$end,$driverId){
         $collection = $this->get_collection();
-        $searchQuery = array('time' => array('$gt' => $start, '$lte' => $end) ,'userId' => new MongoInt32($driverId),'user_type' => 'driver', 'log_type' => 'login' );
+        $searchQuery = array('time' => array('$gt' => $start, '$lte' => $end) ,'user_type' => 'driver', 'log_type' => 'login' );
         $log = $collection->find($searchQuery);
         return $log;
     }

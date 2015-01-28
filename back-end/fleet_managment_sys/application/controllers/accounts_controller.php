@@ -202,9 +202,9 @@ class Accounts_controller extends CI_Controller
                 $workingHour=(int)($preWorkingHours/3600);
                 $data['data'][$driverId]['userId'] =$driverId;
                 if(isset($data['data'][$driverId]['workingHours'])) {
-                    $data['data'][$driverId]['workingHours'] = $data['data'][$driverId]['workingHours'].",".$workingHour;
+                    $data['data'][$driverId]['workingHours'] += $workingHour;
                 }else{
-                    $data['data'][$driverId]['workingHours'] = $workingHour."";
+                    $data['data'][$driverId]['workingHours'] = $workingHour;
                 }
             }
 
@@ -213,6 +213,26 @@ class Accounts_controller extends CI_Controller
         }
 
         $data['table_content'] = $this->load->view('admin/reports/working_hours_table', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
+
+    }
+
+    function getDetailedWorkingHoursByDate(){
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $startDate = new MongoDate(strtotime($input_data['startDate']));
+        $endDate = new MongoDate(strtotime($input_data['endDate']));
+        $driverId = new MongoDate(strtotime($input_data['userId']));
+        $cursor = $this->log_dao->getLoginByDateRangeAndDriver($startDate,$endDate,$driverId);
+        $data= array('data'=> array());
+        $i=0;
+        foreach ($cursor as $booking) {
+            $data['data'][$i]= $booking;
+
+            //$data['data'][$i]['workingHours'] = $booking['logout_time']-$booking['time'];
+            $i++;
+        }
+
+        $data['table_content'] = $this->load->view('admin/reports/detailed_working_hours', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
 
     }

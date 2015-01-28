@@ -190,7 +190,7 @@ class Accounts_controller extends CI_Controller
         $data= array('data'=> array());
         foreach ($cursor as $booking) {
             $data['data'][]= $booking;
-            $data['data']['workingHours'] = $booking['logout_time']-$booking['time'];
+           // $data['data']['workingHours'] = $booking['logout_time']-$booking['time'];
         }
 
         $data['table_content'] = $this->load->view('admin/reports/working_hours_table', $data, TRUE);

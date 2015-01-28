@@ -194,14 +194,18 @@ class Accounts_controller extends CI_Controller
             $timeOut=$booking['logout_time'];
             $timeIn=$booking['time'];
             $driverId=$booking['userId'];
-            $data['data'][$driverId]['workingHours']=0;
+
             if($timeOut=='-'){
 
             }else{
                 $preWorkingHours = $timeOut->sec - $timeIn->sec;
                 $workingHour=(int)($preWorkingHours/3600);
                 $data['data'][$driverId]['userId'] =$driverId;
-                $data['data'][$driverId]['workingHours'] +=$workingHour;
+                if($data['data'][$driverId]['workingHours']!=0){
+                    $data['data'][$driverId]['workingHours'] =$workingHour;
+                }else {
+                    $data['data'][$driverId]['workingHours'] += $workingHour;
+                }
             }
 
             //$data['data'][$i]['workingHours'] = $booking['logout_time']-$booking['time'];

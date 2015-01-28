@@ -201,10 +201,10 @@ class Accounts_controller extends CI_Controller
                 $preWorkingHours = $timeOut->sec - $timeIn->sec;
                 $workingHour=(int)($preWorkingHours/3600);
                 $data['data'][$driverId]['userId'] =$driverId;
-                if($data['data'][$driverId]['workingHours']!=0){
-                    $data['data'][$driverId]['workingHours'] =$workingHour;
-                }else {
+                if(isset($data['data'][$driverId]['workingHours'])) {
                     $data['data'][$driverId]['workingHours'] += $workingHour;
+                }else{
+                    $data['data'][$driverId]['workingHours'] = $workingHour;
                 }
             }
 

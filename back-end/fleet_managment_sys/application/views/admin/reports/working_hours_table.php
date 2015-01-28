@@ -12,7 +12,7 @@
     <?php foreach ($data as $item):?>
 
         <tr>
-            <td><?= $item['driverId'];?></td>
+            <td><?= $item['userId'];?></td>
             <td><?php $timeIn=$item['time'];
                 echo date('h:i:s', $timeIn->sec);
                 ?></td>

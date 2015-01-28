@@ -518,7 +518,7 @@
         div.innerHTML = result.view.table_content;
     }
 
-    function getWorkingHoursByDate(id){
+    function getDetailedWorkingHoursByDate(id){
         var startDate = document.getElementById("startDate").value;
         var endDate = document.getElementById("endDate").value;
         var userId = id;

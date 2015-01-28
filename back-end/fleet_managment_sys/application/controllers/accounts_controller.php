@@ -85,6 +85,13 @@ class Accounts_controller extends CI_Controller
 
     }
 
+    function getWorkingHoursView(){
+        $driverIds = $this->user_dao->getUserIds_by_type('driver');
+        $data['driverIds'] = $driverIds;
+        $data['table_content'] = $this->load->view('admin/reports/working_hours_view', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
+
+    }
     /*function getCallingNumberSummaryView(){
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $date = $input_data['date'];
@@ -172,6 +179,21 @@ class Accounts_controller extends CI_Controller
         }
 
         $data['table_content'] = $this->load->view('admin/reports/hire_summary_table', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
+
+    }
+    function getWorkingHoursByDate(){
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $startDate = new MongoDate(strtotime($input_data['startDate']));
+        $endDate = new MongoDate(strtotime($input_data['endDate']));
+        $cursor = $this->log_dao->getLoginByDateRange($startDate,$endDate);
+        $data= array('data'=> array());
+        foreach ($cursor as $booking) {
+            $data['data'][]= $booking;
+            $data['data']['workingHours'] = $booking['logout_time']-$booking['time'];
+        }
+
+        $data['table_content'] = $this->load->view('admin/reports/working_hours_table', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
 
     }

@@ -188,12 +188,50 @@ class Accounts_controller extends CI_Controller
         $endDate = new MongoDate(strtotime($input_data['endDate']));
         $cursor = $this->log_dao->getLoginByDateRange($startDate,$endDate);
         $data= array('data'=> array());
+
         foreach ($cursor as $booking) {
-            $data['data'][]= $booking;
-            $data['data']['workingHours'] = $booking['logout_time']-$booking['time'];
+            //$data['data'][$i]= $booking;
+            $timeOut=$booking['logout_time'];
+            $timeIn=$booking['time'];
+            $driverId=$booking['userId'];
+
+            if($timeOut=='-'){
+
+            }else{
+                $preWorkingHours = $timeOut->sec - $timeIn->sec;
+                $workingHour=(int)($preWorkingHours/3600);
+                $data['data'][$driverId]['userId'] =$driverId;
+                if(isset($data['data'][$driverId]['workingHours'])) {
+                    $data['data'][$driverId]['workingHours'] += $workingHour;
+                }else{
+                    $data['data'][$driverId]['workingHours'] = $workingHour;
+                }
+            }
+
+            //$data['data'][$i]['workingHours'] = $booking['logout_time']-$booking['time'];
+
         }
 
         $data['table_content'] = $this->load->view('admin/reports/working_hours_table', $data, TRUE);
+        $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
+
+    }
+
+    function getDetailedWorkingHoursByDate(){
+        $input_data = json_decode(trim(file_get_contents('php://input')), true);
+        $startDate = new MongoDate(strtotime($input_data['startDate']));
+        $endDate = new MongoDate(strtotime($input_data['endDate']));
+        $driverId = new MongoDate(strtotime($input_data['userId']));
+        $cursor = $this->log_dao->getLoginByDateRangeAndDriver($startDate,$endDate,$driverId);
+        $data= array('data'=> array());
+        $i=0;
+        foreach ($cursor as $booking) {
+            $data['data'][$i]= $booking;
+            //$data['data'][$i]['workingHours'] = $booking['logout_time']-$booking['time'];
+            $i++;
+        }
+
+        $data['table_content'] = $this->load->view('admin/reports/detailed_working_hours', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
 
     }

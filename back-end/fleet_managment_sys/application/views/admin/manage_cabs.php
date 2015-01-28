@@ -521,7 +521,6 @@
     function getDetailedWorkingHoursByDate(id){
         var startDate = document.getElementById("startDate").value;
         var endDate = document.getElementById("endDate").value;
-        alert(endDate);
         var userId = id;
 
         var dates = {'startDate':startDate,'endDate': endDate,'userId': userId};

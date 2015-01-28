@@ -191,7 +191,7 @@ class Accounts_controller extends CI_Controller
         $i = 0;
         foreach ($cursor as $booking) {
             $data['data'][$i]= $booking;
-           // $data['data'][$i]['workingHours'] = $booking['logout_time']-$booking['time'];
+            //$data['data'][$i]['workingHours'] = $booking['logout_time']-$booking['time'];
             $i++;
         }
 

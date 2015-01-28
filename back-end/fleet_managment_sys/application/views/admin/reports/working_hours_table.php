@@ -24,12 +24,19 @@
                     echo date('h:i:s', $timeOut->sec);
                 }
                 ?></td>
-            <td><?php $workingHour=$item['workingHours']/3600;
+            <td><?php
+                if($timeOut=='-'){
+                    echo 'not logged out';
+                }else{
+                    $preWorkingHours = $timeOut - $timeIn;
+                    $workingHour=$preWorkingHours/3600;
                     if($workingHour<24){
                         echo $workingHour."hours";
                     }else{
                         echo ($workingHour/24)." days ".($workingHour%24)." hours";
                     }
+                }
+
                 ?></td>
 
         </tr>

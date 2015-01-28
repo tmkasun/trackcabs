@@ -64,6 +64,9 @@
     <!-- autobahn websocket and WAMP -->
     <script src="<?= base_url() ?>assets/js/autobahn/autobahn.min.js"></script>
 
+    <!-- Google charts API library -->
+    <script type="text/javascript"
+            src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['gauge']}]}"></script>
     <!-- Self javascript libraries (Order of the import is very important, changing the order might shadow some variables, append new script to bottom ) -->
     <!-- ** comment out below imports if using minimized wso2_geo.min library **  -->
     <script src="<?= base_url() ?>assets/js/application_options.js"></script>
@@ -240,6 +243,9 @@
     <!--/panel-->
 </div>
 
+<div id="spatial_object_info" class="row" style="margin-top: 5px;display: none">
+    <!-- Load cab details when click on cab marker -->
+</div>
 <div>
 
     <form id="locationSearch" class="navbar-form" role="search"

@@ -202,9 +202,9 @@ class Accounts_controller extends CI_Controller
                 $workingHour=(int)($preWorkingHours/3600);
                 $data['data'][$driverId]['userId'] =$driverId;
                 if(isset($data['data'][$driverId]['workingHours'])) {
-                    $data['data'][$driverId]['workingHours'] += $workingHour;
+                    $data['data'][$driverId]['workingHours'] = $data['data'][$driverId]['workingHours'].",".$workingHour;
                 }else{
-                    $data['data'][$driverId]['workingHours'] = $workingHour;
+                    $data['data'][$driverId]['workingHours'] = $workingHour."";
                 }
             }
 

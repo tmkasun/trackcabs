@@ -37,7 +37,7 @@ class Log_dao extends CI_Model
 
     function getLoginByDateRange($start,$end){
         $collection = $this->get_collection();
-        $searchQuery = array('user_type' => 'driver', 'log_type' => 'login' );
+        $searchQuery = array('date' => array('$gt' => $start, '$lte' => $end) ,'user_type' => 'driver', 'log_type' => 'login' );
         $log = $collection->find($searchQuery);
         return $log;
     }

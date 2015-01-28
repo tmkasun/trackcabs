@@ -28,7 +28,7 @@
                 if($timeOut=='-'){
                     echo 'not logged out';
                 }else{
-                    $preWorkingHours = $timeOut - $timeIn;
+                    $preWorkingHours = $timeOut->sec - $timeIn->sec;
                     $workingHour=$preWorkingHours/3600;
                     if($workingHour<24){
                         echo $workingHour."hours";

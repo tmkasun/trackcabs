@@ -88,6 +88,7 @@ class Accounts_controller extends CI_Controller
     function getWorkingHoursView(){
         /*$driverIds = $this->user_dao->getUserIds_by_type('driver');
         $data['driverIds'] = $driverIds;*/
+        $data = "";
         $data['table_content'] = $this->load->view('admin/reports/working_hours_view', $data, TRUE);
         $this->output->set_output(json_encode(array("statusMsg" => "success", "view" => $data)));
 

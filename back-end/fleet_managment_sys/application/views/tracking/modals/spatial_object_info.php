@@ -2,6 +2,9 @@
     $(
         function () {
             drawChart();
+            $("#spatial_object_info_wrapper").draggable({
+                handle: ".panel-heading"
+            });
         }
     );
 
@@ -29,20 +32,27 @@
         }, 1000);
     }
 </script>
-<div class="col-md-4">
+<div class="col-md-3" id="spatial_object_info_wrapper" style="margin-left: 5px">
     <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <i style="background: darkgrey;color: floralwhite;padding: 10px;border-radius: 50%"
-                       class="fa fa-taxi fa-5x"></i>
-                </div>
-                <div class="col-md-6">
-                    <div id="gchart_div"></div>
+        <div class="panel-heading" style="cursor: move">
+            <i class="fa fa-times" style="color: cadetblue;float: right;cursor: pointer;" onclick="$('#spatial_object_info').fadeOut('slow')"></i>
+            <h3 class="panel-title">Cab Information</h3>
+            </div>
+        <div class="list-group">
+            <div class="list-group-item">
+                <div class="row">
+                    <div class="col-md-6">
+                        <i style="background: darkgrey;color: floralwhite;padding: 10px;border-radius: 50%"
+                           class="fa fa-taxi fa-5x"></i>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="gchart_div"></div>
+                    </div>
+
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
+            <div class="list-group-item">
+                <div class="row">
                     <table class="table table-striped">
                         <tbody>
                         <tr>
@@ -59,7 +69,7 @@
                             <td>Plate No</td>
                             <td>TE-STING</td>
                         </tr>
-load we
+
                         <tr>
                             <td>Model</td>
                             <td>TE</td>
@@ -74,14 +84,35 @@ load we
                             <td>Info</td>
                             <td>@twitter</td>
                         </tr>
-                        <!--                        Cab ID	Plate No	Model	Color	UserId	Zone	Info-->
                         </tbody>
                     </table>
                 </div>
 
-                <button type="button" class="btn btn-default btn-xs">Travel History</button>
-                <button type="button" class="btn btn-default btn-xs">Orders path</button>
+            </div>
+        </div>
+        <div class="panel-footer" style="padding: 4px;">
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <button class="btn btn-default btn-xs">
+                        <i class="fa fa-history"></i>
+                        History
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default btn-xs">
+                        <i class="fa fa-taxi"></i>
+                        Orders path
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default btn-xs">
+                        <i class="fa fa-mobile"></i>
+                        Contact Driver
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+
+
 </div>

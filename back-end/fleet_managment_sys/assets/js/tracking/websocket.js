@@ -162,10 +162,11 @@ function SpatialObject(geoJSON) {
 
     this.marker.on('click',function(e,w){
         console.log(e);
-        //spatial_object_info
-        $('#spatial_object_info').load('vehicle_tracking/spatial_object_info/'+ e.target.feature.id,{},function(){
-            //alert('load_complete');
-            $('#spatial_object_info').fadeIn('slow');
+        var spatial_object_info = $('#spatial_object_info');
+        spatial_object_info.find('.spinner').fadeIn('slow');
+        spatial_object_info.load('vehicle_tracking/spatial_object_info/'+ e.target.feature.id,{},function(){
+            spatial_object_info.find('.spinner').fadeOut('fast');
+            spatial_object_info.fadeIn('slow');
             return false;
         });
     });

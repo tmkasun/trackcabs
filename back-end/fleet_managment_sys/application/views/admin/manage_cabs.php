@@ -508,7 +508,6 @@
     function getWorkingHoursByDate(id){
         var startDate = document.getElementById("startDate").value;
         var endDate = document.getElementById("endDate").value;
-        var userId = document.getElementById("driverId").value;
 
         var dates = {'startDate':startDate,'endDate': endDate};
         var url = '<?php echo site_url("accounts_controller/getWorkingHoursByDate") ?>';
@@ -521,7 +520,6 @@
     function getDetailedWorkingHoursByDate(id){
         var startDate = document.getElementById("startDate").value;
         var endDate = document.getElementById("endDate").value;
-        alert(endDate);
         var userId = id;
 
         var dates = {'startDate':startDate,'endDate': endDate,'userId': userId};

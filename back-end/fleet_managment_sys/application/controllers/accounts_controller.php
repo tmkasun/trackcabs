@@ -221,7 +221,7 @@ class Accounts_controller extends CI_Controller
         $input_data = json_decode(trim(file_get_contents('php://input')), true);
         $startDate = new MongoDate(strtotime($input_data['startDate']));
         $endDate = new MongoDate(strtotime($input_data['endDate']));
-        $driverId = new MongoDate(strtotime($input_data['userId']));
+        $driverId = $input_data['userId'];
         $cursor = $this->log_dao->getLoginByDateRangeAndDriver($startDate,$endDate,$driverId);
         $data= array('data'=> array());
         $i=0;

@@ -69,7 +69,7 @@ function initApplicationOptions() {
                 alertedIcon: getBaseURL() + 'assets/img/markers/car_top_offline.png',
                 offlineIcon: getBaseURL() + 'assets/img/markers/arrow_offline.png',
                 warningIcon: getBaseURL() + 'assets/img/markers/arrow_warning.png',
-                defaultIcon: getBaseURL() + 'assets/img/markers/arrow_normal.png',
+                defaultIcon: getBaseURL() + 'assets/img/markers/car_top_online.png',
                 resizeIcon: getBaseURL() + 'assets/img/markers/resize.png'
 
             },

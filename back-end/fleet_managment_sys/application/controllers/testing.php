@@ -170,4 +170,11 @@ class Testing extends CI_Controller
         $this->output->set_content_type('application/json');
         echo json_encode($result);
     }
+
+    function bigstats(){
+        $this->load->model('bigdata_dao');
+        $data_stats = $this->bigdata_dao->stats();
+        $this->output->set_content_type('application/json');
+        echo $data_stats;
+    }
 }

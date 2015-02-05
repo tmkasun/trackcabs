@@ -109,32 +109,32 @@ initializeWebSocket();
 var normalIcon = L.icon({
     iconUrl: ApplicationOptions.leaflet.iconUrls.normalIcon,
     shadowUrl: false,
-    iconSize: [24, 24],
+    iconSize: ApplicationOptions.leaflet.iconSize,
     iconAnchor: [+12, +12],
     popupAnchor: [-2, -5]
 });
 var alertedIcon = L.icon({
     iconUrl: ApplicationOptions.leaflet.iconUrls.alertedIcon,
     shadowUrl: false,
-    iconSize: [24, 24],
+    iconSize: ApplicationOptions.leaflet.iconSize,
     iconAnchor: [+12, +12],
     popupAnchor: [-2, -5]
 });
 var offlineIcon = L.icon({
     iconUrl: ApplicationOptions.leaflet.iconUrls.offlineIcon,
-    iconSize: [24, 24],
+    iconSize: ApplicationOptions.leaflet.iconSize,
     iconAnchor: [+12, +12],
     popupAnchor: [-2, -5]
 });
 var warningIcon = L.icon({
     iconUrl: ApplicationOptions.leaflet.iconUrls.warningIcon,
-    iconSize: [24, 24],
+    iconSize: ApplicationOptions.leaflet.iconSize,
     iconAnchor: [+12, +12],
     popupAnchor: [-2, -5]
 });
 var defaultIcon = L.icon({
     iconUrl: ApplicationOptions.leaflet.iconUrls.defaultIcon,
-    iconSize: [24, 24],
+    iconSize: ApplicationOptions.leaflet.iconSize,
     iconAnchor: [+12, +12],
     popupAnchor: [-2, -5]
 });
@@ -160,6 +160,16 @@ function SpatialObject(geoJSON) {
     this.marker = this.geoJson.getLayers()[0];
     this.marker.options.title = this.id;
 
+    this.marker.on('click',function(e,w){
+        console.log(e);
+        var spatial_object_info = $('#spatial_object_info');
+        spatial_object_info.find('.spinner').fadeIn('slow');
+        spatial_object_info.load('vehicle_tracking/spatial_object_info/'+ e.target.feature.id,{},function(){
+            spatial_object_info.find('.spinner').fadeOut('fast');
+            spatial_object_info.fadeIn('slow');
+            return false;
+        });
+    });
     this.popupTemplate = $('#markerPopup');
     this.marker.bindPopup(this.popupTemplate.html());
     return this;
@@ -192,7 +202,7 @@ SpatialObject.prototype.setSpeed = function (speed) {
 };
 
 SpatialObject.prototype.stateIcon = function () {
-    // Performance of if-else, switch or map based conditioning http://stackoverflow.com/questions/8624939/performance-of-if-else-switch-or-map-based-conditioning
+    // Performance of if-else, switch or map based conditioning http://stackoverflow.com/questions/8636939/performance-of-if-else-switch-or-map-based-conditioning
     switch (this.state) {
         case "NORMAL":
             return normalIcon;

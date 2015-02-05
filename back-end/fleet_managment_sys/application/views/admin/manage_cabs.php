@@ -505,6 +505,31 @@
         div.innerHTML = result.view.table_content;
     }
 
+    function getWorkingHoursByDate(id){
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+
+        var dates = {'startDate':startDate,'endDate': endDate};
+        var url = '<?php echo site_url("accounts_controller/getWorkingHoursByDate") ?>';
+
+        var result = ajaxPost(dates,url);
+        var div = document.getElementById('tableDiv');
+        div.innerHTML = result.view.table_content;
+    }
+
+    function getDetailedWorkingHoursByDate(id){
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+        var userId = id;
+
+        var dates = {'startDate':startDate,'endDate': endDate,'userId': userId};
+        var url = '<?php echo site_url("accounts_controller/getDetailedWorkingHoursByDate") ?>';
+
+        var result = ajaxPost(dates,url);
+        var div = document.getElementById('tableDiv');
+        div.innerHTML = result.view.table_content;
+    }
+
     function getSummaryView(){
         var url = '<?php echo site_url("accounts_controller/getSummaryView") ?>';
         var result = ajaxPost(null,url);

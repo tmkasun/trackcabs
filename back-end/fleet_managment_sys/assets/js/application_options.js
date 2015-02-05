@@ -65,14 +65,15 @@ function initApplicationOptions() {
         },
         leaflet: {
             iconUrls: {
-                normalIcon: getBaseURL() + 'assets/img/markers/arrow_normal.png',
-                alertedIcon: getBaseURL() + 'assets/img/markers/arrow_alerted.png',
+                normalIcon: getBaseURL() + 'assets/img/markers/car_top_online.png',
+                alertedIcon: getBaseURL() + 'assets/img/markers/car_top_offline.png',
                 offlineIcon: getBaseURL() + 'assets/img/markers/arrow_offline.png',
                 warningIcon: getBaseURL() + 'assets/img/markers/arrow_warning.png',
-                defaultIcon: getBaseURL() + 'assets/img/markers/arrow_normal.png',
+                defaultIcon: getBaseURL() + 'assets/img/markers/car_top_online.png',
                 resizeIcon: getBaseURL() + 'assets/img/markers/resize.png'
 
-            }
+            },
+            iconSize: [36, 36]
         }
     };
 }

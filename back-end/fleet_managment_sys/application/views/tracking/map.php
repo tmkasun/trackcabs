@@ -64,6 +64,9 @@
     <!-- autobahn websocket and WAMP -->
     <script src="<?= base_url() ?>assets/js/autobahn/autobahn.min.js"></script>
 
+    <!-- Google charts API library -->
+    <script type="text/javascript"
+            src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['gauge']}]}"></script>
     <!-- Self javascript libraries (Order of the import is very important, changing the order might shadow some variables, append new script to bottom ) -->
     <!-- ** comment out below imports if using minimized wso2_geo.min library **  -->
     <script src="<?= base_url() ?>assets/js/application_options.js"></script>
@@ -240,6 +243,64 @@
     <!--/panel-->
 </div>
 
+<div id="spatial_object_info" class="row" style="margin-top: 5px;">
+    <!-- Load cab details when click on cab marker -->
+<style>
+    .spinner {
+        margin: 10px 20px 30px 40px;
+        width: 40px;
+        height: 40px;
+        position: relative;
+        text-align: center;
+
+        -webkit-animation: rotate 2.0s infinite linear;
+        animation: rotate 2.0s infinite linear;
+    }
+
+    .dot1, .dot2 {
+        width: 60%;
+        height: 60%;
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        border-radius: 100%;
+        background-color: rgb(0, 148, 255);
+        -webkit-animation: bounce 2.0s infinite ease-in-out;
+        animation: bounce 2.0s infinite ease-in-out;
+    }
+
+    .dot2 {
+        top: auto;
+        bottom: 0px;
+        -webkit-animation-delay: -1.0s;
+        animation-delay: -1.0s;
+    }
+
+    @-webkit-keyframes rotate { 100% { -webkit-transform: rotate(360deg) }}
+    @keyframes rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
+
+    @-webkit-keyframes bounce {
+        0%, 100% { -webkit-transform: scale(0.0) }
+        50% { -webkit-transform: scale(1.0) }
+    }
+
+    @keyframes bounce {
+        0%, 100% {
+            transform: scale(0.0);
+            -webkit-transform: scale(0.0);
+        } 50% {
+              transform: scale(1.0);
+              -webkit-transform: scale(1.0);
+          }
+    }
+
+</style>
+    <div class="spinner col-md-3" style="display: none">
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+    </div>
+
+</div>
 <div>
 
     <form id="locationSearch" class="navbar-form" role="search"

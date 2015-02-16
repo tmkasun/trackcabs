@@ -159,11 +159,11 @@ class Accounts_controller extends CI_Controller
                 $timeOut = new MongoDate();
                 $data['data'][$i]['timeOut'] = 'not logged out';
             }else{
-                $data['data'][$i]['timeOut'] = date('Y-M-D h:i:s', $timeOut->sec);
+                $data['data'][$i]['timeOut'] = date('Y-m-d h:i:s', $timeOut->sec);
             }
 
             $timeOn = $entry['time'];
-            $data['data'][$i]['timeOn'] = date('Y-M-D h:i:s', $timeOn->sec);
+            $data['data'][$i]['timeOn'] = date('Y-m-d h:i:s', $timeOn->sec);
             $historyHireTypes=$this->history_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);
             $liveHireTypes=$this->live_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);
                 $data['data'][$i]['drop']=$historyHireTypes['data']['drop'] + $liveHireTypes['data']['drop'];

@@ -291,9 +291,7 @@ class History_dao extends CI_Model
             } else {
                 $hireTypes['data']['normal']++;
             }
-            if ($booking['cabId'] != -1) {
-                $hireTypes['data']['cabId'] = $booking['cabId'];
-            }
+            $hireTypes['data']['cabId'] = $booking['cabId'];
         }
         return $hireTypes;
     }

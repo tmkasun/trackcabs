@@ -14,7 +14,7 @@
     </ul>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse navbar-ex1-collapse">
+<!--    <div class="collapse navbar-collapse navbar-ex1-collapse">
         <form class="navbar-form navbar-left" role="search" id="getAccount">
             <div class="form-group" id="search_box_for_reports">
                 <input class="form-control" placeholder="Enter ID" type="text" id="idForSearch">
@@ -26,7 +26,7 @@
                 <option value="refId">Search by Booking Ref ID</option>
                 <option value="complaintId">Search by Complaint ID</option>
             </select>
-        </form>
+        </form>-->
         <ul class="nav navbar-nav navbar-right">
             <li><a href="<?= site_url('login/logout')?>">Logout</a></li>
         </ul>

@@ -52,7 +52,7 @@ class Authenticate extends CI_Controller {
         $userId = $inputArray['uName'];
         $timeStamp = new MongoDate();
         $authenticationResult = $this->user_dao->logout($userId);
-        if($authenticationResult) {
+        if(!$authenticationResult) {
             $log_input_data = array('userId' => new MongoInt32($userId), 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp, 'callingNumber' => $authenticationResult['callingNumber'], 'user_type' => 'driver', 'log_type' => 'logout');
             $this->log_dao->createLog($log_input_data);
             $this->log_dao->updateLoginOnLogout(date('Y-m-d', $timeStamp->sec), $timeStamp, new MongoInt32($userId));
@@ -63,7 +63,7 @@ class Authenticate extends CI_Controller {
             $this->user_dao->setDriverCallingNumberMinus($userId);
 
         }else{
-            $authentication = array('isAuthorized' => true);
+            $authentication = array('isAuthorized' => false);
         }
         $this -> output -> set_content_type('application/json') -> set_output(json_encode($authentication));
     }

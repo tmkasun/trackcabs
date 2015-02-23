@@ -159,11 +159,11 @@ class Accounts_controller extends CI_Controller
                 $timeOut = new MongoDate();
                 $data['data'][$i]['timeOut'] = 'not logged out';
             }else{
-                $data['data'][$i]['timeOut'] = date('h:i:s', $timeOut->sec);
+                $data['data'][$i]['timeOut'] = date('Y-m-d h:i:s', $timeOut->sec);
             }
 
             $timeOn = $entry['time'];
-            $data['data'][$i]['timeOn'] = date('h:i:s', $timeOn->sec);
+            $data['data'][$i]['timeOn'] = date('Y-m-d h:i:s', $timeOn->sec);
             $historyHireTypes=$this->history_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);
             $liveHireTypes=$this->live_dao->getHireTypesSummaryByDate($timeOn,$timeOut,$entry['userId']);
                 $data['data'][$i]['drop']=$historyHireTypes['data']['drop'] + $liveHireTypes['data']['drop'];
@@ -172,7 +172,7 @@ class Accounts_controller extends CI_Controller
                 $data['data'][$i]['outside']=$historyHireTypes['data']['outside'] + $liveHireTypes['data']['outside'];
                 $data['data'][$i]['day']=$historyHireTypes['data']['day'] + $liveHireTypes['data']['day'];
                 $data['data'][$i]['normal']=$historyHireTypes['data']['normal'] + $liveHireTypes['data']['normal'];
-                $data['data'][$i]['cabId']=$liveHireTypes['data']['cabId'];
+                $data['data'][$i]['cabId']=$historyHireTypes['data']['cabId'];
                 $data['data'][$i]['hires']=$historyHireTypes['data']['hires']+$liveHireTypes['data']['hires'];
                 $data['data'][$i]['cancel']=$historyHireTypes['data']['cancel']+$liveHireTypes['data']['cancel'];
             $i++;

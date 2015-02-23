@@ -45,6 +45,14 @@ class Authenticate extends CI_Controller {
         $this -> output -> set_content_type('application/json') -> set_output(json_encode($authentication));
     }
 
+
+    function force_logout(){
+        $input = file_get_contents('php://input');
+        $inputArray = json_decode(trim($input), true);
+        $userId = $inputArray['uName'];
+        $this->user_dao->setIsLogout($userId, True);
+    }
+
     function logout(){
 
         $input = file_get_contents('php://input');

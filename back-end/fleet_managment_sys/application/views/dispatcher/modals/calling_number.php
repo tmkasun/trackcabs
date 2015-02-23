@@ -24,7 +24,7 @@
         var data = {"uName": driverid};
         $.ajax({
             type: "POST",
-            url: "authenticate/logout",
+            url: "authenticate/force_logout",
             processData: false,
             contentType: 'application/json',
             data: JSON.stringify(data),

@@ -63,7 +63,7 @@ class Authenticate extends CI_Controller {
             $this->user_dao->setDriverCallingNumberMinus($userId);
 
         }else{
-            $authentication = array('isAuthorized' => true);
+            $authentication = array('isAuthorized' => false);
         }
         $this -> output -> set_content_type('application/json') -> set_output(json_encode($authentication));
     }

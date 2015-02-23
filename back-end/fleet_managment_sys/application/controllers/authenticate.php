@@ -51,6 +51,19 @@ class Authenticate extends CI_Controller {
         $inputArray = json_decode(trim($input), true);
         $userId = $inputArray['uName'];
         $this->user_dao->setIsLogout($userId, True);
+        $timeStamp = new MongoDate();
+
+        $authenticationResult = $this->user_dao->logout($userId);
+        $log_input_data = array('userId' => new MongoInt32($userId), 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp, 'callingNumber' => $authenticationResult['callingNumber'], 'user_type' => 'driver', 'log_type' => 'logout');
+
+        $this->log_dao->createLog($log_input_data);
+        $this->log_dao->updateLoginOnLogout(date('Y-m-d', $timeStamp->sec), $timeStamp, new MongoInt32($userId));
+        $authentication = array('isAuthorized' => true);
+        $this->user_dao->setLastLogout($userId, $timeStamp);
+        $this->user_dao->setDriverCallingNumberMinus($userId);
+
+
+        $this -> output -> set_content_type('application/json') -> set_output(json_encode($authentication));
     }
 
     function logout(){
@@ -58,18 +71,10 @@ class Authenticate extends CI_Controller {
         $input = file_get_contents('php://input');
         $inputArray = json_decode(trim($input), true);
         $userId = $inputArray['uName'];
-        $timeStamp = new MongoDate();
+
         $authenticationResult = $this->user_dao->logout($userId);
         if(!$authenticationResult) {
-            $log_input_data = array('userId' => new MongoInt32($userId), 'date' => date('Y-m-d', $timeStamp->sec), 'time' => $timeStamp, 'callingNumber' => $authenticationResult['callingNumber'], 'user_type' => 'driver', 'log_type' => 'logout');
-            $this->log_dao->createLog($log_input_data);
-            $this->log_dao->updateLoginOnLogout(date('Y-m-d', $timeStamp->sec), $timeStamp, new MongoInt32($userId));
-
-            $this->user_dao->setIsLogout($userId, True);
             $authentication = array('isAuthorized' => true);
-            $this->user_dao->setLastLogout($userId, $timeStamp);
-            $this->user_dao->setDriverCallingNumberMinus($userId);
-
         }else{
             $authentication = array('isAuthorized' => false);
         }

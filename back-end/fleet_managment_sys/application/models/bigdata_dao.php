@@ -16,4 +16,9 @@ class Bigdata_dao extends CI_Model
         return $collection_stats;
     }
 
+    function history_today(){
+        $this->history_data->history->find();
+        /*db.history.find({id: 14,'properties.timeStamp': {"$lte": Date()}}).count()*/
+    }
+
 }

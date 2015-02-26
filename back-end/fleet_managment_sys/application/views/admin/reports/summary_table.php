@@ -1,5 +1,6 @@
 <table class="table table-striped" >
     <tr>
+        <th>#</th>
         <th>Ref ID</th>
         <th>Address</th>
         <th>Destination</th>
@@ -15,8 +16,9 @@
 
     <?php $i=0;
     foreach ($data as $item):?>
-
+        <?php $i++; ?>
         <tr>
+            <td><?= $i; ?></td>
             <td><p id="<?= $item['refId'];?>"><?= $item['refId'];?></p></td>
             <td><?= $item['address']["no"].",".$item['address']["road"].",".$item['address']["city"].",".$item['address']["town"].",".$item['address']["landmark"];?></td>
             <td><?= $item['address']["no"].",".$item['address']["road"].",".$item['address']["city"].",".$item['address']["town"].",".$item['address']["landmark"];?></td>
@@ -29,17 +31,7 @@
 
         </tr>
 
-    <?php $i++;
+    <?php
     endforeach;?>
-    <tr>
-        <td><h1>Hire Count</h1></td>
-        <td><h1><?= $i ?></h1></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
+
 </table>

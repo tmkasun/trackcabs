@@ -17,6 +17,10 @@ class Vehicle_tracking extends CI_Controller
         $this->load->view('tracking/modals/spatial_object_info',array('id'=>$id));
     }
 
+    function today($id){
+        $this->load->view('tracking/modals/spatial_object_info',array('id'=>$id));
+    }
+
     function bigdata(){
         $this->load->model('bigdata_dao');
         $data_stats = $this->bigdata_dao->stats();

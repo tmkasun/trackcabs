@@ -13,7 +13,8 @@
     </tr>
 
 
-    <?php foreach ($data as $item):?>
+    <?php $i=0;
+    foreach ($data as $item):?>
 
         <tr>
             <td><p id="<?= $item['refId'];?>"><?= $item['refId'];?></p></td>
@@ -28,5 +29,17 @@
 
         </tr>
 
-    <?php endforeach;?>
+    <?php $i++;
+    endforeach;?>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td> Hire Count </td>
+        <td> <?= $i ?></td>
+    </tr>
 </table>

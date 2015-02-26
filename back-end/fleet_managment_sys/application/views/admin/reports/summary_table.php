@@ -32,6 +32,8 @@
     <?php $i++;
     endforeach;?>
     <tr>
+        <td><h1>Hire Count</h1></td>
+        <td><h1><?= $i ?></h1></td>
         <td></td>
         <td></td>
         <td></td>
@@ -39,7 +41,5 @@
         <td></td>
         <td></td>
         <td></td>
-        <td> Hire Count </td>
-        <td> <?= $i ?></td>
     </tr>
 </table>

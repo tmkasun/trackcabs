@@ -158,6 +158,8 @@ class User_controller extends CI_Controller
                                 //$input_data['details']['callingNumber'] = (int)$input_data['details']['callingNumber'];
                                 //need to 'insert' insted of update and also update the 'Log Sheet Number'
                                 $this->log_dao->updateCallingNumber(date('Y-m-d', $timeStamp->sec),$input_data['userId'],$input_data['details']['callingNumber']);
+                                $this->log_dao->updateLogSheetNumber(date('Y-m-d', $timeStamp->sec),$input_data['userId'],$input_data['details']['logSheetNumber']);
+
                             }
                         $this->cab_dao->updateCab($input_data['details']['cabId'],array('userId' => $input_data["userId"], 'callingNumber' => $input_data['details']['callingNumber'], 'logSheetNumber' => $input_data['details']['logSheetNumber']));
 //                    else

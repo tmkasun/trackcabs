@@ -3,6 +3,7 @@
         <th>Cab ID</th>
         <th>Driver ID</th>
         <th>Calling No</th>
+        <th>Log Sheet No</th>
         <th>Time On</th>
         <th>Time Off</th>
         <th>No Of Hires</th>
@@ -24,6 +25,7 @@
             <td><?= $item['cabId'];?></td>
             <td><?= $item['userId'];?></td>
             <td><?= $item['callingNumber'];?></td>
+            <td><?php if(isset($item['logSheetNumber'])) {echo $item['logSheetNumber'];}else{echo "-1";}?></td>
             <td><?= $item['timeOn'];?></td>
             <td><?= $item['timeOut'];?></td>
             <td><?= $item['hires'];?></td>

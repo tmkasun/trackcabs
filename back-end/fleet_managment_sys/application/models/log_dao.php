@@ -69,6 +69,12 @@ class Log_dao extends CI_Model
         $collection->update($searchQuery,array('$set' => array('callingNumber' => new MongoInt32($callingNo))),array('multiple' => true));
     }
 
+    function updateLogSheetNumber($date,$driverId,$logSheetNo){
+        $collection = $this->get_collection();
+        $searchQuery = array('userId' => $driverId,'date' => $date ,'user_type' => 'driver','logged_out' => 'no');
+        $collection->update($searchQuery,array('$set' => array('logSheetNumber' => new MongoInt32($logSheetNo))),array('multiple' => true));
+    }
+
     function updateLoginOnLogout($date,$time,$driverId){
         $collection = $this->get_collection();
         $searchQuery = array('userId' => $driverId,'user_type' => 'driver','logged_out' => 'no'); //remove the date here if date is a problem

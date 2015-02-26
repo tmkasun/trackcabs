@@ -176,7 +176,7 @@ class User_dao extends CI_Model
     }
 
 
-    /**
+    /**log
      * sets The last Logout time
      * @param $userId
      * @param $timeStamp

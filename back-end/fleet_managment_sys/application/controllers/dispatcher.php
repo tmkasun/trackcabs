@@ -242,6 +242,40 @@ Booking cancelled. Do not proceed to hire. Sorry for the inconvenience.
         echo json_encode($order);
     }
 
+
+    function resendDispatchSms(){
+        $postData = $this->input->post();
+        $cabId = $postData['cabId'];
+        $orderId = $postData['orderId'];
+
+        $dispatchingOrder = $this->live_dao->getBooking($orderId);
+        $dispatchingDriver = $this->user_dao->getDriverByCabId($cabId);
+
+        $driverId = $dispatchingDriver['userId'];
+
+        $dispatchingCab['driverId'] = $driverId;
+
+        $sms = new Sms();
+
+        $custoNumber = $dispatchingOrder['tp'];
+
+        $addressArray = array_values($dispatchingOrder['address']);
+        $custoAddress = implode(" ", $addressArray);
+
+        $driverId = strlen($driverId) <= 1 ? '0' . $driverId : $driverId;
+
+        $custoNumber = $dispatchingOrder['isCusNumberNotSent'] ? '' : "\nCustomer number: $custoNumber";
+
+        $pagingBoard = ($dispatchingOrder['pagingBoard'] != '-') ? "\nPaging Board: $dispatchingOrder[pagingBoard]" : '';
+        $remarks = ($dispatchingOrder['remark'] != '-') ? "\nRemarks: $dispatchingOrder[remark]" : '';
+
+        $driverMessage = "#" . str_pad($driverId, 3, '0', STR_PAD_LEFT) . '1' . $dispatchingOrder['refId'] . $custoNumber . $pagingBoard . $remarks . "\nAddress: " . $custoAddress;
+        $driverNumber = $dispatchingDriver['tp'];
+
+        $sms->send($driverNumber, $driverMessage);
+
+    }
+
     function setIdleZone()
     {
         $cabId = $this->input->post('cabId');

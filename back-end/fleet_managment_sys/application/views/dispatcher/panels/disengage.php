@@ -48,6 +48,49 @@
         );
 
     }
+
+    function resendSms(cabId,orderId){
+
+        if(confirm("Are you sure you want to resend SMS to driver(Only)?")){
+            console.log("Confirmed!");
+
+            closeAll();
+            $.UIkit.notify({
+                message: "Resending message ....",
+                status: 'info',
+                timeout: 3000,
+                pos: 'bottom-center'
+            });
+            $.post('dispatcher/resendDispatchSms', {orderId: orderId,'cabId' : cabId}).done(
+                function (data) {
+                    console.log(data);
+                    closeAll();
+                    $.UIkit.notify({
+                        message: "Message resend to cab number <b>" + cabId + "</b>!",
+                        status: 'warning',
+                        timeout: 3000,
+                        pos: 'bottom-center'
+                    });
+                }
+
+            ).
+                fail(
+                function () {
+                    $.UIkit.notify({
+                        message: "Can't resend sms Something went wrong!",
+                        status: 'danger',
+                        timeout: 3000,
+                        pos: 'bottom-center'
+                    });
+                }
+            );
+            return true;
+        }
+        else{
+            console.log("Not confirmed!");
+            return false;
+        }
+    }
 </script>
 <div class="modal-header"
      style="cursor: move;background: #f9f9f9;-webkit-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);-moz-box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);box-shadow: inset 0px 0px 14px 1px rgba(0,0,0,0.2);">
@@ -59,7 +102,7 @@
 </div>
 <div class="modal-body">
 
-    <p class="text-info text-center">Booking details</p>
+    <p class="text-info text-center">Booking details <button type="button" class="btn btn-primary btn-xs" onclick="resendSms('<?= $newOrder['cab']['cabId'] ?>','<?= $newOrder['refId'] ?>')" >Resend SMS</button></p>
 
     <div class="row">
         <div class="col-md-6 well well-sm">

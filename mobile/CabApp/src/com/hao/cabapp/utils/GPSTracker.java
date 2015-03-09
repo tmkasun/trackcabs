@@ -1,4 +1,4 @@
-package com.example.cabapp.utils;
+package com.hao.cabapp.utils;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -11,8 +11,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.util.Log;
-import android.widget.Toast;
 
 public class GPSTracker extends Service implements LocationListener {
 	private final Context mContext;
@@ -22,7 +20,7 @@ public class GPSTracker extends Service implements LocationListener {
 	Location location;
 	double latitude;
 	double longitude;
-	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
+	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
 	private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
 	protected LocationManager locationManager;
 
@@ -35,25 +33,26 @@ public class GPSTracker extends Service implements LocationListener {
 		try {
 			locationManager = (LocationManager) mContext
 					.getSystemService(LOCATION_SERVICE);
+			
 			isGPSEnabled = locationManager
 					.isProviderEnabled(LocationManager.GPS_PROVIDER);
 			isNetworkEnabled = locationManager
 					.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-			
+			/*Log.d("GPS Enabled", "GPS Service :"+isGPSEnabled);
+			Log.d("GPS Enabled", "Network Enabled :"+isNetworkEnabled);*/
 			if (!isGPSEnabled && !isNetworkEnabled) {
-				
 			} else {
+				
+				
 				this.canGetLocation = true;
 				if (isNetworkEnabled) {
 					locationManager.requestLocationUpdates(
 							LocationManager.NETWORK_PROVIDER,
 							MIN_TIME_BW_UPDATES,
 							MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-					Log.d("Network", "Network");
-					
+					//Log.d("Network", "Network");
 					if (locationManager != null) {
-						location = locationManager
-								.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+						
 						if (location != null) {
 							latitude = location.getLatitude();
 							longitude = location.getLongitude();
@@ -61,25 +60,22 @@ public class GPSTracker extends Service implements LocationListener {
 					}
 				}
 				if (isGPSEnabled) {
+					if (location == null) {
 						locationManager.requestLocationUpdates(
 								LocationManager.GPS_PROVIDER,
 								MIN_TIME_BW_UPDATES,
 								MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-						Log.d("GPS Enabled", "GPS Enabled");
-						//Toast.makeText(CentralUtils.getInstance().getContext(), "GPS Enabled", Toast.LENGTH_SHORT).show();
-
+						//Log.d("GPS Enabled", "GPS Enabled");
 						if (locationManager != null) {
-							location = locationManager
-									.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+							//Log.d("Destroy", "awado");
+							
 							if (location != null) {
-								Log.d("GPS Enabled", "GPS Service :"+isGPSEnabled);
-								Log.d("GPS Enabled", "Network Enabled :"+isNetworkEnabled);
 								latitude = location.getLatitude();
 								longitude = location.getLongitude();
 							}
 						}
 					}
-				
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,10 +132,6 @@ public class GPSTracker extends Service implements LocationListener {
 	@Override
 	public void onLocationChanged(Location location) {
 		this.location = location;
-		CentralUtils cu=CentralUtils.getInstance();
-		/*cu.getGeoObject().setBearing(location.getBearing());
-		cu.getGeoObject().setBearing(location.getSpeed());
-		*/
 	}
 
 	@Override

@@ -1,9 +1,11 @@
-package com.example.cabapp.models;
+package com.hao.cabapp.models;
 
 import java.util.HashMap;
 
 public class GeoJson {
 	private String driverID;
+	private String cabID;
+	private String vehicleType;
 	private String currentOrderID;
 	private Double latitiude=0.0;
 	private Double longitude=0.0;
@@ -100,5 +102,17 @@ public class GeoJson {
 	}
 	public void setHashCode(String hashCode) {
 		this.hashCode = hashCode;
+	}
+	public String getCabID() {
+		return cabID;
+	}
+	public void setCabID(String cabID) {
+		this.cabID = cabID;
+	}
+	public String getVehicleType() {
+		return vehicleType;
+	}
+	public void setVehicleType(String vehicleType) {
+		this.vehicleType = vehicleType;
 	}
 }

@@ -1,26 +1,32 @@
-package com.example.cabapp.utils;
+package com.hao.cabapp.utils;
 
 import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.cabapp.models.GeoJson;
+import com.hao.cabapp.models.GeoJson;
 
 public class CentralUtils {
 	private static GeoJson geoObject;
 	private static CentralUtils centralutils;
-	private GPSTracker gpsTracker;
+	private static GPSTracker gpsTracker;
+	private static Intent dataPushService;
 	private static Context context;
 	private static TimerTask timerTask;
+	private static TimerTask statusTimer;
 	private static String dispatcherNo="+94716866386";
 	private double updateInterval= 5000;
 	private Activity userActivity;
+	private String ip;
+	private String loggedin="logout";
+	private String address;
 	
 	public static String getDispatcherNo() {
 		return dispatcherNo;
@@ -46,25 +52,40 @@ public class CentralUtils {
 		if(centralutils==null){
 			centralutils=new CentralUtils();
 			geoObject=new GeoJson();
+			gpsTracker=new GPSTracker(context); 
+			
 		}
 		return centralutils;
 	}
 	
+	public static void remove(){
+		centralutils=null;
+	}
 	public GeoJson getGeoObject() {
 		return geoObject;
 	}
 
-	public Location getLocation(){
-		gpsTracker=new GPSTracker(context); 
+	public Location getLocation(Context cont){
+		
 		/*GeoJson geoObject=getGeoObject();
-		*/double newLat=gpsTracker.getLatitude();
-		double newLng=gpsTracker.getLongitude();
+		 * 
+		*/
+		
+		double newLat=0.0;
+		double newLng=0.0;
+		if((geoObject.getLatitiude()==0) && (geoObject.getLongitude()==0)){
+		}else{
+			gpsTracker.stopUsingGPS();
+			newLat=gpsTracker.getLatitude();
+			newLng=gpsTracker.getLongitude();
+		}
 		double distance=calculateDistance(geoObject.getLatitiude(), geoObject.getLongitude(), newLat, newLng);
 		getGeoObject().setSpeed(calculateSpeed(distance, this.updateInterval)); 
 		getGeoObject().setBearing(calculateBearing(geoObject.getLatitiude(), geoObject.getLongitude(), newLat, newLng));
-		/*getGeoObject().setBearing(gpsTracker.getLocation().getBearing());
-		getGeoObject().setSpeed(gpsTracker.getLocation().getSpeed());
-		*/getGeoObject().setLatitiude(newLat);
+		//getGeoObject().setBearing(gpsTracker.getLocation().getBearing());
+		//getGeoObject().setSpeed(gpsTracker.getLocation().getSpeed());
+		
+		getGeoObject().setLatitiude(newLat);
 		getGeoObject().setLongitude(newLng);
 		return gpsTracker.getLocation();
 	}
@@ -137,6 +158,57 @@ public class CentralUtils {
 
 	public void setUserActivity(Activity userActivity) {
 		this.userActivity = userActivity;
+	}
+
+
+	public String getIp() {
+		return ip;
+	}
+
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+
+	public String getLoggedin() {
+		return loggedin;
+	}
+
+
+	public void setLoggedin(String loggedin) {
+		Log.d("aawa", "Logged in set to "+loggedin);
+		this.loggedin = loggedin;
+	}
+
+
+	public static Intent getDataPushService() {
+		return dataPushService;
+	}
+
+
+	public static void setDataPushService(Intent dataPushService) {
+		CentralUtils.dataPushService = dataPushService;
+	}
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+	public TimerTask getStatusTimer() {
+		return statusTimer;
+	}
+
+
+	public void setStatusTimer(TimerTask statusTimer) {
+		CentralUtils.statusTimer = statusTimer;
 	}
 	
 }
